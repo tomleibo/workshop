@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import policy.ForumPolicy;
+import users.Report;
 import users.User;
 
 public class Forum {
@@ -81,5 +82,10 @@ public class Forum {
 		}
 		Message obj = (Message) o;
 		return obj.id == id;
+	}
+
+	public boolean addReport(Report report) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
