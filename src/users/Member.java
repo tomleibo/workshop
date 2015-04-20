@@ -2,7 +2,6 @@ package users;
 
 import java.util.List;
 
-import content.Notification;
 import content.SubForum;
 
 
