@@ -49,8 +49,6 @@ public class ContentController {
 		return ans;
 	}
 	
-	
-	
 	private Collection<? extends Message> getAllMessages(Message openingMessage,Forum forum, String title,
 			String content,String memberName, java.sql.Date startDate, java.sql.Date endDate) {
 		List<Message> ans = new ArrayList<>();
@@ -68,14 +66,21 @@ public class ContentController {
 		return ans;
 	}
 
-	public boolean openNewThread(SubForum sbfrm, String title,String content, User user) {
+	public Thread openNewThread(SubForum sbfrm, String title,String content, User user) {
 		Message openingMsg = new Message(title, content, user, null, null);
 		Thread threadAdd = new Thread(user, openingMsg, sbfrm);
-		return	openingMsg.setThread(threadAdd);
+		if (openingMsg.setThread(threadAdd)) {
+			return threadAdd;
+		}
+		return null;
 	}
 	
-	public boolean reply(Message addTo, String title,String content,User user) {
-		return addTo.addComment(new Message(title, content, user, null, addTo));
+	public Message reply(Message addTo, String title,String content,User user) {
+		Message comment = new Message(title, content, user, null, addTo);
+		if (addTo.addComment(comment)) {
+			return comment;
+		}
+		return null;
 	}
 	
 	public boolean deleteSubForum(Forum forum, SubForum subForum) {
@@ -86,9 +91,12 @@ public class ContentController {
 		return forum.setProperties(policy);
 	}
 	
-	public boolean addSubForum(Forum forum, String title, User mod) {
+	public SubForum addSubForum(Forum forum, String title, User mod) {
 		SubForum sub = new SubForum(title, mod, forum.getProperties().getMaxModerators());
-		return forum.addSubForum(sub);
+		if (forum.addSubForum(sub)) {
+			return sub;
+		}
+		return null;
 	}
 
 }

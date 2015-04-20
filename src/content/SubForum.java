@@ -82,4 +82,6 @@ public class SubForum {
 		Message obj = (Message) o;
 		return obj.id == id;
 	}
+	
+	//test: add remove ban and change moderator.
 }

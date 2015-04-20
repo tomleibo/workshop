@@ -87,4 +87,6 @@ public class Message {
 		this.thread = threadAdd;
 		return true;
 	}
+	
+	//test delete
 }
