@@ -1,4 +1,4 @@
-package content;
+package policy;
 
 public class Policy {
 

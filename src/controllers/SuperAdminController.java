@@ -2,14 +2,14 @@ package controllers;
 
 import content.Message;
 import content.SubForum;
-import users.Member;
+import users.User;
 
 public class SuperAdminController {
 	public SubForum createNewForum() {
 		return null;
 	}
 	
-	public boolean changeAdministrator(SubForum subForum, Member admin) {
+	public boolean changeAdministrator(SubForum subForum, User admin) {
 		//by policy/
 		return false;
 	}

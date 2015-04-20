@@ -1,7 +1,7 @@
 package controllers;
 
 import content.SubForum;
-import users.Member;
+import users.User;
 
 public class AdminController {
 	
@@ -9,7 +9,7 @@ public class AdminController {
 		return null;
 	}
 	
-	public boolean appointModerator(Member moderator, SubForum subforum) {
+	public boolean appointModerator(User moderator, SubForum subforum) {
 		//by policy.
 		return false;
 	}
@@ -23,7 +23,7 @@ public class AdminController {
 		return false;
 	}
 	
-	public boolean replaceModerator(Member thisModerator, Member newModerator) {
+	public boolean replaceModerator(User thisModerator, User newModerator) {
 		return false;
 	}
 	

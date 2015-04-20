@@ -3,7 +3,7 @@ package users;
 public class Report {
 	String title;
 	String content;
-	Member reporter;
-	Member reported;
+	User reporter;
+	User reported;
 	java.sql.Date date;
 }

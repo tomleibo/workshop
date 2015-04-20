@@ -6,7 +6,7 @@ import content.SubForum;
 
 
 @SuppressWarnings(value = "all")
-public class Member {
+public class User {
 	
 	
 	private static final int TYPE_GUEST=0;
@@ -20,20 +20,20 @@ public class Member {
 	private String hashedPassword;
 	private int type;
 	private boolean active; //add state with banned?
-	private List<Member> friends;
+	private List<User> friends;
 	private List<Notification> pendingNotifications;
 	private List<FriendRequest> friendRequests;
 	private List<Report> reports;
 	
-	public boolean addFriend(Member member) {
+	public boolean addFriend(User member) {
 		return false;
 	}
 	
-	public boolean deleteFriend(Member member) {
+	public boolean deleteFriend(User member) {
 		return false;
 	}
 	
-	public Report report(Member member, String title, String content) {
+	public Report report(User member, String title, String content) {
 		return null;
 	}
 	

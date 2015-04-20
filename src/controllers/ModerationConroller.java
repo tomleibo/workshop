@@ -3,12 +3,12 @@ import java.util.List;
 
 import content.Message;
 import content.SubForum;
-import users.Member;
+import users.User;
 
 
 public class ModerationConroller {
 	
-	public boolean banUser(Member userToBan, long time) {
+	public boolean banUser(User userToBan, long time) {
 		return false;
 	}
 	
