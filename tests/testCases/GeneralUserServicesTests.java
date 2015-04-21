@@ -17,7 +17,7 @@ import content.Thread;
 import users.userState.UserState;
 import users.userState.UserStates;
 
-public class GeneralUserServicesTests extends ForumTests {
+public class GeneralUserServicesTests extends ForumTests{
 	User moderator;
 	User user;
 	
@@ -31,13 +31,14 @@ public class GeneralUserServicesTests extends ForumTests {
 	@Test
 	public void test_showListOfSubForums_AddMultipleSubForums() {
 		
-		List<SubForum> subForums = new ArrayList<SubForum>();
+		List<SubForum> subForums = new ArrayList<>();
 		
 		for(String sf : SUB_FORUM_NAMES){
 			subForums.add(addSubForum(forum, sf, moderator));
 		}
 		
 		List<SubForum> addedSubForums = showListOfSubForums(forum);
+
 		for(SubForum sf : addedSubForums){
 			if(!subForums.contains(sf)){
 				Assert.assertFalse(true);
@@ -55,7 +56,7 @@ public class GeneralUserServicesTests extends ForumTests {
 	public void test_showListOfThreads_AddMultiple() {
 		SubForum sf = addSubForum(forum, SUB_FORUM_NAMES[0], moderator);
 		
-		List<Thread> threads = new ArrayList<Thread>();
+		List<Thread> threads = new ArrayList<>();
 		
 		user = loginUser(forum, USER_NAMES[0], USER_PASSES[0]);
 		
@@ -96,7 +97,8 @@ public class GeneralUserServicesTests extends ForumTests {
 		Date endDate = new Date(System.currentTimeMillis());
 		
 		List<Message> messages = searchMessages(forum, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user.getUserName(), startDate, endDate);
-		Assert.assertTrue(messages != null && !messages.isEmpty());
+		Assert.assertNotNull(messages);
+		Assert.assertFalse(messages.isEmpty());
 	}
 	
 	@Test
@@ -115,8 +117,7 @@ public class GeneralUserServicesTests extends ForumTests {
 		Date endDate = new Date(System.currentTimeMillis());
 		
 		List<Message> messages = searchMessages(forum, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user.getUserName(), startDate, endDate);
-		Assert.assertTrue(messages == null || messages.isEmpty());
-		
+		Assert.assertTrue(messages.isEmpty());
 		}
 	
 }
