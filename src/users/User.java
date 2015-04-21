@@ -22,6 +22,7 @@ public class User {
 	private List<FriendRequest> friendRequests;
 	private List<Report> sentReports;
 	private boolean loggedIn;
+	private String emailAddress;
 	
 	private static final Map<Forum, User> guests = new HashMap<>();
 	
@@ -31,11 +32,12 @@ public class User {
 		initializeFlags();
 	}
 
-	public User(Forum forum, String username, String hashedPassword) {
+	public User(Forum forum, String username, String hashedPassword, String emailAddress) {
 		this.forum = forum;
 		this.userName = username;
 		this.hashedPassword = hashedPassword;
 		this.state = new MemberState();
+		this.emailAddress = emailAddress;
 		friends = new HashSet<>();
 		friendRequests = new ArrayList<>();
 		pendingNotifications = new  ArrayList<>();
