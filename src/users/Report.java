@@ -2,17 +2,17 @@ package users;
 
 public class Report {
 
-	private String title;
-	private String content;
-	private User reporter;
-	private User reported;
-	private java.sql.Date date;
+	private final String title;
+	private final String content;
+	private final User reporter;
+	private final User reported;
+	private final java.sql.Date date;
 	
 	public Report(String title, String content, User reporter, User reported) {
 		this.title = title;
 		this.content = content;
 		this.reporter = reporter;
-		this.reporter = reported;
+		this.reported = reported;
 		date = new java.sql.Date(System.currentTimeMillis());
 	}
 
@@ -20,40 +20,20 @@ public class Report {
 		return title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 	public String getContent() {
 		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	public User getReporter() {
 		return reporter;
 	}
 
-	public void setReporter(User reporter) {
-		this.reporter = reporter;
-	}
-
 	public User getReported() {
 		return reported;
 	}
 
-	public void setReported(User reported) {
-		this.reported = reported;
-	}
-
 	public java.sql.Date getDate() {
 		return date;
-	}
-
-	public void setDate(java.sql.Date date) {
-		this.date = date;
 	}
 
 	@Override
@@ -62,5 +42,29 @@ public class Report {
 						 "\nTo: " + reported.getUserName() +
 						 "\nContent: " + content;
 		return message;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Report report = (Report) o;
+
+		if (!title.equals(report.title)) return false;
+		if (!content.equals(report.content)) return false;
+		if (!reporter.equals(report.reporter)) return false;
+		if (!reported.equals(report.reported)) return false;
+		return date.equals(report.date);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = title.hashCode();
+		result = 31 * result + content.hashCode();
+		result = 31 * result + reporter.hashCode();
+		result = 31 * result + reported.hashCode();
+		result = 31 * result + date.hashCode();
+		return result;
 	}
 }

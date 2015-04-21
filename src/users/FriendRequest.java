@@ -2,10 +2,10 @@ package users;
 
 public class FriendRequest {
 
-	private User requestingMember;
-	private User receivingMember;
-	private String message;
-	private java.sql.Date date;
+	private final User requestingMember;
+	private final User receivingMember;
+	private final String message;
+	private final java.sql.Date date;
 	
 	public FriendRequest(User requestingMember, User receivingMember, String message) {
 		this.requestingMember = requestingMember;
@@ -18,31 +18,48 @@ public class FriendRequest {
 		return requestingMember;
 	}
 
-	public void setRequestingMember(User requestingMember) {
-		this.requestingMember = requestingMember;
-	}
-
 	public User getReceivingMember() {
 		return receivingMember;
-	}
-
-	public void setReceivingMember(User receivingMember) {
-		this.receivingMember = receivingMember;
 	}
 
 	public String getMessage() {
 		return message;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
 	public java.sql.Date getDate() {
 		return date;
 	}
 
-	public void setDate(java.sql.Date date) {
-		this.date = date;
+	@Override
+	public String toString() {
+		return "FriendRequest{" +
+				"requestingMember=" + requestingMember +
+				", receivingMember=" + receivingMember +
+				", message='" + message + '\'' +
+				", date=" + date +
+				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		FriendRequest that = (FriendRequest) o;
+
+		if (!requestingMember.equals(that.requestingMember)) return false;
+		if (!receivingMember.equals(that.receivingMember)) return false;
+		if (!message.equals(that.message)) return false;
+		return date.equals(that.date);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = requestingMember.hashCode();
+		result = 31 * result + receivingMember.hashCode();
+		result = 31 * result + message.hashCode();
+		result = 31 * result + date.hashCode();
+		return result;
 	}
 }

@@ -1,13 +1,11 @@
 package users;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import content.Forum;
 import users.userState.GuestState;
 import users.userState.MemberState;
 import users.userState.UserState;
+
+import java.util.*;
 
 public class User {
 	
@@ -25,35 +23,44 @@ public class User {
 	private List<Report> sentReports;
 	private boolean loggedIn;
 	
-	private static User guest;
-	
-	public static User getGuestUser() {
-		return guest;
-	}
+	private static final Map<Forum, User> guests = new HashMap<>();
 	
 	public User(Forum forum) {
 		this.forum = forum;
 		this.state = new GuestState();
-		active = true;
-		banned = false;
-		loggedIn = false;
+		initializeFlags();
 	}
-	
-	public User(Forum forum, String userName, String hashedPassword) {
+
+	public User(Forum forum, String username, String hashedPassword) {
 		this.forum = forum;
-		this.userName = userName;
+		this.userName = username;
 		this.hashedPassword = hashedPassword;
 		this.state = new MemberState();
-		friends = new HashSet<User>();
-		friendRequests = new  ArrayList<FriendRequest>();
-		pendingNotifications = new  ArrayList<Notification>();
-		sentReports = new ArrayList<Report>();
+		friends = new HashSet<>();
+		friendRequests = new ArrayList<>();
+		pendingNotifications = new  ArrayList<>();
+		sentReports = new ArrayList<>();
+		initializeFlags();
+	}
+
+	private void initializeFlags() {
 		active = true;
 		banned = false;
 		loggedIn = false;
 	}
+
+	public static User getGuestUser(Forum forum) {
+		if (!guests.containsKey(forum)) {
+			synchronized (guests) {
+				if (!guests.containsKey(forum)) {
+					guests.put(forum, new User(forum));
+				}
+			}
+		}
+		return guests.get(forum);
+	}
 	
-	public FriendRequest sendFriendRquest(User user, String message) {
+	public FriendRequest sendFriendRequest(User user, String message) {
 		if (state.canSendFriendRequest()) {
 			FriendRequest request = new FriendRequest(this, user, message);
 			if (user.getFriendRequest(request))
@@ -63,9 +70,7 @@ public class User {
 	}
 	
 	public boolean getFriendRequest(FriendRequest request) {
-		if (state.canGetFriendRequest())
-			return friendRequests.add(request);
-		return false;			
+		return state.canGetFriendRequest() && friendRequests.add(request);
 	}
 	
 	public boolean addFriend(User user) {
@@ -131,5 +136,16 @@ public class User {
 
 	public void setHashedPassword(String hashedPassword) {
 		this.hashedPassword = hashedPassword;
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"userName : '" + userName + '\'' +
+				((forum != null) ? ", forum : " + forum : "") +
+				", state : " + state +
+				((pendingNotifications != null) ? (", pendingNotifications : " + pendingNotifications) : "") +
+				((friendRequests != null) ? ", friendRequests : " + friendRequests : "") +
+				'}';
 	}
 }

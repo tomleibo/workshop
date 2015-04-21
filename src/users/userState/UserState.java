@@ -17,4 +17,7 @@ public abstract class UserState {
 	public boolean canGetFriendRequest() {
 		return true;
 	}
+
+	@Override
+	public abstract String toString();
 }

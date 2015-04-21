@@ -1,11 +1,11 @@
 package content;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import policy.ForumPolicy;
 import users.Report;
 import users.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Forum {
 	public int id;
@@ -87,5 +87,9 @@ public class Forum {
 	public boolean addReport(Report report) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public String getName() {
+		return null;
 	}
 }
