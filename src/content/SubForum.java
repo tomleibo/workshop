@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import users.User;
+import utils.IdGenerator;
 
-@SuppressWarnings("unused")
 public class SubForum {
 	public int id;
 	private String name;
@@ -15,6 +15,7 @@ public class SubForum {
 	private int maxModerators;
 	
 	public SubForum(String name, User mod, int maxModerators) {
+		this.id=IdGenerator.getId(IdGenerator.SUBFORUM);
 		this.name=name;
 		this.threads = new ArrayList<>();
 		this.moderators = new ArrayList<>();
@@ -23,10 +24,16 @@ public class SubForum {
 		this.maxModerators=maxModerators;
 	}
 	
-	
+	public List<User> getModerators() {
+		return moderators;
+	}
 	
 	public List<Thread> viewThreads() {
 		return threads; 
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 	
 	public boolean addThread(Thread thread) {
@@ -38,7 +45,7 @@ public class SubForum {
 	}
 	
 	public boolean addModerator(User moderator) {
-		if (moderators.size() < maxModerators) {	
+		if (moderators.size() < maxModerators && !moderators.contains(moderator)) {	
 			moderators.add(moderator);
 			return true;
 		}
@@ -58,6 +65,9 @@ public class SubForum {
 	}
 	
 	public boolean changeModerator(User existingModerator, User newModerator) {
+		if(moderators.contains(newModerator)) {
+			return false;
+		}
 		moderators.add(newModerator);
 		moderators.remove(existingModerator);
 		return true;
@@ -68,20 +78,44 @@ public class SubForum {
 			return false;
 		}
 		else {
-			moderators.remove(moderator);
-			bannedModerators.add(moderator);
-			return true;
+			if (moderators.remove(moderator)) {
+				bannedModerators.add(moderator);
+				return true;
+			}
+			return false;
 		}
 	}
 	
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Message)) {
+		if (!(o instanceof SubForum)) {
 			return false;
 		}
-		Message obj = (Message) o;
-		return obj.id == id;
+		SubForum obj = (SubForum) o;
+		return obj.id == id  || name.equals(obj.getName());
 	}
 	
-	//test: add remove ban and change moderator.
+	public boolean didUserPostHere(User user) {
+		for (Thread t : threads) {
+			if (didUserPostPost(t.getOpeningMessage(),user)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean didUserPostPost(Message openingMessage,User user) {
+		if (openingMessage.getUser().equals(user)) {
+			return true;
+		}
+		if (openingMessage.getComments()==null) {
+			return false;
+		}
+		for (Message m : openingMessage.getComments()) {
+			if(didUserPostPost(m,user)){
+				return true;
+			}
+		}
+		return false;
+	}
 }

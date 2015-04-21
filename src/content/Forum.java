@@ -1,44 +1,56 @@
 package content;
 
-import policy.ForumPolicy;
-import users.Report;
-import users.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import policy.ForumPolicy;
+import users.Report;
+import users.User;
+import utils.IdGenerator;
+
 public class Forum {
 	public int id;
-	private User superAdmin;
+	private String name;
+	private User admin;
 	private List<SubForum> subForums;
 	private List<User> members;
 	private ForumPolicy properties;
 	
-	public Forum(User admin, ForumPolicy policy) {
-		superAdmin = admin;
+	public Forum(User admin, ForumPolicy policy, String name) {
+		this.id=IdGenerator.getId(IdGenerator.FORUM);
+		this.name = name;
+		this.admin = admin;
 		members = new ArrayList<>();
 		subForums = new ArrayList<>();
 		this.properties = policy;
+	//	addMember(SuperAdmin);
 		addMember(admin);
 	}
 	
 	public User getSuperAdmin() {
-		return superAdmin;
+		return admin;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public boolean addSubForum(SubForum sub) {
-		subForums.add(sub);
-		return true;
+		if (!subForums.contains(sub)){
+			subForums.add(sub);
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean deleteSubForum(SubForum subForum) {
-		return subForums.remove(subForum);
+		boolean b =subForums.remove(subForum);
+		return b;
 		
 	}
 	
 	public boolean addMember(User user) {
-		members.add(user);
-		return true;
+		return members.add(user);
 	}
 	
 	public boolean removeMember(User user) {
@@ -47,7 +59,7 @@ public class Forum {
 	}
 	
 	public void setSuperAdmin(User superAdmin) {
-		this.superAdmin = superAdmin;
+		this.admin = superAdmin;
 	}
 	
 	public List<SubForum> getSubForums() {
@@ -77,19 +89,15 @@ public class Forum {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Message)) {
+		if (!(o instanceof Forum)) {
 			return false;
 		}
-		Message obj = (Message) o;
-		return obj.id == id;
+		Forum obj = (Forum) o;
+		return obj.id == id || name.equals(obj.getName());
 	}
 
 	public boolean addReport(Report report) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	public String getName() {
-		return null;
 	}
 }

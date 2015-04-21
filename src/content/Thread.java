@@ -1,6 +1,7 @@
 package content;
 
 import users.User;
+import utils.IdGenerator;
 
 public class Thread {
 	public int id;
@@ -10,10 +11,12 @@ public class Thread {
 	private SubForum subForum;
 	
 	public Thread(User user, Message openingMessage, SubForum subForum){
+		this.id=IdGenerator.getId(IdGenerator.THREAD);
 		this.memberStarted = user;
 		this.date = new java.sql.Date(System.currentTimeMillis());
 		this.openingMessage = openingMessage;
 		this.subForum = subForum;
+		openingMessage.setThread(this);
 	}
 	
 	public User getMemberStarted() {
@@ -34,10 +37,10 @@ public class Thread {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Message)) {
+		if (!(o instanceof Thread)) {
 			return false;
 		}
-		Message obj = (Message) o;
+		Thread obj = (Thread) o;
 		return obj.id == id;
 	}
 }
