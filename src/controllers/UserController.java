@@ -12,11 +12,13 @@ public class UserController {
 		User user = getUserFromForum(username, forum);
 		if (user == null)
 			return null;
-		
+		if (!user.getHashedPassword().equals(hashString(password)))
+			return null;
+		return user;
 	}
 	
 	public User enterAsGuest() {
-		return new User(); //based on session id?
+		return User.getGuestUser();
 	}
 	
 	public boolean logout(int userId) {

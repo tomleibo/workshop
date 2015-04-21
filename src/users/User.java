@@ -10,6 +10,7 @@ import users.userState.MemberState;
 import users.userState.UserState;
 
 public class User {
+	
 	private int id;
 	private UserState state;
 	private String sessionId;
@@ -23,6 +24,12 @@ public class User {
 	private List<FriendRequest> friendRequests;
 	private List<Report> sentReports;
 	private boolean loggedIn;
+	
+	private static User guest;
+	
+	public static User getGuestUser() {
+		return guest;
+	}
 	
 	public User(Forum forum) {
 		this.forum = forum;
