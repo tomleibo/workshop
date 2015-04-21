@@ -3,6 +3,7 @@ package users;
 import content.Forum;
 import users.userState.GuestState;
 import users.userState.MemberState;
+import users.userState.SuperAdminState;
 import users.userState.UserState;
 
 import java.util.*;
@@ -25,7 +26,15 @@ public class User {
 	private String emailAddress;
 	
 	private static final Map<Forum, User> guests = new HashMap<>();
-	
+	private static final Object superAdminLock = new Object();
+	private static User superAdmin;
+
+	public User() {
+		this.forum = null;
+		this.state = new SuperAdminState();
+		initializeFlags();
+	}
+
 	public User(Forum forum) {
 		this.forum = forum;
 		this.state = new GuestState();
@@ -60,6 +69,17 @@ public class User {
 			}
 		}
 		return guests.get(forum);
+	}
+
+	public static User getSuperAdmin(Forum forum) {
+		if (superAdmin == null) {
+			synchronized (superAdminLock) {
+				if (superAdmin == null) {
+					superAdmin = new User();
+				}
+			}
+		}
+		return superAdmin;
 	}
 	
 	public FriendRequest sendFriendRequest(User user, String message) {
@@ -138,6 +158,14 @@ public class User {
 
 	public void setHashedPassword(String hashedPassword) {
 		this.hashedPassword = hashedPassword;
+	}
+
+	public UserState getState() {
+		return state;
+	}
+
+	public void setState(UserState state) {
+		this.state = state;
 	}
 
 	@Override

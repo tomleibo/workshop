@@ -4,13 +4,15 @@ import exceptions.UsernameAlreadyExistsException;
 import users.FriendRequest;
 import users.User;
 import utils.GMailAuthenticator;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.*;
 
 public class UserController {
 	String host ="imap.gmail.com";//for imap protocol
@@ -25,7 +27,7 @@ public class UserController {
 			return null;
 		return user;
 	}
-	
+
 	public User enterAsGuest(Forum forum) {
 		return User.getGuestUser(forum);
 	}

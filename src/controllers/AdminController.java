@@ -2,6 +2,7 @@ package controllers;
 
 import content.SubForum;
 import users.User;
+import users.userState.UserStates;
 
 public class AdminController {
 	
@@ -28,6 +29,10 @@ public class AdminController {
 	}
 	
 	public boolean banMember() {
+		return false;
+	}
+
+	public boolean changeUserState(User changer, User target, UserStates state) {
 		return false;
 	}
 	
