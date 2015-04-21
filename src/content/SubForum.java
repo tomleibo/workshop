@@ -1,9 +1,9 @@
 package content;
 
+import users.User;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import users.User;
 
 @SuppressWarnings("unused")
 public class SubForum {
@@ -82,6 +82,18 @@ public class SubForum {
 		Message obj = (Message) o;
 		return obj.id == id;
 	}
-	
+
+	public boolean unAppointModerator(User moderator) {
+		return false;
+	}
+
+	public boolean appointModerator(User moderator) {
+		return false;
+	}
+
+	public boolean replaceModerator(User oldModerator, User newModerator) {
+		return false;
+	}
+
 	//test: add remove ban and change moderator.
 }

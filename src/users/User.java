@@ -1,21 +1,21 @@
 package users;
 
-import content.Forum;
-import users.userState.GuestState;
+import content.SubForum;
 import users.userState.MemberState;
-import users.userState.SuperAdminState;
 import users.userState.UserState;
+import users.userState.UserStates;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class User {
 	
 	private int id;
 	private UserState state;
-	private String sessionId;
 	private String userName;
 	private String hashedPassword;
-	private final Forum forum;
 	private boolean active;
 	private boolean banned;
 	private Set<User> friends;
@@ -24,25 +24,16 @@ public class User {
 	private List<Report> sentReports;
 	private boolean loggedIn;
 	private String emailAddress;
-	
-	private static final Map<Forum, User> guests = new HashMap<>();
+
 	private static final Object superAdminLock = new Object();
 	private static User superAdmin;
 
-	public User() {
-		this.forum = null;
-		this.state = new SuperAdminState();
+	private User(UserState state) {
+		this.state = state;
 		initializeFlags();
 	}
 
-	public User(Forum forum) {
-		this.forum = forum;
-		this.state = new GuestState();
-		initializeFlags();
-	}
-
-	public User(Forum forum, String username, String hashedPassword, String emailAddress) {
-		this.forum = forum;
+	public User(String username, String hashedPassword, String emailAddress) {
 		this.userName = username;
 		this.hashedPassword = hashedPassword;
 		this.state = new MemberState();
@@ -60,39 +51,23 @@ public class User {
 		loggedIn = false;
 	}
 
-	public static User getGuestUser(Forum forum) {
-		if (!guests.containsKey(forum)) {
-			synchronized (guests) {
-				if (!guests.containsKey(forum)) {
-					guests.put(forum, new User(forum));
-				}
-			}
-		}
-		return guests.get(forum);
+	public static User newGuestUser() {
+		return new User(UserState.newState(UserStates.GUEST));
 	}
 
-	public static User getSuperAdmin(Forum forum) {
+	public static User getSuperAdmin() {
 		if (superAdmin == null) {
 			synchronized (superAdminLock) {
 				if (superAdmin == null) {
-					superAdmin = new User();
+					superAdmin = new User(UserState.newState(UserStates.SUPER_ADMIN));
 				}
 			}
 		}
 		return superAdmin;
 	}
-	
-	public FriendRequest sendFriendRequest(User user, String message) {
-		if (state.canSendFriendRequest()) {
-			FriendRequest request = new FriendRequest(this, user, message);
-			if (user.getFriendRequest(request))
-				return request;
-		}
-		return null;
-	}
-	
+
 	public boolean getFriendRequest(FriendRequest request) {
-		return state.canGetFriendRequest() && friendRequests.add(request);
+		return friendRequests.add(request);
 	}
 	
 	public boolean addFriend(User user) {
@@ -101,15 +76,6 @@ public class User {
 	
 	public boolean deleteFriend(User user) {
 		return friends.remove(user);
-	}
-	
-	public Report sendReport(User user, String title, String content) {
-		if (state.canSendReport() && user.state.canGetReport()) {
-			Report report = new Report(title, content, this, user);
-			if (forum.addReport(report))
-				return report;
-		}
-		return null;
 	}
 	
 	public boolean deactivate() {
@@ -168,14 +134,55 @@ public class User {
 		this.state = state;
 	}
 
+	public boolean addSentReport(Report report) {
+		return sentReports.add(report);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		User user = (User) o;
+
+		if (id != user.id) return false;
+		if (state != null ? !state.equals(user.state) : user.state != null) return false;
+		if (userName != null ? !userName.equals(user.userName) : user.userName != null) return false;
+		if (hashedPassword != null ? !hashedPassword.equals(user.hashedPassword) : user.hashedPassword != null)
+			return false;
+		return !(emailAddress != null ? !emailAddress.equals(user.emailAddress) : user.emailAddress != null);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id;
+		result = 31 * result + (state != null ? state.hashCode() : 0);
+		result = 31 * result + (userName != null ? userName.hashCode() : 0);
+		result = 31 * result + (hashedPassword != null ? hashedPassword.hashCode() : 0);
+		result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
+		return result;
+	}
+
 	@Override
 	public String toString() {
 		return "User{" +
 				"userName : '" + userName + '\'' +
-				((forum != null) ? ", forum : " + forum : "") +
 				", state : " + state +
 				((pendingNotifications != null) ? (", pendingNotifications : " + pendingNotifications) : "") +
 				((friendRequests != null) ? ", friendRequests : " + friendRequests : "") +
 				'}';
+	}
+
+	public boolean unAppoint(SubForum subForum) {
+		return false;
+	}
+
+	public boolean appoint(SubForum subForum) {
+		return false;
+	}
+
+	public boolean banModerator() {
+		return false;
 	}
 }
