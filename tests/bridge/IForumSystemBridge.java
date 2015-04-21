@@ -30,8 +30,6 @@ public interface IForumSystemBridge {
 	boolean changeUserState(User user, UserStates state);
 	boolean editPost(Forum forum, User user, Message msg, String body);
 	boolean deletePost(Forum forum, User user, Message msg);
-	boolean addFriend(User user, User friend);
-	boolean removeFriend(User user, User friend);
 	boolean reportAdmin(User user, User admin);
 	boolean reportModerator(User user, User moderator);
 	// 
@@ -52,10 +50,10 @@ public interface IForumSystemBridge {
 	boolean initializeForumSystem();
 	boolean setMemberSuspensionPolicy(Forum forum, Policy policy);
 	boolean changeForumPolicy(Forum forum, ForumPolicy policy);
-	
-	
-	
-	
-	
-	
-}
+	boolean sendFriendRequest(User from, User to, String message);
+	boolean removeFriend(User user, User friend);
+
+
+
+
+	}

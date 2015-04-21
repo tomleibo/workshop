@@ -13,22 +13,24 @@ import content.SubForum;
 
 public class ForumTests {
 	protected IForumSystemBridge bridge;
-	public final String FORUM_NAME = "YNET";
-	public final String[] FORUM_NAMES = {"YNET"};
-	public final String[] SUB_FORUM_NAMES = {"Games", "Nature", "Physics"};
-	public final String[] USER_NAMES = {"Dani", "John", "Joe"};
-	public final String[] USER_PASSES = {"DaniDaKing", "JohnDoe", "BazookaJoe"};
-	public final String[] THREAD_TITLES ={ "Who wants to play Sims?",
+	public static final String FORUM_NAME = "YNET";
+	public static final String[] FORUM_NAMES = {"YNET"};
+	public static final String[] SUB_FORUM_NAMES = {"Games", "Nature", "Physics"};
+	public static final String[] USER_NAMES = {"Dani", "John", "Joe"};
+	public static final String[] USER_PASSES = {"DaniDaKing", "JohnDoe", "BazookaJoe"};
+	public static final String[] THREAD_TITLES ={ "Who wants to play Sims?",
 			 "Who wants to play Age of Empires?", "Who wants to play Sims?"};
 	public final String[] THREAD_CONTENTS = {"Hello everyone, is there someone who wants to play Sims?",
 											"Hello everyone, is there someone who wants to play Age of Empires?",
 											"Hello everyone, is there someone who wants to play Sims?"};
+
+	public static final String[] FRIEND_MESSAGES = {"Hi Friend, Would you like to be my friend?",
+	"Hi Mom, Why won't you approve me?", "Hi John, Please approve me"};
 	
-	
-	public final String[] MESSAGE_TITLES ={ "Who wants to play Sims?", 
+	public static final String[] MESSAGE_TITLES ={ "Who wants to play Sims?",
 			 "Who wants to play Age of Empires?", "Who wants to play Sims?"};
 
-	public final String[] MESSAGE_CONTENTS = {"Yes I would like to!",
+	public static final String[] MESSAGE_CONTENTS = {"Yes I would like to!",
 			"Does anyone have a recipe for a cheese cake?",
 			"No, That game sucks"};
 	
@@ -90,5 +92,12 @@ public class ForumTests {
 	protected User registerToForum(Forum forum, String user, String hashedPass) {
 		return bridge.registerGuest(forum, user, hashedPass);
 	}
-	
+
+	protected boolean sendFriendRequest(User from, User to, String message){
+		return bridge.sendFriendRequest(from,to,message);
+	}
+
+	protected boolean removeFriend(User user, User friend){
+		return bridge.removeFriend(user,friend);
+	}
 }

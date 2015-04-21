@@ -10,8 +10,11 @@ import users.User;
 import content.Message;
 import content.SubForum;
 import content.Thread;
+import users.userState.UserState;
+import users.userState.UserStates;
 
 public class MemberUserServicesTests extends ForumTests {
+
 	User user;
 	
 	/*
@@ -32,6 +35,8 @@ public class MemberUserServicesTests extends ForumTests {
 	@Before
 	public void register(){
 		user = registerToForum(forum, USER_NAMES[0], USER_PASSES[0]);
+		moderator = registerToForum(forum, USER_NAMES[1], USER_PASSES[1]);
+		moderator.setState(UserState.newState(UserStates.MODERATOR));
 	}
 	
 	@Test
@@ -89,19 +94,25 @@ public class MemberUserServicesTests extends ForumTests {
 		Message msg = new Message(THREAD_TITLES[1], THREAD_CONTENTS[1], user, null, null);
 		
 		boolean result = deletePost(forum, user, msg);
-		Assert.assertFalse(result);	
+		Assert.assertFalse(result);
 	}
 
 	@Test
 	public void test_addFriend() {
 		user = loginUser(forum, USER_NAMES[0], USER_PASSES[0]);
-		SubForum sf = addSubForum(forum, SUB_FORUM_NAMES[0], moderator);
+		User friend = registerToForum(forum, USER_NAMES[1], USER_PASSES[1]);
+		boolean result = sendFriendRequest(user, friend, FRIEND_MESSAGES[0]);
 
-		openNewThread(sf, THREAD_TITLES[0], THREAD_CONTENTS[0], moderator);
-		Message msg = new Message(THREAD_TITLES[1], THREAD_CONTENTS[1], user, null, null);
+		Assert.assertTrue(result);
+	}
 
-		boolean result = deletePost(forum, user, msg);
-		Assert.assertFalse(result);
+	@Test
+	public void test_removeFriend() {
+		user = loginUser(forum, USER_NAMES[0], USER_PASSES[0]);
+		User friend = registerToForum(forum, USER_NAMES[1], USER_PASSES[1]);
+		boolean result = removeFriend(user, friend);
+
+		Assert.assertTrue(result);
 	}
 
 }

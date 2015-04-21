@@ -15,6 +15,8 @@ import content.Forum;
 import content.Message;
 import content.SubForum;
 import content.Thread;
+import users.userState.UserState;
+import users.userState.UserStates;
 
 public class GeneralUserServicesTests extends ForumTests {
 	User moderator;
@@ -24,16 +26,16 @@ public class GeneralUserServicesTests extends ForumTests {
 	public void beforeTest(){
 		user = registerToForum(forum, USER_NAMES[0], USER_PASSES[0]);
 		moderator = registerToForum(forum, USER_NAMES[1], USER_PASSES[1]);
+		moderator.setState(UserState.newState(UserStates.MODERATOR));
 	}
 	
 	@Test
 	public void test_showListOfSubForums_AddMultipleSubForums() {
 		
-		User user = registerToForum(forum, USER_NAMES[0], USER_PASSES[0]);
 		List<SubForum> subForums = new ArrayList<SubForum>();
 		
 		for(String sf : SUB_FORUM_NAMES){
-			subForums.add(addSubForum(forum, sf, user));
+			subForums.add(addSubForum(forum, sf, moderator));
 		}
 		
 		List<SubForum> addedSubForums = showListOfSubForums(forum);
@@ -52,7 +54,7 @@ public class GeneralUserServicesTests extends ForumTests {
 	
 	@Test
 	public void test_showListOfThreads_AddMultiple() {
-		SubForum sf = addSubForum(forum, SUB_FORUM_NAMES[0], user);
+		SubForum sf = addSubForum(forum, SUB_FORUM_NAMES[0], moderator);
 		
 		List<Thread> threads = new ArrayList<Thread>();
 		
@@ -72,13 +74,9 @@ public class GeneralUserServicesTests extends ForumTests {
 	
 	@Test
 	public void test_showListOfThreads_AddNone() {
-		User user = registerToForum(forum, USER_NAMES[0], USER_PASSES[0]);
-		SubForum sf = addSubForum(forum, SUB_FORUM_NAMES[0], user);
-		
+		SubForum sf = addSubForum(forum, SUB_FORUM_NAMES[0], moderator);
 		List<Thread> addedThreads = showListOfThreads(sf);
-
 		Assert.assertTrue(addedThreads.isEmpty());
-		
 		}
 	
 	@Test
