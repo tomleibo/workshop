@@ -13,7 +13,7 @@ public class AdminController {
 	
 	public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) {
 		if (PolicyHandler.canAppointModerator(forum, subForum, admin, moderator))
-			return subForum.appointModerator(moderator) && moderator.appoint(subForum);
+			return subForum.addModerator(moderator) && moderator.appoint(subForum);
 		return false;
 	}
 	
@@ -25,13 +25,13 @@ public class AdminController {
 	
 	public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) {
 		if (PolicyHandler.canUnAppointModerator(forum, subForum, admin, moderator))
-			return subForum.unAppointModerator(moderator) && moderator.unAppoint(subForum);
+			return subForum.removeModerator(moderator) && moderator.unAppoint(subForum);
 		return false;
 	}
 	
 	public boolean replaceModerator(Forum forum, SubForum subForum, User admin, User oldModerator, User newModerator) {
 		if (PolicyHandler.canReplaceModerator(forum, subForum, admin, oldModerator, newModerator))
-			return subForum.replaceModerator(oldModerator, newModerator) && newModerator.appoint(subForum) && oldModerator.unAppoint(subForum);
+			return subForum.changeModerator(oldModerator, newModerator) && newModerator.appoint(subForum) && oldModerator.unAppoint(subForum);
 		return false;
 	}
 	

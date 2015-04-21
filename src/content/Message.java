@@ -1,10 +1,10 @@
 package content;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import users.User;
+import utils.IdGenerator;
 
 public class Message {
 	public int id;
@@ -19,6 +19,7 @@ public class Message {
 	
 	
 	public Message(String title, String body, User publisher, Thread thread, Message parent) {
+		this.id=IdGenerator.getId(IdGenerator.MESSAGE);
 		this.title = title;
 		this.body = body;
 		this.date = new java.sql.Date(System.currentTimeMillis());
@@ -37,7 +38,7 @@ public class Message {
 		return true;
 	}
 	
-	public boolean deleteSelf(Message comment) {
+	public boolean deleteSelf() {
 		if (this.enclosingMessage == null) {
 			return this.thread.deleteSelf();
 		}
@@ -88,5 +89,14 @@ public class Message {
 		return true;
 	}
 	
-	//test delete
+	public Thread getThread() {
+		return thread;
+	}
+
+	@Override
+	public String toString() {
+		return "Message [id=" + id + ", title=" + title + ", publisher="
+				+ publisher + "]";
+	}
+	
 }

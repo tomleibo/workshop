@@ -1,9 +1,11 @@
 package users;
 
 import content.SubForum;
+import users.userState.GuestState;
 import users.userState.MemberState;
 import users.userState.UserState;
 import users.userState.UserStates;
+import utils.IdGenerator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,6 +29,24 @@ public class User {
 
 	private static final Object superAdminLock = new Object();
 	private static User superAdmin;
+
+	public User() {
+		this.id = IdGenerator.getId(IdGenerator.USER);
+		this.userName = ""+id;
+		this.state = new GuestState();
+		active = true;
+		banned = false;
+		loggedIn = false;
+	}
+
+	public User(int i) {
+		this.id = i;
+		this.userName = ""+id;
+		this.state = new GuestState();
+		active = true;
+		banned = false;
+		loggedIn = false;
+	}
 
 	private User(UserState state) {
 		this.state = state;
