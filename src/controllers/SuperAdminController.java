@@ -1,11 +1,14 @@
 package controllers;
 
+import content.Forum;
 import content.Message;
 import content.SubForum;
+import policy.Policy;
 import users.User;
 
 public class SuperAdminController {
-	public SubForum createNewForum() {
+
+	public Forum createNewForum(User user, Policy policy, String name) {
 		return null;
 	}
 	

@@ -46,7 +46,6 @@ public class Notification {
 		if (!title.equals(that.title)) return false;
 		if (!message.equals(that.message)) return false;
 		return date.equals(that.date);
-
 	}
 
 	@Override

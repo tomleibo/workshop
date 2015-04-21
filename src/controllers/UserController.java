@@ -56,7 +56,7 @@ public class UserController {
 	public boolean sendFriendRequest(Forum forum, User from, User to, String message) {
 		if (PolicyHandler.canUserHaveFriends(forum, from) & PolicyHandler.canUserHaveFriends(forum, to)) {
 			FriendRequest request = new FriendRequest(from, to, message);
-			return to.getFriendRequest(request);
+			return to.addFriendRequest(request);
 		}
 		return false;
 	}
