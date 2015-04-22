@@ -138,34 +138,21 @@ public class UserController {
 			props2.setProperty("mail.store.protocol", "imaps");
 			Session session2=Session.getDefaultInstance(props2, null);
 			try {
-				//stops when 3 minutes passed
 				Store store = session2.getStore("imaps");
-
 				store.connect(host, userName, password);
-
 				Folder folder = store.getFolder("INBOX");//get inbox
-
 				folder.open(Folder.READ_ONLY);//open folder only to read
-
 				Message message[] = folder.getMessages();
-
 				for (int i = 0; i < message.length; i++) {
-
 					//print subjects of all mails in the inbox
 					Address[] a = message[i].getAllRecipients();
 					for (int j = 0; j < a.length; j++) {
 						System.out.println("out!");
 						return true;
-
 					}
-
-
 					//anything else you want
-
 				}
-
 				//close connections
-
 				folder.close(true);
 
 				store.close();

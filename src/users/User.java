@@ -146,13 +146,11 @@ public class User {
 	}
 
 	public boolean unAppoint(SubForum subForum) {
-		// TODO
-		return false;
+		return subForum.removeModerator(this);
 	}
 
 	public boolean appoint(SubForum subForum) {
-		// TODO
-		return false;
+		return subForum.addModerator(this);
 	}
 
 	public boolean banModerator() {
@@ -186,6 +184,10 @@ public class User {
 
 	public boolean addSentReport(Report report) {
 		return sentReports.add(report);
+	}
+
+	public Set<User> getFriends(){
+		return friends;
 	}
 
 	@Override
@@ -223,4 +225,6 @@ public class User {
 				((friendRequests != null) ? ", friendRequests : " + friendRequests : "") +
 				'}';
 	}
+
+
 }
