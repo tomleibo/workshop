@@ -2,6 +2,8 @@ package users.userState;
 
 public abstract class UserState {
 
+	private String stateon;
+
 	public static UserState newState(UserStates type) {
 		switch (type) {
 			case SUPER_ADMIN: return new SuperAdminState();
@@ -31,6 +33,14 @@ public abstract class UserState {
 
 	public boolean isGuest(){
 		return false;
+	}
+
+	public String getStateon() {
+		return stateon;
+	}
+
+	public void setStateon(String stateon) {
+		this.stateon = stateon;
 	}
 
 	@Override

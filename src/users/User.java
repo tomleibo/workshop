@@ -18,6 +18,7 @@ public class User {
 	private String userName;
 	private String emailAddress;
 	private String hashedPassword;
+	private java.sql.Date registrationDate;
 
 	private UserState state;
 
@@ -85,6 +86,7 @@ public class User {
 		active = true;
 		banned = false;
 		loggedIn = false;
+		registrationDate = new java.sql.Date(System.currentTimeMillis());
 	}
 
 	public static User newGuestUser() {
@@ -182,6 +184,8 @@ public class User {
 	}
 
 	public void setState(UserState state) {
+		String stateon = this.state.getStateon();
+		state.setStateon(stateon);
 		this.state = state;
 	}
 
