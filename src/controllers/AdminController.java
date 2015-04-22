@@ -41,5 +41,13 @@ public class AdminController {
 			return member.banUser();
 		throw new UserNotAuthorizedException ("to ban member");
 	}
+
+	public static SubForum addSubForum(Forum forum, String title, User admin) throws UserNotAuthorizedException {
+		return ContentController.addSubForum(forum, title, admin);
+	}
+
+	public static boolean deleteSubForum(Forum forum, SubForum subForum,User user) throws UserNotAuthorizedException {
+		return ContentController.deleteSubForum(forum, subForum, user);
+	}
 	
 }

@@ -1,6 +1,7 @@
 package users;
 
 import content.SubForum;
+import exceptions.UserNotLoggedInException;
 import users.userState.*;
 import utils.IdGenerator;
 
@@ -60,6 +61,8 @@ public class User {
 	 * @param state UserState to initialize user with.
 	 */
 	private User(UserState state) {
+		this.id = IdGenerator.getId(IdGenerator.USER);
+		this.userName = "Guest" + id;
 		this.state = state;
 		initializeFlags();
 	}
@@ -71,6 +74,7 @@ public class User {
 	 * @param emailAddress String representing the user's email address.
 	 */
 	public User(String username, String hashedPassword, String emailAddress) {
+		this.id = IdGenerator.getId(IdGenerator.USER);
 		this.userName = username;
 		this.hashedPassword = hashedPassword;
 		this.state = new MemberState();
@@ -130,11 +134,11 @@ public class User {
 		return true;
 	}
 
-	public boolean logout() {
-		if(!isLoggedIn())
-			return false;
+	public User logout() throws UserNotLoggedInException {
+		if (!isLoggedIn())
+			throw new UserNotLoggedInException();
 		loggedIn = false;
-		return true;
+		return newGuestUser();
 	}
 
 	public boolean login() {

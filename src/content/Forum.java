@@ -14,7 +14,7 @@ public class Forum {
 	private User admin;
 	private List<SubForum> subForums;
 	private List<User> members;
-	private ForumPolicy properties;
+	private ForumPolicy policy;
 	
 	public Forum(User admin, ForumPolicy policy, String name) {
 		this.id=IdGenerator.getId(IdGenerator.FORUM);
@@ -22,7 +22,7 @@ public class Forum {
 		this.admin = admin;
 		members = new ArrayList<>();
 		subForums = new ArrayList<>();
-		this.properties = policy;
+		this.policy = policy;
 	//	addMember(SuperAdmin);
 		addMember(admin);
 	}
@@ -78,12 +78,12 @@ public class Forum {
 		this.members = members;
 	}
 	
-	public ForumPolicy getProperties() {
-		return properties;
+	public ForumPolicy getPolicy() {
+		return policy;
 	}
 	
-	public boolean setProperties(ForumPolicy policy) {
-		this.properties = policy;
+	public boolean setPolicy(ForumPolicy policy) {
+		this.policy = policy;
 		return true;
 	}
 	

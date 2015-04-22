@@ -78,4 +78,8 @@ public class PolicyHandler {
 	public static boolean canReplaceAdmin(User superAdmin, Forum forum, User admin) {
 		return true;
 	}
+
+	public static boolean canUserChangePolicy(User superAdmin, Forum forum) {
+		return true;
+	}
 }

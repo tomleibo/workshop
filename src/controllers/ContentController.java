@@ -114,14 +114,14 @@ public class ContentController {
 	
 	public static boolean defineProperties(Forum forum, ForumPolicy policy) {
 		String warning = "this method is not tested";
-		return forum.setProperties(policy);
+		return forum.setPolicy(policy);
 	}
 	
 	public static SubForum addSubForum(Forum forum, String title, User mod) throws UserNotAuthorizedException {
 		if (!PolicyHandler.canUserAddSubForum(forum, mod)) {
 			throw new UserNotAuthorizedException("to add subForum.");
 		}
-		SubForum sub = new SubForum(title, mod, forum.getProperties().getMaxModerators());
+		SubForum sub = new SubForum(title, mod, forum.getPolicy().getMaxModerators());
 		if (forum.addSubForum(sub)) {
 			return sub;
 		}

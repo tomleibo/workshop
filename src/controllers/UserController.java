@@ -1,7 +1,8 @@
 package controllers;
 
-import content.Forum;
-import exceptions.UsernameAlreadyExistsException;
+import content.*;
+import content.Thread;
+import exceptions.*;
 import policy.PolicyHandler;
 import users.FriendRequest;
 import users.Report;
@@ -10,6 +11,7 @@ import utils.Cipher;
 import utils.GMailAuthenticator;
 
 import javax.mail.*;
+import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.security.NoSuchAlgorithmException;
@@ -35,9 +37,11 @@ public class UserController {
 		return User.newGuestUser();
 	}
 	
-	public boolean logout(Forum forum, String username) {
+	public User logout(Forum forum, String username) throws UserDoesNotExistsException, UserNotLoggedInException {
 		User user = getUserFromForum(username, forum);
-		return user != null && user.logout();
+		if (user != null)
+			return user.logout();
+		throw new UserDoesNotExistsException();
 	}
 
 	public User register(Forum forum, String username, String password, String emailAddr) throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
@@ -63,7 +67,19 @@ public class UserController {
 	public boolean removeFriend(User user, User friend) {
 		return friend.deleteFriend(user) && user.deleteFriend(friend);
 	}
-	
+
+	public static Thread openNewThread(Forum forum, SubForum subforum, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
+		return ContentController.openNewThread(forum, subforum, title, content, user);
+	}
+
+	public static content.Message reply(Forum forum, content.Message addTo, String title,String content,User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
+		return ContentController.reply(forum, addTo, title, content, user);
+	}
+
+	public static List<SubForum> viewSubForumList(Forum forum, User user) throws UserNotAuthorizedException {
+		return ContentController.viewSubForumList(forum, user);
+	}
+
 	public String viewOwnProfile(User user) {
 		return user.toString();
 	}
@@ -81,7 +97,15 @@ public class UserController {
 		Report report = new Report(title, content, reporter, admin);
 		return forum.addReport(report) && reporter.addSentReport(report);
 	}
-	
+
+	public static boolean deletePost(Forum forum, SubForum subForum, User user, content.Message msg) throws UserNotAuthorizedException {
+		return ContentController.deletePost(forum, subForum, user, msg);
+	}
+
+	public static boolean deleteSubForum(Forum forum, SubForum subForum, User user) throws UserNotAuthorizedException {
+		return ContentController.deleteSubForum(forum, subForum, user);
+	}
+
 	public boolean deactivate(User member) {
 		return member.deactivate();
 	}
