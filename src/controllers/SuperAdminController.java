@@ -1,47 +1,48 @@
 package controllers;
 
 import content.Forum;
+import content.ForumSystem;
 import content.Message;
-import content.SubForum;
 import policy.Policy;
 import users.User;
 
 public class SuperAdminController {
 
-	public Forum createNewForum(User user, Policy policy, String name) {
+	public Forum createNewForum(User superAdmin, User admin, Policy policy, String name) {
 		return null;
 	}
 	
-	public boolean changeAdministrator(SubForum subForum, User admin) {
+	public boolean changeAdministrator(User superAdmin, Forum forum, User admin) {
 		//by policy/
 		return false;
 	}
 	
-	public boolean verifyCorrelationOfContent(Message msg) {
+	public boolean verifyCorrelationOfContent(User superAdmin, Forum forum, Message msg) {
 		return false;
 	}
 	
-	public boolean changeModeratorSuspensionPolicy() {
+	public boolean changeModeratorSuspensionPolicy(User superAdmin, Policy policy) {
 		return false;
 	}
 	
-	public boolean changeAdminSuspensionPolicy() {
+	public boolean changeAdminSuspensionPolicy(User superAdmin, Policy policy) {
 		return false;
 	}
 	
-	public boolean changeModeratorAppointmentPolicy() {
+	public boolean changeModeratorAppointmentPolicy(User superAdmin, Policy policy) {
 		return false;
 	}
 	
-	public boolean changeAdminAppointmentPolicy() {
+	public boolean changeAdminAppointmentPolicy(User superAdmin, Policy policy) {
 		return false;
 	}
-	
-	public boolean initializeForum() {
+
+	public boolean changeMemberSuspensionPolicy(User superAdmin, Policy policy) {
 		return false;
 	}
-	
-	public boolean changeMemberSuspensionPolicy() {
-		return false;
+
+	public ForumSystem initializeForumSystem(String username, String Password, String email) {
+		return null;
 	}
+
 }

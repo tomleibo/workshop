@@ -23,53 +23,53 @@ public class SubForumTests extends TestCase{
 		user5= new User(5);
 		subforum = new SubForum("forum name",user1,3);
 	}
-	
+
 	@Override
 	@After
 	protected void tearDown() throws Exception {
 		// TODO Auto-generated method stub
 		super.tearDown();
 	}
-	
+
 	@Test
 	public void testAddExistingMod() {
 		assertFalse(subforum.addModerator(user1));
 	}
-	
+
 	@Test
 	public void testFourthAdditionFails() {
 		assertTrue(subforum.addModerator(user2));
 		assertTrue(subforum.addModerator(user3));
 		assertFalse(subforum.addModerator(user4));
 	}
-	
+
 	@Test
 	public void testAdditionOfSameModTwiceFails() {
 		assertTrue(subforum.addModerator(user2));
 		assertFalse(subforum.addModerator(user2));
 	}
-	
+
 	@Test
 	public void testRemoveFailsWhenOnlyOneMod() {
 		assertFalse(subforum.removeModerator(user1));
 	}
-	
+
 	@Test
 	public void testInitial() {
 		assertEquals(subforum.getModerators().get(0), user1);
 	}
-	
+
 	@Test
 	public void testRemovalOfNoModFails() {
 		assertFalse(subforum.removeModerator(user2));
 	}
-	
+
 	@Test
 	public void testChangeWhenOne() {
 		subforum.changeModerator(user1, user2);
 		assertEquals(subforum.getModerators().get(0),user2);
 	}
-	
+
 	@Test
 	public void testChangeWhenMax() {
 		subforum.addModerator(user3);
@@ -77,7 +77,7 @@ public class SubForumTests extends TestCase{
 		assertTrue(subforum.changeModerator(user1, user2));
 		assertEquals(subforum.getModerators().size(),3);
 	}
-	
+
 	@Test
 	public void testDidUserPostInSubForum() {
 		Message openingMessage = new Message("title", "body", user1, null, null);
@@ -94,8 +94,8 @@ public class SubForumTests extends TestCase{
 		assertTrue(subforum.didUserPostHere(user3));
 		assertTrue(subforum.didUserPostHere(user4));
 		assertFalse(subforum.didUserPostHere(user5));
-		
+
 	}
-	
-	
+
+
 }

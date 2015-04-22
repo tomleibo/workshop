@@ -2,6 +2,7 @@ package controllers;
 
 import content.Forum;
 import content.SubForum;
+import exceptions.UserNotAuthorizedException;
 import policy.PolicyHandler;
 import users.User;
 
@@ -11,34 +12,34 @@ public class AdminController {
 		return null;
 	}
 	
-	public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) {
+	public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
 		if (PolicyHandler.canAppointModerator(forum, subForum, admin, moderator))
 			return subForum.addModerator(moderator) && moderator.appoint(subForum);
-		return false;
+		throw new UserNotAuthorizedException("to appoint moderator");
 	}
 	
-	public boolean banModerator(Forum forum, SubForum subForum, User admin, User moderator) {
+	public boolean banModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
 		if (PolicyHandler.canBanModerator(forum, subForum, admin, moderator))
 			return moderator.banModerator();
-		return false;
+		throw new UserNotAuthorizedException ("to ban moderator");
 	}
 	
-	public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) {
+	public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUnAppointModerator(forum, subForum, admin, moderator))
 			return subForum.removeModerator(moderator) && moderator.unAppoint(subForum);
-		return false;
+		throw new UserNotAuthorizedException ("to unappoint moderator");
 	}
 	
-	public boolean replaceModerator(Forum forum, SubForum subForum, User admin, User oldModerator, User newModerator) {
+	public boolean replaceModerator(Forum forum, SubForum subForum, User admin, User oldModerator, User newModerator) throws UserNotAuthorizedException {
 		if (PolicyHandler.canReplaceModerator(forum, subForum, admin, oldModerator, newModerator))
 			return subForum.changeModerator(oldModerator, newModerator) && newModerator.appoint(subForum) && oldModerator.unAppoint(subForum);
-		return false;
+		throw new UserNotAuthorizedException ("to replace moderator");
 	}
 	
-	public boolean banMember(Forum forum, User admin, User member) {
+	public boolean banMember(Forum forum, User admin, User member) throws UserNotAuthorizedException {
 		if (PolicyHandler.canBanMember(forum, admin, member))
 			return member.banUser();
-		return false;
+		throw new UserNotAuthorizedException ("to ban member");
 	}
 	
 }

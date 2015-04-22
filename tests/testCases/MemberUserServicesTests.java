@@ -1,19 +1,18 @@
 package testCases;
 
-import java.util.List;
-
 import content.Forum;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import policy.ForumPolicy;
-import users.User;
 import content.Message;
 import content.SubForum;
 import content.Thread;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import policy.ForumPolicy;
+import users.User;
 import users.userState.UserState;
 import users.userState.UserStates;
+
+import java.util.List;
 
 public class MemberUserServicesTests extends ForumTests {
 
@@ -148,7 +147,7 @@ public class MemberUserServicesTests extends ForumTests {
 
 	@Test
 	public void test_reportModerator_DifferentForum() {
-		Forum otherForum = addForum("Other Forum", User.getSuperAdmin(), new ForumPolicy(10, ".", ForumPolicy.HashFunction.MD5));
+		Forum otherForum = addForum("Other Forum", User.getSuperAdmin(), new ForumPolicy(10, ".", ForumPolicy.HashFunction.MD5,false));
 		user = loginUser(forum, USER_NAMES[0], USER_PASSES[0]);
 		boolean result = reportModeratorInForum(otherForum, user, moderator, REPORT_TITLES[0], REPORT_CONTENTS[0]);
 		Assert.assertFalse(result);

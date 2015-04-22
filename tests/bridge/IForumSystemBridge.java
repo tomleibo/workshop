@@ -2,16 +2,13 @@ package bridge;
 
 import java.util.List;
 
-import exceptions.UserNotAuthorized;
 import policy.ForumPolicy;
 import policy.Policy;
-import users.Report;
 import users.User;
 import content.Forum;
 import content.Message;
 import content.SubForum;
 import content.Thread;
-import users.userState.UserStates;
 
 public interface IForumSystemBridge {
 	// General Services

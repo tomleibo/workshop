@@ -1,18 +1,17 @@
 package testCases;
 
-import java.util.List;
-
-import junit.framework.TestCase;
-import org.junit.Before;
-
-import policy.ForumPolicy;
-import policy.Policy;
-import users.User;
 import bridge.Driver;
 import bridge.IForumSystemBridge;
 import content.Forum;
 import content.Message;
 import content.SubForum;
+import junit.framework.TestCase;
+import org.junit.Before;
+import policy.ForumPolicy;
+import policy.Policy;
+import users.User;
+
+import java.util.List;
 
 public class ForumTests extends TestCase{
 	protected IForumSystemBridge driver;
@@ -55,7 +54,7 @@ public class ForumTests extends TestCase{
 	@Before
 	public void setUp(){
 		superAdmin = User.getSuperAdmin();
-		policy = new ForumPolicy(3,".",ForumPolicy.HashFunction.MD5);
+		policy = new ForumPolicy(3,".",ForumPolicy.HashFunction.MD5,false);
 		forum = addForum(FORUM_NAME, superAdmin, policy);
 	}
 		

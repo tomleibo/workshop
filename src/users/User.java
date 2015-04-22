@@ -168,7 +168,7 @@ public class User {
 		return userName;
 	}
 
-	public String getHashedPassword() {
+	public String getCipheredPassword() {
 		return hashedPassword;
 	}
 

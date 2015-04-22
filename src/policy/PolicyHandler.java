@@ -10,11 +10,11 @@ public class PolicyHandler {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static boolean canUserDeleteComment(Forum forum, User user, Message comment) {
+	public static boolean canUserDeleteComment(Forum forum, SubForum subForum, User user, Message comment) {
 		return true;
 	}
 
-	public static boolean canUserEditComment(Forum forum, User user, Message msg) {
+	public static boolean canUserEditComment(Forum forum, SubForum subForum, User user, Message msg) {
 		// TODO Auto-generated method stub
 		return true;
 	}
@@ -44,22 +44,30 @@ public class PolicyHandler {
 
 
 	public static boolean canBanMember(Forum forum, User admin, User member) {
-		return false;
+		return true;
 	}
 
 	public static boolean canReplaceModerator(Forum forum, SubForum subForum, User admin, User oldModerator, User newModerator) {
-		return false;
+		return true;
 	}
 
 	public static boolean canUnAppointModerator(Forum forum, SubForum subForum, User admin, User moderator) {
-		return false;
+		return true;
 	}
 
 	public static boolean canAppointModerator(Forum forum, SubForum subForum, User admin, User moderator) {
-		return false;
+		return true;
 	}
 
 	public static boolean canUserHaveFriends(Forum forum, User from) {
-		return false;
+		return true;
+	}
+
+	public static boolean canBanUser(SubForum subForum, User moderator,	User member) {
+		return true;
+	}
+
+	public static boolean canUserReply(Forum forum, User user) {
+		return true;
 	}
 }

@@ -6,14 +6,13 @@ import policy.PolicyHandler;
 import users.FriendRequest;
 import users.Report;
 import users.User;
+import utils.Cipher;
 import utils.GMailAuthenticator;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -23,11 +22,11 @@ public class UserController {
 	String userName = "sadnase2015@gmail.com";
 	String password = "sadna2015";
 
-	public User login(Forum forum, String username, String password) {
+	public User login(Forum forum, String username, String password) throws NoSuchAlgorithmException {
 		User user = getUserFromForum(username, forum);
 		if (user == null)
 			return null;
-		if (!user.getHashedPassword().equals(cipherString(password)))
+		if (!user.getCipheredPassword().equals(Cipher.cipherString(password, "SHA")))
 			return null;
 		return user;
 	}
@@ -41,10 +40,10 @@ public class UserController {
 		return user != null && user.logout();
 	}
 
-	public User register(Forum forum, String username, String password, String emailAddr) throws UsernameAlreadyExistsException {
+	public User register(Forum forum, String username, String password, String emailAddr) throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
 		if (getUserFromForum(username, forum) != null)
 			throw new UsernameAlreadyExistsException("Username: " + username + " already exists in forum: " + forum.getName() + ".");
-		User newUser = new User(username, cipherString(password), emailAddr);
+		User newUser = new User(username, Cipher.cipherString(password, "SHA"), emailAddr);
 		sendVerificationMail(emailAddr);
 		if(authorizedMailIncome(emailAddr)) {
 			forum.addMember(newUser);
@@ -94,16 +93,6 @@ public class UserController {
 				return member;
 		}
 		return null;
-	}
-	
-	private String cipherString(String string) {
-		try {
-			MessageDigest md = MessageDigest.getInstance("SHA");
-			md.update(string.getBytes());
-			return Arrays.toString(md.digest());
-		} catch (NoSuchAlgorithmException e) {
-			return string;
-		}
 	}
 
 	public void sendVerificationMail(String toAddressStr){
