@@ -1,12 +1,12 @@
 package content;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import policy.ForumPolicy;
 import users.Report;
 import users.User;
 import utils.IdGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Forum {
 	public int id;
@@ -58,8 +58,8 @@ public class Forum {
 		return true;
 	}
 	
-	public void setSuperAdmin(User superAdmin) {
-		this.admin = superAdmin;
+	public void setAdmin(User admin) {
+		this.admin = admin;
 	}
 	
 	public List<SubForum> getSubForums() {
