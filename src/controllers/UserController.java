@@ -12,7 +12,9 @@ import utils.GMailAuthenticator;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -45,6 +47,8 @@ public class UserController {
 			throw new UsernameAlreadyExistsException("Username: " + username + " already exists in forum: " + forum.getName() + ".");
 		User newUser = new User(username, Cipher.cipherString(password, "SHA"), emailAddr);
 		sendVerificationMail(emailAddr);
+		User newUser = new User(username, cipherString(password), emailAddr);
+		sendVerificationMail(emailAddr, username);
 		if(authorizedMailIncome(emailAddr)) {
 			forum.addMember(newUser);
 			return newUser;
@@ -95,10 +99,11 @@ public class UserController {
 		return null;
 	}
 
-	public void sendVerificationMail(String toAddressStr){
+	public void sendVerificationMail(String toAddressStr, String name){
 		try {
 			String from = userName;
 			String pass = password;
+			//Setting mail properties
 			Properties props = System.getProperties();
 			props.put("mail.smtp.starttls.enable", "true");
 			props.put("mail.smtp.host", host);
@@ -106,47 +111,38 @@ public class UserController {
 			props.put("mail.smtp.password", pass);
 			props.put("mail.smtp.port", "587");
 			props.put("mail.smtp.auth", "true");
-			props.put("mail.debug", "true");
-
-
+			//props.put("mail.debug", "true");
+			//setting the session to be gmail.
 			Session session = Session.getInstance(props, new GMailAuthenticator(userName, password));
 			MimeMessage message = new MimeMessage(session);
 			Address fromAddress = new InternetAddress(from);
 			Address toAddress = new InternetAddress(toAddressStr);
-
+			//setting message properties
 			message.setFrom(fromAddress);
 			message.setRecipient(Message.RecipientType.TO, toAddress);
-
-			message.setSubject("Testing JavaMail");
-			message.setText("Welcome to JavaMail");
+			message.setSubject(name + ", verify your account");
+			message.setText("Hi " + name + ",\n Please verify your account by replying this mail!\n Greetings,\n Yuval, Shai, Tom, Roee and Hadar");
 			Transport transport = session.getTransport("smtp");
 			transport.connect(host, from, pass);
 			message.saveChanges();
+			//Sending message
 			Transport.send(message);
 			transport.close();
 
 		}catch(Exception ex){
-
-
+			System.err.println(ex.getMessage());
 		}
 	}
 
 	private boolean authorizedMailIncome(String mailAddress){
-
-		/*this will print subject of all messages in the inbox of sender@gmail.com*/
+		System.out.println("enter!");
 		long start = System.currentTimeMillis() / 1000;
-
-
-		Properties props2=System.getProperties();
-
-		props2.setProperty("mail.store.protocol", "imaps");
-		// I used imaps protocol here
-
-		Session session2=Session.getDefaultInstance(props2, null);
-
-		try {
-			while(((System.currentTimeMillis()/1000) - start) < 180) {
-
+		while(((System.currentTimeMillis()/1000) - start) < 600) {
+			Properties props2=System.getProperties();
+			props2.setProperty("mail.store.protocol", "imaps");
+			Session session2=Session.getDefaultInstance(props2, null);
+			try {
+				//stops when 3 minutes passed
 				Store store = session2.getStore("imaps");
 
 				store.connect(host, userName, password);
@@ -162,6 +158,7 @@ public class UserController {
 					//print subjects of all mails in the inbox
 					Address[] a = message[i].getAllRecipients();
 					for (int j = 0; j < a.length; j++) {
+						System.out.println("out!");
 						return true;
 
 					}
@@ -176,13 +173,11 @@ public class UserController {
 				folder.close(true);
 
 				store.close();
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
 			}
-
-		} catch (Exception e) {
-
-			System.out.println(e.toString());
-
 		}
+		System.out.println("out!");
 		return false;
 
 	}
