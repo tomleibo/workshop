@@ -13,6 +13,27 @@ public abstract class UserState {
 		}
 	}
 
+	public Boolean isSuperAdmin(){
+		return false;
+	}
+
+	public boolean isAdmine(){
+		return false;
+	}
+
+	public boolean isModerator(){
+		return false;
+	}
+
+	public boolean isMember(){
+		return false;
+	}
+
+	public boolean isGuest(){
+		return false;
+	}
+
 	@Override
 	public abstract String toString();
+
 }

@@ -21,6 +21,14 @@ public class ModeratorState extends UserState {
         return subForums.remove(subForum);
     }
 
+    public boolean isModerator(){
+        return true;
+    }
+
+    public boolean isMember(){
+        return true;
+    }
+
     @Override
     public String toString() {
         return "Moderator";

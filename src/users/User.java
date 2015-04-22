@@ -1,10 +1,7 @@
 package users;
 
 import content.SubForum;
-import users.userState.GuestState;
-import users.userState.MemberState;
-import users.userState.UserState;
-import users.userState.UserStates;
+import users.userState.*;
 import utils.IdGenerator;
 
 import java.util.ArrayList;
@@ -146,11 +143,17 @@ public class User {
 	}
 
 	public boolean unAppoint(SubForum subForum) {
-		return subForum.removeModerator(this);
+		if(state.isModerator()){
+			return ((ModeratorState)state).removeSubForum(subForum);
+		}
+		return false;
 	}
 
 	public boolean appoint(SubForum subForum) {
-		return subForum.addModerator(this);
+		if(state.isModerator()){
+			return ((ModeratorState)state).addSubForum(subForum);
+		}
+		return false;
 	}
 
 	public boolean banModerator() {
