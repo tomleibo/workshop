@@ -112,18 +112,18 @@ public class User {
 	public boolean addFriend(User user) {
 		return friends.add(user);
 	}
-	
+
 	public boolean deleteFriend(User user) {
 		return friends.remove(user);
 	}
-	
+
 	public boolean deactivate() {
 		if (!active)
 			return false;
 		active = false;
 		return true;
 	}
-	
+
 	public boolean banUser() {
 		if(banned)
 			return false;
@@ -137,7 +137,7 @@ public class User {
 		loggedIn = false;
 		return true;
 	}
-	
+
 	public boolean login() {
 		if(isLoggedIn())
 			return false;
