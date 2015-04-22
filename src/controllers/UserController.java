@@ -17,9 +17,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-
 public class UserController {
-	String host ="imap.gmail.com";//for imap protocol
+
+	String host ="imap.gmail.com"; //for imap protocol
 	String userName = "sadnase2015@gmail.com";
 	String password = "sadna2015";
 
@@ -27,13 +27,13 @@ public class UserController {
 		User user = getUserFromForum(username, forum);
 		if (user == null)
 			return null;
-		if (!user.getHashedPassword().equals(hashString(password)))
+		if (!user.getHashedPassword().equals(cipherString(password)))
 			return null;
 		return user;
 	}
 
 	public User enterAsGuest(Forum forum) {
-		return User.getGuestUser(forum);
+		return User.newGuestUser();
 	}
 	
 	public boolean logout(Forum forum, String username) {
@@ -44,17 +44,21 @@ public class UserController {
 	public User register(Forum forum, String username, String password, String emailAddr) throws UsernameAlreadyExistsException {
 		if (getUserFromForum(username, forum) != null)
 			throw new UsernameAlreadyExistsException("Username: " + username + " already exists in forum: " + forum.getName() + ".");
-		User newUser = new User(forum, username, hashString(password), emailAddr);
-		sendVerificationMail(emailAddr, username);
+		User newUser = new User(username, cipherString(password), emailAddr);
+		sendVerificationMail(emailAddr);
 		if(authorizedMailIncome(emailAddr)) {
 			forum.addMember(newUser);
 			return newUser;
 		}
 		return null;
 	}
-
-	public boolean sendFriendRequest(User from, User to, String message) {
-		return from.sendFriendRequest(to, message) != null;
+	
+	public boolean sendFriendRequest(Forum forum, User from, User to, String message) {
+		if (PolicyHandler.canUserHaveFriends(forum, from) & PolicyHandler.canUserHaveFriends(forum, to)) {
+			FriendRequest request = new FriendRequest(from, to, message);
+			return to.getFriendRequest(request);
+		}
+		return false;
 	}
 	
 	public boolean removeFriend(User user, User friend) {
@@ -69,20 +73,20 @@ public class UserController {
 		if (answer) {
 			User requesting = request.getRequestingMember();
 			User receiving = request.getReceivingMember();
-			if (receiving.addFriend(requesting))
-				return requesting.addFriend(receiving);
+			return requesting.addFriend(receiving) && receiving.addFriend(requesting);
 		}
 		return false;
 	}
-
-	public boolean report(User reporter, User admin, String title, String content) {
-		return reporter.sendReport(admin, title, content) != null;
+	
+	public boolean report(Forum forum, User reporter, User admin, String title, String content) {
+		Report report = new Report(title, content, reporter, admin);
+		return forum.addReport(report) && reporter.addSentReport(report);
 	}
-
+	
 	public boolean deactivate(User member) {
 		return member.deactivate();
 	}
-
+	
 	private User getUserFromForum(String username, Forum forum) {
 		List<User> members = forum.getMembers();
 		for (User member : members) {

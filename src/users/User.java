@@ -1,9 +1,11 @@
 package users;
 
 import content.SubForum;
+import users.userState.GuestState;
 import users.userState.MemberState;
 import users.userState.UserState;
 import users.userState.UserStates;
+import utils.IdGenerator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,28 +13,65 @@ import java.util.List;
 import java.util.Set;
 
 public class User {
-	
-	private int id;
-	private UserState state;
-	private String userName;
-	private String hashedPassword;
-	private boolean active;
-	private boolean banned;
-	private Set<User> friends;
-	private List<Notification> pendingNotifications;
-	private List<FriendRequest> friendRequests;
-	private List<Report> sentReports;
-	private boolean loggedIn;
-	private String emailAddress;
 
 	private static final Object superAdminLock = new Object();
 	private static User superAdmin;
 
+	private int id;
+	private String userName;
+	private String emailAddress;
+	private String hashedPassword;
+
+	private UserState state;
+
+	private boolean active;
+	private boolean banned;
+	private boolean loggedIn;
+
+	private Set<User> friends;
+	private List<Notification> pendingNotifications;
+	private List<FriendRequest> friendRequests;
+	private List<Report> sentReports;
+
+	/**
+	 * Constructor for testing.
+	 */
+	public User() {
+		this.id = IdGenerator.getId(IdGenerator.USER);
+		this.userName = "" + id;
+		this.state = new GuestState();
+		active = true;
+		banned = false;
+		loggedIn = false;
+	}
+
+	/**
+	 * Constructor for testing.
+	 */
+	public User(int i) {
+		this.id = i;
+		this.userName = "" + id;
+		this.state = new GuestState();
+		active = true;
+		banned = false;
+		loggedIn = false;
+	}
+
+	/**
+	 * Constructor for an empty user with only state.
+	 * @param state UserState to initialize user with.
+	 */
 	private User(UserState state) {
 		this.state = state;
 		initializeFlags();
 	}
 
+	/**
+	 * Creates a new User with member state.
+	 * @param username String representing the username.
+	 * @param hashedPassword String representing the hashed password.
+	 * @param emailAddress String representing the user's email address.
+	 */
 	public User(String username, String hashedPassword, String emailAddress) {
 		this.userName = username;
 		this.hashedPassword = hashedPassword;
@@ -66,10 +105,10 @@ public class User {
 		return superAdmin;
 	}
 
-	public boolean getFriendRequest(FriendRequest request) {
+	public boolean addFriendRequest(FriendRequest request) {
 		return friendRequests.add(request);
 	}
-	
+
 	public boolean addFriend(User user) {
 		return friends.add(user);
 	}
@@ -92,18 +131,6 @@ public class User {
 		return true;
 	}
 
-	public String getUserName() {
-		return userName;
-	}	
-	
-	public boolean isActive() {
-		return (active & !banned);
-	}
-	
-	public boolean isLoggedIn() {
-		return loggedIn;
-	}
-	
 	public boolean logout() {
 		if(!isLoggedIn())
 			return false;
@@ -116,6 +143,29 @@ public class User {
 			return false;
 		loggedIn = true;
 		return true;
+	}
+
+	public boolean unAppoint(SubForum subForum) {
+		// TODO
+		return false;
+	}
+
+	public boolean appoint(SubForum subForum) {
+		// TODO
+		return false;
+	}
+
+	public boolean banModerator() {
+		// TODO
+		return false;
+	}
+
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
+
+	public String getUserName() {
+		return userName;
 	}
 
 	public String getHashedPassword() {
@@ -172,17 +222,5 @@ public class User {
 				((pendingNotifications != null) ? (", pendingNotifications : " + pendingNotifications) : "") +
 				((friendRequests != null) ? ", friendRequests : " + friendRequests : "") +
 				'}';
-	}
-
-	public boolean unAppoint(SubForum subForum) {
-		return false;
-	}
-
-	public boolean appoint(SubForum subForum) {
-		return false;
-	}
-
-	public boolean banModerator() {
-		return false;
 	}
 }
