@@ -70,4 +70,12 @@ public class PolicyHandler {
 	public static boolean canUserReply(Forum forum, User user) {
 		return true;
 	}
+
+	public static boolean canUserAddSubForum(User superAdmin) {
+		return true;
+	}
+
+	public static boolean canReplaceAdmin(User superAdmin, Forum forum, User admin) {
+		return true;
+	}
 }
