@@ -17,14 +17,14 @@ public class Real implements IForumSystemBridge {
 
     UserController userController;
     ContentController contentController;
-    ModerationConroller moderationController;
+    ModerationController moderationController;
     AdminController adminController;
     SuperAdminController superAdminController;
 
     public Real() {
         userController = new UserController();
         contentController = new ContentController();
-        moderationController = new ModerationConroller();
+        moderationController = new ModerationController();
         adminController = new AdminController();
         superAdminController = new SuperAdminController();
     }

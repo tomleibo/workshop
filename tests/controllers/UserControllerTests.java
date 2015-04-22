@@ -6,12 +6,14 @@ import org.junit.Test;
 import policy.ForumPolicy;
 import users.User;
 
+import java.security.NoSuchAlgorithmException;
 
-public class UserConrollerTests {
+
+public class UserControllerTests {
     UserController userController;
 
     @Test
-    public void test_register() {
+    public void test_register() throws NoSuchAlgorithmException {
         try {
             userController = new UserController();
             User admin = new User("hadar", "1234", "polad.hadar@gmail.com");

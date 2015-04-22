@@ -12,9 +12,7 @@ import utils.GMailAuthenticator;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -46,8 +44,6 @@ public class UserController {
 		if (getUserFromForum(username, forum) != null)
 			throw new UsernameAlreadyExistsException("Username: " + username + " already exists in forum: " + forum.getName() + ".");
 		User newUser = new User(username, Cipher.cipherString(password, "SHA"), emailAddr);
-		sendVerificationMail(emailAddr);
-		User newUser = new User(username, cipherString(password), emailAddr);
 		sendVerificationMail(emailAddr, username);
 		if(authorizedMailIncome(emailAddr)) {
 			forum.addMember(newUser);
