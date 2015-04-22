@@ -2,19 +2,17 @@ package bridge;
 
 
 public class Driver {
-//	private static ProxyBridge proxy;
-//	private static RealBridge real;
+	private static Proxy proxy;
+	private static Real real;
 	
 	public static IForumSystemBridge getDriver(){
-//		if(real != null){
-//			real = new RealBridge();
-//			return real;
-//		}
-//		
-//		if(proxy != null)
-//			proxy = new ProxyBridge();
-//		
-//		return proxy;
-		return null;
+		if(real != null){
+			real = new Real();
+			return real;
+		}
+
+		proxy = new Proxy();
+
+		return proxy;
 	}
 }
