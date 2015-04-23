@@ -6,6 +6,10 @@ public abstract class UserState {
 
 	private String status;
 
+	public UserState() {
+		this.status = "";
+	}
+
 	public String getStatus() {
 		return status;
 	}

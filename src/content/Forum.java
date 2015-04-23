@@ -100,4 +100,8 @@ public class Forum {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public boolean isSecured() {
+		return false;
+	}
 }

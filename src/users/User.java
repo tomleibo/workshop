@@ -105,6 +105,42 @@ public class User {
 		return new User(username, hashedPassword, emailAddress, UserStates.newState(UserStates.SUPER_ADMIN));
 	}
 
+	/**
+	 * Login user and returns itself.
+	 * @return user itself;
+	 * @throws UserAlreadyLoggedInException if user already logged in, exception contains the logged in user.
+	 */
+	public User login(String hashedPassword) throws WrongPasswordException, UserAlreadyLoggedInException {
+		if (!hashedPassword.equals(this.hashedPassword))
+			throw new WrongPasswordException();
+		if (isLoggedIn())
+			throw new UserAlreadyLoggedInException(this);
+		loggedIn = true;
+		return this;
+	}
+
+	public User loginAsGuest() throws UserAlreadyLoggedInException, WrongPasswordException {
+		return login(guestPassword);
+	}
+
+	/**
+	 * Logout user and returns a new guest user which is logged in automatically.
+	 * @return new logged in guest user.
+	 * @throws UserNotLoggedInException if user is not logged in.
+	 */
+	public User logout() throws UserNotLoggedInException {
+		if (!isLoggedIn())
+			throw new UserNotLoggedInException();
+		loggedIn = false;
+		User guest = newGuest();
+		try {
+			return guest.loginAsGuest();
+		} catch (UserAlreadyLoggedInException | WrongPasswordException e) {
+			e.printStackTrace();
+			return guest;
+		}
+	}
+
 	public boolean addFriendRequest(FriendRequest request) {
 		return friendRequests.add(request);
 	}
@@ -129,38 +165,6 @@ public class User {
 			return false;
 		banned = true;
 		return true;
-	}
-
-	/**
-	 * Login user and returns itself.
-	 * @return user itself;
-	 * @throws UserAlreadyLoggedInException if user already logged in, exception contains the logged in user.
-	 */
-	public User login(String hashedPassword) throws WrongPasswordException, UserAlreadyLoggedInException {
-		if (!hashedPassword.equals(this.hashedPassword))
-			throw new WrongPasswordException();
-		if (isLoggedIn())
-			throw new UserAlreadyLoggedInException(this);
-		loggedIn = true;
-		return this;
-	}
-
-	/**
-	 * Logout user and returns a new guest user which is logged in automatically.
-	 * @return new logged in guest user.
-	 * @throws UserNotLoggedInException if user is not logged in.
-	 */
-	public User logout() throws UserNotLoggedInException {
-		if (!isLoggedIn())
-			throw new UserNotLoggedInException();
-		loggedIn = false;
-		User guest = newGuest();
-		try {
-			return guest.login(guestPassword);
-		} catch (UserAlreadyLoggedInException | WrongPasswordException e) {
-			e.printStackTrace();
-			return guest;
-		}
 	}
 
 	public boolean unAppoint(SubForum subForum) {
@@ -199,7 +203,7 @@ public class User {
 		return username;
 	}
 
-	public String getCipheredPassword() {
+	public String getHashedPassword() {
 		return hashedPassword;
 	}
 
@@ -260,6 +264,5 @@ public class User {
 				((friendRequests != null) ? ", friendRequests : " + friendRequests : "") +
 				'}';
 	}
-
 
 }

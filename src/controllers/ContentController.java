@@ -25,17 +25,11 @@ public class ContentController {
 	}
 	
 	public static boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
-		if (PolicyHandler.canUserDeleteComment(forum, subForum,user, msg)) {
-			return msg.deleteSelf();	
-		}
-		throw new UserNotAuthorizedException("to delete post.");
+		return msg.deleteSelf();
 	}
 	
 	public static List<SubForum> viewSubForumList(Forum forum,User user) throws UserNotAuthorizedException {
-		if(PolicyHandler.canUserViewSubForums(forum,user)) {
-			return forum.getSubForums();
-		}
-		throw new UserNotAuthorizedException("to view subforum list.");
+		return forum.getSubForums();
 	}
 	
 	public static List<Thread> viewThreads(Forum forum,SubForum subForum,User user) throws UserNotAuthorizedException {
@@ -75,40 +69,30 @@ public class ContentController {
 		return ans;
 	}
 
-	public static Thread openNewThread(Forum forum,SubForum sbfrm, String title,String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
-		if (!PolicyHandler.canUserOpenThread(forum, user)){
-			throw new UserNotAuthorizedException("to open thread.");
-		}
-		if ((title==null || title.equals("")) && (content==null || content.equals("")) ) {	
+	public static Thread openNewThread(Forum forum,SubForum sbfrm, String title,String content, User user) throws EmptyMessageTitleAndBodyException {
+		if ((title == null || title.equals("")) && (content == null || content.equals(""))) {
 			throw new EmptyMessageTitleAndBodyException();
 		}
 		Message openingMsg = new Message(title, content, user, null, null);
 		Thread threadAdd = new Thread(user, openingMsg, sbfrm);
-		if (sbfrm.addThread(threadAdd) ) {
+		if (sbfrm.addThread(threadAdd)) {
 			return threadAdd;
 		}
 		return null;
 	}
 	
-	public static Message reply(Forum forum, Message addTo, String title,String content,User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
-		if (PolicyHandler.canUserReply(forum,user)) {
-			if ((title==null || title.equals("")) && (content==null || content.equals("")) ) {	
-				throw new EmptyMessageTitleAndBodyException();
-			}
-			else {
-				Message comment = new Message(title, content, user, null, addTo);
-				if (addTo.addComment(comment)) {
-					return comment;
-				}
-			}
+	public static Message reply(Forum forum, Message addTo, String title,String content,User user) throws EmptyMessageTitleAndBodyException {
+		if ((title==null || title.equals("")) && (content==null || content.equals("")) ) {
+			throw new EmptyMessageTitleAndBodyException();
 		}
-		throw new UserNotAuthorizedException("to reply.");
+		Message comment = new Message(title, content, user, null, addTo);
+		if (addTo.addComment(comment)) {
+			return comment;
+		}
+		return null;
 	}
 	
-	public static boolean deleteSubForum(Forum forum, SubForum subForum,User user) throws UserNotAuthorizedException {
-		if (!PolicyHandler.canUserDeleteSubForum(forum,user)) {
-			throw new UserNotAuthorizedException("to delete sub forum");
-		}
+	public static boolean deleteSubForum(Forum forum, SubForum subForum,User user) {
 		return forum.deleteSubForum(subForum);
 	}
 	

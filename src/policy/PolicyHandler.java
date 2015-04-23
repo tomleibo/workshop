@@ -1,5 +1,6 @@
 package policy;
 
+import users.FriendRequest;
 import users.User;
 import content.Forum;
 import content.Message;
@@ -80,6 +81,18 @@ public class PolicyHandler {
 	}
 
 	public static boolean canUserChangePolicy(User superAdmin, Forum forum) {
+		return true;
+	}
+
+	public static boolean canUserReplyToFriendRequest(Forum forum, User user, FriendRequest request) {
+		return true;
+	}
+
+	public static boolean canUserReportAdmin(Forum forum, User reporter, User admin) {
+		return true;
+	}
+
+	public static boolean canUserBeDeactivated(User user) {
 		return true;
 	}
 }

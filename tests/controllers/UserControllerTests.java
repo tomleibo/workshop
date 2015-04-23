@@ -1,5 +1,6 @@
 package controllers;
 import content.Forum;
+import exceptions.UserNotAuthorizedException;
 import exceptions.UsernameAlreadyExistsException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,7 +38,7 @@ public class UserControllerTests {
     }
 
     @Test
-    public void test_sendFriendRequest() {
+    public void test_sendFriendRequest() throws UserNotAuthorizedException {
         userController = new UserController();
         User admin = User.newMember("Lior", "1234", "lior@gmail.com");
         User user1 = User.newMember("hadar", "1234", "polad.hadar@gmail.com");
@@ -50,7 +51,7 @@ public class UserControllerTests {
 
 
     @Test
-    public void test_replyToFriendRequest() {
+    public void test_replyToFriendRequest() throws UserNotAuthorizedException {
         userController = new UserController();
         User admin = User.newMember("Lior", "1234", "lior@gmail.com");
         User user1 = User.newMember("hadar", "1234", "polad.hadar@gmail.com");
@@ -59,7 +60,7 @@ public class UserControllerTests {
         forum.addMember(user1);
         forum.addMember(user2);
         FriendRequest fr = new FriendRequest(user1,user2,"hi");
-        userController.replyToFriendRequest(fr, true);
+        userController.replyToFriendRequest(forum, user1, fr, true);
         Assert.assertTrue(user1.getFriends().contains(user2) && user2.getFriends().contains(user1));
     }
 

@@ -60,7 +60,7 @@ public class ContentControllerTests extends TestCase{
 		Thread t=null;
 		try {
 			t = cc.openNewThread(forum,subForum, "Bivan's subForum", "hello i am Bivan", user1);
-		} catch (UserNotAuthorizedException | EmptyMessageTitleAndBodyException e) {
+		} catch (EmptyMessageTitleAndBodyException e) {
 			fail();
 		}
 		assertNotNull(t);
@@ -74,7 +74,7 @@ public class ContentControllerTests extends TestCase{
 		try {
 			t=cc.openNewThread(forum,subForum, "Bivan's subForum", "hello i am Bivan", user1);
 		}
-		catch (UserNotAuthorizedException | EmptyMessageTitleAndBodyException e) {
+		catch (EmptyMessageTitleAndBodyException e) {
 			fail();
 		}
 		cc.deletePost(forum, subForum,user1, t.getOpeningMessage());
@@ -90,7 +90,7 @@ public class ContentControllerTests extends TestCase{
 			Message msg = cc.reply(forum,t.getOpeningMessage(), "comment", "hello", user2);
 			assertEquals(msg, t.getOpeningMessage().getComments().get(0));
 		}
-		catch (UserNotAuthorizedException | EmptyMessageTitleAndBodyException e) {
+		catch (EmptyMessageTitleAndBodyException e) {
 			fail();
 		}
 	}
@@ -145,28 +145,18 @@ public class ContentControllerTests extends TestCase{
 		User user15 = new User(15);
 		SubForum sub2 = new SubForum("sub2", user15, 3);
 		forum.addSubForum(sub2);
-		try {
-			Thread t1 = cc.openNewThread(forum, subForum, "ring", "reeng", user1);
-			Message msg = cc.reply(forum,t1.getOpeningMessage(), "hello", "...", user15);
-			Message msg1 = cc.reply(forum,msg, "ring", "reeng", user1);
-			Message msg2 = cc.reply(forum,msg1, "hel", "hello!", user1);
-			Message msg3 = cc.reply(forum,t1.getOpeningMessage(), "No service", "Available", user15);
-		} catch (UserNotAuthorizedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Thread t1 = cc.openNewThread(forum, subForum, "ring", "reeng", user1);
+		Message msg = cc.reply(forum,t1.getOpeningMessage(), "hello", "...", user15);
+		Message msg1 = cc.reply(forum,msg, "ring", "reeng", user1);
+		Message msg2 = cc.reply(forum,msg1, "hel", "hello!", user1);
+		Message msg3 = cc.reply(forum,t1.getOpeningMessage(), "No service", "Available", user15);
 
+		Thread t2 = cc.openNewThread(forum, sub2, "war", "ha", user1);
+		Message msga = cc.reply(forum,t2.getOpeningMessage(), "hoo", "...", user15);
+		Message msgb = cc.reply(forum,msga, "what", "is", user1);
+		Message msgc = cc.reply(forum,msgb, "it", "good for!", user1);
+		Message msgd = cc.reply(forum,t2.getOpeningMessage(), "obsolutly", "nothing", user15);
 
-		try {
-			Thread t2 = cc.openNewThread(forum, sub2, "war", "ha", user1);
-			Message msga = cc.reply(forum,t2.getOpeningMessage(), "hoo", "...", user15);
-			Message msgb = cc.reply(forum,msga, "what", "is", user1);
-			Message msgc = cc.reply(forum,msgb, "it", "good for!", user1);
-			Message msgd = cc.reply(forum,t2.getOpeningMessage(), "obsolutly", "nothing", user15);
-		} catch (UserNotAuthorizedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		//	System.out.println(sub2.viewThreads().size());
 		//System.out.println(subForum.viewThreads().size());
 
