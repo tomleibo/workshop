@@ -5,12 +5,9 @@ import users.User;
 import content.Forum;
 import content.Message;
 import content.SubForum;
-@SuppressWarnings("unused")
+
 public class PolicyHandler {
-	public PolicyHandler() {
-		// TODO Auto-generated constructor stub
-	}
-	
+
 	public static boolean canUserDeleteComment(Forum forum, SubForum subForum, User user, Message comment) {
 		return true;
 	}
@@ -43,7 +40,6 @@ public class PolicyHandler {
 		return true;
 	}
 
-
 	public static boolean canBanMember(Forum forum, User admin, User member) {
 		return true;
 	}
@@ -64,7 +60,7 @@ public class PolicyHandler {
 		return true;
 	}
 
-	public static boolean canBanUser(SubForum subForum, User moderator,	User member) {
+	public static boolean canUserBanMember(SubForum subForum, User moderator, User member) {
 		return true;
 	}
 

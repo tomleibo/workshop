@@ -106,7 +106,7 @@ public class ContentControllerTests extends TestCase{
 			cc.deletePost(forum, subForum,user2, msg);
 			assertFalse(t.getOpeningMessage().getComments().contains(msg));
 		}
-		catch (UserNotAuthorizedException | EmptyMessageTitleAndBodyException e) {
+		catch (EmptyMessageTitleAndBodyException e) {
 			fail();
 		}
 	}
@@ -120,7 +120,7 @@ public class ContentControllerTests extends TestCase{
 			cc.deletePost(forum,subForum, user2, t.getOpeningMessage());
 			assertFalse(cc.viewThreads(forum,subForum,user1).contains(t));
 		}
-		catch (UserNotAuthorizedException | EmptyMessageTitleAndBodyException e) {
+		catch (EmptyMessageTitleAndBodyException e) {
 			fail();
 		}
 	}
@@ -134,7 +134,7 @@ public class ContentControllerTests extends TestCase{
 			cc.editPost(forum,subForum,user2,t.getOpeningMessage(),"hello");
 			assertTrue(t.getOpeningMessage().getBody().equals("hello"));
 		}
-		catch (UserNotAuthorizedException | EmptyMessageTitleAndBodyException e) {
+		catch (EmptyMessageTitleAndBodyException e) {
 			fail();
 		}
 	}

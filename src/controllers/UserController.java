@@ -62,21 +62,24 @@ public class UserController {
 			return user.logout();
 		throw new UserDoesNotExistsException();
 	}
+
+	public static String viewOwnProfile(User user) {
+		return user.toString();
+	}
 	
 	public static boolean sendFriendRequest(Forum forum, User from, User to, String message) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserHaveFriends(forum, from) & PolicyHandler.canUserHaveFriends(forum, to)) {
 			FriendRequest request = new FriendRequest(from, to, message);
 			return to.addFriendRequest(request);
 		}
-		throw new UserNotAuthorizedException();
+		throw new UserNotAuthorizedException("to send or receive friend request.");
 	}
 	
-	public static boolean removeFriend(User user, User friend) {
-		return friend.deleteFriend(user) && user.deleteFriend(friend);
-	}
-
-	public static String viewOwnProfile(User user) {
-		return user.toString();
+	public static boolean removeFriend(Forum forum, User user, User friend) throws UserNotAuthorizedException {
+		if (PolicyHandler.canUserHaveFriends(forum, user) & PolicyHandler.canUserHaveFriends(forum, friend)) {
+			return friend.deleteFriend(user) && user.deleteFriend(friend);
+		}
+		throw new UserNotAuthorizedException("to remove friends.");
 	}
 	
 	public static boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException {
@@ -88,7 +91,7 @@ public class UserController {
 			}
 			return false;
 		}
-		throw new UserNotAuthorizedException();
+		throw new UserNotAuthorizedException("to reply to friend request.");
 	}
 	
 	public static boolean report(Forum forum, User reporter, User admin, String title, String content) throws UserNotAuthorizedException {
@@ -96,14 +99,14 @@ public class UserController {
 			Report report = new Report(title, content, reporter, admin);
 			return forum.addReport(report) && reporter.addSentReport(report);
 		}
-		throw new UserNotAuthorizedException();
+		throw new UserNotAuthorizedException("to send a report.");
 	}
 
 	public static boolean deactivate(User user) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserBeDeactivated(user)) {
 			return user.deactivate();
 		}
-		throw new UserNotAuthorizedException();
+		throw new UserNotAuthorizedException("to deactivate itself.");
 	}
 
 	public static boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
@@ -128,18 +131,17 @@ public class UserController {
 	}
 
 	public static List<SubForum> viewSubForumList(Forum forum, User user) throws UserNotAuthorizedException {
-		if(PolicyHandler.canUserViewSubForums(forum,user)) {
+		if(PolicyHandler.canUserViewSubForums(forum, user)) {
 			return ContentController.viewSubForumList(forum, user);
 		}
 		throw new UserNotAuthorizedException("to view sub forums list.");
-
 	}
 
-	public static boolean deleteSubForum(Forum forum, SubForum subForum, User user) throws UserNotAuthorizedException {
-		if (PolicyHandler.canUserDeleteSubForum(forum,user)) {
-			return ContentController.deleteSubForum(forum, subForum, user);
+	public static List<Thread> viewThreads(Forum forum, SubForum subForum, User user) throws UserNotAuthorizedException {
+		if (PolicyHandler.canUserViewSubForums(forum, user)) {
+			return ContentController.viewThreads(forum, subForum, user);
 		}
-		throw new UserNotAuthorizedException("to delete sub forum");
+		throw new UserNotAuthorizedException("to view threads.");
 	}
 
 	private static User getUserFromForum(String username, Forum forum) {

@@ -5,9 +5,7 @@ import content.Message;
 import content.SubForum;
 import content.Thread;
 import exceptions.EmptyMessageTitleAndBodyException;
-import exceptions.UserNotAuthorizedException;
 import policy.ForumPolicy;
-import policy.PolicyHandler;
 import users.User;
 
 import java.util.ArrayList;
@@ -17,29 +15,23 @@ import java.util.List;
 
 public class ContentController {
 	
-	public static boolean editPost(Forum forum, SubForum subForum, User user, Message msg, String body) throws UserNotAuthorizedException {
-		if (PolicyHandler.canUserEditComment(forum, subForum, user, msg)) {
-			return msg.edit(body);	
-		}
-		throw new UserNotAuthorizedException("to edit post.");
+	public static boolean editPost(Forum forum, SubForum subForum, User user, Message msg, String body) {
+		return msg.edit(body);
 	}
 	
-	public static boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
+	public static boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) {
 		return msg.deleteSelf();
 	}
 	
-	public static List<SubForum> viewSubForumList(Forum forum,User user) throws UserNotAuthorizedException {
+	public static List<SubForum> viewSubForumList(Forum forum, User user) {
 		return forum.getSubForums();
 	}
 	
-	public static List<Thread> viewThreads(Forum forum,SubForum subForum,User user) throws UserNotAuthorizedException {
-		if(PolicyHandler.canUserViewSubForums(forum,user)) {
-			return subForum.viewThreads();
-		}
-		throw new UserNotAuthorizedException("to view threads.");
+	public static List<Thread> viewThreads(Forum forum, SubForum subForum, User user) {
+		return subForum.viewThreads();
 	}
 	
-	public static List<Message> searchMessages(Forum forum, String title,String content,String memberName, java.sql.Date startDate, java.sql.Date endDate) {
+	public static List<Message> searchMessages(Forum forum, String title, String content, String memberName, java.sql.Date startDate, java.sql.Date endDate) {
 		List<Message> ans = new ArrayList<>();
 		for (SubForum sub : forum.getSubForums()) {
 			for (Thread thread : sub.viewThreads()) {
@@ -49,16 +41,14 @@ public class ContentController {
 		return ans;
 	}
 	
-	private static Collection<? extends Message> getAllMessages(Message openingMessage,Forum forum, String title,
-			String content,String memberName, java.sql.Date startDate, java.sql.Date endDate) {
-		//TODO: delete
-		System.out.println(openingMessage);
+	private static Collection<? extends Message> getAllMessages(Message openingMessage, Forum forum, String title,
+			String content, String memberName, java.sql.Date startDate, java.sql.Date endDate) {
+		// TODO: delete
 		List<Message> ans = new ArrayList<>();
-		if ((title==null ? false : openingMessage.getTitle().startsWith(title)) ||
-				(content==null ? false : openingMessage.getBody().startsWith(content))||
-				(memberName==null ? false : memberName.equals(openingMessage.getUser().getUsername())) ||
-				((startDate==null || endDate==null) ? false : startDate.getTime() < openingMessage.getDate().getTime() && endDate.getTime() > openingMessage.getDate().getTime())
-				) {
+		if ((title != null && openingMessage.getTitle().startsWith(title)) ||
+				(content != null && openingMessage.getBody().startsWith(content))||
+				(memberName != null && memberName.equals(openingMessage.getUser().getUsername())) ||
+				((!(startDate == null || endDate == null)) && startDate.getTime() < openingMessage.getDate().getTime() && endDate.getTime() > openingMessage.getDate().getTime())) {
 			ans.add(openingMessage);
 		}
 		if (openingMessage.getComments() != null) {
@@ -69,19 +59,19 @@ public class ContentController {
 		return ans;
 	}
 
-	public static Thread openNewThread(Forum forum,SubForum sbfrm, String title,String content, User user) throws EmptyMessageTitleAndBodyException {
+	public static Thread openNewThread(Forum forum, SubForum subforum, String title,String content, User user) throws EmptyMessageTitleAndBodyException {
 		if ((title == null || title.equals("")) && (content == null || content.equals(""))) {
 			throw new EmptyMessageTitleAndBodyException();
 		}
 		Message openingMsg = new Message(title, content, user, null, null);
-		Thread threadAdd = new Thread(user, openingMsg, sbfrm);
-		if (sbfrm.addThread(threadAdd)) {
+		Thread threadAdd = new Thread(user, openingMsg, subforum);
+		if (subforum.addThread(threadAdd)) {
 			return threadAdd;
 		}
 		return null;
 	}
 	
-	public static Message reply(Forum forum, Message addTo, String title,String content,User user) throws EmptyMessageTitleAndBodyException {
+	public static Message reply(Forum forum, Message addTo, String title,String content, User user) throws EmptyMessageTitleAndBodyException {
 		if ((title==null || title.equals("")) && (content==null || content.equals("")) ) {
 			throw new EmptyMessageTitleAndBodyException();
 		}
@@ -92,19 +82,16 @@ public class ContentController {
 		return null;
 	}
 	
-	public static boolean deleteSubForum(Forum forum, SubForum subForum,User user) {
+	public static boolean deleteSubForum(Forum forum, SubForum subForum, User user) {
 		return forum.deleteSubForum(subForum);
 	}
 	
 	public static boolean defineProperties(Forum forum, ForumPolicy policy) {
-		String warning = "this method is not tested";
+		// TODO - Method not tested.
 		return forum.setPolicy(policy);
 	}
 	
-	public static SubForum addSubForum(Forum forum, String title, User mod) throws UserNotAuthorizedException {
-		if (!PolicyHandler.canUserAddSubForum(forum, mod)) {
-			throw new UserNotAuthorizedException("to add subForum.");
-		}
+	public static SubForum addSubForum(Forum forum, String title, User mod) {
 		SubForum sub = new SubForum(title, mod, forum.getPolicy().getMaxModerators());
 		if (forum.addSubForum(sub)) {
 			return sub;

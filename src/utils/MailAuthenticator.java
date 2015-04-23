@@ -46,7 +46,6 @@ public class MailAuthenticator {
             //Sending message
             Transport.send(message);
             transport.close();
-
         }catch(Exception ex){
             System.err.println(ex.getMessage());
         }
@@ -72,18 +71,14 @@ public class MailAuthenticator {
                         System.out.println("out!");
                         return true;
                     }
-                    //anything else you want
                 }
                 //close connections
                 folder.close(true);
-
                 store.close();
             } catch (Exception e) {
-                System.err.println(e.getMessage());
+                e.printStackTrace();
             }
         }
-        System.out.println("out!");
         return false;
-
     }
 }
