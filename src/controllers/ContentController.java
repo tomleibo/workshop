@@ -15,19 +15,19 @@ import java.util.List;
 
 public class ContentController {
 	
-	public static boolean editPost(Forum forum, SubForum subForum, User user, Message msg, String body) {
-		return msg.edit(body);
+	public static boolean editPost(Message post, String body) {
+		return post.edit(body);
 	}
 	
-	public static boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) {
-		return msg.deleteSelf();
+	public static boolean deletePost(Message post) {
+		return post.deleteSelf();
 	}
 	
-	public static List<SubForum> viewSubForumList(Forum forum, User user) {
+	public static List<SubForum> viewSubForumList(Forum forum) {
 		return forum.getSubForums();
 	}
 	
-	public static List<Thread> viewThreads(Forum forum, SubForum subForum, User user) {
+	public static List<Thread> viewThreads(SubForum subForum) {
 		return subForum.viewThreads();
 	}
 	
@@ -82,7 +82,7 @@ public class ContentController {
 		return null;
 	}
 	
-	public static boolean deleteSubForum(Forum forum, SubForum subForum, User user) {
+	public static boolean deleteSubForum(Forum forum, SubForum subForum) {
 		return forum.deleteSubForum(subForum);
 	}
 	
@@ -91,8 +91,8 @@ public class ContentController {
 		return forum.setPolicy(policy);
 	}
 	
-	public static SubForum addSubForum(Forum forum, String title, User mod) {
-		SubForum sub = new SubForum(title, mod, forum.getPolicy().getMaxModerators());
+	public static SubForum addSubForum(Forum forum, String title, User moderator) {
+		SubForum sub = new SubForum(title, moderator, forum.getPolicy().getMaxModerators());
 		if (forum.addSubForum(sub)) {
 			return sub;
 		}

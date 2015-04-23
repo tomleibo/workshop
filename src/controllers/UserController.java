@@ -111,7 +111,7 @@ public class UserController {
 
 	public static boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserDeleteComment(forum, subForum, user, msg)) {
-			return ContentController.deletePost(forum, subForum, user, msg);
+			return ContentController.deletePost(msg);
 		}
 		throw new UserNotAuthorizedException("to delete post.");
 	}
@@ -132,14 +132,14 @@ public class UserController {
 
 	public static List<SubForum> viewSubForumList(Forum forum, User user) throws UserNotAuthorizedException {
 		if(PolicyHandler.canUserViewSubForums(forum, user)) {
-			return ContentController.viewSubForumList(forum, user);
+			return ContentController.viewSubForumList(forum);
 		}
 		throw new UserNotAuthorizedException("to view sub forums list.");
 	}
 
 	public static List<Thread> viewThreads(Forum forum, SubForum subForum, User user) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserViewSubForums(forum, user)) {
-			return ContentController.viewThreads(forum, subForum, user);
+			return ContentController.viewThreads(subForum);
 		}
 		throw new UserNotAuthorizedException("to view threads.");
 	}

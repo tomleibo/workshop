@@ -52,7 +52,7 @@ public class AdminController {
 
 	public static boolean deleteSubForum(Forum forum, SubForum subForum, User admin) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserDeleteSubForum(forum, admin)) {
-			return ContentController.deleteSubForum(forum, subForum, admin);
+			return ContentController.deleteSubForum(forum, subForum);
 		}
 		throw new UserNotAuthorizedException("to delete sub forum");
 	}
