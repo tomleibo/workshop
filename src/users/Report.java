@@ -39,7 +39,7 @@ public class Report {
 	@Override
 	public String toString() {
 		String message = "Title: " + title +
-						 "\nTo: " + reported.getUserName() +
+						 "\nTo: " + reported.getUsername() +
 						 "\nContent: " + content;
 		return message;
 	}

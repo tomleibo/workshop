@@ -62,7 +62,7 @@ public class ContentController {
 		List<Message> ans = new ArrayList<>();
 		if ((title==null ? false : openingMessage.getTitle().startsWith(title)) ||
 				(content==null ? false : openingMessage.getBody().startsWith(content))||
-				(memberName==null ? false : memberName.equals(openingMessage.getUser().getUserName())) ||
+				(memberName==null ? false : memberName.equals(openingMessage.getUser().getUsername())) ||
 				((startDate==null || endDate==null) ? false : startDate.getTime() < openingMessage.getDate().getTime() && endDate.getTime() > openingMessage.getDate().getTime())
 				) {
 			ans.add(openingMessage);

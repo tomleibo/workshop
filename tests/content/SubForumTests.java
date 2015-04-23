@@ -16,11 +16,11 @@ public class SubForumTests extends TestCase{
 	@Override
 	@Before
 	protected void setUp() throws Exception {
-		user1 = new User(1);
-		user2= new User(2);
-		user3= new User(3);
-		user4= new User(4);
-		user5= new User(5);
+		user1 = User.newGuest();
+		user2 = User.newGuest();
+		user3 = User.newGuest();
+		user4 = User.newGuest();
+		user5 = User.newGuest();
 		subforum = new SubForum("forum name",user1,3);
 	}
 

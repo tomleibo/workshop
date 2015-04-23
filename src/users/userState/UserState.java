@@ -1,25 +1,24 @@
 package users.userState;
 
+import content.SubForum;
+
 public abstract class UserState {
 
-	private String stateon;
+	private String status;
 
-	public static UserState newState(UserStates type) {
-		switch (type) {
-			case SUPER_ADMIN: return new SuperAdminState();
-			case ADMIN: return new AdminState();
-			case MODERATOR: return new ModeratorState();
-			case MEMBER: return new MemberState();
-			case GUEST: return new GuestState();
-			default: return new MemberState();
-		}
+	public String getStatus() {
+		return status;
 	}
 
-	public Boolean isSuperAdmin(){
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public boolean isSuperAdmin(){
 		return false;
 	}
 
-	public boolean isAdmine(){
+	public boolean isAdmin(){
 		return false;
 	}
 
@@ -35,12 +34,16 @@ public abstract class UserState {
 		return false;
 	}
 
-	public String getStateon() {
-		return stateon;
+	public boolean addManagedSubForum(SubForum subForum) {
+		return false;
 	}
 
-	public void setStateon(String stateon) {
-		this.stateon = stateon;
+	public boolean removeManagedSubForum(SubForum subForum) {
+		return false;
+	}
+
+	public int getNumberOfManagedSubForums() {
+		return -1;
 	}
 
 	@Override

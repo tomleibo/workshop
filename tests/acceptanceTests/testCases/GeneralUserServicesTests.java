@@ -12,7 +12,6 @@ import users.User;
 import content.Message;
 import content.SubForum;
 import content.Thread;
-import users.userState.UserState;
 import users.userState.UserStates;
 
 public class GeneralUserServicesTests extends ForumTests{
@@ -23,7 +22,7 @@ public class GeneralUserServicesTests extends ForumTests{
 	public void beforeTest(){
 		user = registerToForum(forum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 		moderator = registerToForum(forum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
-		moderator.setState(UserState.newState(UserStates.MODERATOR));
+		moderator.setState(UserStates.newState(UserStates.MODERATOR));
 	}
 	
 	@Test
@@ -94,7 +93,7 @@ public class GeneralUserServicesTests extends ForumTests{
 		Date startDate = new Date(0);
 		Date endDate = new Date(System.currentTimeMillis());
 		
-		List<Message> messages = searchMessages(forum, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user.getUserName(), startDate, endDate);
+		List<Message> messages = searchMessages(forum, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user.getUsername(), startDate, endDate);
 		Assert.assertNotNull(messages);
 		Assert.assertFalse(messages.isEmpty());
 	}
@@ -114,7 +113,7 @@ public class GeneralUserServicesTests extends ForumTests{
 		Date startDate = new Date(0);
 		Date endDate = new Date(System.currentTimeMillis());
 		
-		List<Message> messages = searchMessages(forum, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user.getUserName(), startDate, endDate);
+		List<Message> messages = searchMessages(forum, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user.getUsername(), startDate, endDate);
 		Assert.assertTrue(messages.isEmpty());
 		}
 	

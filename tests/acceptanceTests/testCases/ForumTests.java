@@ -1,18 +1,17 @@
 package acceptanceTests.testCases;
 
-import java.util.List;
-
-import junit.framework.TestCase;
-import org.junit.Before;
-
-import policy.ForumPolicy;
-import policy.Policy;
-import users.User;
 import acceptanceTests.bridge.Driver;
 import acceptanceTests.bridge.IForumSystemBridge;
 import content.Forum;
 import content.Message;
 import content.SubForum;
+import junit.framework.TestCase;
+import org.junit.Before;
+import policy.ForumPolicy;
+import policy.Policy;
+import users.User;
+
+import java.util.List;
 
 public class ForumTests extends TestCase{
 	protected IForumSystemBridge driver;
@@ -48,6 +47,10 @@ public class ForumTests extends TestCase{
 		driver = Driver.getDriver();
 	}
 
+	private final String superAdminUsername = "SuperAdmin";
+	private final String superAdminPassword = "";
+	private final String superAdminMail = "";
+
 	protected Forum forum;
 	protected User moderator;
 	protected User superAdmin;
@@ -55,7 +58,7 @@ public class ForumTests extends TestCase{
 
 	@Before
 	public void setUp(){
-		superAdmin = User.getSuperAdmin();
+		superAdmin = User.newSuperAdmin(superAdminUsername, superAdminPassword, superAdminMail);
 		policy = new ForumPolicy(3,".",ForumPolicy.HashFunction.MD5);
 		forum = addForum(FORUM_NAME, superAdmin, policy);
 	}

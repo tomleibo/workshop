@@ -2,18 +2,22 @@ package users.userState;
 
 public class SuperAdminState extends UserState {
 
-    public Boolean isSuperAdmin(){
+    @Override
+    public boolean isSuperAdmin(){
         return true;
     }
 
-    public boolean isAdmine(){
+    @Override
+    public boolean isAdmin(){
         return true;
     }
 
+    @Override
     public boolean isModerator(){
         return true;
     }
 
+    @Override
     public boolean isMember(){
         return true;
     }

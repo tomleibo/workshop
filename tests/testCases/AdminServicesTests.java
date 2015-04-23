@@ -5,7 +5,6 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import users.User;
-import users.userState.UserState;
 import users.userState.UserStates;
 
 
@@ -17,11 +16,11 @@ public class AdminServicesTests extends ForumTests{
 	@Before
 	public void setState(){
 		registerToForum(forum,USER_NAMES[1],USER_PASSES[1]);
-		admin.setState(UserState.newState(UserStates.ADMIN));
+		admin.setState(UserStates.newState(UserStates.ADMIN));
 		admin = loginUser(forum, USER_NAMES[1], USER_PASSES[1]);
 
 		moderator = registerToForum(forum,USER_NAMES[2],USER_PASSES[2]);
-		moderator.setState(UserState.newState(UserStates.MODERATOR));
+		moderator.setState(UserStates.newState(UserStates.MODERATOR));
 	}
 
 	@Test
@@ -51,7 +50,7 @@ public class AdminServicesTests extends ForumTests{
 
 	@Test
 	public void test_cancelSubForum_UnAuthorizedUser() {
-		admin.setState(UserState.newState(UserStates.GUEST));
+		admin.setState(UserStates.newState(UserStates.GUEST));
 		SubForum sf1 = addSubForum(forum, SUB_FORUM_NAMES[0], moderator);
 
 		boolean result = cancelSubForum(forum, sf1, admin);

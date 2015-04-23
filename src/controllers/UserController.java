@@ -20,21 +20,21 @@ import java.util.Properties;
 
 public class UserController {
 
-	String host ="imap.gmail.com"; //for imap protocol
-	String userName = "sadnase2015@gmail.com";
-	String password = "sadna2015";
+	private String host ="imap.gmail.com"; //for imap protocol
+	private String userName = "sadnase2015@gmail.com";
+	private String password = "sadna2015";
 
-	public User login(Forum forum, String username, String password) throws NoSuchAlgorithmException {
+	public User login(Forum forum, String username, String password) throws NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, WrongPasswordException {
 		User user = getUserFromForum(username, forum);
 		if (user == null)
+			throw new UserDoesNotExistsException();
+		if (!user.getCipheredPassword().equals(Cipher.hashString(password, Cipher.SHA)))
 			return null;
-		if (!user.getCipheredPassword().equals(Cipher.cipherString(password, "SHA")))
-			return null;
-		return user;
+		return user.login(Cipher.hashString(password, Cipher.SHA));
 	}
 
 	public User enterAsGuest(Forum forum) {
-		return User.newGuestUser();
+		return User.newGuest();
 	}
 	
 	public User logout(Forum forum, String username) throws UserDoesNotExistsException, UserNotLoggedInException {
@@ -47,7 +47,7 @@ public class UserController {
 	public User register(Forum forum, String username, String password, String emailAddr) throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
 		if (getUserFromForum(username, forum) != null)
 			throw new UsernameAlreadyExistsException("Username: " + username + " already exists in forum: " + forum.getName() + ".");
-		User newUser = new User(username, Cipher.cipherString(password, "SHA"), emailAddr);
+		User newUser = User.newMember(username, Cipher.hashString(password, Cipher.SHA), emailAddr);
 		sendVerificationMail(emailAddr, username);
 		if(authorizedMailIncome(emailAddr)) {
 			forum.addMember(newUser);
@@ -113,7 +113,7 @@ public class UserController {
 	private User getUserFromForum(String username, Forum forum) {
 		List<User> members = forum.getMembers();
 		for (User member : members) {
-			if (member.getUserName().equals(username))
+			if (member.getUsername().equals(username))
 				return member;
 		}
 		return null;

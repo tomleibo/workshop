@@ -7,24 +7,33 @@ import java.util.List;
 
 public class ModeratorState extends UserState {
 
-    private List<SubForum> subForums;
+    private List<SubForum> managedSubForumsList;
 
     public ModeratorState() {
-        this.subForums = new ArrayList<>();
+        this.managedSubForumsList = new ArrayList<>();
     }
 
-    public boolean addSubForum(SubForum subForum) {
-        return subForums.add(subForum);
+    @Override
+    public boolean addManagedSubForum(SubForum subForum) {
+        return managedSubForumsList.add(subForum);
     }
 
-    public boolean removeSubForum(SubForum subForum) {
-        return subForums.remove(subForum);
+    @Override
+    public boolean removeManagedSubForum(SubForum subForum) {
+        return managedSubForumsList.remove(subForum);
     }
 
+    @Override
+    public int getNumberOfManagedSubForums() {
+        return managedSubForumsList.size();
+    }
+
+    @Override
     public boolean isModerator(){
         return true;
     }
 
+    @Override
     public boolean isMember(){
         return true;
     }

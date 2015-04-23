@@ -23,7 +23,7 @@ public class ContentControllerTests extends TestCase{
 	@Override
 	@Before
 	protected void setUp() throws Exception {
-		user1 = new User();
+		user1 = User.newGuest();
 		subForum = new SubForum("forum name",user1,3);
 		policy = new ForumPolicy(3,".",ForumPolicy.HashFunction.MD5,false);
 		forum = new Forum(user1, policy, "olamHaNextShelTom");
@@ -83,7 +83,7 @@ public class ContentControllerTests extends TestCase{
 
 	@Test
 	public void testReply() {
-		User user2 = new User();
+		User user2 = User.newGuest();
 		Thread t  =null;
 		try {
 			t=cc.openNewThread(forum,subForum, "Charlie", "ring ring", user1);
@@ -97,7 +97,7 @@ public class ContentControllerTests extends TestCase{
 
 	@Test
 	public void testReplyAndRemoval() {
-		User user2 = new User();
+		User user2 = User.newGuest();
 		Thread t  =null;
 		try {
 			t=cc.openNewThread(forum,subForum, "Charlie", "ring ring", user1);
@@ -113,7 +113,7 @@ public class ContentControllerTests extends TestCase{
 
 	@Test
 	public void testRemovalOfOpeningMsgRemovesThreadFromSubforum() {
-		User user2 = new User();
+		User user2 = User.newGuest();
 		Thread t  =null;
 		try {
 			t=cc.openNewThread(forum,subForum, "Charlie", "ring ring", user1);
@@ -127,7 +127,7 @@ public class ContentControllerTests extends TestCase{
 
 	@Test
 	public void testEditPost() {
-		User user2 = new User();
+		User user2 = User.newGuest();
 		Thread t  =null;
 		try {
 			t=cc.openNewThread(forum,subForum, "Charlie", "ring ring", user1);

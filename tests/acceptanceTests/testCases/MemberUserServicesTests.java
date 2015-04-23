@@ -1,21 +1,23 @@
 package acceptanceTests.testCases;
 
-import java.util.List;
-
 import content.Forum;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import policy.ForumPolicy;
-import users.User;
 import content.Message;
 import content.SubForum;
 import content.Thread;
-import users.userState.UserState;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import policy.ForumPolicy;
+import users.User;
 import users.userState.UserStates;
 
+import java.util.List;
+
 public class MemberUserServicesTests extends ForumTests {
+
+	private final String superAdminUsername = "SuperAdmin";
+	private final String superAdminPassword = "";
+	private final String superAdminMail = "";
 
 	User user;
 	
@@ -23,7 +25,7 @@ public class MemberUserServicesTests extends ForumTests {
 	public void register(){
 		user = registerToForum(forum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 		moderator = registerToForum(forum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
-		moderator.setState(UserState.newState(UserStates.MODERATOR));
+		moderator.setState(UserStates.newState(UserStates.MODERATOR));
 	}
 	
 	@Test
@@ -148,7 +150,7 @@ public class MemberUserServicesTests extends ForumTests {
 
 	@Test
 	public void test_reportModerator_DifferentForum() {
-		Forum otherForum = addForum("Other Forum", User.getSuperAdmin(), new ForumPolicy(10, ".", ForumPolicy.HashFunction.MD5));
+		Forum otherForum = addForum("Other Forum", User.newSuperAdmin(superAdminUsername, superAdminPassword, superAdminMail), new ForumPolicy(10, ".", ForumPolicy.HashFunction.MD5));
 		user = loginUser(forum, USER_NAMES[0], USER_PASSES[0]);
 		boolean result = reportModeratorInForum(otherForum, user, moderator, REPORT_TITLES[0], REPORT_CONTENTS[0]);
 		Assert.assertFalse(result);

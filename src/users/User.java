@@ -1,7 +1,9 @@
 package users;
 
 import content.SubForum;
+import exceptions.UserAlreadyLoggedInException;
 import exceptions.UserNotLoggedInException;
+import exceptions.WrongPasswordException;
 import users.userState.*;
 import utils.IdGenerator;
 
@@ -12,14 +14,15 @@ import java.util.Set;
 
 public class User {
 
-	private static final Object superAdminLock = new Object();
-	private static User superAdmin;
+	private static String guestUsername = "Guest";
+	private static String guestPassword = "";
+	private static String guestMail = "";
 
-	private int id;
-	private String userName;
+	private final int id;
+	private final String username;
 	private String emailAddress;
 	private String hashedPassword;
-	private java.sql.Date registrationDate;
+	private java.sql.Date creationDate;
 
 	private UserState state;
 
@@ -35,77 +38,71 @@ public class User {
 	/**
 	 * Constructor for testing.
 	 */
-	public User() {
-		this.id = IdGenerator.getId(IdGenerator.USER);
-		this.userName = "" + id;
-		this.state = new GuestState();
-		active = true;
-		banned = false;
-		loggedIn = false;
-	}
-
-	/**
-	 * Constructor for testing.
-	 */
 	public User(int i) {
 		this.id = i;
-		this.userName = "" + id;
+		this.username = "" + id;
 		this.state = new GuestState();
-		active = true;
-		banned = false;
-		loggedIn = false;
+		initializeUser();
 	}
 
 	/**
-	 * Constructor for an empty user with only state.
-	 * @param state UserState to initialize user with.
-	 */
-	private User(UserState state) {
-		this.id = IdGenerator.getId(IdGenerator.USER);
-		this.userName = "Guest" + id;
-		this.state = state;
-		initializeFlags();
-	}
-
-	/**
-	 * Creates a new User with member state.
+	 * Creates a new User with given arguments.
 	 * @param username String representing the username.
 	 * @param hashedPassword String representing the hashed password.
 	 * @param emailAddress String representing the user's email address.
+	 * @param state UserState for the created user.
 	 */
-	public User(String username, String hashedPassword, String emailAddress) {
+	private User(String username, String hashedPassword, String emailAddress, UserState state) {
 		this.id = IdGenerator.getId(IdGenerator.USER);
-		this.userName = username;
+		if (state.isGuest())
+			this.username = username + id;
+		else
+			this.username = username;
 		this.hashedPassword = hashedPassword;
-		this.state = new MemberState();
+		this.state = state;
 		this.emailAddress = emailAddress;
 		friends = new HashSet<>();
 		friendRequests = new ArrayList<>();
 		pendingNotifications = new  ArrayList<>();
 		sentReports = new ArrayList<>();
-		initializeFlags();
+		initializeUser();
 	}
 
-	private void initializeFlags() {
+	private void initializeUser() {
 		active = true;
 		banned = false;
 		loggedIn = false;
-		registrationDate = new java.sql.Date(System.currentTimeMillis());
+		creationDate = new java.sql.Date(System.currentTimeMillis());
 	}
 
-	public static User newGuestUser() {
-		return new User(UserState.newState(UserStates.GUEST));
+	/**
+	 * Returns a new guest user.
+	 * @return User with Guest state.
+	 */
+	public static User newGuest() {
+		return new User(guestUsername, guestPassword, guestMail, UserStates.newState(UserStates.GUEST));
 	}
 
-	public static User getSuperAdmin() {
-		if (superAdmin == null) {
-			synchronized (superAdminLock) {
-				if (superAdmin == null) {
-					superAdmin = new User(UserState.newState(UserStates.SUPER_ADMIN));
-				}
-			}
-		}
-		return superAdmin;
+	/**
+	 * returns new super admin with given credentials.
+	 * @param username String representing the username.
+	 * @param hashedPassword String representing the hashed password.
+	 * @param emailAddress String representing the user's email address.
+	 * @return User with Member state.
+	 */
+	public static User newMember(String username, String hashedPassword, String emailAddress) {
+		return new User(username, hashedPassword, emailAddress, UserStates.newState(UserStates.MEMBER));
+	}
+
+	/**
+	 * returns new super admin with given credentials.
+	 * @param username String representing the username.
+	 * @param hashedPassword String representing the hashed password.
+	 * @param emailAddress String representing the user's email address.
+	 * @return User with Super-Admin state.
+	 */
+	public static User newSuperAdmin(String username, String hashedPassword, String emailAddress) {
+		return new User(username, hashedPassword, emailAddress, UserStates.newState(UserStates.SUPER_ADMIN));
 	}
 
 	public boolean addFriendRequest(FriendRequest request) {
@@ -134,32 +131,55 @@ public class User {
 		return true;
 	}
 
+	/**
+	 * Login user and returns itself.
+	 * @return user itself;
+	 * @throws UserAlreadyLoggedInException if user already logged in, exception contains the logged in user.
+	 */
+	public User login(String hashedPassword) throws WrongPasswordException, UserAlreadyLoggedInException {
+		if (!hashedPassword.equals(this.hashedPassword))
+			throw new WrongPasswordException();
+		if (isLoggedIn())
+			throw new UserAlreadyLoggedInException(this);
+		loggedIn = true;
+		return this;
+	}
+
+	/**
+	 * Logout user and returns a new guest user which is logged in automatically.
+	 * @return new logged in guest user.
+	 * @throws UserNotLoggedInException if user is not logged in.
+	 */
 	public User logout() throws UserNotLoggedInException {
 		if (!isLoggedIn())
 			throw new UserNotLoggedInException();
 		loggedIn = false;
-		return newGuestUser();
-	}
-
-	public boolean login() {
-		if(isLoggedIn())
-			return false;
-		loggedIn = true;
-		return true;
+		User guest = newGuest();
+		try {
+			return guest.login(guestPassword);
+		} catch (UserAlreadyLoggedInException | WrongPasswordException e) {
+			e.printStackTrace();
+			return guest;
+		}
 	}
 
 	public boolean unAppoint(SubForum subForum) {
-		if(state.isModerator()){
-			return ((ModeratorState)state).removeSubForum(subForum);
+		if (state.isModerator()) {
+			boolean result = state.removeManagedSubForum(subForum);
+			if (result & (state.getNumberOfManagedSubForums() == 0))
+				setState(UserStates.newState(UserStates.MEMBER));
+			return result;
 		}
 		return false;
 	}
 
 	public boolean appoint(SubForum subForum) {
-		if(state.isModerator()){
-			return ((ModeratorState)state).addSubForum(subForum);
+		if (state.isModerator()) {
+			return state.addManagedSubForum(subForum);
+		} else {
+			setState(UserStates.newState(UserStates.MODERATOR));
+			return state.addManagedSubForum(subForum);
 		}
-		return false;
 	}
 
 	public boolean banModerator() {
@@ -171,8 +191,12 @@ public class User {
 		return loggedIn;
 	}
 
-	public String getUserName() {
-		return userName;
+	public int getId() {
+		return id;
+	}
+
+	public String getUsername() {
+		return username;
 	}
 
 	public String getCipheredPassword() {
@@ -188,8 +212,8 @@ public class User {
 	}
 
 	public void setState(UserState state) {
-		String stateon = this.state.getStateon();
-		state.setStateon(stateon);
+		String status = this.state.getStatus();
+		state.setStatus(status);
 		this.state = state;
 	}
 
@@ -210,7 +234,7 @@ public class User {
 
 		if (id != user.id) return false;
 		if (state != null ? !state.equals(user.state) : user.state != null) return false;
-		if (userName != null ? !userName.equals(user.userName) : user.userName != null) return false;
+		if (username != null ? !username.equals(user.username) : user.username != null) return false;
 		if (hashedPassword != null ? !hashedPassword.equals(user.hashedPassword) : user.hashedPassword != null)
 			return false;
 		return !(emailAddress != null ? !emailAddress.equals(user.emailAddress) : user.emailAddress != null);
@@ -221,7 +245,7 @@ public class User {
 	public int hashCode() {
 		int result = id;
 		result = 31 * result + (state != null ? state.hashCode() : 0);
-		result = 31 * result + (userName != null ? userName.hashCode() : 0);
+		result = 31 * result + (username != null ? username.hashCode() : 0);
 		result = 31 * result + (hashedPassword != null ? hashedPassword.hashCode() : 0);
 		result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
 		return result;
@@ -230,7 +254,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User{" +
-				"userName : '" + userName + '\'' +
+				"username : '" + username + '\'' +
 				", state : " + state +
 				((pendingNotifications != null) ? (", pendingNotifications : " + pendingNotifications) : "") +
 				((friendRequests != null) ? ", friendRequests : " + friendRequests : "") +

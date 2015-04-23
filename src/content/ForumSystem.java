@@ -34,7 +34,7 @@ public class ForumSystem {
     }
 
     public User getSuperAdmin(String username, String cipheredPassword) throws UserNotAuthorizedException {
-        if (superAdmin.getUserName().equals(username) && superAdmin.getCipheredPassword().equals(cipheredPassword))
+        if (superAdmin.getUsername().equals(username) && superAdmin.getCipheredPassword().equals(cipheredPassword))
             return superAdmin;
         throw new UserNotAuthorizedException("Not authorized");
     }

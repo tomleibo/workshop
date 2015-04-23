@@ -14,6 +14,11 @@ import users.User;
 import java.util.List;
 
 public class ForumTests extends TestCase{
+
+	private final String superAdminUsername = "SuperAdmin";
+	private final String superAdminPassword = "";
+	private final String superAdminMail = "";
+
 	protected IForumSystemBridge driver;
 	public static final String FORUM_NAME = "YNET";
 	public static final String[] FORUM_NAMES = {"YNET"};
@@ -53,7 +58,7 @@ public class ForumTests extends TestCase{
 
 	@Before
 	public void setUp(){
-		superAdmin = User.getSuperAdmin();
+		superAdmin = User.newSuperAdmin(superAdminUsername, superAdminPassword, superAdminMail);
 		policy = new ForumPolicy(3,".",ForumPolicy.HashFunction.MD5,false);
 		forum = addForum(FORUM_NAME, superAdmin, policy);
 	}
