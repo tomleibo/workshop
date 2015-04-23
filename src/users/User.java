@@ -153,6 +153,13 @@ public class User {
 		return friends.remove(user);
 	}
 
+	public boolean activate() {
+		if (active)
+			return false;
+		active = true;
+		return true;
+	}
+
 	public boolean deactivate() {
 		if (!active)
 			return false;
@@ -160,8 +167,15 @@ public class User {
 		return true;
 	}
 
+	public boolean unBanUser() {
+		if (!banned)
+			return false;
+		banned = false;
+		return true;
+	}
+
 	public boolean banUser() {
-		if(banned)
+		if (banned)
 			return false;
 		banned = true;
 		return true;
@@ -193,6 +207,14 @@ public class User {
 
 	public boolean isLoggedIn() {
 		return loggedIn;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public boolean isBanned() {
+		return banned;
 	}
 
 	public int getId() {

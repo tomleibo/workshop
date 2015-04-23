@@ -13,7 +13,7 @@ public class Report {
 		this.content = content;
 		this.reporter = reporter;
 		this.reported = reported;
-		date = new java.sql.Date(System.currentTimeMillis());
+		this.date = new java.sql.Date(System.currentTimeMillis());
 	}
 
 	public String getTitle() {
