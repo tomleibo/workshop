@@ -3,10 +3,10 @@ package content;
 import exceptions.ForumSystemAlreadyExistsException;
 import exceptions.ForumSystemNotExistsException;
 import exceptions.UserNotAuthorizedException;
+import policy.UserStatusPolicy;
 import users.User;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ForumSystem {
 
@@ -14,10 +14,12 @@ public class ForumSystem {
 
     User superAdmin;
     List<Forum> forums;
+    Map<String, UserStatusPolicy> userStatusTypes;
 
     private ForumSystem(User superAdmin) {
         this.superAdmin = superAdmin;
         this.forums = new ArrayList<>();
+        this.userStatusTypes = new HashMap<>();
     }
 
     public static synchronized ForumSystem newForumSystem(User superAdmin) throws ForumSystemAlreadyExistsException {
@@ -45,5 +47,24 @@ public class ForumSystem {
 
     public boolean removeForum(Forum forum) {
         return forums.remove(forum);
+    }
+
+    public boolean addUserStatusType(String type, UserStatusPolicy userStatusPolicy){
+        if(userStatusTypes.put(type, userStatusPolicy) != null)
+            return true;
+        return false;
+    }
+
+    public boolean removeUserStatusType(String type){
+        for(Forum forum:forums){
+            for(User user: forum.getMembers()) {
+                if(user.getState().getStatus().equals(type)){
+                    user.getState().setStatus("");
+                }
+            }
+        }
+        if(userStatusTypes.remove(type)!=null)
+            return true;
+        return false;
     }
 }

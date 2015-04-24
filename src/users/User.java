@@ -35,6 +35,9 @@ public class User {
 	private List<FriendRequest> friendRequests;
 	private List<Report> sentReports;
 
+	private int  seniority;
+	private long loginTime;
+
 	/**
 	 * Constructor for testing.
 	 */
@@ -249,6 +252,14 @@ public class User {
 
 	public Set<User> getFriends(){
 		return friends;
+	}
+
+	public int getSeniority(){
+		return seniority;
+	}
+
+	public long getLoginTime(){
+		return loginTime;
 	}
 
 	@Override
