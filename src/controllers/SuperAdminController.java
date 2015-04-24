@@ -6,6 +6,7 @@ import content.Message;
 import exceptions.UserNotAuthorizedException;
 import policy.ForumPolicy;
 import policy.PolicyHandler;
+import policy.UserStatusPolicy;
 import users.User;
 import utils.Cipher;
 
@@ -14,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 public class SuperAdminController {
 
 	public Forum createNewForum(User superAdmin, ForumPolicy policy, String name) throws UserNotAuthorizedException {
-		if (PolicyHandler.canUserAddSubForum(superAdmin)) {
+		if (PolicyHandler.canUserAddForum(superAdmin)) {
 			Forum forum = new Forum(superAdmin, policy, name);
 			ForumSystem.getInstance().addForum(forum);
 			return forum;
@@ -42,6 +43,14 @@ public class SuperAdminController {
 	public ForumSystem initializeForumSystem(String username, String password, String email) throws NoSuchAlgorithmException {
 		User superAdmin = User.newSuperAdmin(username, Cipher.hashString(password, Cipher.SHA), email);
 		return ForumSystem.newForumSystem(superAdmin);
+	}
+
+	public boolean addUserStatusType(String type, UserStatusPolicy userStatusPolicy){
+		return ForumSystem.getInstance().addUserStatusType(type, userStatusPolicy);
+	}
+
+	public boolean removeUserStatusType(String type){
+		return ForumSystem.getInstance().removeUserStatusType(type);
 	}
 
 }

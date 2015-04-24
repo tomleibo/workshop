@@ -36,12 +36,7 @@ public class AdminController {
 			return subForum.changeModerator(oldModerator, newModerator) && newModerator.appoint(subForum) && oldModerator.unAppoint(subForum);
 		throw new UserNotAuthorizedException ("to replace moderator");
 	}
-	
-	public static boolean banMember(Forum forum, User admin, User member) throws UserNotAuthorizedException {
-		if (PolicyHandler.canBanMember(forum, admin, member))
-			return member.banUser();
-		throw new UserNotAuthorizedException ("to ban member");
-	}
+
 
 	public static SubForum addSubForum(Forum forum, String title, User admin) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserAddSubForum(forum, admin)) {

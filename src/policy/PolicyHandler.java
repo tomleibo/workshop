@@ -9,86 +9,121 @@ import content.SubForum;
 public class PolicyHandler {
 
 	public static boolean canUserDeleteComment(Forum forum, SubForum subForum, User user, Message comment) {
-		return true;
+		//For now only the user who wrote the message can delete it, but it can change by forumPolicy.
+		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && comment.getUser().equals(user) && !(user.getState().isGuest()) && user.isActive())
+			return true;
+		return false;
 	}
 
 	public static boolean canUserEditComment(Forum forum, SubForum subForum, User user, Message msg) {
-		// TODO Auto-generated method stub
-		return true;
+		//For now only the user who wrote the message can edit it, but it can change by forumPolicy.
+		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && msg.getUser().equals(user) && !(user.getState().isGuest()) && user.isActive())
+			return true;
+		return false;
 	}
 	
 	public static boolean canUserOpenThread(Forum forum, User user) {
-		return true;
+		if(forum.getMembers().contains(user) && !(user.getState().isGuest()) && user.isActive())
+			return true;
+		return false;
+
 	}
 
 	public static boolean canUserViewSubForums(Forum forum, User user) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
-	public static boolean canUserDeleteSubForum(Forum forum, User user) {
-		// TODO Auto-generated method stub
-		return true;
+	public static boolean canUserDeleteSubForum(Forum forum, User admin) {
+		if(forum.getSuperAdmin().equals(admin))
+			return true;
+		return false;
 	}
 
-	public static boolean canUserAddSubForum(Forum forum, User mod) {
-		// TODO Auto-generated method stub
-		return true;
+	public static boolean canUserAddSubForum(Forum forum, User admin) {
+		if(forum.getSuperAdmin().equals(admin))
+			return true;
+		return false;
 	}
 	
-	public static boolean canBanModerator(Forum forum, SubForum sub, User admin, User mod) {
-		return true;
-	}
-
-	public static boolean canBanMember(Forum forum, User admin, User member) {
-		return true;
+	public static boolean canBanModerator(Forum forum, SubForum subForum, User admin, User mod) {
+		if(forum.getSubForums().contains(subForum) && forum.getSuperAdmin().equals(admin) && subForum.getModerators().contains(mod))
+			return true;
+		return false;
 	}
 
 	public static boolean canReplaceModerator(Forum forum, SubForum subForum, User admin, User oldModerator, User newModerator) {
-		return true;
+		if(subForum.getModerators().contains(oldModerator) && canAppointModerator(forum, subForum, admin, newModerator))
+			return true;
+		return false;
 	}
 
 	public static boolean canUnAppointModerator(Forum forum, SubForum subForum, User admin, User moderator) {
-		return true;
+		//and depends on ForumPolicy
+		if(forum.getSubForums().contains(subForum) && forum.getSuperAdmin().equals(admin))
+			return true;
+		return  false;
+
 	}
 
 	public static boolean canAppointModerator(Forum forum, SubForum subForum, User admin, User moderator) {
-		return true;
+		if(forum.getSubForums().contains(subForum) && forum.getSuperAdmin().equals(admin) && moderator.isActive())
+			return true;
+		return  false;
 	}
 
-	public static boolean canUserHaveFriends(Forum forum, User from) {
-		return true;
+	public static boolean canUserHaveFriends(Forum forum, User user) {
+		if(!user.getState().isGuest())
+			return true;
+		return false;
 	}
 
 	public static boolean canUserBanMember(SubForum subForum, User moderator, User member) {
-		return true;
+		if(subForum.getModerators().contains(moderator) && !member.getState().isGuest() && moderator.isActive())
+			return true;
+		return false;
+
 	}
 
 	public static boolean canUserReply(Forum forum, User user) {
-		return true;
+		if(user.isActive() && !user.getState().isGuest())
+			return true;
+		return false;
 	}
 
-	public static boolean canUserAddSubForum(User superAdmin) {
-		return true;
+	public static boolean canUserAddForum(User superAdmin) {
+		if(superAdmin.getState().isSuperAdmin())
+			return true;
+		return false;
+
 	}
 
 	public static boolean canReplaceAdmin(User superAdmin, Forum forum, User admin) {
-		return true;
+		if(forum.getSuperAdmin().equals(superAdmin))
+			return true;
+		return false;
 	}
 
 	public static boolean canUserChangePolicy(User superAdmin, Forum forum) {
-		return true;
+		if(forum.getSuperAdmin().equals(superAdmin))
+			return true;
+		return false;
 	}
 
 	public static boolean canUserReplyToFriendRequest(Forum forum, User user, FriendRequest request) {
-		return true;
+		if(!user.getState().isGuest() && user.isActive())
+			return true;
+		return false;
 	}
 
 	public static boolean canUserReportAdmin(Forum forum, User reporter, User admin) {
-		return true;
+		if(!reporter.getState().isGuest() && reporter.isActive() && forum.getMembers().contains(reporter) && forum.getSuperAdmin().equals(admin))
+			return true;
+		return false;
 	}
 
 	public static boolean canUserBeDeactivated(User user) {
-		return true;
+		if(!user.getState().isGuest())
+			return true;
+		return false;
 	}
 }
