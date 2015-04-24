@@ -3,10 +3,12 @@ package acceptanceTests.bridge;
 import content.*;
 import content.Thread;
 import controllers.*;
+import exceptions.*;
 import policy.ForumPolicy;
 import policy.Policy;
 import users.User;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
 
@@ -30,8 +32,8 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public List<SubForum> showSubForumList(Forum forum) {
-        return null;
+    public List<SubForum> showSubForumList(Forum forum, User user) throws UserNotAuthorizedException {
+        return UserController.viewSubForumList(forum,user);
     }
 
     @Override
@@ -45,33 +47,33 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public Forum addForum(String title, User superAdmin, Policy policy) {
-        return null;
+    public Forum addForum(String title, User superAdmin, ForumPolicy policy) throws UserNotAuthorizedException {
+        return SuperAdminController.createNewForum(superAdmin, policy, title);
     }
 
     @Override
-    public Message replyToMessage(Message addTo, String title, String content, User user) {
-        return null;
+    public Message replyToMessage(Forum forum, Message addTo, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
+        return UserController.reply(forum, addTo, title, content, user);
     }
 
     @Override
-    public User registerGuest(Forum forum, String user, String hashedPass, String emailAddress) {
-        return null;
+    public User registerToForum(Forum forum, String user, String pass, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
+        return UserController.register(forum, user, pass, emailAddress);
     }
 
     @Override
-    public User loginUser(Forum forum, String user, String pass) {
-        return null;
+    public User loginUser(Forum forum, String user, String pass) throws NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException {
+        return UserController.login(forum, user, pass);
     }
 
     @Override
-    public boolean logoffUser(Forum forum, User user) {
-        return false;
+    public User logoffUser(Forum forum, User user) throws UserDoesNotExistsException, UserNotLoggedInException {
+        return UserController.logout(forum, user.getUsername());
     }
 
     @Override
-    public Thread openThread(SubForum sbfrm, String title, String content, User user) {
-        return null;
+    public Thread openThread(Forum forum, SubForum subForum, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
+        return UserController.openNewThread(forum, subForum, title, content, user);
     }
 
     @Override
@@ -80,8 +82,8 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean deletePost(Forum forum, User user, Message msg) {
-        return false;
+    public boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
+        return UserController.deletePost(forum, subForum, user, msg);
     }
 
     @Override
@@ -115,18 +117,18 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean appointNewAdmin(Forum forum, User admin) {
+    public boolean appointNewAdmin(Forum forum, User superAdmin, User admin) {
         return false;
     }
 
     @Override
-    public SubForum addSubForum(Forum forum, String title, User mod) {
-        return null;
+    public SubForum addSubForum(Forum forum, String title, User admin) throws UserNotAuthorizedException {
+        return AdminController.addSubForum(forum,title, admin);
     }
 
     @Override
-    public boolean appointNewModerator(SubForum subForum, User newModerator) {
-        return false;
+    public boolean appointNewModerator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException {
+        return AdminController.appointModerator(forum, subForum, admin, newModerator);
     }
 
     @Override
@@ -150,8 +152,8 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean initializeForumSystem(String user, String pass, String emailAddress) {
-        return false;
+    public ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
+        return SuperAdminController.initializeForumSystem(user, pass, emailAddress);
     }
 
     @Override
@@ -160,8 +162,8 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean changeForumPolicy(Forum forum, ForumPolicy policy) {
-        return false;
+    public boolean changeForumPolicy(Forum forum, ForumPolicy policy, User superAdmin) throws UserNotAuthorizedException {
+        return SuperAdminController.changeForumPolicy(superAdmin, forum, policy);
     }
 
     @Override
@@ -175,23 +177,18 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean defineProperties(Forum forum, ForumPolicy policy) {
-        return false;
-    }
-
-    @Override
     public User enterAsGuest(Forum forum) {
-        return null;
+        return UserController.enterAsGuest(forum);
     }
 
     @Override
-    public boolean reportModeratorInForum(Forum forum, User reporter, User admin, String title, String content) {
-        return false;
+    public boolean reportModeratorInForum(Forum forum, User reporter, User moderator, String title, String content) throws UserNotAuthorizedException {
+        return UserController.report(forum, reporter, moderator, title, content);
     }
 
     @Override
-    public boolean deleteSubForum(Forum forum, SubForum subForum, User user) {
-        return false;
+    public boolean deleteSubForum(Forum forum, SubForum subForum, User user) throws UserNotAuthorizedException {
+        return AdminController.deleteSubForum(forum, subForum, user);
     }
 }
 

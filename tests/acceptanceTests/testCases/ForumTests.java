@@ -3,20 +3,21 @@ package acceptanceTests.testCases;
 import acceptanceTests.bridge.Driver;
 import acceptanceTests.bridge.IForumSystemBridge;
 import content.Forum;
+import content.ForumSystem;
 import content.Message;
 import content.SubForum;
+import exceptions.*;
 import junit.framework.TestCase;
 import org.junit.Before;
 import policy.ForumPolicy;
-import policy.Policy;
 import users.User;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class ForumTests extends TestCase{
 	protected IForumSystemBridge driver;
-	public static final String FORUM_NAME = "YNET";
-	public static final String[] FORUM_NAMES = {"YNET"};
+	public static final String[] FORUM_NAMES = {"YNET", "FXP", "StackOverFlow"};
 	public static final String[] SUB_FORUM_NAMES = {"Games", "Nature", "Physics"};
 	public static final String[] USER_NAMES = {"Dani", "John", "Joe"};
 	public static final String[] USER_PASSES = {"DaniDaKing", "JohnDoe", "BazookaJoe"};
@@ -39,7 +40,7 @@ public class ForumTests extends TestCase{
 
 	public static final String[] REPORT_TITLES = {"Mehdal!", "Outrageous!", "OMG!"};
 
-	public static final String[] REPORT_CONTENTS = {"Hazia Vara'am!!",
+	public static final String[] REPORT_CONTENTS = {"Haziz Vara'am!!",
 			"I want to see you behind bars!",
 			"I know what you did last summer"};
 
@@ -47,32 +48,37 @@ public class ForumTests extends TestCase{
 		driver = Driver.getDriver();
 	}
 
-	private final String superAdminUsername = "SuperAdmin";
-	private final String superAdminPassword = "";
-	private final String superAdminMail = "";
+	protected final String superAdminUsername = "SuperAdmin";
+	protected final String superAdminPassword = "";
+	protected final String superAdminMail = "";
 
-	protected Forum forum;
-	protected User moderator;
+	protected Forum theForum;
 	protected User superAdmin;
 	protected ForumPolicy policy;
 
 	@Before
-	public void setUp(){
-		superAdmin = User.newSuperAdmin(superAdminUsername, superAdminPassword, superAdminMail);
-		policy = new ForumPolicy(3,".",ForumPolicy.HashFunction.MD5);
-		forum = addForum(FORUM_NAME, superAdmin, policy);
+	public void setUp() throws UserNotAuthorizedException, NoSuchAlgorithmException {
+		ForumSystem system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
+		superAdmin = system.getSuperAdmin(superAdminUsername, superAdminPassword);
+		policy = getPolicy(3, ".", ForumPolicy.HashFunction.MD5);
+
+		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);
+	}
+
+	public User createSuperAdmin(String userName, String password, String emailAddress){
+		return User.newSuperAdmin(userName, password, emailAddress);
 	}
 		
-	protected Forum addForum(String forumName, User superAdmin, Policy policy){
-		return driver.addForum(forumName, superAdmin,policy);
+	protected Forum addForum(String forumName, User superAdmin, ForumPolicy policy) throws UserNotAuthorizedException {
+		return driver.addForum(forumName, superAdmin, policy);
 	}
 	
-	protected SubForum addSubForum(Forum forum, String title, User user){
+	protected SubForum addSubForum(Forum forum, String title, User user) throws UserNotAuthorizedException{
 		return driver.addSubForum(forum, title, user);
 	}
 	
-	protected List<SubForum> showListOfSubForums(Forum forum){
-		return driver.showSubForumList(forum);
+	protected List<SubForum> showListOfSubForums(Forum forum, User user) throws UserNotAuthorizedException {
+			return driver.showSubForumList(forum, user);
 	}
 	
 	protected List<content.Thread> showListOfThreads(SubForum subForum){
@@ -80,16 +86,16 @@ public class ForumTests extends TestCase{
 	}
 	
 	
-	protected User loginUser(Forum forum, String user, String pass){
+	protected User loginUser(Forum forum, String user, String pass) throws UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NoSuchAlgorithmException {
 		return driver.loginUser(forum, user, pass);
 	}
 	
-	protected content.Thread openNewThread(SubForum sbfrm, String title, String content, User user){
-		return driver.openThread(sbfrm, title, content, user);
+	protected content.Thread openNewThread(Forum forum, SubForum subForum, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
+		return driver.openThread(forum, subForum, title, content, user);
 	}
 	
-	protected Message replyToMessage(Message addTo, String title, String content, User user){
-		return driver.replyToMessage(addTo, title, content, user);
+	protected Message replyToMessage(Forum forum, Message addTo, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
+		return driver.replyToMessage(forum, addTo, title, content, user);
 	}
 	
 	protected List<Message> searchMessages(Forum forum, String title,String content,String memberName, java.sql.Date startDate, java.sql.Date endDate){
@@ -100,13 +106,13 @@ public class ForumTests extends TestCase{
 		return driver.editPost(forum, user, msg, body);
 	}
 	
-	protected boolean deletePost(Forum forum, User user, Message msg){
-		return driver.deletePost(forum, user, msg);
+	protected boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
+		return driver.deletePost(forum, subForum, user, msg);
 	}
 	
 	
-	protected User registerToForum(Forum forum, String user, String hashedPass, String emailAddress) {
-		return driver.registerGuest(forum, user, hashedPass, emailAddress);
+	protected User registerToForum(Forum forum, String user, String hashedPass, String emailAddress) throws NoSuchAlgorithmException, UsernameAlreadyExistsException {
+		return driver.registerToForum(forum, user, hashedPass, emailAddress);
 	}
 
 	protected boolean sendFriendRequest(User from, User to, String message){
@@ -117,29 +123,37 @@ public class ForumTests extends TestCase{
 		return driver.removeFriend(user, friend);
 	}
 
-	protected boolean defineProperties(Forum forum, ForumPolicy policy){
-		return driver.defineProperties(forum, policy);
+	protected boolean changeForumPolicy(Forum forum, ForumPolicy policy, User admin) throws UserNotAuthorizedException {
+		return driver.changeForumPolicy(forum, policy, admin);
 	}
 
 	protected User enterAsGuest(Forum forum){
 		return driver.enterAsGuest(forum);
 	}
 
-	protected boolean reportModeratorInForum(Forum forum, User reporter, User admin, String title, String content){
+	protected boolean reportModeratorInForum(Forum forum, User reporter, User admin, String title, String content) throws UserNotAuthorizedException {
 		return driver.reportModeratorInForum(forum, reporter, admin, title, content);
 	}
 
-	protected boolean cancelSubForum(Forum forum, SubForum subForum, User user){
-		try{
-			return driver.deleteSubForum(forum, subForum, user);
-		}
-
-		catch(Exception e){
-			return false;
-		}
+	protected boolean cancelSubForum(Forum forum, SubForum subForum, User user) throws UserNotAuthorizedException {
+		return driver.deleteSubForum(forum, subForum, user);
 	}
 
-	protected boolean initializeForumSystem(String user, String pass, String emailAddress) {
+	protected ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
 		return driver.initializeForumSystem(user, pass, emailAddress);
 	}
+
+	protected ForumPolicy getPolicy(int maxMod, String passwordRegex, ForumPolicy.HashFunction func){
+		return new ForumPolicy(maxMod,passwordRegex,func);
+	}
+
+	protected boolean changeAdmin(Forum forum, User superAdmin, User admin) {
+		return driver.appointNewAdmin(forum, superAdmin, admin);
+	}
+
+	protected boolean changeModetator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException {
+		return driver.appointNewModerator(forum, subForum, admin, newModerator);
+	}
+
+
 }

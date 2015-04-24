@@ -2,16 +2,16 @@ package acceptanceTests.bridge;
 
 import content.*;
 import content.Thread;
+import exceptions.*;
 import policy.ForumPolicy;
 import policy.Policy;
 import users.User;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
 
-/**
- * Created by Roee on 22-04-15.
- */
+
 public class Proxy implements IForumSystemBridge {
 
     IForumSystemBridge real = null;
@@ -21,9 +21,9 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public List<SubForum> showSubForumList(Forum forum) {
+    public List<SubForum> showSubForumList(Forum forum, User user) throws UserNotAuthorizedException {
         if(real != null)
-            return real.showSubForumList(forum);
+            return real.showSubForumList(forum, user);
 
         return null;
     }
@@ -45,7 +45,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public Forum addForum(String title, User superAdmin, Policy policy) {
+    public Forum addForum(String title, User superAdmin, ForumPolicy policy) throws UserNotAuthorizedException {
         if(real != null)
             return real.addForum(title, superAdmin, policy);
 
@@ -53,23 +53,23 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public Message replyToMessage(Message addTo, String title, String content, User user) {
+    public Message replyToMessage(Forum forum, Message addTo, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
         if(real != null)
-            return real.replyToMessage(addTo, title, content, user);
+            return real.replyToMessage(forum, addTo, title, content, user);
 
         return null;
     }
 
     @Override
-    public User registerGuest(Forum forum, String user, String hashedPass, String emailAddress) {
+    public User registerToForum(Forum forum, String user, String pass, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
         if(real != null)
-            return real.registerGuest(forum, user, hashedPass, emailAddress);
+            return real.registerToForum(forum, user, pass, emailAddress);
 
         return null;
     }
 
     @Override
-    public User loginUser(Forum forum, String user, String pass) {
+    public User loginUser(Forum forum, String user, String pass) throws NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException {
         if(real != null)
             return real.loginUser(forum, user, pass);
 
@@ -77,17 +77,17 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean logoffUser(Forum forum, User user) {
+    public User logoffUser(Forum forum, User user) throws UserDoesNotExistsException, UserNotLoggedInException {
         if(real != null)
             return real.logoffUser(forum, user);
 
-        return false;
+        return null;
     }
 
     @Override
-    public Thread openThread(SubForum sbfrm, String title, String content, User user) {
+    public Thread openThread(Forum forum, SubForum subForum, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
         if(real != null)
-            return real.openThread(sbfrm, title, content, user);
+            return real.openThread(forum, subForum, title, content, user);
 
         return null;
     }
@@ -101,9 +101,9 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean deletePost(Forum forum, User user, Message msg) {
+    public boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
         if(real != null)
-            return real.deletePost(forum, user, msg);
+            return real.deletePost(forum, subForum, user, msg);
 
         return false;
     }
@@ -158,25 +158,25 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean appointNewAdmin(Forum forum, User admin) {
+    public boolean appointNewAdmin(Forum forum, User superAdmin, User admin) {
         if(real != null)
-            return real.appointNewAdmin(forum, admin);
+            return real.appointNewAdmin(forum, superAdmin, admin);
 
         return false;
     }
 
     @Override
-    public SubForum addSubForum(Forum forum, String title, User mod) {
+    public SubForum addSubForum(Forum forum, String title, User admin) throws UserNotAuthorizedException {
         if(real != null)
-            return real.addSubForum(forum, title, mod);
+            return real.addSubForum(forum, title, admin);
 
         return null;
     }
 
     @Override
-    public boolean appointNewModerator(SubForum subForum, User newModerator) {
+    public boolean appointNewModerator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException {
         if(real != null)
-            return real.appointNewModerator(subForum, newModerator);
+            return real.appointNewModerator(forum, subForum, admin, newModerator);
 
         return false;
     }
@@ -214,11 +214,11 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean initializeForumSystem(String user, String pass, String emailAddress) {
+    public ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
         if(real != null)
             return real.initializeForumSystem(user, pass, emailAddress);
 
-        return false;
+        return null;
     }
 
     @Override
@@ -230,9 +230,9 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean changeForumPolicy(Forum forum, ForumPolicy policy) {
+    public boolean changeForumPolicy(Forum forum, ForumPolicy policy, User superAdmin) throws UserNotAuthorizedException {
         if(real != null)
-            return real.changeForumPolicy(forum, policy);
+            return real.changeForumPolicy(forum, policy, superAdmin);
 
         return false;
     }
@@ -254,14 +254,6 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean defineProperties(Forum forum, ForumPolicy policy) {
-        if(real != null)
-            return real.defineProperties(forum, policy);
-
-        return false;
-    }
-
-    @Override
     public User enterAsGuest(Forum forum) {
         if(real != null)
             return real.enterAsGuest(forum);
@@ -270,15 +262,15 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean reportModeratorInForum(Forum forum, User reporter, User admin, String title, String content) {
+    public boolean reportModeratorInForum(Forum forum, User reporter, User moderator, String title, String content) throws UserNotAuthorizedException {
         if(real != null)
-            return real.reportModeratorInForum(forum, reporter, admin, title, content);
+            return real.reportModeratorInForum(forum, reporter, moderator, title, content);
 
         return false;
     }
 
     @Override
-    public boolean deleteSubForum(Forum forum, SubForum subForum, User user) {
+    public boolean deleteSubForum(Forum forum, SubForum subForum, User user) throws UserNotAuthorizedException {
         if(real != null)
             return real.deleteSubForum(forum, subForum, user);
 
