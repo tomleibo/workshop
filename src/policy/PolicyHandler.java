@@ -34,7 +34,7 @@ public class PolicyHandler {
 	}
 
 	public static boolean canUserDeleteSubForum(Forum forum, User admin) {
-		if(forum.getAdmin().equals(admin))
+		if(forum.getAdmin().equals(admin) || admin.getState().isSuperAdmin())
 			return true;
 		return false;
 	}
