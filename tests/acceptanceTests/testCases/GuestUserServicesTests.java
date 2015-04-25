@@ -28,11 +28,11 @@ public class GuestUserServicesTests extends ForumTests{
 		try {
 			User user2 = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 		}  catch (UsernameAlreadyExistsException e) {
-			assertTrue(true);
+			Assert.assertTrue(true);
 			return;
 		}
 
-		assertTrue(false);
+		Assert.assertTrue(false);
 	}
 
 	@Test

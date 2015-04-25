@@ -13,9 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
 
-/**
- * Created by Roee on 22-04-15.
- */
+
 public class Real implements IForumSystemBridge {
 
     UserController userController;

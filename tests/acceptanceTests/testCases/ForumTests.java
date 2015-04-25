@@ -15,7 +15,7 @@ import users.User;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-public class ForumTests extends TestCase{
+public class ForumTests {
 	protected IForumSystemBridge driver;
 	public static final String[] FORUM_NAMES = {"YNET", "FXP", "StackOverFlow"};
 	public static final String[] SUB_FORUM_NAMES = {"Games", "Nature", "Physics"};
