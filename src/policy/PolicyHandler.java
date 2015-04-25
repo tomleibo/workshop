@@ -97,6 +97,12 @@ public class PolicyHandler {
 
 	}
 
+	public static boolean canUserRemoveForum(User superAdmin) {
+		if(superAdmin.getState().isSuperAdmin())
+			return true;
+		return false;
+	}
+
 	public static boolean canReplaceAdmin(User superAdmin, Forum forum, User admin) {
 		if(forum.getSuperAdmin().equals(superAdmin))
 			return true;

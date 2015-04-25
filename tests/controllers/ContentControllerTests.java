@@ -164,7 +164,7 @@ public class ContentControllerTests extends TestCase{
 			assertEquals(cc.searchMessages(forum, "war", null, null, null, null).size(), 1);
 			assertEquals(cc.searchMessages(forum, null, "h", null, null, null).size(), 2);
 			assertEquals(cc.searchMessages(forum, null, null, "15", null, null).size(), 4);
-			assertEquals(cc.searchMessages(forum, null, null, null, new java.sql.Date(System.currentTimeMillis() - 1000*5) , new java.sql.Date(System.currentTimeMillis())).size(), 10);
+			assertEquals(cc.searchMessages(forum, null, null, null, new java.sql.Date(System.currentTimeMillis() - 1000 * 5) , new java.sql.Date(System.currentTimeMillis() + 1000)).size(), 10);
 		}
 		catch (Exception t) {
 			t.printStackTrace(System.err);
