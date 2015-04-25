@@ -5,6 +5,7 @@ import content.SubForum;
 import exceptions.UserNotAuthorizedException;
 import policy.PolicyHandler;
 import users.User;
+import utils.ForumLogger;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class ModerationController {
 		if (PolicyHandler.canUserBanMember(subForum, moderator, member)) {
 			return member.banUser();
 		}
+		ForumLogger.errorLog("The user " + moderator.getUsername() + " can't ban user");
 		throw new UserNotAuthorizedException("to ban user");
 	}
 	
@@ -27,6 +29,7 @@ public class ModerationController {
 		if (PolicyHandler.canUserEditComment(forum, subForum, moderator, msg)) {
 			return ContentController.editPost(msg, content);
 		}
+		ForumLogger.errorLog("The user " + moderator.getUsername() + " can't edit post");
 		throw new UserNotAuthorizedException("to edit post.");
 	}
 	
@@ -34,6 +37,7 @@ public class ModerationController {
 		if(PolicyHandler.canUserDeleteComment(forum, subForum, moderator, msg)) {
 			return ContentController.deletePost(msg);
 		}
+		ForumLogger.errorLog("The user " + moderator.getUsername() + " can't delete post");
 		throw new UserNotAuthorizedException("to delete post.");
 	}
 }

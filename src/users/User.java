@@ -5,6 +5,7 @@ import exceptions.UserAlreadyLoggedInException;
 import exceptions.UserNotLoggedInException;
 import exceptions.WrongPasswordException;
 import users.userState.*;
+import utils.ForumLogger;
 import utils.IdGenerator;
 
 import java.util.ArrayList;
@@ -114,11 +115,16 @@ public class User {
 	 * @throws UserAlreadyLoggedInException if user already logged in, exception contains the logged in user.
 	 */
 	public User login(String hashedPassword) throws WrongPasswordException, UserAlreadyLoggedInException {
-		if (!hashedPassword.equals(this.hashedPassword))
+		if (!hashedPassword.equals(this.hashedPassword)) {
+			ForumLogger.errorLog("The user " + username + " trying to login but he's password is incorrect");
 			throw new WrongPasswordException();
-		if (isLoggedIn())
+		}
+		if (isLoggedIn()) {
+			ForumLogger.errorLog("The user " + username + " trying to login but ha is already logged in");
 			throw new UserAlreadyLoggedInException(this);
+		}
 		loggedIn = true;
+		ForumLogger.actionLog("The user " + username + " is now logged in!");
 		return this;
 	}
 
@@ -145,7 +151,12 @@ public class User {
 	}
 
 	public boolean addFriendRequest(FriendRequest request) {
-		return friendRequests.add(request);
+		if(friendRequests.add(request)) {
+			ForumLogger.actionLog("The user " + getUsername() + "got friend request from "+request.getRequestingMember().getUsername());
+			return true;
+		}
+		ForumLogger.errorLog("The user " + getUsername() + "could not get friend request from "+request.getRequestingMember().getUsername());
+		return false;
 	}
 
 	public boolean addFriend(User user) {
@@ -153,7 +164,12 @@ public class User {
 	}
 
 	public boolean deleteFriend(User user) {
-		return friends.remove(user);
+		if(friends.remove(user)) {
+			ForumLogger.actionLog("The user " + getUsername() + "deleted " + user.getUsername() + "from he's friends");
+			return true;
+		}
+		ForumLogger.errorLog("The user " + getUsername() + "could not deleted " + user.getUsername() + "from he's friends");
+		return false;
 	}
 
 	public boolean activate() {
@@ -164,41 +180,55 @@ public class User {
 	}
 
 	public boolean deactivate() {
-		if (!active)
+		if (!active) {
+			ForumLogger.errorLog("The user " + getUsername() + "is already deactivate");
 			return false;
+		}
+		ForumLogger.actionLog("The user " + getUsername() + "is now deactivate");
 		active = false;
 		return true;
 	}
 
 	public boolean unBanUser() {
-		if (!banned)
+		if (!banned) {
+			ForumLogger.errorLog("The user " + getUsername() + "is already not banned");
 			return false;
+		}
 		banned = false;
+		ForumLogger.actionLog("The user " + getUsername() + "is now not banned");
 		return true;
 	}
 
 	public boolean banUser() {
-		if (banned)
+		if (banned) {
+			ForumLogger.errorLog("The user " + getUsername() + "is already banned");
 			return false;
+		}
 		banned = true;
+		ForumLogger.actionLog("The user " + getUsername() + "is now banned");
 		return true;
 	}
 
 	public boolean unAppoint(SubForum subForum) {
 		if (state.isModerator()) {
 			boolean result = state.removeManagedSubForum(subForum);
-			if (result & (state.getNumberOfManagedSubForums() == 0))
+			if (result & (state.getNumberOfManagedSubForums() == 0)) {
 				setState(UserStates.newState(UserStates.MEMBER));
+				ForumLogger.actionLog("The user " + getUsername() + "is not a moderator anymore");
+			}
 			return result;
 		}
+		ForumLogger.errorLog("The user " + getUsername() + " can't unappoint from moderator position");
 		return false;
 	}
 
 	public boolean appoint(SubForum subForum) {
 		if (state.isModerator()) {
+			ForumLogger.errorLog("The user " + getUsername() + " is already moderator");
 			return state.addManagedSubForum(subForum);
 		} else {
 			setState(UserStates.newState(UserStates.MODERATOR));
+			ForumLogger.actionLog("The user " + getUsername() + " is now moderator of the sub-forum " + subForum.getName());
 			return state.addManagedSubForum(subForum);
 		}
 	}

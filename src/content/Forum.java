@@ -3,6 +3,7 @@ package content;
 import policy.ForumPolicy;
 import users.Report;
 import users.User;
+import utils.ForumLogger;
 import utils.IdGenerator;
 
 import java.util.ArrayList;
@@ -50,7 +51,13 @@ public class Forum {
 	}
 	
 	public boolean addMember(User user) {
-		return members.add(user);
+		if(members.add(user)){
+			ForumLogger.actionLog("The user " + user.getUsername() + "added to the forum " + getName());
+			return true;
+		}
+		ForumLogger.errorLog("The user " + user.getUsername() + "could not be added to the forum " + getName());
+		return false;
+
 	}
 	
 	public boolean removeMember(User user) {
