@@ -7,6 +7,7 @@ import exceptions.*;
 import policy.ForumPolicy;
 import policy.Policy;
 import users.User;
+import utils.Cipher;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
@@ -153,7 +154,7 @@ public class Real implements IForumSystemBridge {
 
     @Override
     public ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
-        return SuperAdminController.initializeForumSystem(user, pass, emailAddress);
+        return SuperAdminController.initializeForumSystem(user, Cipher.hashString(pass, Cipher.SHA), emailAddress);
     }
 
     @Override
