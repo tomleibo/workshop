@@ -5,11 +5,9 @@ import content.Thread;
 import exceptions.*;
 import policy.ForumPolicy;
 import policy.Policy;
+import users.FriendRequest;
 import users.User;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
@@ -96,9 +94,9 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean editPost(Forum forum, User user, Message msg, String body) {
+    public boolean editPost(Forum forum, SubForum subForum, User user, Message msg, String body) throws UserNotAuthorizedException {
         if(real != null)
-            return real.editPost(forum, user, msg, body);
+            return real.editPost(forum, subForum, user, msg, body);
 
         return false;
     }
@@ -161,7 +159,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean appointNewAdmin(Forum forum, User superAdmin, User admin) {
+    public boolean appointNewAdmin(Forum forum, User superAdmin, User admin) throws UserNotAuthorizedException {
         if(real != null)
             return real.appointNewAdmin(forum, superAdmin, admin);
 
@@ -249,17 +247,17 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean sendFriendRequest(User from, User to, String message) {
+    public FriendRequest sendFriendRequest(Forum forum, User from, User to, String message) throws UserNotAuthorizedException {
         if(real != null)
-            return real.sendFriendRequest(from, to, message);
+            return real.sendFriendRequest(forum, from, to, message);
 
-        return false;
+        return null;
     }
 
     @Override
-    public boolean removeFriend(User user, User friend) {
+    public boolean removeFriend(Forum forum, User user, User friend) throws UserNotAuthorizedException {
         if(real != null)
-            return real.removeFriend(user, friend);
+            return real.removeFriend(forum, user, friend);
 
         return false;
     }
@@ -286,5 +284,19 @@ public class Proxy implements IForumSystemBridge {
             return real.deleteSubForum(forum, subForum, user);
 
         return false;
+    }
+
+    @Override
+    public boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException {
+        if(real != null)
+            return real.replyToFriendRequest(forum, user, request, answer);
+
+        return false;
+    }
+
+    @Override
+    public void tearDownForumSystem(User superAdmin, ForumSystem system) throws UserNotAuthorizedException {
+        if(real != null)
+            real.tearDownForumSystem(superAdmin, system);
     }
 }

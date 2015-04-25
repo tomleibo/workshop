@@ -66,8 +66,11 @@ public class SuperAdminController {
 	}
 
 	public static void destroyForumSystem(User superAdmin, ForumSystem forumSystem) throws UserNotAuthorizedException {
-		if (PolicyHandler.canUserDestroyForumSystem(superAdmin))
+		if (PolicyHandler.canUserDestroyForumSystem(superAdmin)){
 			forumSystem.destroy();
+			return;
+		}
+
 		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't destroy forum system");
 		throw new UserNotAuthorizedException("to destroy forum system.");
 	}

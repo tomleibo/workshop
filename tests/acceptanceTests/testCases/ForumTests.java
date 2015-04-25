@@ -7,16 +7,17 @@ import content.ForumSystem;
 import content.Message;
 import content.SubForum;
 import exceptions.*;
-import junit.framework.TestCase;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import policy.ForumPolicy;
+import users.FriendRequest;
 import users.User;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class ForumTests {
-	protected IForumSystemBridge driver;
+	protected static IForumSystemBridge driver;
 	public static final String[] FORUM_NAMES = {"YNET", "FXP", "StackOverFlow"};
 	public static final String[] SUB_FORUM_NAMES = {"Games", "Nature", "Physics"};
 	public static final String[] USER_NAMES = {"Dani", "John", "Joe"};
@@ -44,32 +45,35 @@ public class ForumTests {
 			"I want to see you behind bars!",
 			"I know what you did last summer"};
 
-	public ForumTests(){
+	protected static final String superAdminUsername = "SuperAdmin";
+	protected static final String superAdminPassword = "";
+	protected static final String superAdminMail = "";
+
+	private static ForumSystem system;
+	protected static Forum theForum;
+	protected static User superAdmin;
+	protected static ForumPolicy policy;
+
+	@BeforeClass
+	public static void setUp() throws UserNotAuthorizedException, NoSuchAlgorithmException {
 		driver = Driver.getDriver();
-	}
-
-	protected final String superAdminUsername = "SuperAdmin";
-	protected final String superAdminPassword = "";
-	protected final String superAdminMail = "";
-
-	protected Forum theForum;
-	protected User superAdmin;
-	protected ForumPolicy policy;
-
-	@Before
-	public void setUp() throws UserNotAuthorizedException, NoSuchAlgorithmException {
-		ForumSystem system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
+		system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
 		superAdmin = system.getSuperAdmin(superAdminUsername, getHashedPassword(superAdminPassword));
 		policy = getPolicy(3, ".", ForumPolicy.HashFunction.MD5);
 
 		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);
 	}
 
+	@AfterClass
+	public static void tearDown() throws UserNotAuthorizedException {
+		tearDownForumSystem(superAdmin, system);
+	}
+
 	public User createSuperAdmin(String userName, String password, String emailAddress){
 		return User.newSuperAdmin(userName, password, emailAddress);
 	}
 		
-	protected Forum addForum(String forumName, User superAdmin, ForumPolicy policy) throws UserNotAuthorizedException {
+	protected static Forum addForum(String forumName, User superAdmin, ForumPolicy policy) throws UserNotAuthorizedException {
 		return driver.addForum(forumName, superAdmin, policy);
 	}
 	
@@ -86,7 +90,7 @@ public class ForumTests {
 	}
 	
 	
-	protected User loginUser(Forum forum, String user, String pass) throws UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NoSuchAlgorithmException {
+	protected static User loginUser(Forum forum, String user, String pass) throws UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NoSuchAlgorithmException {
 		return driver.loginUser(forum, user, pass);
 	}
 	
@@ -102,8 +106,8 @@ public class ForumTests {
 		return driver.searchMessages(forum, title, content, memberName, startDate, endDate);
 	}
 
-	protected boolean editPost(Forum forum, User user, Message msg, String body){
-		return driver.editPost(forum, user, msg, body);
+	protected boolean editPost(Forum forum, SubForum subForum, User user, Message msg, String body) throws UserNotAuthorizedException {
+		return driver.editPost(forum, subForum, user, msg, body);
 	}
 	
 	protected boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
@@ -111,16 +115,16 @@ public class ForumTests {
 	}
 	
 	
-	protected User registerToForum(Forum forum, String user, String hashedPass, String emailAddress) throws NoSuchAlgorithmException, UsernameAlreadyExistsException {
+	protected static User registerToForum(Forum forum, String user, String hashedPass, String emailAddress) throws NoSuchAlgorithmException, UsernameAlreadyExistsException {
 		return driver.registerToForum(forum, user, hashedPass, emailAddress);
 	}
 
-	protected boolean sendFriendRequest(User from, User to, String message){
-		return driver.sendFriendRequest(from, to, message);
+	protected FriendRequest sendFriendRequest(Forum forum, User from, User to, String message) throws UserNotAuthorizedException {
+		return driver.sendFriendRequest(forum, from, to, message);
 	}
 
-	protected boolean removeFriend(User user, User friend){
-		return driver.removeFriend(user, friend);
+	protected boolean removeFriend(Forum forum, User user, User friend) throws UserNotAuthorizedException {
+		return driver.removeFriend(forum, user, friend);
 	}
 
 	protected boolean changeForumPolicy(Forum forum, ForumPolicy policy, User admin) throws UserNotAuthorizedException {
@@ -139,15 +143,15 @@ public class ForumTests {
 		return driver.deleteSubForum(forum, subForum, user);
 	}
 
-	protected ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
+	protected static ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
 		return driver.initializeForumSystem(user, pass, emailAddress);
 	}
 
-	protected ForumPolicy getPolicy(int maxMod, String passwordRegex, ForumPolicy.HashFunction func){
+	protected static ForumPolicy getPolicy(int maxMod, String passwordRegex, ForumPolicy.HashFunction func){
 		return new ForumPolicy(maxMod,passwordRegex,func);
 	}
 
-	protected boolean changeAdmin(Forum forum, User superAdmin, User admin) {
+	protected static boolean changeAdmin(Forum forum, User superAdmin, User admin) throws UserNotAuthorizedException {
 		return driver.appointNewAdmin(forum, superAdmin, admin);
 	}
 
@@ -155,8 +159,20 @@ public class ForumTests {
 		return driver.appointNewModerator(forum, subForum, admin, newModerator);
 	}
 
-	protected String getHashedPassword(String pass) throws NoSuchAlgorithmException {
+	protected static String getHashedPassword(String pass) throws NoSuchAlgorithmException {
 		return driver.getHashedPassword(pass);
+	}
+
+	protected User logoffUser(Forum forum, User user) throws UserDoesNotExistsException, UserNotLoggedInException {
+		return driver.logoffUser(forum, user);
+	}
+
+	protected boolean replyToFriendRequest(Forum forum, User user,FriendRequest request, boolean msg) throws UserNotAuthorizedException {
+		return driver.replyToFriendRequest(forum, user, request, msg);
+	}
+
+	protected static void tearDownForumSystem(User superAdmin,ForumSystem system) throws UserNotAuthorizedException {
+		driver.tearDownForumSystem(superAdmin, system);
 	}
 
 

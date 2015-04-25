@@ -6,6 +6,7 @@ import controllers.*;
 import exceptions.*;
 import policy.ForumPolicy;
 import policy.Policy;
+import users.FriendRequest;
 import users.User;
 import utils.Cipher;
 
@@ -37,7 +38,7 @@ public class Real implements IForumSystemBridge {
 
     @Override
     public List<Thread> showThreadsList(SubForum subForum) {
-        return null;
+        return subForum.viewThreads();
     }
 
     @Override
@@ -76,13 +77,13 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean editPost(Forum forum, User user, Message msg, String body) {
-        return false;
+    public boolean editPost(Forum forum, SubForum subForum, User user, Message msg, String body) throws UserNotAuthorizedException {
+        return UserController.editMessage(forum, subForum, user, msg, body);
     }
 
     @Override
     public boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
-        return UserController.deletePost(forum, subForum, user, msg);
+        return UserController.deleteMessage(forum, subForum, user, msg);
     }
 
     @Override
@@ -116,13 +117,13 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean appointNewAdmin(Forum forum, User superAdmin, User admin) {
-        return false;
+    public boolean appointNewAdmin(Forum forum, User superAdmin, User admin) throws UserNotAuthorizedException {
+        return SuperAdminController.changeAdministrator(superAdmin, forum, admin);
     }
 
     @Override
     public SubForum addSubForum(Forum forum, String title, User admin) throws UserNotAuthorizedException {
-        return AdminController.addSubForum(forum,title, admin);
+        return AdminController.addSubForum(forum, title, admin);
     }
 
     @Override
@@ -171,13 +172,13 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean sendFriendRequest(User from, User to, String message) {
-        return false;
+    public FriendRequest sendFriendRequest(Forum forum, User from, User to, String message) throws UserNotAuthorizedException {
+        return UserController.sendFriendRequest(forum, from, to, message);
     }
 
     @Override
-    public boolean removeFriend(User user, User friend) {
-        return false;
+    public boolean removeFriend(Forum forum, User user, User friend) throws UserNotAuthorizedException {
+        return UserController.removeFriend(forum, user, friend);
     }
 
     @Override
@@ -193,6 +194,16 @@ public class Real implements IForumSystemBridge {
     @Override
     public boolean deleteSubForum(Forum forum, SubForum subForum, User user) throws UserNotAuthorizedException {
         return AdminController.deleteSubForum(forum, subForum, user);
+    }
+
+    @Override
+    public boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException {
+        return UserController.replyToFriendRequest(forum, user, request, answer);
+    }
+
+    @Override
+    public void tearDownForumSystem(User superAdmin, ForumSystem system) throws UserNotAuthorizedException {
+        SuperAdminController.destroyForumSystem(superAdmin,system);
     }
 }
 

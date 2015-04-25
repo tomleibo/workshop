@@ -109,7 +109,7 @@ public class Forum {
 
 	public boolean addReport(Report report) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	public boolean isSecured() {

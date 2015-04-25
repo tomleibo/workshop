@@ -8,6 +8,7 @@ import content.Thread;
 import exceptions.*;
 import policy.ForumPolicy;
 import policy.Policy;
+import users.FriendRequest;
 import users.User;
 
 public interface IForumSystemBridge {
@@ -22,7 +23,7 @@ public interface IForumSystemBridge {
 	User loginUser(Forum forum, String user, String pass) throws NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException;
 	User logoffUser(Forum forum, User user) throws UserDoesNotExistsException, UserNotLoggedInException;
 	Thread openThread(Forum forum, SubForum subForum, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException;
-	boolean editPost(Forum forum, User user, Message msg, String body);
+	boolean editPost(Forum forum, SubForum subForum, User user, Message msg, String body) throws UserNotAuthorizedException;
 	boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException;
 	boolean reportAdmin(User user, User admin);
 	// Admin Services
@@ -31,7 +32,7 @@ public interface IForumSystemBridge {
 	boolean appointMemberAsModerator(Forum forum, User moderator);
 	boolean suspendSubForumModerator(SubForum subForum, User moderator);
 	boolean dismissModerator(SubForum subForum);
-	boolean appointNewAdmin(Forum forum, User superAdmin, User admin);
+	boolean appointNewAdmin(Forum forum, User superAdmin, User admin) throws UserNotAuthorizedException;
 	SubForum addSubForum(Forum forum, String title, User admin) throws UserNotAuthorizedException;
 	boolean appointNewModerator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException;
 	String[] getForumStats(Forum forum);
@@ -45,11 +46,12 @@ public interface IForumSystemBridge {
 
 	boolean setMemberSuspensionPolicy(Forum forum, Policy policy);
 	boolean changeForumPolicy(Forum forum, ForumPolicy policy, User superAdmin) throws UserNotAuthorizedException;
-	boolean sendFriendRequest(User from, User to, String message);
-	boolean removeFriend(User user, User friend);
+	FriendRequest sendFriendRequest(Forum forum, User from, User to, String message) throws UserNotAuthorizedException;
+	boolean removeFriend(Forum forum, User user, User friend) throws UserNotAuthorizedException;
 	User enterAsGuest(Forum forum);
 	boolean reportModeratorInForum(Forum forum, User reporter, User moderator, String title, String content) throws UserNotAuthorizedException;
 	boolean deleteSubForum(Forum forum, SubForum subForum,User user) throws UserNotAuthorizedException;
+	boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException;
 
-
+	void tearDownForumSystem(User superAdmin, ForumSystem system) throws UserNotAuthorizedException;
 }

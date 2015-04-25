@@ -126,7 +126,7 @@ public class UserController {
 		throw new UserNotAuthorizedException("to deactivate itself.");
 	}
 
-	public static boolean editMessage(Forum forum,SubForum subForum, User user, Message msg, String title, String content) throws UserNotAuthorizedException {
+	public static boolean editMessage(Forum forum,SubForum subForum, User user, Message msg, String content) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserEditComment(forum, subForum, user, msg)) {
 			return ContentController.editPost(msg, content);
 		}
@@ -139,14 +139,6 @@ public class UserController {
 			return ContentController.deletePost(msg);
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " can't delete post");
-		throw new UserNotAuthorizedException("to delete post.");
-	}
-
-	public static boolean deletePost(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
-		if (PolicyHandler.canUserDeleteComment(forum, subForum, user, msg)) {
-			return ContentController.deletePost(msg);
-		}
-		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to delete post");
 		throw new UserNotAuthorizedException("to delete post.");
 	}
 
