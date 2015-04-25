@@ -41,7 +41,7 @@ public class SuperAdminController {
 
 	public static boolean changeAdministrator(User superAdmin, Forum forum, User admin) throws UserNotAuthorizedException {
 		if (PolicyHandler.canReplaceAdmin(superAdmin, forum, admin))
-			forum.setAdmin(superAdmin);
+			forum.setAdmin(admin);
 		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't change administrator");
 		throw new UserNotAuthorizedException("to change administrator.");
 	}
