@@ -40,11 +40,11 @@ public class MemberUserServicesTests extends ForumTests {
 		try {
 			user1 = loginUser(theForum, USER_NAMES[2], USER_PASSES[2]);
 		} catch (UserDoesNotExistsException e) {
-			assertTrue(true);
+			Assert.assertTrue(true);
 			return;
 		}
 
-		assertTrue(false);
+		Assert.assertTrue(false);
 	}
 
 	@Test
@@ -52,11 +52,11 @@ public class MemberUserServicesTests extends ForumTests {
 		try {
 			user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[1]);
 		} catch (WrongPasswordException e) {
-			assertTrue(true);
+			Assert.assertTrue(true);
 			return;
 		}
 
-		assertTrue(false);
+		Assert.assertTrue(false);
 	}
 
 
@@ -67,11 +67,11 @@ public class MemberUserServicesTests extends ForumTests {
 		try {
 			User userLoginsTwice = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		} catch (UserAlreadyLoggedInException e) {
-			assertTrue(true);
+			Assert.assertTrue(true);
 			return;
 		}
 
-		assertTrue(false);
+		Assert.assertTrue(false);
 	}
 
 	@Test
@@ -109,11 +109,11 @@ public class MemberUserServicesTests extends ForumTests {
 		try {
 			Thread thread = openNewThread(theForum, sf, "", "", user1);
 		} catch (EmptyMessageTitleAndBodyException e) {
-			assertTrue(true);
+			Assert.assertTrue(true);
 			return;
 		}
 
-		assertTrue(false);
+		Assert.assertTrue(false);
 
 	}
 	
@@ -193,11 +193,11 @@ public class MemberUserServicesTests extends ForumTests {
 		}
 		catch(Exception e){
 			// TODO change to UserNotLoggedInException
-			assertTrue(true);
+			Assert.assertTrue(true);
 			return;
 		}
 
-		assertTrue(false);
+		Assert.assertTrue(false);
 	}
 	
 

@@ -13,9 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
 
-/**
- * Created by Roee on 22-04-15.
- */
+
 public class Real implements IForumSystemBridge {
 
     UserController userController;
@@ -154,7 +152,12 @@ public class Real implements IForumSystemBridge {
 
     @Override
     public ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
-        return SuperAdminController.initializeForumSystem(user, Cipher.hashString(pass, Cipher.SHA), emailAddress);
+        return SuperAdminController.initializeForumSystem(user, getHashedPassword(pass), emailAddress);
+    }
+
+    @Override
+    public String getHashedPassword(String pass) throws NoSuchAlgorithmException {
+        return Cipher.hashString(pass, Cipher.SHA);
     }
 
     @Override

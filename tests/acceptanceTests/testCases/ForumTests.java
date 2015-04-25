@@ -15,7 +15,7 @@ import users.User;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-public class ForumTests extends TestCase{
+public class ForumTests {
 	protected IForumSystemBridge driver;
 	public static final String[] FORUM_NAMES = {"YNET", "FXP", "StackOverFlow"};
 	public static final String[] SUB_FORUM_NAMES = {"Games", "Nature", "Physics"};
@@ -59,7 +59,7 @@ public class ForumTests extends TestCase{
 	@Before
 	public void setUp() throws UserNotAuthorizedException, NoSuchAlgorithmException {
 		ForumSystem system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
-		superAdmin = system.getSuperAdmin(superAdminUsername, superAdminPassword);
+		superAdmin = system.getSuperAdmin(superAdminUsername, getHashedPassword(superAdminPassword));
 		policy = getPolicy(3, ".", ForumPolicy.HashFunction.MD5);
 
 		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);
@@ -153,6 +153,10 @@ public class ForumTests extends TestCase{
 
 	protected boolean changeModetator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException {
 		return driver.appointNewModerator(forum, subForum, admin, newModerator);
+	}
+
+	protected String getHashedPassword(String pass) throws NoSuchAlgorithmException {
+		return driver.getHashedPassword(pass);
 	}
 
 

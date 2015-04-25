@@ -40,6 +40,9 @@ public interface IForumSystemBridge {
 	boolean setModeratorAndAdminsSuspensionPolicy(Forum forum, Policy policy);
 	boolean setAppointmentRules(Forum forum, String[] rules);
 	ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException;
+
+	String getHashedPassword(String pass) throws NoSuchAlgorithmException;
+
 	boolean setMemberSuspensionPolicy(Forum forum, Policy policy);
 	boolean changeForumPolicy(Forum forum, ForumPolicy policy, User superAdmin) throws UserNotAuthorizedException;
 	boolean sendFriendRequest(User from, User to, String message);

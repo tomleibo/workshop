@@ -66,11 +66,11 @@ public class AdminServicesTests extends ForumTests{
 			boolean result = cancelSubForum(theForum, sf1, user);
 		}
 		catch(UserNotAuthorizedException e){
-			assertTrue(true);
+			Assert.assertTrue(true);
 			return;
 		}
 
-		assertTrue(false);
+		Assert.assertTrue(false);
 	}
 
 	@Test

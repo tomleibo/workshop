@@ -32,11 +32,11 @@ public class ForumManagementServicesTests extends ForumTests {
 		try {
 			boolean result = changeForumPolicy(theForum, fp, superAdmin);
 		} catch (UserNotAuthorizedException e) {
-			assertTrue(true);
+			org.junit.Assert.assertTrue(true);
 			return;
 		}
 
-		assertTrue(false);
+		org.junit.Assert.assertTrue(false);
 	}
 
 	@Test
@@ -61,7 +61,7 @@ public class ForumManagementServicesTests extends ForumTests {
 			e.printStackTrace();
 		}
 		Assert.assertNotNull(otherForum);
-		assertEquals(otherForum.getName(), FORUM_NAMES[1]);
+		org.junit.Assert.assertEquals(otherForum.getName(), FORUM_NAMES[1]);
 	}
 
 	@Test
@@ -82,11 +82,11 @@ public class ForumManagementServicesTests extends ForumTests {
 		try {
 			Forum otherForum = addForum(FORUM_NAMES[1], user, getPolicy(3, ".", ForumPolicy.HashFunction.MD5));
 		} catch (UserNotAuthorizedException e) {
-			assertTrue(true);
+			org.junit.Assert.assertTrue(true);
 			return;
 		}
 
-		assertTrue(false);
+		org.junit.Assert.assertTrue(false);
 	}
 
 }
