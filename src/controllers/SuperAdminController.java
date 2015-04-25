@@ -8,6 +8,8 @@ import policy.ForumPolicy;
 import policy.PolicyHandler;
 import policy.UserStatusPolicy;
 import users.User;
+import utils.ForumLogger;
+
 
 import java.security.NoSuchAlgorithmException;
 
@@ -19,6 +21,7 @@ public class SuperAdminController {
 			ForumSystem.getInstance().addForum(forum);
 			return forum;
 		}
+		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't create new forum");
 		throw new UserNotAuthorizedException("to create new forum.");
 	}
 
@@ -28,13 +31,14 @@ public class SuperAdminController {
 		}
 		throw new UserNotAuthorizedException("to remove forum.");
 	}
-	
+
 	public static boolean changeAdministrator(User superAdmin, Forum forum, User admin) throws UserNotAuthorizedException {
 		if (PolicyHandler.canReplaceAdmin(superAdmin, forum, admin))
 			forum.setAdmin(superAdmin);
+		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't change administrator");
 		throw new UserNotAuthorizedException("to change administrator.");
 	}
-	
+
 	public static boolean verifyCorrelationOfContent(User superAdmin, Forum forum, Message msg) {
 		// TODO
 		return false;
@@ -43,6 +47,7 @@ public class SuperAdminController {
 	public static boolean changeForumPolicy(User superAdmin, Forum forum, ForumPolicy policy) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserChangePolicy(superAdmin, forum))
 			return forum.setPolicy(policy);
+		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't change forum policy");
 		throw new UserNotAuthorizedException("to change forum policy.");
 	}
 
