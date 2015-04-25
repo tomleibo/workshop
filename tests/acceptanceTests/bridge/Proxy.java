@@ -7,6 +7,9 @@ import policy.ForumPolicy;
 import policy.Policy;
 import users.User;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
@@ -217,6 +220,14 @@ public class Proxy implements IForumSystemBridge {
     public ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
         if(real != null)
             return real.initializeForumSystem(user, pass, emailAddress);
+
+        return null;
+    }
+
+    @Override
+    public String getHashedPassword(String pass) throws NoSuchAlgorithmException {
+        if(real != null)
+            return real.getHashedPassword(pass);
 
         return null;
     }

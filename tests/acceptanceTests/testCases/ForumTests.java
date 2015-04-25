@@ -59,7 +59,7 @@ public class ForumTests {
 	@Before
 	public void setUp() throws UserNotAuthorizedException, NoSuchAlgorithmException {
 		ForumSystem system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
-		superAdmin = system.getSuperAdmin(superAdminUsername, superAdminPassword);
+		superAdmin = system.getSuperAdmin(superAdminUsername, getHashedPassword(superAdminPassword));
 		policy = getPolicy(3, ".", ForumPolicy.HashFunction.MD5);
 
 		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);
@@ -153,6 +153,10 @@ public class ForumTests {
 
 	protected boolean changeModetator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException {
 		return driver.appointNewModerator(forum, subForum, admin, newModerator);
+	}
+
+	protected String getHashedPassword(String pass) throws NoSuchAlgorithmException {
+		return driver.getHashedPassword(pass);
 	}
 
 
