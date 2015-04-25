@@ -46,7 +46,7 @@ public class UserControllerTests {
         Forum forum  = new Forum(admin, new ForumPolicy(2,"1234",ForumPolicy.HashFunction.MD5), "name");
         forum.addMember(user1);
         forum.addMember(user2);
-        Assert.assertTrue(userController.sendFriendRequest(forum, user1, user2, "hi"));
+        Assert.assertTrue(UserController.sendFriendRequest(forum, user1, user2, "hi") != null);
     }
 
 

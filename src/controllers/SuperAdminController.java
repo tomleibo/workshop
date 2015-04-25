@@ -40,8 +40,10 @@ public class SuperAdminController {
 	}
 
 	public static boolean changeAdministrator(User superAdmin, Forum forum, User admin) throws UserNotAuthorizedException {
-		if (PolicyHandler.canReplaceAdmin(superAdmin, forum, admin))
+		if (PolicyHandler.canReplaceAdmin(superAdmin, forum, admin)) {
 			forum.setAdmin(admin);
+			return true;
+		}
 		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't change administrator");
 		throw new UserNotAuthorizedException("to change administrator.");
 	}
@@ -63,11 +65,18 @@ public class SuperAdminController {
 		return ForumSystem.newForumSystem(superAdmin);
 	}
 
-	public static boolean addUserStatusType(String type, UserStatusPolicy userStatusPolicy){
+	public static void destroyForumSystem(User superAdmin, ForumSystem forumSystem) throws UserNotAuthorizedException {
+		if (PolicyHandler.canUserDestroyForumSystem(superAdmin))
+			forumSystem.destroy();
+		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't destroy forum system");
+		throw new UserNotAuthorizedException("to destroy forum system.");
+	}
+
+	public static boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy){
 		return ForumSystem.getInstance().addUserStatusType(type, userStatusPolicy);
 	}
 
-	public static boolean removeUserStatusType(String type){
+	public static boolean removeUserStatusType(User superAdmin, String type){
 		return ForumSystem.getInstance().removeUserStatusType(type);
 	}
 

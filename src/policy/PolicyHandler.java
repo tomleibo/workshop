@@ -6,6 +6,8 @@ import content.Forum;
 import content.Message;
 import content.SubForum;
 
+import java.util.List;
+
 public class PolicyHandler {
 
 	public static boolean canUserDeleteComment(Forum forum, SubForum subForum, User user, Message comment) {
@@ -122,8 +124,18 @@ public class PolicyHandler {
 	}
 
 	public static boolean canUserReportAdmin(Forum forum, User reporter, User admin) {
-		if(!reporter.getState().isGuest() && reporter.isActive() && forum.getMembers().contains(reporter) && forum.getAdmin().equals(admin))
+		if(!reporter.getState().isGuest() && reporter.isActive() && forum.getMembers().contains(reporter) && (forum.getAdmin().equals(admin) || didUserPostInModeratorSubForums(admin, reporter)))
 			return true;
+		return false;
+	}
+
+	private static boolean didUserPostInModeratorSubForums(User moderator, User member) {
+		if (moderator.getState().isModerator()) {
+			List<SubForum> subForums = moderator.getState().getManagedSubForums();
+			for (SubForum subForum : subForums)
+				if (subForum.hasModerator(moderator) && subForum.didUserPostHere(member))
+					return true;
+		}
 		return false;
 	}
 
@@ -131,5 +143,9 @@ public class PolicyHandler {
 		if(!user.getState().isGuest())
 			return true;
 		return false;
+	}
+
+	public static boolean canUserDestroyForumSystem(User superAdmin) {
+		return superAdmin.getState().isSuperAdmin();
 	}
 }

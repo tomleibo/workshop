@@ -2,6 +2,8 @@ package users.userState;
 
 import content.SubForum;
 
+import java.util.List;
+
 public abstract class UserState {
 
 	private String status;
@@ -44,6 +46,10 @@ public abstract class UserState {
 
 	public boolean removeManagedSubForum(SubForum subForum) {
 		return false;
+	}
+
+	public List<SubForum> getManagedSubForums() {
+		return null;
 	}
 
 	public int getNumberOfManagedSubForums() {

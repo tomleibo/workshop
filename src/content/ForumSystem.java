@@ -42,6 +42,10 @@ public class ForumSystem {
         throw new UserNotAuthorizedException("Not authorized");
     }
 
+    public boolean hasForum(Forum forum) {
+        return forums.contains(forum);
+    }
+
     public boolean addForum(Forum forum) {
         return forums.add(forum);
     }
@@ -54,6 +58,10 @@ public class ForumSystem {
         for (int i = 0; i < forums.size(); i++) {
             forums.remove(i);
         }
+    }
+
+    public boolean hasUserStateType(String type) {
+        return userStatusTypes.containsKey(type);
     }
 
     public boolean addUserStatusType(String type, UserStatusPolicy userStatusPolicy){
@@ -77,5 +85,9 @@ public class ForumSystem {
             return true;
         }
         return false;
+    }
+
+    public void destroy() {
+        ForumSystem.forumSystem = null;
     }
 }

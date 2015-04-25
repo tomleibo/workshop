@@ -6,10 +6,7 @@ import content.SubForum;
 import exceptions.UserNotAuthorizedException;
 import exceptions.UsernameAlreadyExistsException;
 import junit.framework.Assert;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import policy.ForumPolicy;
 import users.User;
 
@@ -54,19 +51,15 @@ public class ModerationControllerTests {
         SuperAdminController.deleteForum(superAdmin, forum);
     }
 
+    @AfterClass
+    public static void afterClass() {
+        forumSystem.destroy();
+    }
+
     @Test
     public void banUserTest() throws UserNotAuthorizedException {
         ModerationController.banUser(subForum, moderator, member);
         Assert.assertTrue(member.isBanned());
     }
 
-    @Test
-    public void editMessageTest() {
-
-    }
-
-    @Test
-    public void deleteMessageTest() {
-
-    }
 }

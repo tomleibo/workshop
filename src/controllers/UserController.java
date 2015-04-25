@@ -76,10 +76,11 @@ public class UserController {
 		return user.toString();
 	}
 	
-	public static boolean sendFriendRequest(Forum forum, User from, User to, String message) throws UserNotAuthorizedException {
+	public static FriendRequest sendFriendRequest(Forum forum, User from, User to, String message) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserHaveFriends(forum, from) & PolicyHandler.canUserHaveFriends(forum, to)) {
 			FriendRequest request = new FriendRequest(from, to, message);
-			return to.addFriendRequest(request);
+			to.addFriendRequest(request);
+			return request;
 		}
 		ForumLogger.errorLog("The user " + to.getUsername() + "or the user " + from.getUsername() + " has no permissions to remove friends");
 		throw new UserNotAuthorizedException("to send or receive friend request.");

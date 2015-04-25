@@ -24,6 +24,11 @@ public class ModeratorState extends UserState {
     }
 
     @Override
+    public List<SubForum> getManagedSubForums() {
+        return managedSubForumsList;
+    }
+
+    @Override
     public int getNumberOfManagedSubForums() {
         return managedSubForumsList.size();
     }

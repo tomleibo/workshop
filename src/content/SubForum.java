@@ -1,10 +1,10 @@
 package content;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import users.User;
 import utils.IdGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SubForum {
 	public int id;
@@ -43,7 +43,11 @@ public class SubForum {
 	public boolean removeThread(Thread thread) {
 		return threads.remove(thread); 
 	}
-	
+
+	public boolean hasModerator(User moderator) {
+		return moderators.contains(moderator);
+	}
+
 	public boolean addModerator(User moderator) {
 		if (moderators.size() < maxModerators && !moderators.contains(moderator)) {	
 			moderators.add(moderator);

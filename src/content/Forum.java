@@ -35,7 +35,11 @@ public class Forum {
 	public String getName() {
 		return name;
 	}
-	
+
+	public boolean hasSubForum(SubForum subForum) {
+		return subForums.contains(subForum);
+	}
+
 	public boolean addSubForum(SubForum sub) {
 		if (!subForums.contains(sub)){
 			subForums.add(sub);
