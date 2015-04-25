@@ -32,6 +32,13 @@ public class SuperAdminController {
 		throw new UserNotAuthorizedException("to remove forum.");
 	}
 
+	public static boolean deleteAllForums(User superAdmin) throws UserNotAuthorizedException {
+		if (PolicyHandler.canUserRemoveForum(superAdmin)) {
+			ForumSystem.getInstance().removeAllForums();
+		}
+		throw new UserNotAuthorizedException("to remove forum.");
+	}
+
 	public static boolean changeAdministrator(User superAdmin, Forum forum, User admin) throws UserNotAuthorizedException {
 		if (PolicyHandler.canReplaceAdmin(superAdmin, forum, admin))
 			forum.setAdmin(superAdmin);

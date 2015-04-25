@@ -50,6 +50,12 @@ public class ForumSystem {
         return forums.remove(forum);
     }
 
+    public void removeAllForums() {
+        for (int i = 0; i < forums.size(); i++) {
+            forums.remove(i);
+        }
+    }
+
     public boolean addUserStatusType(String type, UserStatusPolicy userStatusPolicy){
         if(userStatusTypes.put(type, userStatusPolicy) != null) {
             ForumLogger.actionLog("The type " + type + " added to the state types");
