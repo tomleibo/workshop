@@ -20,13 +20,13 @@ public class ForumManagementServicesTests extends ForumTests {
 		Assert.assertTrue(result);
 	}
 
-	@Ignore
-	@Test
-	public void test_defineProperties_InvalidParameters() throws UserNotAuthorizedException {
-		ForumPolicy fp = new ForumPolicy(-100, null, null);
-		boolean result = changeForumPolicy(theForum, fp, superAdmin);
-		Assert.assertFalse(result);
-	}
+//	@Ignore
+//	@Test
+//	public void test_defineProperties_InvalidParameters() throws UserNotAuthorizedException {
+//		ForumPolicy fp = new ForumPolicy(-100, null, null);
+//		boolean result = changeForumPolicy(theForum, fp, superAdmin);
+//		Assert.assertFalse(result);
+//	}
 
 	@Test
 	public void test_defineProperties_UnAuthorizedUser() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException {
@@ -69,16 +69,16 @@ public class ForumManagementServicesTests extends ForumTests {
 		org.junit.Assert.assertEquals(otherForum.getName(), FORUM_NAMES[1]);
 	}
 
-	@Ignore
-	@Test
-	 public void test_addNewForum_ForumAlreadyExists(){
-		try{
-			Forum otherForum = addForum(FORUM_NAMES[0], superAdmin, getPolicy(3, ".", ForumPolicy.HashFunction.MD5));
-		}
-		catch(Exception e){
-			// TODO change to ForumAlreadyExistsException
-		}
-	}
+//	@Ignore
+//	@Test
+//	 public void test_addNewForum_ForumAlreadyExists(){
+//		try{
+//			Forum otherForum = addForum(FORUM_NAMES[0], superAdmin, getPolicy(3, ".", ForumPolicy.HashFunction.MD5));
+//		}
+//		catch(Exception e){
+//			// TODO change to ForumAlreadyExistsException
+//		}
+//	}
 
 	@Test
 	public void test_addNewForum_UserUnAuthorized() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException {

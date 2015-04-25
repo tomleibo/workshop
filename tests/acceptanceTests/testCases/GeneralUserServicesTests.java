@@ -81,41 +81,41 @@ public class GeneralUserServicesTests extends ForumTests{
 		Assert.assertTrue(addedThreads.isEmpty());
 		}
 
-	@Ignore
-	@Test
-	public void test_searchMessages_ValidAnswer() throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException, WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException {
-		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
-		
-		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], moderator);
-		Message msg = t.getOpeningMessage();
-		
-		for(int i=0; i < MESSAGE_TITLES.length; i++){
-			replyToMessage(theForum, msg, MESSAGE_TITLES[i], MESSAGE_CONTENTS[i], user);
-		}
-		
-		Date startDate = new Date(0);
-		Date endDate = new Date(System.currentTimeMillis()+100);
-		
-		List<Message> messages = searchMessages(theForum, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user.getUsername(), startDate, endDate);
-		Assert.assertNotNull(messages);
-		Assert.assertFalse(messages.isEmpty());
-	}
-
-	@Ignore
-	@Test
-	public void test_searchMessages_InvalidAnswer() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
-		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
-		
-		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], moderator);
-		Message msg = t.getOpeningMessage();
-		
-		replyToMessage(theForum, msg, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user);
-		
-		Date startDate = new Date(0);
-		Date endDate = new Date(System.currentTimeMillis()+100);
-		
-		List<Message> messages = searchMessages(theForum, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user.getUsername(), startDate, endDate);
-		Assert.assertTrue(messages.isEmpty());
-		}
+//	@Ignore
+//	@Test
+//	public void test_searchMessages_ValidAnswer() throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException, WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException {
+//		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
+//
+//		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], moderator);
+//		Message msg = t.getOpeningMessage();
+//
+//		for(int i=0; i < MESSAGE_TITLES.length; i++){
+//			replyToMessage(theForum, msg, MESSAGE_TITLES[i], MESSAGE_CONTENTS[i], user);
+//		}
+//
+//		Date startDate = new Date(0);
+//		Date endDate = new Date(System.currentTimeMillis()+100);
+//
+//		List<Message> messages = searchMessages(theForum, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user.getUsername(), startDate, endDate);
+//		Assert.assertNotNull(messages);
+//		Assert.assertFalse(messages.isEmpty());
+//	}
+//
+//	@Ignore
+//	@Test
+//	public void test_searchMessages_InvalidAnswer() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
+//		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
+//
+//		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], moderator);
+//		Message msg = t.getOpeningMessage();
+//
+//		replyToMessage(theForum, msg, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user);
+//
+//		Date startDate = new Date(0);
+//		Date endDate = new Date(System.currentTimeMillis()+100);
+//
+//		List<Message> messages = searchMessages(theForum, MESSAGE_TITLES[0], MESSAGE_CONTENTS[0], user.getUsername(), startDate, endDate);
+//		Assert.assertTrue(messages.isEmpty());
+//		}
 	
 }

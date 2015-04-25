@@ -32,12 +32,12 @@ public class GuestUserServicesTests extends ForumTests{
 		Assert.assertNotNull(user);
 	}
 
-	@Ignore
-	@Test
-	public void test_registerGuest_InvalidCredentials() throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
-		User user = registerToForum(theForum, "", "","");
-		Assert.assertNull(user);
-	}
+//	@Ignore
+//	@Test
+//	public void test_registerGuest_InvalidCredentials() throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
+//		User user = registerToForum(theForum, "", "","");
+//		Assert.assertNull(user);
+//	}
 
 	@Test
 	public void test_registerGuest_UserAlreadyExists() throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
@@ -58,11 +58,11 @@ public class GuestUserServicesTests extends ForumTests{
 		Assert.assertNotNull(guestUser);
 	}
 
-	@Ignore
-	@Test
-	public void test_enterAsGuest_InvalidCredentials() {
-		User guestUser = enterAsGuest(null);
-		Assert.assertNull(guestUser);
-	}
+//	@Ignore
+//	@Test
+//	public void test_enterAsGuest_InvalidCredentials() {
+//		User guestUser = enterAsGuest(null);
+//		Assert.assertNull(guestUser);
+//	}
 
 }

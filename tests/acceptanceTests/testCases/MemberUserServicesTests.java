@@ -91,18 +91,18 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertNotNull(user1);
 	}
 
-	@Ignore
-	@Test
-	public void test_logoff_UserNotLoggedIn() throws UserDoesNotExistsException {
-		try {
-			user1 = logoffUser(theForum, user1);
-		} catch (UserNotLoggedInException e) {
-			Assert.assertTrue(true);
-			return;
-		}
-
-		Assert.assertTrue(false);
-	}
+//	@Ignore
+//	@Test
+//	public void test_logoff_UserNotLoggedIn() throws UserDoesNotExistsException {
+//		try {
+//			user1 = logoffUser(theForum, user1);
+//		} catch (UserNotLoggedInException e) {
+//			Assert.assertTrue(true);
+//			return;
+//		}
+//
+//		Assert.assertTrue(false);
+//	}
 
 
 	@Test
@@ -204,26 +204,26 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertEquals(msg.getComments().size(), 2);
 	}
 
-	@Ignore
-	@Test
-	public void test_replyToMessage_UserLoggedOff() throws UserNotAuthorizedException, WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, EmptyMessageTitleAndBodyException {
-		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
-		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
-
-		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user1);
-		Message msg = t.getOpeningMessage();
-		try{
-			Message reply1 = replyToMessage(theForum, msg, THREAD_TITLES[1], THREAD_CONTENTS[1], user2);
-		}
-
-		catch(Exception e){
-			// TODO change to UserNotLoggedInException
-			Assert.assertTrue(true);
-			return;
-		}
-
-		Assert.assertTrue(false);
-	}
+//	@Ignore
+//	@Test
+//	public void test_replyToMessage_UserLoggedOff() throws UserNotAuthorizedException, WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, EmptyMessageTitleAndBodyException {
+//		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
+//		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
+//
+//		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user1);
+//		Message msg = t.getOpeningMessage();
+//		try{
+//			Message reply1 = replyToMessage(theForum, msg, THREAD_TITLES[1], THREAD_CONTENTS[1], user2);
+//		}
+//
+//		catch(Exception e){
+//			// TODO change to UserNotLoggedInException
+//			Assert.assertTrue(true);
+//			return;
+//		}
+//
+//		Assert.assertTrue(false);
+//	}
 	
 
 	@Test
