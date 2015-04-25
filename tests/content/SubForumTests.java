@@ -96,6 +96,13 @@ public class SubForumTests extends TestCase{
 		assertFalse(subforum.didUserPostHere(user5));
 
 	}
+	
+	@Test
+	public void testChangeWhenOneAndMaxModeratorOne() {
+		SubForum subforum2 = new SubForum("forum name2",user2,1);
+		subforum2.changeModerator(user2, user1);
+		assertEquals(subforum2.getModerators().get(0),user1);
+	}
 
 
 }
