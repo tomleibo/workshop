@@ -8,6 +8,7 @@ import content.Thread;
 import exceptions.*;
 import policy.ForumPolicy;
 import policy.Policy;
+import policy.UserStatusPolicy;
 import users.FriendRequest;
 import users.User;
 
@@ -54,4 +55,5 @@ public interface IForumSystemBridge {
 	boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException;
 
 	void tearDownForumSystem(User superAdmin, ForumSystem system) throws UserNotAuthorizedException;
+	boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy);
 }

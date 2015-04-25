@@ -38,14 +38,14 @@ public class MemberUserServicesTests extends ForumTests {
 		theForum.getSubForums().clear();
 	}
 	
-	@Test
+	@Test // 5.1
 	public void test_login_ExistingUser() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		Assert.assertNotNull(user1);
 		Assert.assertTrue(user1.isLoggedIn());
 	}
 
-	@Test
+	@Test // 5.2
 	public void test_login_NonExistingUser() throws UserAlreadyLoggedInException, NoSuchAlgorithmException, WrongPasswordException {
 		try {
 			user1 = loginUser(theForum, USER_NAMES[2], USER_PASSES[2]);
@@ -57,7 +57,7 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertTrue(false);
 	}
 
-	@Test
+	@Test // 5.3
 	public void test_login_WrongPassword() throws NoSuchAlgorithmException, UserDoesNotExistsException, WrongPasswordException, UserAlreadyLoggedInException {
 		try {
 			user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[1]);
@@ -70,7 +70,7 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 
 
-	@Test
+	@Test // 5.4
 	 public void test_login_ExistingUser_DoubleLogin() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 
@@ -84,7 +84,7 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertTrue(false);
 	}
 
-	@Test
+	@Test // 5.5
 	public void test_logoff_UserLoggedIn() throws UserNotLoggedInException, UserDoesNotExistsException, UserAlreadyLoggedInException, NoSuchAlgorithmException, WrongPasswordException {
 		loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		user1 = logoffUser(theForum, user1);
@@ -92,7 +92,7 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 
 //	@Ignore
-//	@Test
+//	@Test // 5.6
 //	public void test_logoff_UserNotLoggedIn() throws UserDoesNotExistsException {
 //		try {
 //			user1 = logoffUser(theForum, user1);
@@ -105,7 +105,7 @@ public class MemberUserServicesTests extends ForumTests {
 //	}
 
 
-	@Test
+	@Test // 5.7
 	public void test_post_validParameters() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
@@ -117,7 +117,7 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertEquals(msg.getBody(), THREAD_CONTENTS[0]);
 	}
 
-	@Test
+	@Test // 5.8
 	public void test_post_emptyMessage() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
@@ -133,7 +133,7 @@ public class MemberUserServicesTests extends ForumTests {
 
 	}
 	
-	@Test
+	@Test // 5.9
 	public void test_editPost_ExistingMessage() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
@@ -149,7 +149,7 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 	
 	
-	@Test
+	@Test // 5.10
 	public void test_deletePost_ExistingMessage() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 
@@ -166,7 +166,7 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertTrue(threads.isEmpty());
 	}
 
-	@Test
+	@Test // 5.11
 	public void test_deletePost_NotTheOwnerOfMessage() throws EmptyMessageTitleAndBodyException, WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		user2 = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
@@ -187,7 +187,7 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 
 
-	@Test
+	@Test // 5.12
 	public void test_replyToMessage_UserLoggedIn() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		user2 = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
@@ -205,7 +205,7 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 
 //	@Ignore
-//	@Test
+//	@Test // 5.13
 //	public void test_replyToMessage_UserLoggedOff() throws UserNotAuthorizedException, WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, EmptyMessageTitleAndBodyException {
 //		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 //		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
@@ -226,7 +226,7 @@ public class MemberUserServicesTests extends ForumTests {
 //	}
 	
 
-	@Test
+	@Test // 5.14
 	public void test_addFriend_FriendExists() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UsernameAlreadyExistsException, UserNotAuthorizedException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		user2 = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
@@ -239,7 +239,7 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertEquals(user2.getFriends().size(),1);
 	}
 
-	@Test
+	@Test // 5.15
 	public void test_removeFriend_IsAFriend() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UsernameAlreadyExistsException, UserNotAuthorizedException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		user2 = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
@@ -253,7 +253,7 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertTrue(user2.getFriends().isEmpty());
 	}
 
-	@Test
+	@Test // 5.16
 	public void test_removeFriend_IsntAFriend() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UsernameAlreadyExistsException, UserNotAuthorizedException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		user2 = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
@@ -262,7 +262,7 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertFalse(result);
 	}
 
-	@Test
+	@Test // 5.17
 	public void test_reportModerator_SameForum_UserHasPostedBefore() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, UsernameAlreadyExistsException, EmptyMessageTitleAndBodyException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
@@ -276,7 +276,7 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertTrue(result);
 	}
 
-	@Test
+	@Test // 5.18
 	public void test_reportModerator_DifferentForum() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UsernameAlreadyExistsException, UserNotAuthorizedException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		User otherSuperAdmin = User.newSuperAdmin(superAdminUsername, superAdminPassword, superAdminMail);
@@ -297,7 +297,7 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertTrue(false);
 	}
 
-	@Test
+	@Test // 5.19
 	public void test_reportModerator_SameForum_UserHasntPostedBeofre() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, UserNotAuthorizedException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
@@ -315,12 +315,12 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.fail();
 	}
 
-	@Test
+	@Test // 5.20
 	public void test_emailNotification_ValidEmailAddress() {
 		// TODO
 	}
 
-	@Test
+	@Test // 5.21
 	public void test_emailNotification_InvalidEmailAddress() {
 		// TODO
 	}

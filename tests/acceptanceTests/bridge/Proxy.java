@@ -5,6 +5,7 @@ import content.Thread;
 import exceptions.*;
 import policy.ForumPolicy;
 import policy.Policy;
+import policy.UserStatusPolicy;
 import users.FriendRequest;
 import users.User;
 
@@ -298,5 +299,13 @@ public class Proxy implements IForumSystemBridge {
     public void tearDownForumSystem(User superAdmin, ForumSystem system) throws UserNotAuthorizedException {
         if(real != null)
             real.tearDownForumSystem(superAdmin, system);
+    }
+
+    @Override
+    public boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy) {
+        if(real != null)
+            return real.addUserStatusType(superAdmin, type, userStatusPolicy);
+
+        return false;
     }
 }

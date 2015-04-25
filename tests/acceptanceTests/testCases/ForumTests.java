@@ -10,6 +10,7 @@ import exceptions.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import policy.ForumPolicy;
+import policy.UserStatusPolicy;
 import users.FriendRequest;
 import users.User;
 
@@ -49,7 +50,7 @@ public class ForumTests {
 	protected static final String superAdminPassword = "";
 	protected static final String superAdminMail = "";
 
-	private static ForumSystem system;
+	protected static ForumSystem system;
 	protected static Forum theForum;
 	protected static User superAdmin;
 	protected static ForumPolicy policy;
@@ -173,6 +174,11 @@ public class ForumTests {
 
 	protected static void tearDownForumSystem(User superAdmin,ForumSystem system) throws UserNotAuthorizedException {
 		driver.tearDownForumSystem(superAdmin, system);
+	}
+
+
+	protected boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy) {
+		return driver.addUserStatusType(superAdmin, type, userStatusPolicy);
 	}
 
 

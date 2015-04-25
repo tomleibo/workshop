@@ -35,7 +35,7 @@ public class AdminServicesTests extends ForumTests{
 		theForum.getSubForums().clear();
 	}
 
-	@Test
+	@Test // 1.1
 	public void test_cancelSubForum_ExistingSubForum() throws UserNotAuthorizedException {
 		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
 		SubForum sf2 = addSubForum(theForum, SUB_FORUM_NAMES[1], admin);
@@ -54,13 +54,13 @@ public class AdminServicesTests extends ForumTests{
 		Assert.assertEquals(showListOfSubForums(theForum, admin).size(),0);
 	}
 
-	@Test
+	@Test // 1.2
 	public void test_cancelSubForum_NonExistingSubForum() throws UserNotAuthorizedException {
 		boolean result = cancelSubForum(theForum, null, admin);
 		Assert.assertFalse(result);
 	}
 
-	@Test
+	@Test // 1.3
 	public void test_cancelSubForum_UnAuthorizedUser() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserNotAuthorizedException {
 		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 
@@ -75,14 +75,14 @@ public class AdminServicesTests extends ForumTests{
 		Assert.assertTrue(false);
 	}
 
-	@Test
+	@Test // 1.4
 	public void test_addSubForum_ValidParameters() throws UserNotAuthorizedException {
 		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
 		Assert.assertNotNull(sf1);
 		Assert.assertEquals(sf1.getName(), SUB_FORUM_NAMES[0]);
 	}
 
-	@Test
+	@Test // 1.5
 	public void test_addSubForum_UnAuthorizedUser() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException {
 		try{
 			SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], user);

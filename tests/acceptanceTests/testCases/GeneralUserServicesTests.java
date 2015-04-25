@@ -32,7 +32,7 @@ public class GeneralUserServicesTests extends ForumTests{
 		theForum.getSubForums().clear();
 	}
 
-	@Test
+	@Test // 3.1
 	public void test_showListOfSubForums_AddMultipleSubForums() throws UserNotAuthorizedException {
 
 		List<SubForum> subForums = new ArrayList<>();
@@ -50,13 +50,13 @@ public class GeneralUserServicesTests extends ForumTests{
 		}
 	}
 	
-	@Test
+	@Test // 3.2
 	public void test_showListOfSubForumsTests_AddNone() throws UserNotAuthorizedException {
 		List<SubForum> addedSubForums = showListOfSubForums(theForum, superAdmin);
 		Assert.assertTrue(addedSubForums.isEmpty());
 	}
 	
-	@Test
+	@Test // 3.3
 	public void test_showListOfThreads_AddMultiple() throws UserNotAuthorizedException, WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, EmptyMessageTitleAndBodyException {
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 		
@@ -74,7 +74,7 @@ public class GeneralUserServicesTests extends ForumTests{
 		}
 	}
 	
-	@Test
+	@Test // 3.4
 	public void test_showListOfThreads_AddNone() throws UserNotAuthorizedException {
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 		List<Thread> addedThreads = showListOfThreads(sf);
@@ -82,7 +82,7 @@ public class GeneralUserServicesTests extends ForumTests{
 		}
 
 //	@Ignore
-//	@Test
+//	@Test // 3.5
 //	public void test_searchMessages_ValidAnswer() throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException, WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException {
 //		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 //
@@ -102,7 +102,7 @@ public class GeneralUserServicesTests extends ForumTests{
 //	}
 //
 //	@Ignore
-//	@Test
+//	@Test // 3.6
 //	public void test_searchMessages_InvalidAnswer() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 //		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 //
