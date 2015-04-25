@@ -5,6 +5,7 @@ import exceptions.ForumSystemNotExistsException;
 import exceptions.UserNotAuthorizedException;
 import policy.UserStatusPolicy;
 import users.User;
+import utils.ForumLogger;
 
 import java.util.*;
 
@@ -50,21 +51,25 @@ public class ForumSystem {
     }
 
     public boolean addUserStatusType(String type, UserStatusPolicy userStatusPolicy){
-        if(userStatusTypes.put(type, userStatusPolicy) != null)
+        if(userStatusTypes.put(type, userStatusPolicy) != null) {
+            ForumLogger.actionLog("The type " + type + " added to the state types");
             return true;
+        }
         return false;
     }
 
     public boolean removeUserStatusType(String type){
-        for(Forum forum:forums){
-            for(User user: forum.getMembers()) {
-                if(user.getState().getStatus().equals(type)){
-                    user.getState().setStatus("");
+        if(userStatusTypes.remove(type)!=null) {
+            for(Forum forum:forums){
+                for(User user: forum.getMembers()) {
+                    if(user.getState().getStatus().equals(type)){
+                        user.getState().setStatus("");
+                    }
                 }
             }
-        }
-        if(userStatusTypes.remove(type)!=null)
+            ForumLogger.actionLog("The type " + type + " removed from the state types");
             return true;
+        }
         return false;
     }
 }

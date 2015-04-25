@@ -10,6 +10,7 @@ import users.FriendRequest;
 import users.Report;
 import users.User;
 import utils.Cipher;
+import utils.ForumLogger;
 import utils.MailAuthenticator;
 
 import java.security.NoSuchAlgorithmException;
@@ -28,7 +29,9 @@ public class UserController {
 		if (forum.isSecured()) {
 			MailAuthenticator authenticator = new MailAuthenticator(mailHost, mailUsername, mailPassword);
 			authenticator.sendVerificationMail(emailAddress, username);
+			ForumLogger.actionLog("Authentication in the forum " + forum.getName() + "is needed, authentication mail is sent to address: " + emailAddress);
 			if (authenticator.authorizedMailIncome(emailAddress)) {
+				ForumLogger.actionLog("A response mail has arrived, the user reliability approved!");
 				if (forum.addMember(member))
 					return member;
 			}
@@ -41,8 +44,10 @@ public class UserController {
 
 	public static User login(Forum forum, String username, String password) throws NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, WrongPasswordException {
 		User user = getUserFromForum(username, forum);
-		if (user == null)
+		if (user == null) {
+			ForumLogger.errorLog("The user " + username + " trying to login but he is not existing in the forum " + forum.getName());
 			throw new UserDoesNotExistsException();
+		}
 		return user.login(Cipher.hashString(password, Cipher.SHA));
 	}
 
@@ -58,9 +63,13 @@ public class UserController {
 	
 	public static User logout(Forum forum, String username) throws UserDoesNotExistsException, UserNotLoggedInException {
 		User user = getUserFromForum(username, forum);
-		if (user != null)
+		if (user != null) {
+			ForumLogger.actionLog("The user " + username + "is logged out successfully");
 			return user.logout();
+		}
+		ForumLogger.errorLog("The user " + username + " trying to logout but he is not existing in the forum " + forum.getName());
 		throw new UserDoesNotExistsException();
+
 	}
 
 	public static String viewOwnProfile(User user) {
@@ -72,6 +81,7 @@ public class UserController {
 			FriendRequest request = new FriendRequest(from, to, message);
 			return to.addFriendRequest(request);
 		}
+		ForumLogger.errorLog("The user " + to.getUsername() + "or the user " + from.getUsername() + " has no permissions to remove friends");
 		throw new UserNotAuthorizedException("to send or receive friend request.");
 	}
 	
@@ -79,18 +89,22 @@ public class UserController {
 		if (PolicyHandler.canUserHaveFriends(forum, user) & PolicyHandler.canUserHaveFriends(forum, friend)) {
 			return friend.deleteFriend(user) && user.deleteFriend(friend);
 		}
+		ForumLogger.errorLog("The user " + user.getUsername() + "has no permissions to remove friends");
 		throw new UserNotAuthorizedException("to remove friends.");
 	}
 	
 	public static boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserReplyToFriendRequest(forum, user, request)) {
 			if (answer) {
+				ForumLogger.actionLog("The user " + user.getUsername() + " accepted the friend request from " + request.getRequestingMember().getUsername());
 				User requesting = request.getRequestingMember();
 				User receiving = request.getReceivingMember();
 				return requesting.addFriend(receiving) && receiving.addFriend(requesting);
 			}
+			ForumLogger.errorLog("The user " + user.getUsername() + " did not accept the friend request from " + request.getRequestingMember().getUsername());
 			return false;
 		}
+		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to reply a friend request");
 		throw new UserNotAuthorizedException("to reply to friend request.");
 	}
 	
@@ -99,6 +113,7 @@ public class UserController {
 			Report report = new Report(title, content, reporter, admin);
 			return forum.addReport(report) && reporter.addSentReport(report);
 		}
+		ForumLogger.errorLog("The user " + reporter.getUsername() + " has no permissions to send a report");
 		throw new UserNotAuthorizedException("to send a report.");
 	}
 
@@ -106,6 +121,7 @@ public class UserController {
 		if (PolicyHandler.canUserBeDeactivated(user)) {
 			return user.deactivate();
 		}
+		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to deactivate itself");
 		throw new UserNotAuthorizedException("to deactivate itself.");
 	}
 
@@ -113,6 +129,7 @@ public class UserController {
 		if (PolicyHandler.canUserDeleteComment(forum, subForum, user, msg)) {
 			return ContentController.deletePost(msg);
 		}
+		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to delete post");
 		throw new UserNotAuthorizedException("to delete post.");
 	}
 
@@ -120,6 +137,7 @@ public class UserController {
 		if (PolicyHandler.canUserOpenThread(forum, user)){
 			return ContentController.openNewThread(forum, subforum, title, content, user);
 		}
+		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to open thread");
 		throw new UserNotAuthorizedException("to open thread.");
 	}
 
@@ -127,6 +145,7 @@ public class UserController {
 		if (PolicyHandler.canUserReply(forum, user)) {
 			return ContentController.reply(forum, addTo, title, content, user);
 		}
+		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to reply");
 		throw new UserNotAuthorizedException("to reply.");
 	}
 
@@ -134,6 +153,7 @@ public class UserController {
 		if(PolicyHandler.canUserViewSubForums(forum, user)) {
 			return ContentController.viewSubForumList(forum);
 		}
+		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to view sub forums list");
 		throw new UserNotAuthorizedException("to view sub forums list.");
 	}
 
@@ -141,6 +161,7 @@ public class UserController {
 		if (PolicyHandler.canUserViewSubForums(forum, user)) {
 			return ContentController.viewThreads(subForum);
 		}
+		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to view threads");
 		throw new UserNotAuthorizedException("to view threads.");
 	}
 
