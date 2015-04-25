@@ -6,20 +6,27 @@ import content.Message;
 import exceptions.UserNotAuthorizedException;
 import policy.ForumPolicy;
 import policy.PolicyHandler;
+import policy.UserStatusPolicy;
 import users.User;
-import utils.Cipher;
 
 import java.security.NoSuchAlgorithmException;
 
 public class SuperAdminController {
 
 	public static Forum createNewForum(User superAdmin, ForumPolicy policy, String name) throws UserNotAuthorizedException {
-		if (PolicyHandler.canUserAddSubForum(superAdmin)) {
+		if (PolicyHandler.canUserAddForum(superAdmin)) {
 			Forum forum = new Forum(superAdmin, policy, name);
 			ForumSystem.getInstance().addForum(forum);
 			return forum;
 		}
 		throw new UserNotAuthorizedException("to create new forum.");
+	}
+
+	public static boolean deleteForum(User superAdmin, Forum forum) throws UserNotAuthorizedException {
+		if (PolicyHandler.canUserRemoveForum(superAdmin)) {
+			return ForumSystem.getInstance().removeForum(forum);
+		}
+		throw new UserNotAuthorizedException("to remove forum.");
 	}
 	
 	public static boolean changeAdministrator(User superAdmin, Forum forum, User admin) throws UserNotAuthorizedException {
@@ -39,9 +46,17 @@ public class SuperAdminController {
 		throw new UserNotAuthorizedException("to change forum policy.");
 	}
 
-	public static ForumSystem initializeForumSystem(String username, String password, String email) throws NoSuchAlgorithmException {
-		User superAdmin = User.newSuperAdmin(username, Cipher.hashString(password, Cipher.SHA), email);
+	public static ForumSystem initializeForumSystem(String username, String hashedPassword, String email) throws NoSuchAlgorithmException {
+		User superAdmin = User.newSuperAdmin(username, hashedPassword, email);
 		return ForumSystem.newForumSystem(superAdmin);
+	}
+
+	public static boolean addUserStatusType(String type, UserStatusPolicy userStatusPolicy){
+		return ForumSystem.getInstance().addUserStatusType(type, userStatusPolicy);
+	}
+
+	public static boolean removeUserStatusType(String type){
+		return ForumSystem.getInstance().removeUserStatusType(type);
 	}
 
 }
