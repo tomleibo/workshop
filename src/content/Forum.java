@@ -28,7 +28,7 @@ public class Forum {
 		addMember(admin);
 	}
 	
-	public User getSuperAdmin() {
+	public User getAdmin() {
 		return admin;
 	}
 	

@@ -34,19 +34,19 @@ public class PolicyHandler {
 	}
 
 	public static boolean canUserDeleteSubForum(Forum forum, User admin) {
-		if(forum.getSuperAdmin().equals(admin))
+		if(forum.getAdmin().equals(admin))
 			return true;
 		return false;
 	}
 
 	public static boolean canUserAddSubForum(Forum forum, User admin) {
-		if(forum.getSuperAdmin().equals(admin))
+		if(forum.getAdmin().equals(admin))
 			return true;
 		return false;
 	}
 	
 	public static boolean canBanModerator(Forum forum, SubForum subForum, User admin, User mod) {
-		if(forum.getSubForums().contains(subForum) && forum.getSuperAdmin().equals(admin) && subForum.getModerators().contains(mod))
+		if(forum.getSubForums().contains(subForum) && forum.getAdmin().equals(admin) && subForum.getModerators().contains(mod))
 			return true;
 		return false;
 	}
@@ -59,14 +59,14 @@ public class PolicyHandler {
 
 	public static boolean canUnAppointModerator(Forum forum, SubForum subForum, User admin, User moderator) {
 		//and depends on ForumPolicy
-		if(forum.getSubForums().contains(subForum) && forum.getSuperAdmin().equals(admin))
+		if(forum.getSubForums().contains(subForum) && forum.getAdmin().equals(admin))
 			return true;
 		return  false;
 
 	}
 
 	public static boolean canAppointModerator(Forum forum, SubForum subForum, User admin, User moderator) {
-		if(forum.getSubForums().contains(subForum) && forum.getSuperAdmin().equals(admin) && moderator.isActive())
+		if(forum.getSubForums().contains(subForum) && forum.getAdmin().equals(admin) && moderator.isActive())
 			return true;
 		return  false;
 	}
@@ -104,13 +104,13 @@ public class PolicyHandler {
 	}
 
 	public static boolean canReplaceAdmin(User superAdmin, Forum forum, User admin) {
-		if(forum.getSuperAdmin().equals(superAdmin))
+		if(forum.getAdmin().equals(superAdmin))
 			return true;
 		return false;
 	}
 
 	public static boolean canUserChangePolicy(User superAdmin, Forum forum) {
-		if(forum.getSuperAdmin().equals(superAdmin))
+		if(forum.getAdmin().equals(superAdmin))
 			return true;
 		return false;
 	}
@@ -122,7 +122,7 @@ public class PolicyHandler {
 	}
 
 	public static boolean canUserReportAdmin(Forum forum, User reporter, User admin) {
-		if(!reporter.getState().isGuest() && reporter.isActive() && forum.getMembers().contains(reporter) && forum.getSuperAdmin().equals(admin))
+		if(!reporter.getState().isGuest() && reporter.isActive() && forum.getMembers().contains(reporter) && forum.getAdmin().equals(admin))
 			return true;
 		return false;
 	}
