@@ -3,17 +3,34 @@ package content;
 import users.User;
 import utils.IdGenerator;
 
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table(name="thread")
 public class Thread {
+	@Id
+	@Column(name="subforum_id", nullable=false, unique=true)
 	public int id;
+	@OneToOne
+	@JoinColumn(name="member_started")
 	private User memberStarted;
-	private java.sql.Date date; 
+	@Column(name="date")
+	@Temporal(TemporalType.DATE)
+	private Date date;
+	@OneToOne
+	@JoinColumn(name="opening_message")
 	private Message openingMessage;
+	@ManyToOne
+	@JoinColumn(name="sub_forum")
 	private SubForum subForum;
-	
+
+	public Thread(){}
+
 	public Thread(User user, Message openingMessage, SubForum subForum){
 		this.id=IdGenerator.getId(IdGenerator.THREAD);
 		this.memberStarted = user;
-		this.date = new java.sql.Date(System.currentTimeMillis());
+		this.date = new Date(System.currentTimeMillis());
 		this.openingMessage = openingMessage;
 		this.subForum = subForum;
 		openingMessage.setThread(this);
@@ -23,7 +40,7 @@ public class Thread {
 		return memberStarted;
 	}
 
-	public java.sql.Date getDate() {
+	public Date getDate() {
 		return date;
 	}
 

@@ -1,7 +1,11 @@
 package users.userState;
 
-public class AdminState extends UserState {
+import javax.persistence.*;
 
+@Entity
+@DiscriminatorValue("admin")
+public class AdminState extends UserState {
+    public AdminState(){}
     @Override
     public boolean isAdmin(){
         return true;

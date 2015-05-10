@@ -8,37 +8,55 @@ import users.userState.*;
 import utils.ForumLogger;
 import utils.IdGenerator;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name="user")
 public class User {
 
 	private static String guestUsername = "Guest";
 	private static String guestPassword = "";
 	private static String guestMail = "";
-
-	private final int id;
-	private final String username;
+	@Id
+	@Column(name="user_id")
+	private int id;
+	@Column(name="name")
+	private String username;
+	@Column(name="email_address")
 	private String emailAddress;
+	@Column(name="password")
 	private String hashedPassword;
-	private java.sql.Date creationDate;
-
+	@Column(name="date")
+	@Temporal(TemporalType.DATE)
+	private java.util.Date creationDate;
+	@OneToOne
+	@JoinColumn(name="state")
 	private UserState state;
-
+	@Column(name="is_active")
 	private boolean active;
+	@Column(name="is_banned")
 	private boolean banned;
+	@Column(name="is_logged_in")
 	private boolean loggedIn;
-
+	@ManyToMany
 	private Set<User> friends;
+	@OneToMany
+	@JoinColumn(name="panding_notfications")
 	private List<Notification> pendingNotifications;
+	@OneToMany( mappedBy = "receivingMember")
 	private List<FriendRequest> friendRequests;
+	@OneToMany( mappedBy = "reporter")
 	private List<Report> sentReports;
-
+	@Column(name="seniority")
 	private int  seniority;
+	@Column(name="loginTime")
 	private long loginTime;
 
+	public User(){}
 	/**
 	 * Constructor for testing.
 	 */
@@ -76,7 +94,7 @@ public class User {
 		active = true;
 		banned = false;
 		loggedIn = false;
-		creationDate = new java.sql.Date(System.currentTimeMillis());
+		creationDate = new java.util.Date(System.currentTimeMillis());
 	}
 
 	/**
@@ -328,4 +346,7 @@ public class User {
 				'}';
 	}
 
+	public List<FriendRequest> getFriendRequests() {
+		return friendRequests;
+	}
 }

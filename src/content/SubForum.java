@@ -3,17 +3,30 @@ package content;
 import users.User;
 import utils.IdGenerator;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name="subforum")
 public class SubForum {
+	@Id
+	@Column(name="subforum_id", nullable=false, unique=true)
 	public int id;
+	@Column(name="name")
 	private String name;
+	@OneToMany(mappedBy = "subForum")
 	private List<Thread> threads;
+	@ManyToMany
 	private List<User> moderators;
+	@OneToMany
+	@JoinColumn(name="banned_moderators")
 	private List<User> bannedModerators;
+	@Column(name="max_moderators")
 	private int maxModerators;
-	
+
+	public SubForum(){}
+
 	public SubForum(String name, User mod, int maxModerators) {
 		this.id=IdGenerator.getId(IdGenerator.SUBFORUM);
 		this.name=name;
@@ -23,25 +36,25 @@ public class SubForum {
 		bannedModerators = new ArrayList<>();
 		this.maxModerators=maxModerators;
 	}
-	
+
 	public List<User> getModerators() {
 		return moderators;
 	}
-	
+
 	public List<Thread> viewThreads() {
-		return threads; 
+		return threads;
 	}
-	
+
 	public String getName(){
 		return this.name;
 	}
-	
+
 	public boolean addThread(Thread thread) {
 		return threads.add(thread);
 	}
-	
+
 	public boolean removeThread(Thread thread) {
-		return threads.remove(thread); 
+		return threads.remove(thread);
 	}
 
 	public boolean hasModerator(User moderator) {
@@ -49,7 +62,7 @@ public class SubForum {
 	}
 
 	public boolean addModerator(User moderator) {
-		if (moderators.size() < maxModerators && !moderators.contains(moderator)) {	
+		if (moderators.size() < maxModerators && !moderators.contains(moderator)) {
 			moderators.add(moderator);
 			return true;
 		}
@@ -57,7 +70,7 @@ public class SubForum {
 			return false;
 		}
 	}
-	
+
 	public boolean removeModerator(User moderator) {
 		if (moderators.size() == 1) {
 			return false;
@@ -67,7 +80,7 @@ public class SubForum {
 			return true;
 		}
 	}
-	
+
 	public boolean changeModerator(User existingModerator, User newModerator) {
 		if(moderators.contains(newModerator)) {
 			return false;
@@ -76,7 +89,7 @@ public class SubForum {
 		moderators.remove(existingModerator);
 		return true;
 	}
-	
+
 	public boolean banModerator(User moderator) {
 		if (moderators.size() ==1 ){
 			return false;
@@ -89,7 +102,7 @@ public class SubForum {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof SubForum)) {
@@ -98,7 +111,7 @@ public class SubForum {
 		SubForum obj = (SubForum) o;
 		return obj.id == id  || name.equals(obj.getName());
 	}
-	
+
 	public boolean didUserPostHere(User user) {
 		for (Thread t : threads) {
 			if (didUserPostPost(t.getOpeningMessage(),user)) {

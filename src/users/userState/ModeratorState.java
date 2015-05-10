@@ -2,11 +2,15 @@ package users.userState;
 
 import content.SubForum;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
 
+@Entity
+@DiscriminatorValue("moderator")
 public class ModeratorState extends UserState {
-
+    @ManyToMany(mappedBy = "moderators")
     private List<SubForum> managedSubForumsList;
 
     public ModeratorState() {

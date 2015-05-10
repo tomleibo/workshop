@@ -3,21 +3,42 @@ package content;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.*;
+
 import users.User;
 import utils.IdGenerator;
-
+@Entity
+@Table(name="Message")
 public class Message {
+	@Id
+	@Column(name="message_id", nullable=false, unique=true)
 	public int id;
+	@Column(name="title")
 	private String title="";
+	@Column(name="body")
 	private String body="";
-	private java.sql.Date date;
+	@Column(name="date")
+	@Temporal(TemporalType.DATE)
+	private java.util.Date date;
+
 	//date last edited?
+	@OneToOne
+	@JoinColumn(name="publisher")
 	private User publisher;
+	@OneToMany(mappedBy = "enclosingMessage")
 	private List<Message> comments;
+	//add insertable=false | uodateable=false
+	@ManyToOne()
+	@JoinColumn(name="enclosing")
 	private Message enclosingMessage;
+	@OneToOne
+	@JoinColumn(name="thread")
 	private Thread thread;
-	
-	
+
+	public Message() {
+
+	}
+
 	public Message(String title, String body, User publisher, Thread thread, Message parent) {
 		this.id=IdGenerator.getId(IdGenerator.MESSAGE);
 		this.title = title;
@@ -37,7 +58,7 @@ public class Message {
 		this.body=body;
 		return true;
 	}
-	
+
 	public boolean deleteSelf() {
 		if (this.enclosingMessage == null) {
 			return this.thread.deleteSelf();
@@ -46,15 +67,15 @@ public class Message {
 			return this.enclosingMessage.removeComment(this);
 		}
 	}
-	
+
 	private boolean removeComment(Message message) {
-		return comments.remove(message); 
+		return comments.remove(message);
 	}
 
 	public boolean addComment(Message comment) {
 		return comments.add(comment);
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof Message)) {
@@ -63,19 +84,19 @@ public class Message {
 		Message obj = (Message) o;
 		return obj.id == id;
 	}
-	
+
 	public String getBody() {
 		return body;
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}
-	
-	public java.sql.Date getDate() {
+
+	public java.util.Date getDate() {
 		return date;
 	}
-	
+
 	public List<Message> getComments() {
 		return comments;
 	}
@@ -88,7 +109,7 @@ public class Message {
 		this.thread = threadAdd;
 		return true;
 	}
-	
+
 	public Thread getThread() {
 		return thread;
 	}
@@ -98,5 +119,5 @@ public class Message {
 		return "Message [id=" + id + ", title=" + title + ", publisher="
 				+ publisher + "]";
 	}
-	
+
 }

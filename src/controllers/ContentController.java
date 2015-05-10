@@ -7,6 +7,8 @@ import content.Thread;
 import exceptions.EmptyMessageTitleAndBodyException;
 import policy.ForumPolicy;
 import users.User;
+import utils.ForumLogger;
+import utils.HibernateUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,11 +18,17 @@ import java.util.List;
 public class ContentController {
 	
 	public static boolean editPost(Message post, String body) {
-		return post.edit(body);
+		if (post.edit(body)) {
+			return HibernateUtils.save(post);
+		}
+		return false;
 	}
 	
 	public static boolean deletePost(Message post) {
-		return post.deleteSelf();
+		if (post.deleteSelf()) {
+			return HibernateUtils.save(post.getEnclosingMessage()) && HibernateUtils.del(post);
+		}
+		return false;
 	}
 	
 	public static List<SubForum> viewSubForumList(Forum forum) {
@@ -59,41 +67,50 @@ public class ContentController {
 		return ans;
 	}
 
-	public static Thread openNewThread(Forum forum, SubForum subforum, String title,String content, User user) throws EmptyMessageTitleAndBodyException {
+	public static Thread openNewThread(Forum forum, SubForum subforum, String title, String content, User user) throws EmptyMessageTitleAndBodyException {
 		if ((title == null || title.equals("")) && (content == null || content.equals(""))) {
 			throw new EmptyMessageTitleAndBodyException();
 		}
 		Message openingMsg = new Message(title, content, user, null, null);
 		Thread threadAdd = new Thread(user, openingMsg, subforum);
 		if (subforum.addThread(threadAdd)) {
+			HibernateUtils.save(subforum);
 			return threadAdd;
 		}
 		return null;
 	}
 	
-	public static Message reply(Forum forum, Message addTo, String title,String content, User user) throws EmptyMessageTitleAndBodyException {
+	public static Message reply(Forum forum, Message addTo, String title, String content, User user) throws EmptyMessageTitleAndBodyException {
 		if ((title==null || title.equals("")) && (content==null || content.equals("")) ) {
 			throw new EmptyMessageTitleAndBodyException();
 		}
 		Message comment = new Message(title, content, user, null, addTo);
 		if (addTo.addComment(comment)) {
+			HibernateUtils.save(addTo);
 			return comment;
 		}
 		return null;
 	}
 	
 	public static boolean deleteSubForum(Forum forum, SubForum subForum) {
-		return forum.deleteSubForum(subForum);
+		if (forum.deleteSubForum(subForum)) {
+			return HibernateUtils.save(forum);
+		}
+		return false;
 	}
 	
 	public static boolean defineProperties(Forum forum, ForumPolicy policy) {
 		// TODO - Method not tested.
-		return forum.setPolicy(policy);
+		if (forum.setPolicy(policy)) {
+			return HibernateUtils.save(forum);
+		}
+		return false;
 	}
 	
 	public static SubForum addSubForum(Forum forum, String title, User moderator) {
 		SubForum sub = new SubForum(title, moderator, forum.getPolicy().getMaxModerators());
 		if (forum.addSubForum(sub)) {
+			HibernateUtils.save(forum);
 			return sub;
 		}
 		return null;

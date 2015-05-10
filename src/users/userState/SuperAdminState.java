@@ -1,5 +1,9 @@
 package users.userState;
 
+import javax.persistence.*;
+
+@Entity
+@DiscriminatorValue("superAdmin")
 public class SuperAdminState extends UserState {
 
     @Override

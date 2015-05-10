@@ -1,12 +1,28 @@
 package users;
 
-public class FriendRequest {
+import javax.persistence.*;
 
-	private final User requestingMember;
-	private final User receivingMember;
-	private final String message;
-	private final java.sql.Date date;
-	
+@Entity
+@Table(name="friendRequest")
+public class FriendRequest {
+	@Id
+	@Column(name="friend_request_id")
+	public int id;
+	@OneToOne
+	@JoinColumn(name="requesting_member")
+	private User requestingMember;
+	@ManyToOne
+	@JoinColumn(name = "receiving_member")
+	private User receivingMember;
+	@Column(name="message")
+	private String message;
+	@Column(name="date")
+	@Temporal(TemporalType.DATE)
+	private java.util.Date date;
+
+	public FriendRequest(){
+
+	}
 	public FriendRequest(User requestingMember, User receivingMember, String message) {
 		this.requestingMember = requestingMember;
 		this.receivingMember = receivingMember;
@@ -26,7 +42,7 @@ public class FriendRequest {
 		return message;
 	}
 
-	public java.sql.Date getDate() {
+	public java.util.Date getDate() {
 		return date;
 	}
 

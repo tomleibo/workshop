@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - forum_system@localhost" uuid="c8fadd41-675c-4c79-b539-a43b6bc897a4">
+    <database-info product="MySQL" version="5.6.24" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="forum_system"/>
+    <table name="forum" schema="" catalog="forum_system" type="TABLE">
+      <column name="forum_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="admin" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="policy" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="forum_id"/>
+      <foreign-key name="FK_4ebovpr3l5gy6h3gcgwlsmr55" columns="policy" ref-table="forumpolicy" ref-schema="" ref-catalog="forum_system" ref-columns="max_moderators" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_l9pbqj2i36itiuhbu7q61xqlq" columns="admin" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_7g6v6cpsr93h1hk0twmu7r9th" table="subforum" schema="" catalog="forum_system" columns="sub_forums"/>
+      <exported-key name="FK_c5hxev5c7kj1tpobb6h8112gb" table="user" schema="" catalog="forum_system" columns="members"/>
+      <index name="FK_4ebovpr3l5gy6h3gcgwlsmr55" unique="false" columns="policy"/>
+      <index name="FK_l9pbqj2i36itiuhbu7q61xqlq" unique="false" columns="admin"/>
+    </table>
+    <table name="forumpolicy" schema="" catalog="forum_system" type="TABLE">
+      <column name="max_moderators" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="mail_verification" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <column name="hashFunction" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="password_regex" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="max_moderators"/>
+      <exported-key name="FK_4ebovpr3l5gy6h3gcgwlsmr55" table="forum" schema="" catalog="forum_system" columns="policy"/>
+    </table>
+    <table name="friendrequest" schema="" catalog="forum_system" type="TABLE">
+      <column name="friend_request_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="date" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="message" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="receiving_member" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="requesting_member" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="friend_request_id"/>
+      <foreign-key name="FK_bekiv4appix0j5yk67uuioayo" columns="requesting_member" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_iyfuil6jsm7fal7bojsvlsufm" columns="receiving_member" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_bekiv4appix0j5yk67uuioayo" unique="false" columns="requesting_member"/>
+      <index name="FK_iyfuil6jsm7fal7bojsvlsufm" unique="false" columns="receiving_member"/>
+    </table>
+    <table name="message" schema="" catalog="forum_system" type="TABLE">
+      <column name="message_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="body" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="date" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="title" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="enclosing" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="publisher" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="thread" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="message_id"/>
+      <foreign-key name="FK_9rwdghda774npslcxvpgunl2x" columns="enclosing" ref-table="message" ref-schema="" ref-catalog="forum_system" ref-columns="message_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_bhwi07af4vfkyi74bg0q4kptf" columns="thread" ref-table="thread" ref-schema="" ref-catalog="forum_system" ref-columns="subforum_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_t5pyeus2p3yl9gye831yh24fq" columns="publisher" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_9rwdghda774npslcxvpgunl2x" table="message" schema="" catalog="forum_system" columns="enclosing"/>
+      <exported-key name="FK_8t476yx85jiujuar4ntw2ya7u" table="thread" schema="" catalog="forum_system" columns="opening_message"/>
+      <index name="FK_9rwdghda774npslcxvpgunl2x" unique="false" columns="enclosing"/>
+      <index name="FK_bhwi07af4vfkyi74bg0q4kptf" unique="false" columns="thread"/>
+      <index name="FK_t5pyeus2p3yl9gye831yh24fq" unique="false" columns="publisher"/>
+    </table>
+    <table name="notification" schema="" catalog="forum_system" type="TABLE">
+      <column name="notification_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="date" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="message" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="title" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="panding_notfications" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="notification_id"/>
+      <foreign-key name="FK_t94xd9sbaleqok5nqulgn7ub2" columns="panding_notfications" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_t94xd9sbaleqok5nqulgn7ub2" unique="false" columns="panding_notfications"/>
+    </table>
+    <table name="report" schema="" catalog="forum_system" type="TABLE">
+      <column name="report_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="content" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="date" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="title" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="reported" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="reporter" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="report_id"/>
+      <foreign-key name="FK_dr33qagtc9xoe4churrp9pmsx" columns="reported" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_ifcm2hkf9vyo7mwbhxggfg7wg" columns="reporter" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_dr33qagtc9xoe4churrp9pmsx" unique="false" columns="reported"/>
+      <index name="FK_ifcm2hkf9vyo7mwbhxggfg7wg" unique="false" columns="reporter"/>
+    </table>
+    <table name="subforum" schema="" catalog="forum_system" type="TABLE">
+      <column name="subforum_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="max_moderators" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="sub_forums" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="subforum_id"/>
+      <foreign-key name="FK_7g6v6cpsr93h1hk0twmu7r9th" columns="sub_forums" ref-table="forum" ref-schema="" ref-catalog="forum_system" ref-columns="forum_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_ikg584f7o4tu05rwso43q4aqp" table="subforum_user" schema="" catalog="forum_system" columns="subforum_subforum_id"/>
+      <exported-key name="FK_mrqncxgonc1pmt2b99yts965x" table="thread" schema="" catalog="forum_system" columns="sub_forum"/>
+      <exported-key name="FK_rcrbe6ye81vk8630ky19k8qa7" table="user" schema="" catalog="forum_system" columns="banned_moderators"/>
+      <index name="FK_7g6v6cpsr93h1hk0twmu7r9th" unique="false" columns="sub_forums"/>
+    </table>
+    <table name="subforum_user" schema="" catalog="forum_system" type="TABLE">
+      <column name="subforum_subforum_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="moderators_user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <foreign-key name="FK_3cln0xl2nbd9ocey4xuo81gj7" columns="moderators_user_id" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_ikg584f7o4tu05rwso43q4aqp" columns="subforum_subforum_id" ref-table="subforum" ref-schema="" ref-catalog="forum_system" ref-columns="subforum_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_3cln0xl2nbd9ocey4xuo81gj7" unique="false" columns="moderators_user_id"/>
+      <index name="FK_ikg584f7o4tu05rwso43q4aqp" unique="false" columns="subforum_subforum_id"/>
+    </table>
+    <table name="thread" schema="" catalog="forum_system" type="TABLE">
+      <column name="subforum_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="date" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="member_started" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="opening_message" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="sub_forum" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="subforum_id"/>
+      <foreign-key name="FK_8t476yx85jiujuar4ntw2ya7u" columns="opening_message" ref-table="message" ref-schema="" ref-catalog="forum_system" ref-columns="message_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_mrqncxgonc1pmt2b99yts965x" columns="sub_forum" ref-table="subforum" ref-schema="" ref-catalog="forum_system" ref-columns="subforum_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_tmqf72y6uvf2jvoxibaoglvi5" columns="member_started" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_bhwi07af4vfkyi74bg0q4kptf" table="message" schema="" catalog="forum_system" columns="thread"/>
+      <index name="FK_8t476yx85jiujuar4ntw2ya7u" unique="false" columns="opening_message"/>
+      <index name="FK_mrqncxgonc1pmt2b99yts965x" unique="false" columns="sub_forum"/>
+      <index name="FK_tmqf72y6uvf2jvoxibaoglvi5" unique="false" columns="member_started"/>
+    </table>
+    <table name="user" schema="" catalog="forum_system" type="TABLE">
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="is_active" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <column name="is_banned" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <column name="date" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="email_address" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="is_logged_in" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <column name="loginTime" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="seniority" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="state" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="banned_moderators" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="members" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="user_id"/>
+      <foreign-key name="FK_c5hxev5c7kj1tpobb6h8112gb" columns="members" ref-table="forum" ref-schema="" ref-catalog="forum_system" ref-columns="forum_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_fasdak9x6e0be65mdsjq7ggi" columns="state" ref-table="userstate" ref-schema="" ref-catalog="forum_system" ref-columns="state_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_rcrbe6ye81vk8630ky19k8qa7" columns="banned_moderators" ref-table="subforum" ref-schema="" ref-catalog="forum_system" ref-columns="subforum_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_l9pbqj2i36itiuhbu7q61xqlq" table="forum" schema="" catalog="forum_system" columns="admin"/>
+      <exported-key name="FK_bekiv4appix0j5yk67uuioayo" table="friendrequest" schema="" catalog="forum_system" columns="requesting_member"/>
+      <exported-key name="FK_iyfuil6jsm7fal7bojsvlsufm" table="friendrequest" schema="" catalog="forum_system" columns="receiving_member"/>
+      <exported-key name="FK_t5pyeus2p3yl9gye831yh24fq" table="message" schema="" catalog="forum_system" columns="publisher"/>
+      <exported-key name="FK_t94xd9sbaleqok5nqulgn7ub2" table="notification" schema="" catalog="forum_system" columns="panding_notfications"/>
+      <exported-key name="FK_dr33qagtc9xoe4churrp9pmsx" table="report" schema="" catalog="forum_system" columns="reported"/>
+      <exported-key name="FK_ifcm2hkf9vyo7mwbhxggfg7wg" table="report" schema="" catalog="forum_system" columns="reporter"/>
+      <exported-key name="FK_3cln0xl2nbd9ocey4xuo81gj7" table="subforum_user" schema="" catalog="forum_system" columns="moderators_user_id"/>
+      <exported-key name="FK_tmqf72y6uvf2jvoxibaoglvi5" table="thread" schema="" catalog="forum_system" columns="member_started"/>
+      <exported-key name="FK_8729pf5rqtkxgt3ld25eafh56" table="user_user" schema="" catalog="forum_system" columns="user_user_id"/>
+      <exported-key name="FK_s7eyxvxwjj8l4gwgyu12k11gu" table="user_user" schema="" catalog="forum_system" columns="friends_user_id"/>
+      <index name="FK_c5hxev5c7kj1tpobb6h8112gb" unique="false" columns="members"/>
+      <index name="FK_fasdak9x6e0be65mdsjq7ggi" unique="false" columns="state"/>
+      <index name="FK_rcrbe6ye81vk8630ky19k8qa7" unique="false" columns="banned_moderators"/>
+    </table>
+    <table name="user_user" schema="" catalog="forum_system" type="TABLE">
+      <column name="user_user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="friends_user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="user_user_id,friends_user_id"/>
+      <foreign-key name="FK_8729pf5rqtkxgt3ld25eafh56" columns="user_user_id" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_s7eyxvxwjj8l4gwgyu12k11gu" columns="friends_user_id" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_8729pf5rqtkxgt3ld25eafh56" unique="false" columns="user_user_id"/>
+      <index name="FK_s7eyxvxwjj8l4gwgyu12k11gu" unique="false" columns="friends_user_id"/>
+    </table>
+    <table name="userstate" schema="" catalog="forum_system" type="TABLE">
+      <column name="type" sqlType="VARCHAR" precision="31" scale="0" nullable="false" jdbcType="12"/>
+      <column name="state_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="status" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="state_id"/>
+      <exported-key name="FK_fasdak9x6e0be65mdsjq7ggi" table="user" schema="" catalog="forum_system" columns="state"/>
+    </table>
+    <table name="userstatuspolicy" schema="" catalog="forum_system" type="TABLE">
+      <column name="seniority" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="login_time" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="number_of_messages" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="seniority"/>
+    </table>
+  </data-source>
+</component>

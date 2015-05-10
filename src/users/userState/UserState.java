@@ -2,10 +2,18 @@ package users.userState;
 
 import content.SubForum;
 
+import javax.persistence.*;
 import java.util.List;
-
+@Entity
+@Table(name = "userState")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)
+@DiscriminatorValue(value="user_state")
 public abstract class UserState {
-
+    @Id
+    @Column(name = "state_id")
+    private int id;
+    @Column(name = "status")
 	private String status;
 
 	public UserState() {

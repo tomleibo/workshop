@@ -1,15 +1,24 @@
 package policy;
 
+import javax.persistence.*;
 
-public class ForumPolicy extends Policy {
+@Entity
+public class ForumPolicy{
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	
+	@Column(name = "max_moderators")
 	private int maxModerators;
+	@Column(name = "password_regex")
 	private String passwordRegex;
+	@Enumerated(EnumType.STRING)
 	private HashFunction hashFunction;
+	@Column(name = "mail_verification")
 	private boolean doUsersNeedMailVerification;
 	public enum HashFunction{
 		MD5,SHA
 	}
-	
+	public ForumPolicy(){}
 	public ForumPolicy(int maxModerators, String passwordRegex,HashFunction hash, boolean mailVeri) {
 		this.maxModerators = maxModerators;
 		this.passwordRegex = passwordRegex;

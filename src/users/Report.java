@@ -1,13 +1,28 @@
 package users;
 
-public class Report {
+import javax.persistence.*;
 
-	private final String title;
-	private final String content;
-	private final User reporter;
-	private final User reported;
-	private final java.sql.Date date;
-	
+@Entity
+@Table(name="report")
+public class Report {
+	@Id
+	@Column(name="report_id")
+	public int id;
+	@Column(name="title")
+	private String title;
+	@Column(name="content")
+	private String content;
+	@ManyToOne
+	@JoinColumn(name="reporter")
+	private User reporter;
+	@OneToOne
+	@JoinColumn(name="reported")
+	private User reported;
+	@Column(name="date")
+	@Temporal(TemporalType.DATE)
+	private java.util.Date date;
+
+	public Report(){}
 	public Report(String title, String content, User reporter, User reported) {
 		this.title = title;
 		this.content = content;
@@ -32,7 +47,7 @@ public class Report {
 		return reported;
 	}
 
-	public java.sql.Date getDate() {
+	public java.util.Date getDate() {
 		return date;
 	}
 

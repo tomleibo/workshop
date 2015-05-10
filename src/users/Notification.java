@@ -1,14 +1,27 @@
 package users;
 
 
-import java.sql.Date;
+import javax.persistence.*;
+import java.util.Date;
 
+@Entity
+@Table(name="notification")
 public class Notification {
 
-	private final String title;
-	private final String message;
-	private final java.sql.Date date;
-	
+	@Id
+	@Column(name="notification_id")
+	public int id;
+	@Column(name="title")
+	private String title;
+	@Column(name="message")
+	private String message;
+	@Column(name="date")
+	@Temporal(TemporalType.DATE)
+	private java.util.Date date;
+
+	public Notification(){
+
+	}
 	public Notification(String title, String message) {
 		this.title = title;
 		this.message = message;

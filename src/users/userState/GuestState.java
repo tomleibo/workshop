@@ -1,5 +1,8 @@
 package users.userState;
+import javax.persistence.*;
 
+@Entity
+@DiscriminatorValue("guest")
 public class GuestState extends UserState {
 
     @Override
