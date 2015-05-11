@@ -1,5 +1,13 @@
 package servlets;
 
+import content.Forum;
+import controllers.ModerationController;
+import controllers.UserController;
+import exceptions.UserNotAuthorizedException;
+import users.User;
+import utils.CookieUtils;
+import utils.HibernateUtils;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +20,7 @@ import java.io.IOException;
  * Servlet implementation class UserProfileServlet
  */
 @WebServlet(
-		description = "An entry point for user actions: login, register, guest entry, user profile etc.",
+		description = "Handles the request of reporting a member",
 		urlPatterns = {
 				"/reportMember"}
 		)
@@ -32,21 +40,39 @@ public class ReportMemberServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = request.getRequestURL().toString();
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/reportSent.jsp");
 
-		String forum = request.getParameter("forum");
-		String userId = request.getParameter("senderId");
-		String reportee = request.getParameter("reportee");
-		String reporteeId = request.getParameter("reporteeId");
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
+		int forumId, senderId = -1, reporteeId;
+		String reporteeName, title, content;
 
-		// SendFriendRequest(forum,sender,receiver, content);
-		request.setAttribute("reportee", reportee);
+		try {
+			forumId = Integer.parseInt(request.getParameter("forumId"));
+			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if(value!= null)
+				senderId = Integer.parseInt(value);
+			reporteeName = request.getParameter("reportee");
+			reporteeId = Integer.parseInt(request.getParameter("reporteeId"));
+			title = request.getParameter("title");
+			content = request.getParameter("content");
+		}
+		catch (NumberFormatException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
 
+		Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+		User sender  = (User) HibernateUtils.load(Forum.class, senderId);
+		User reportee = (User) HibernateUtils.load(Forum.class, reporteeId);
+
+		try {
+			UserController.report(forum, sender, reportee, title, content);
+		} catch (UserNotAuthorizedException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+
+		request.setAttribute("reportee", reporteeName);
 		dispatcher.forward(request,response);
-
 	}
 
 	/**

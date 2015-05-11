@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% String forum = request.getParameter("forum"); %>
+<% String forumId = request.getParameter("forumId"); %>
 <% String senderId = request.getParameter("senderId"); %>
 <% String reportee = request.getParameter("reportee"); %>
 <% String reporteeId = request.getParameter("reporteeId"); %>
@@ -16,7 +16,7 @@
   <p>
     Your report to <%=reportee%><br>
   </p><br>
-    <input type="hidden" name="forum" value=<%=forum%> />
+    <input type="hidden" name="forumId" value=<%=forumId%> />
     <input type="hidden" name="senderId" value=<%=senderId%> />
     <input type="hidden" name="reportee" value=<%=reportee%> />
     <input type="hidden" name="reporteeId" value=<%=reporteeId%> />
