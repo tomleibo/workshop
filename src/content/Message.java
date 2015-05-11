@@ -1,6 +1,7 @@
 package content;
 
 import users.Notification;
+import org.hibernate.annotations.Cascade;
 import users.User;
 import utils.IdGenerator;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Table(name="Message")
 public class Message {
 	@Id
+    @GeneratedValue
 	@Column(name="message_id", nullable=false, unique=true)
 	public int id;
 	@Column(name="title")
@@ -24,15 +26,19 @@ public class Message {
 	//date last edited?
 	@OneToOne
 	@JoinColumn(name="publisher")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private User publisher;
 	@OneToMany(mappedBy = "enclosingMessage")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private List<Message> comments;
 	//add insertable=false | uodateable=false
 	@ManyToOne()
 	@JoinColumn(name="enclosing")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private Message enclosingMessage;
 	@OneToOne
 	@JoinColumn(name="thread")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private Thread thread;
 
 	public Message() {
@@ -86,7 +92,7 @@ public class Message {
 	}
 
 	public boolean addComment(Message comment) {
-		return comments.add(comment);
+        return comments.add(comment);
 	}
 
 	@Override

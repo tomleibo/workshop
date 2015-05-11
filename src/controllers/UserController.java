@@ -11,6 +11,7 @@ import users.Report;
 import users.User;
 import utils.Cipher;
 import utils.ForumLogger;
+import utils.HibernateUtils;
 import utils.MailAuthenticator;
 
 import java.security.NoSuchAlgorithmException;
@@ -23,7 +24,7 @@ public class UserController {
 	private static String mailPassword = "sadna2015";
 
 	public static User register(Forum forum, String username, String password, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
-		if (getUserFromForum(username, forum) != null)
+		if (getUserFromForum(forum, username, password) != null)
 			throw new UsernameAlreadyExistsException("Username: " + username + " already exists in forum: " + forum.getName() + ".");
 		User member = User.newMember(username, Cipher.hashString(password, Cipher.SHA), emailAddress);
 		if (forum.isSecured()) {
@@ -32,18 +33,24 @@ public class UserController {
 			ForumLogger.actionLog("Authentication in the forum " + forum.getName() + "is needed, authentication mail is sent to address: " + emailAddress);
 			if (authenticator.authorizedMailIncome(emailAddress)) {
 				ForumLogger.actionLog("A response mail has arrived, the user reliability approved!");
-				if (forum.addMember(member))
-					return member;
+				if (forum.addMember(member)) {
+                    HibernateUtils.save(member);
+                    HibernateUtils.save(forum);
+                    return member;
+                }
 			}
 		} else {
-			if (forum.addMember(member))
-				return member;
+			if (forum.addMember(member)) {
+                HibernateUtils.save(member);
+                HibernateUtils.save(forum);
+                return member;
+            }
 		}
 		return null;
 	}
 
 	public static User login(Forum forum, String username, String password) throws NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, WrongPasswordException {
-		User user = getUserFromForum(username, forum);
+        User user = getUserFromForum(forum, username, password);
 		if (user == null) {
 			ForumLogger.errorLog("The user " + username + " trying to login but he is not existing in the forum " + forum.getName());
 			throw new UserDoesNotExistsException();
@@ -53,21 +60,25 @@ public class UserController {
 
 	public static User enterAsGuest(Forum forum) {
 		User guest = User.newGuest();
+        HibernateUtils.save(guest);
 		try {
 			return guest.loginAsGuest();
 		} catch (UserAlreadyLoggedInException | WrongPasswordException e) {
 			e.printStackTrace();
-			return guest;
+			return null;
 		}
 	}
 	
-	public static User logout(Forum forum, String username) throws UserDoesNotExistsException, UserNotLoggedInException {
-		User user = getUserFromForum(username, forum);
+	public static User logout(int id) throws UserDoesNotExistsException, UserNotLoggedInException {
+		User user = getUserFromForum(id);
 		if (user != null) {
-			ForumLogger.actionLog("The user " + username + "is logged out successfully");
+            if(user.getState().isGuest()) {
+                HibernateUtils.del(user);
+            }
+			ForumLogger.actionLog("The user " + id + "is logged out successfully");
 			return user.logout();
 		}
-		ForumLogger.errorLog("The user " + username + " trying to logout but he is not existing in the forum " + forum.getName());
+		ForumLogger.errorLog("The user " + id + " trying to logout but he is not existing in the forum ");
 		throw new UserDoesNotExistsException();
 
 	}
@@ -80,6 +91,7 @@ public class UserController {
 		if (PolicyHandler.canUserHaveFriends(forum, from) & PolicyHandler.canUserHaveFriends(forum, to)) {
 			FriendRequest request = new FriendRequest(from, to, message);
 			to.addFriendRequest(request);
+            HibernateUtils.save(request);
 			return request;
 		}
 		ForumLogger.errorLog("The user " + to.getUsername() + "or the user " + from.getUsername() + " has no permissions to remove friends");
@@ -88,7 +100,12 @@ public class UserController {
 	
 	public static boolean removeFriend(Forum forum, User user, User friend) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserHaveFriends(forum, user) & PolicyHandler.canUserHaveFriends(forum, friend)) {
-			return friend.deleteFriend(user) && user.deleteFriend(friend);
+			if(friend.deleteFriend(user) && user.deleteFriend(friend)){
+                HibernateUtils.save(friend);
+                return true;
+            }
+
+            return false;
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + "has no permissions to remove friends");
 		throw new UserNotAuthorizedException("to remove friends.");
@@ -98,9 +115,13 @@ public class UserController {
 		if (PolicyHandler.canUserReplyToFriendRequest(forum, user, request)) {
 			if (answer) {
 				ForumLogger.actionLog("The user " + user.getUsername() + " accepted the friend request from " + request.getRequestingMember().getUsername());
-				User requesting = request.getRequestingMember();
-				User receiving = request.getReceivingMember();
-				return requesting.addFriend(receiving) && receiving.addFriend(requesting);
+                User requesting = request.getRequestingMember();
+                User receiving = request.getReceivingMember();
+                if (requesting.addFriend(receiving) && receiving.addFriend(requesting)){
+                    HibernateUtils.save(requesting);
+                    return true;
+                }
+                return false;
 			}
 			ForumLogger.errorLog("The user " + user.getUsername() + " did not accept the friend request from " + request.getRequestingMember().getUsername());
 			return false;
@@ -112,7 +133,10 @@ public class UserController {
 	public static boolean report(Forum forum, User reporter, User admin, String title, String content) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserReportAdmin(forum, reporter, admin)) {
 			Report report = new Report(title, content, reporter, admin);
-			return forum.addReport(report) && reporter.addSentReport(report);
+			if( forum.addReport(report) && reporter.addSentReport(report)){
+                return HibernateUtils.save(forum) && HibernateUtils.save(reporter);
+            }
+            return false;
 		}
 		ForumLogger.errorLog("The user " + reporter.getUsername() + " has no permissions to send a report");
 		throw new UserNotAuthorizedException("to send a report.");
@@ -120,7 +144,9 @@ public class UserController {
 
 	public static boolean deactivate(User user) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserBeDeactivated(user)) {
-			return user.deactivate();
+			if(user.deactivate()){
+                return HibernateUtils.save(user);
+            }
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to deactivate itself");
 		throw new UserNotAuthorizedException("to deactivate itself.");
@@ -128,7 +154,9 @@ public class UserController {
 
 	public static boolean editMessage(Forum forum,SubForum subForum, User user, Message msg, String content) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserEditComment(forum, subForum, user, msg)) {
-			return ContentController.editPost(msg, content);
+			if(ContentController.editPost(msg, content)){
+                return HibernateUtils.save(msg);
+            }
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " can't edit post");
 		throw new UserNotAuthorizedException("to edit post.");
@@ -136,7 +164,9 @@ public class UserController {
 
 	public static boolean deleteMessage(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
 		if(PolicyHandler.canUserDeleteComment(forum, subForum, user, msg)) {
-			return ContentController.deletePost(msg);
+			if(ContentController.deletePost(msg)){
+                return HibernateUtils.save(msg);
+            }
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " can't delete post");
 		throw new UserNotAuthorizedException("to delete post.");
@@ -144,7 +174,12 @@ public class UserController {
 
 	public static Thread openNewThread(Forum forum, SubForum subforum, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 		if (PolicyHandler.canUserOpenThread(forum, user)){
-			return ContentController.openNewThread(forum, subforum, title, content, user);
+			Thread t= ContentController.openNewThread(forum, subforum, title, content, user);
+            if (!HibernateUtils.save(t)) {
+                ForumLogger.errorLog("Open new thread failed in hibernate");
+                return null;
+            }
+            return t;
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to open thread");
 		throw new UserNotAuthorizedException("to open thread.");
@@ -152,7 +187,11 @@ public class UserController {
 
 	public static Message reply(Forum forum, Message addTo, String title,String content,User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 		if (PolicyHandler.canUserReply(forum, user)) {
-			return ContentController.reply(forum, addTo, title, content, user);
+			Message msg = ContentController.reply(forum, addTo, title, content, user);
+            if (msg!=null) {
+                HibernateUtils.save(msg);
+            }
+            return msg;
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to reply");
 		throw new UserNotAuthorizedException("to reply.");
@@ -174,13 +213,16 @@ public class UserController {
 		throw new UserNotAuthorizedException("to view threads.");
 	}
 
-	private static User getUserFromForum(String username, Forum forum) {
-		List<User> members = forum.getMembers();
-		for (User member : members) {
-			if (member.getUsername().equals(username))
-				return member;
-		}
-		return null;
+	private static User getUserFromForum(int id) {
+        return (User)HibernateUtils.load(User.class,id);
 	}
+
+    private static User getUserFromForum(Forum forum, String user, String pass) {
+        for(User u : forum.getMembers()){
+           if(u.getUsername().equals(user))
+               return u;
+        }
+        return null;
+    }
 
 }

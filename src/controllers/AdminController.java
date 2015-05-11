@@ -119,5 +119,5 @@ public class AdminController {
         }
         throw new UserNotAuthorizedException("to view reports");
     }
-	
+
 }

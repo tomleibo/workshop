@@ -14,6 +14,7 @@ import utils.ForumLogger;
 import utils.HibernateUtils;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public class SuperAdminController {
 
@@ -24,7 +25,8 @@ public class SuperAdminController {
 			//ForumSystem.getInstance().addForum(forum);
             if (forum !=null) {
                 if (!HibernateUtils.save(forum)) {
-                    //TODO: log something?
+                    System.out.println("create new forum failed in hibernate.");
+                    ForumLogger.errorLog("create new forum failed in hibernate.");
                 }
             }
 			return forum;
@@ -43,8 +45,12 @@ public class SuperAdminController {
 
 	public static boolean deleteAllForums(User superAdmin) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserRemoveForum(superAdmin)) {
-			//ForumSystem.getInstance().removeAllForums();
-            return HibernateUtils.getQuery("delete from forum").executeUpdate() > 0;
+            boolean ans = true;
+            List<Forum> forumList = HibernateUtils.getQuery("from Forum").list();
+            for (Forum forum: forumList) {
+                ans &= HibernateUtils.del(forum);
+            }
+            return ans;
 		}
 		throw new UserNotAuthorizedException("to remove forum.");
 	}
@@ -88,12 +94,7 @@ public class SuperAdminController {
 
 	public static void destroyForumSystem(User superAdmin, ForumSystem forumSystem) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserDestroyForumSystem(superAdmin)){
-			String[] tables = {"forum","forumpolicy","friendrequest","message","notification"
-                    ,"report","subforum","subforum_user","thread","user","user_user",
-                    "userstate","userstatuspolicy"};
-            for (String table : tables ) {
-                HibernateUtils.getQuery("delete from "+table).executeUpdate();
-            }
+            HibernateUtils.getQuery("drop database forum_system").executeUpdate();
             //TODO: anything else?
             //forumSystem.destroy();
 			return;

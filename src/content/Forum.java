@@ -1,11 +1,11 @@
 package content;
 
+import org.hibernate.annotations.Cascade;
 import policy.ForumPolicy;
 import users.Notification;
 import users.Report;
 import users.User;
 import utils.ForumLogger;
-import utils.IdGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,21 +14,26 @@ import java.util.List;
 @Table(name="Forum")
 public class Forum {
 	@Id
+    @GeneratedValue
 	@Column(name="forum_id", nullable = false, unique = true)
 	public int id;
 	@Column(name="name")
 	private String name;
 	@OneToOne
 	@JoinColumn(name = "admin")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private User admin;
 	@OneToMany
 	@JoinColumn(name="sub_forums")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private List<SubForum> subForums;
 	@OneToMany
 	@JoinColumn(name="members")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private List<User> members;
 	@OneToOne
 	@JoinColumn(name="policy")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private ForumPolicy policy;
 
 	public Forum() {
@@ -36,7 +41,6 @@ public class Forum {
 	}
 
 	public Forum(User admin, ForumPolicy policy, String name) {
-		this.id=IdGenerator.getId(IdGenerator.FORUM);
 		this.name = name;
 		this.admin = admin;
 		members = new ArrayList<>();
@@ -45,6 +49,17 @@ public class Forum {
 		//	addMember(SuperAdmin);
 		addMember(admin);
 	}
+
+    public Forum(int id,User admin, ForumPolicy policy, String name) {
+        this.id=id;
+        this.name = name;
+        this.admin = admin;
+        members = new ArrayList<>();
+        subForums = new ArrayList<>();
+        this.policy = policy;
+        //	addMember(SuperAdmin);
+        addMember(admin);
+    }
 
 	public User getAdmin() {
 		return admin;

@@ -1,9 +1,12 @@
 package content;
 
+import org.hibernate.annotations.*;
 import users.User;
 import utils.IdGenerator;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,16 +14,20 @@ import java.util.List;
 @Table(name="subforum")
 public class SubForum {
 	@Id
+    @GeneratedValue
 	@Column(name="subforum_id", nullable=false, unique=true)
 	public int id;
 	@Column(name="name")
 	private String name;
 	@OneToMany(mappedBy = "subForum")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private List<Thread> threads;
 	@ManyToMany
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private List<User> moderators;
 	@OneToMany
 	@JoinColumn(name="banned_moderators")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private List<User> bannedModerators;
 	@Column(name="max_moderators")
 	private int maxModerators;

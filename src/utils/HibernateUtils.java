@@ -15,7 +15,7 @@ import users.userState.UserState;
 public class HibernateUtils {
 
     private static Configuration cfg;
-    public static Session session=null;
+    private static Session session=null;
     public static boolean configure(boolean init) {
         if (session!=null) {
             throw new RuntimeException("Hibernate utils already started!");
@@ -42,19 +42,23 @@ public class HibernateUtils {
         if (init) {
             cfg.setProperty("hibernate.hbm2ddl.auto", "create");
         }
-        else {
-            cfg.setProperty("hibernate.hbm2ddl.auto", "true");
-        }
+//        else {
+//            cfg.setProperty("hibernate.hbm2ddl.auto", "validate");
+//        }
         cfg.configure();
         return cfg!=null;
     }
 
-    public static boolean start() {
-        if (configure(false)){
-            startSession();
-            return true;
+    public synchronized static boolean start() {
+        if (session==null) {
+            if (configure(false)) {
+                startSession();
+                return true;
+            }
+            return false;
         }
-        return false;
+        return true;
+
     }
 
     public static void stop() {
@@ -80,68 +84,95 @@ public class HibernateUtils {
     }
 
 
-    /*
+
     public static Session getSession() {
         if (session==null) {
             throw new RuntimeException("Session is not initialized. init() should be called before getSession");
         }
         return session;
-    }*/
+    }
 
     public static Query getQuery(String query) {
+        Transaction tx = null;
         return session.createQuery(query);
     }
 
     public static boolean save(Object o) {
-//        try {
-//            session.save(o);
-//            return true;
-//        }
-//        catch(HibernateException e) {
-//            ForumLogger.errorLog(e.toString());
-//            return false;
-//        }
         Transaction tx = null;
-        boolean res = false;
         try {
-            tx = session.beginTransaction();
+            tx=session.beginTransaction();
             session.save(o);
             tx.commit();
-            res = true;
-        }
-        catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw e;
-        }
-        finally {
-            session.close();
-
-        }
-        return res;
-    }
-
-    public static boolean del(Object o) {
-        try {
-            session.delete(o);
             return true;
         }
         catch(HibernateException e) {
+            System.out.println(e);
+            tx.rollback();
+            ForumLogger.errorLog(e.toString());
+            return false;
+        }
+    }
+
+    public static int save(Object o,Object o2) {
+        Transaction tx = null;
+        try {
+            tx=session.beginTransaction();
+            int id= (int)session.save(o);
+            tx.commit();
+            return id;
+        }
+        catch(HibernateException e) {
+            System.out.println(e);
+            tx.rollback();
+            ForumLogger.errorLog(e.toString());
+            return -1;
+        }
+    }
+
+    public static boolean del(Object o) {
+        Transaction tx = null;
+        try {
+            tx=session.beginTransaction();
+            session.delete(o);
+            tx.commit();
+            return true;
+        }
+        catch(HibernateException e) {
+            tx.rollback();
             ForumLogger.errorLog(e.toString());
             return false;
         }
     }
 
     public static Object load(Class c,int id) {
+        Object o=null;
         try {
-            return session.load(c,id);
+            o=session.get(c,id);
+            return  o;
         }
         catch(HibernateException e) {
             ForumLogger.errorLog(e.toString());
-            return false;
+            return null;
         }
     }
 
+    public static void test() {
+        Transaction tx = null;
+        try{
+            tx=session.beginTransaction();
+            User u=new User();
+            session.save(new Message("","",u,null,null));
+            tx.commit();
+        }
+        catch (HibernateException e) {
+            tx.rollback();
+        }
+
+    }
+
     public static void main (String args[]) {
+//        HibernateUtils.start();
+//        HibernateUtils.test();
         HibernateUtils.init();
     }
 }

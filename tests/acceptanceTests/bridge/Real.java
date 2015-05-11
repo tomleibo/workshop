@@ -69,7 +69,7 @@ public class Real implements IForumSystemBridge {
 
     @Override
     public User logoffUser(Forum forum, User user) throws UserDoesNotExistsException, UserNotLoggedInException {
-        return UserController.logout(forum, user.getUsername());
+        return UserController.logout(user.getId());
     }
 
     @Override
