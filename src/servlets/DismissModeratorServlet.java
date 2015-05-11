@@ -1,14 +1,9 @@
 package servlets;
 
 import content.Forum;
-import content.Message;
 import content.SubForum;
-import content.Thread;
-import controllers.ContentController;
-import controllers.UserController;
-import exceptions.EmptyMessageTitleAndBodyException;
+import controllers.AdminController;
 import exceptions.UserNotAuthorizedException;
-import policy.ForumPolicy;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -22,62 +17,63 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Servlet implementation class ThreadServlet
+ * Servlet implementation class UserProfileServlet
  */
-@WebServlet(description = "A servlet for editing posts", urlPatterns = { "/edit" })
-public class EditServlet extends HttpServlet {
-
-	Forum stub=null;
-
+@WebServlet(
+		description = "Handles the request of appoint a moderator to a sub forum",
+		urlPatterns = {
+				"/dismissModerator"}
+		)
+public class DismissModeratorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EditServlet() {
+    public DismissModeratorServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/moderatorOperationCompleted.jsp");
 
-		int userId=-1;
-		int forumId;
-		int subForumId;
-		int messageId;
-		String title;
-		String body;
+		int forumId, userId=-1, subForumId, moderatorId;
+		String moderatorName;
 
 		try {
+			forumId = Integer.parseInt(request.getParameter("forumId"));
+			subForumId = Integer.parseInt(request.getParameter("subForumId"));
 			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if(value!= null)
 				userId = Integer.parseInt(value);
-			forumId = Integer.parseInt(request.getParameter("forumId"));
-			subForumId = Integer.parseInt(request.getParameter("subForumId"));
-			messageId = Integer.parseInt(request.getParameter("origMessageId"));
-			title = request.getParameter("title");
-			body = request.getParameter("body");
+			moderatorName = request.getParameter("moderator");
+			moderatorId = Integer.parseInt(request.getParameter("moderatorId"));
 		}
 		catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
 			return;
 		}
 
+		Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+		SubForum subForum = (SubForum) HibernateUtils.load(Forum.class, subForumId);
 		User user = (User) HibernateUtils.load(User.class, userId);
-		Forum forum = (Forum) HibernateUtils.load(User.class, forumId);
-		SubForum subForum = (SubForum) HibernateUtils.load(User.class, subForumId);
-		Message message = (Message) HibernateUtils.load(User.class, messageId);
+		User moderator = (User) HibernateUtils.load(User.class, moderatorId);
 
 		try {
-			UserController.editMessage(forum, subForum, user, message, body);
+			AdminController.unAppoint(forum, subForum, user, moderator);
 		} catch (UserNotAuthorizedException e) {
 			System.out.println(e.getMessage());
+			return;
 		}
 
-
+		request.setAttribute("moderator", moderatorName);
+		request.setAttribute("op", "dismiss");
+		dispatcher.forward(request,response);
 	}
 
 	/**
