@@ -1,11 +1,15 @@
 package servlets;
 
+import com.sun.media.sound.SF2GlobalRegion;
 import content.*;
 import content.Thread;
 import controllers.ContentController;
+import controllers.UserController;
 import exceptions.EmptyMessageTitleAndBodyException;
 import policy.ForumPolicy;
 import users.User;
+import utils.CookieUtils;
+import utils.HibernateUtils;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -34,22 +38,29 @@ public class SubForumServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ForumPolicy policy = new ForumPolicy(3,".",ForumPolicy.HashFunction.MD5,false);
 
-		User user1 = User.newGuest();
-		SubForum sub= new SubForum("forum name",user1,3);
-		Forum forum = new Forum(user1, policy, "olamHaNextShelTom");
-		try {
-			Thread t= ContentController.openNewThread(forum, sub, "Charlie", "ring ring", user1);
-			Thread t2= ContentController.openNewThread(forum, sub, "thread2", "sdasd", user1);
+		int subForumId;
+		try{
+			subForumId = Integer.parseInt(request.getParameter("subForumId"));
 		}
-		catch (EmptyMessageTitleAndBodyException e) {
-			e.printStackTrace();
+		catch (NumberFormatException e) {
+			System.out.println(e.getMessage());
+			return;
 		}
-		request.setAttribute("subforum",sub);
+
+		SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
+
+		User user = null;
+		String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+		if(userId != null) {
+			user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
+		}
+
+		request.setAttribute("subForum", subForum);
+		request.setAttribute("user", user);
+
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subforum.jsp");
-		dispatcher.forward(request,response);
-
+		dispatcher.forward(request, response);
 	}
 
 	/**

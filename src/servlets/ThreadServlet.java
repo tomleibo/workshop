@@ -3,9 +3,12 @@ package servlets;
 import content.*;
 import content.Thread;
 import controllers.ContentController;
+import controllers.SuperAdminController;
 import exceptions.EmptyMessageTitleAndBodyException;
 import policy.ForumPolicy;
 import users.User;
+import utils.CookieUtils;
+import utils.HibernateUtils;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -37,28 +40,28 @@ public class ThreadServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ForumPolicy policy = new ForumPolicy(3,".",ForumPolicy.HashFunction.MD5,false);
-		content.Thread t=null,t2=null;
-		User user1 = User.newGuest();
-		SubForum sub= new SubForum("forum name",user1,3);
-		Forum forum = new Forum(user1, policy, "olamHaNextShelTom");
+
+		int threadId;
+
 		try {
-			t= ContentController.openNewThread(forum, sub, "Charlie", "ring ring", user1);
-			//t2= ContentController.openNewThread(forum, sub, "thread2", "sdasd", user1);
-			ContentController.reply(forum,t.getOpeningMessage(),"hello","he he hello",user1);
-			ContentController.reply(forum,t.getOpeningMessage().getComments().get(0),"bla bla","asdfsdfdsf",user1);
-			ContentController.reply(forum,t.getOpeningMessage(),"the second top level comment","the content of the 2nd",user1);
-			ContentController.reply(forum,t.getOpeningMessage().getComments().get(0),"the second top level comment","the content of the 2nd",user1);
-			//ContentController.reply(forum,t2.getOpeningMessage(),"thread2 comment","he he hello",user1);
+			threadId = Integer.parseInt(request.getParameter("threadId"));
 		}
-		catch (EmptyMessageTitleAndBodyException e) {
-			e.printStackTrace();
+		catch(NumberFormatException e){
+			System.out.println(e.getMessage());
+			return;
 		}
 
+		Thread t = (Thread) HibernateUtils.load(Thread.class, threadId);
+		User user = null;
+		String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+		if(userId != null) {
+			user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
+		}
+
+		request.setAttribute("user", user);
 		request.setAttribute("thread", t);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/thread.jsp");
 		dispatcher.forward(request,response);
-
 	}
 
 	/**

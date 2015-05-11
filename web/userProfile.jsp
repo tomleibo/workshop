@@ -1,5 +1,4 @@
 <%@ page import="content.Forum" %>
-<%@ page import="content.SubForum" %>
 <%@ page import="users.User" %>
 <%@ page import="users.FriendRequest" %>
 <%--
@@ -12,8 +11,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% User user = (User)request.getAttribute("user"); %>
 <% Forum forum = (Forum)request.getAttribute("forum"); %>
-<% SubForum subForum = (SubForum)request.getAttribute("subForum"); %>
-<% String path = (String)request.getAttribute("url"); %>
 
 <html>
 <head>
@@ -33,7 +30,7 @@
 %>
 
   <LI>
-    <a href=<%="\\friendRequest.jsp?forum="+forum.id+
+    <a href=<%="\\friendRequest.jsp?forumId="+forum.id+
             "&senderId="+user.getId()+"&receiver="+member.getUsername()+"&receiverId="+member.getId()%>>
 
       <b><%= member.getUsername() %></b>
@@ -54,11 +51,11 @@
   %>
 
   <LI><p><b><%=fr.getRequestingMember().getUsername()+": "+fr.getMessage()%></b></p>
-    <a href=<%="\\replyToFriendRequest?forum="+forum.id+
+    <a href=<%="\\replyToFriendRequest?forumId="+forum.id+
             "&userId="+user.getId()+"&friend="+fr.getRequestingMember().getUsername()+"&friendId="+fr.getRequestingMember().getId()+"&answer=1"%>>
       <b>Accept</b><br>
     </a>
-    <a href=<%="\\replyToFriendRequest?forum="+forum.id+
+    <a href=<%="\\replyToFriendRequest?forumId="+forum.id+
             "&userId="+user.getId()+"&friend="+fr.getRequestingMember().getUsername()+"&friendId="+fr.getRequestingMember().getId()+"&answer=0"%>>
       <b>Deny</b>
     </a>
@@ -77,7 +74,7 @@
   %>
 
   <LI>
-    <a href=<%="\\removeFriend?forum="+forum.id+
+    <a href=<%="\\removeFriend?forumId="+forum.id+
             "&userId="+user.getId()+"&friend="+friend.getUsername()+"&friendId="+friend.getId()%>>
 
       <b><%= friend.getUsername() %></b>
@@ -98,7 +95,7 @@
     %>
 
     <LI>
-        <a href=<%="\\reportMember.jsp?forum="+forum.id+
+        <a href=<%="\\reportMember.jsp?forumId="+forum.id+
                 "&reporterId="+user.getId()+"&reportee="+member.getUsername()+"&reporteeId="+member.getId()%>>
             <b><%= member.getUsername() %></b>
         </a>
@@ -115,10 +112,11 @@
     <%
         for (User member : forum.getMembers()) {
             if(!user.getUsername().equals(member.getUsername())){
+                // TODO fix to get moderated
     %>
 
     <LI>
-        <a href=<%="\\banMember?subForum="+subForum.id+
+        <a href=<%="\\banMember?subForumId="+0+
                 "&userId="+user.getId()+"&banned="+member.getUsername()+"&bannedId="+member.getId()%>>
             <b><%= member.getUsername() %></b>
         </a>

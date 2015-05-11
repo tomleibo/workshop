@@ -12,6 +12,8 @@ import users.FriendRequest;
 import users.User;
 import users.userState.SuperAdminState;
 import utils.Cipher;
+import utils.CookieUtils;
+import utils.HibernateUtils;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -27,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class UserProfileServlet
  */
 @WebServlet(
-		description = "An entry point for user actions: login, register, guest entry, user profile etc.", 
+		description = "An entry point for user profile actions: send, remove and reply friend request, report member, ban member",
 		urlPatterns = { 
 				"/profile"
 		})
@@ -47,31 +49,26 @@ public class UserProfileServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = request.getRequestURL().toString();
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/userProfile.jsp");
 
-		User superAdmin = User.newMember("SuperAdmin", "SuperAdminPassword", "super@admin.com");
-		superAdmin.setState(new SuperAdminState());
+		int forumId, userId = -1;
 
-		ForumPolicy policy = new ForumPolicy(3, ".", ForumPolicy.HashFunction.MD5);
+		try {
+			forumId = Integer.parseInt(request.getParameter("forumId"));
+			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if(value!= null)
+				userId = Integer.parseInt(value);
+		}
+		catch (NumberFormatException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
 
-		Forum theForum = new Forum(superAdmin, policy, "My_Forum");
-		SubForum subForum = new SubForum("subForum", superAdmin, 5);
-		String email = "mail@theinternet.com";
-		User user1 = User.newMember("Roee", "Roee1", email);
-		User user2 = User.newMember("Shai", "Shai1", email);
-		User user3 = User.newMember("Tom", "Tom1", email);
-//		user1.getFriendRequests().add(new FriendRequest(user2, user1, "lalala"));
-//		user1.getFriendRequests().add(new FriendRequest(user3, user1, "lalala"));
+		Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+		User user  = (User) HibernateUtils.load(Forum.class, userId);
 
-		theForum.addMember(user1);
-		theForum.addMember(user2);
-		theForum.addMember(user3);
-
-		request.setAttribute("path", url);
-		request.setAttribute("forum", theForum);
-		request.setAttribute("subForum", subForum);
-		request.setAttribute("user", user1);
+		request.setAttribute("forum", forum);
+		request.setAttribute("user", user);
 
 		dispatcher.forward(request,response);
 	}
