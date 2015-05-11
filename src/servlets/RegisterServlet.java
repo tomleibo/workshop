@@ -3,6 +3,8 @@ package servlets;
 import content.Forum;
 import controllers.UserController;
 import exceptions.UsernameAlreadyExistsException;
+import users.User;
+import utils.CookieUtils;
 import utils.HibernateUtils;
 
 import javax.servlet.ServletException;
@@ -33,11 +35,11 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int id=-1;
+		int id;
 		String userName, pass, email;
 		try {
-			id=Integer.parseInt(request.getParameter("id"));
-			userName = request.getParameter("user");
+			id=Integer.parseInt(request.getParameter("forumId"));
+			userName = request.getParameter("username");
 			pass = request.getParameter("pass");
 			email = request.getParameter("email");
 		}
@@ -49,8 +51,13 @@ public class RegisterServlet extends HttpServlet {
 		Forum forum = (Forum) HibernateUtils.load(Forum.class, id);
 
 		try {
-			UserController.register(forum, userName, pass, email);
-		} catch (UsernameAlreadyExistsException | NoSuchAlgorithmException e) {
+			User user = UserController.register(forum, userName, pass, email);
+			if(user == null)
+				throw new Exception("User is null");
+
+			CookieUtils.changeCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
+
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}

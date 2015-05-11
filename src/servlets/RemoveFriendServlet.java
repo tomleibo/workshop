@@ -4,6 +4,7 @@ import content.Forum;
 import controllers.UserController;
 import exceptions.UserNotAuthorizedException;
 import users.User;
+import utils.CookieUtils;
 import utils.HibernateUtils;
 
 import javax.servlet.RequestDispatcher;
@@ -41,12 +42,14 @@ public class RemoveFriendServlet extends HttpServlet {
 		String url = request.getRequestURL().toString();
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/friendRemoved.jsp");
 
-		int forumId, userId, friendId;
+		int forumId, userId=-1, friendId;
 		String friendName;
 
 		try {
-			forumId = Integer.parseInt(request.getParameter("forum"));
-			userId = Integer.parseInt(request.getParameter("userId"));
+			forumId = Integer.parseInt(request.getParameter("forumId"));
+			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if(value!= null)
+				userId = Integer.parseInt(value);
 			friendName = request.getParameter("friend");
 			friendId = Integer.parseInt(request.getParameter("friendId"));
 		}
