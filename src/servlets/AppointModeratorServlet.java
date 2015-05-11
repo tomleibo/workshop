@@ -1,7 +1,8 @@
 package servlets;
 
+import content.Forum;
 import content.SubForum;
-import controllers.ModerationController;
+import controllers.AdminController;
 import controllers.UserController;
 import exceptions.UserNotAuthorizedException;
 import users.User;
@@ -20,17 +21,17 @@ import java.io.IOException;
  * Servlet implementation class UserProfileServlet
  */
 @WebServlet(
-		description = "Handles the ban member request",
+		description = "Handles the request of appoint a moderator to a sub forum",
 		urlPatterns = {
-				"/banMember"}
+				"/appointModerator"}
 		)
-public class BanMemberServlet extends HttpServlet {
+public class AppointModeratorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BanMemberServlet() {
+    public AppointModeratorServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,41 +41,39 @@ public class BanMemberServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = request.getRequestURL().toString();
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/memberBanned.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/moderatorOperationCompleted.jsp");
 
-		int subForumId, userId= -1, bannedId;
-		String bannedName;
+		int forumId, userId=-1, subForumId, moderatorId;
+		String moderatorName;
 
-		try{
+		try {
+			forumId = Integer.parseInt(request.getParameter("forumId"));
 			subForumId = Integer.parseInt(request.getParameter("subForumId"));
 			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if(value!= null)
 				userId = Integer.parseInt(value);
-
-			bannedName = request.getParameter("banned");
-			bannedId = Integer.parseInt(request.getParameter("bannedId"));
+			moderatorName = request.getParameter("moderator");
+			moderatorId = Integer.parseInt(request.getParameter("moderatorId"));
 		}
-
-		catch(NumberFormatException e) {
+		catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
 			return;
 		}
 
-		SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
-		User moderator = (User) HibernateUtils.load(User.class, userId);
-		User banned = (User) HibernateUtils.load(User.class, bannedId);
+		Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+		SubForum subForum = (SubForum) HibernateUtils.load(Forum.class, subForumId);
+		User user = (User) HibernateUtils.load(User.class, userId);
+		User moderator = (User) HibernateUtils.load(User.class, moderatorId);
 
 		try {
-			ModerationController.banUser(subForum, moderator, banned);
+			AdminController.appointModerator(forum, subForum, user, moderator);
 		} catch (UserNotAuthorizedException e) {
-			// TODO add error screen?
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return;
 		}
 
-		// for success message
-		request.setAttribute("banned", bannedName);
+		request.setAttribute("moderator", moderatorName);
+		request.setAttribute("op", "appoint");
 		dispatcher.forward(request,response);
 	}
 
