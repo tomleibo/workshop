@@ -1,18 +1,25 @@
 package users;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-@Table(name="friendRequest")
+@Table(name="friendrequest")
 public class FriendRequest {
 	@Id
+    @GeneratedValue
 	@Column(name="friend_request_id")
 	public int id;
 	@OneToOne
 	@JoinColumn(name="requesting_member")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private User requestingMember;
 	@ManyToOne
 	@JoinColumn(name = "receiving_member")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private User receivingMember;
 	@Column(name="message")
 	private String message;

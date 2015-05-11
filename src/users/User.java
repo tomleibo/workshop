@@ -4,6 +4,7 @@ import content.SubForum;
 import exceptions.UserAlreadyLoggedInException;
 import exceptions.UserNotLoggedInException;
 import exceptions.WrongPasswordException;
+import org.hibernate.annotations.Cascade;
 import users.userState.*;
 import utils.ForumLogger;
 import utils.IdGenerator;
@@ -22,6 +23,7 @@ public class User {
 	private static String guestPassword = "";
 	private static String guestMail = "";
 	@Id
+    @GeneratedValue
 	@Column(name="user_id")
 	private int id;
 	@Column(name="name")
@@ -35,6 +37,7 @@ public class User {
 	private java.util.Date creationDate;
 	@OneToOne
 	@JoinColumn(name="state")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private UserState state;
 	@Column(name="is_active")
 	private boolean active;
@@ -43,13 +46,17 @@ public class User {
 	@Column(name="is_logged_in")
 	private boolean loggedIn;
 	@ManyToMany
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private Set<User> friends;
 	@OneToMany
 	@JoinColumn(name="panding_notfications")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private List<Notification> pendingNotifications;
 	@OneToMany( mappedBy = "receivingMember")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private List<FriendRequest> friendRequests;
 	@OneToMany( mappedBy = "reporter")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private List<Report> sentReports;
 	@Column(name="seniority")
 	private int  seniority;
@@ -344,12 +351,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User{" +
-				"username : '" + username + '\'' +
-				", state : " + state +
-				((pendingNotifications != null) ? (", pendingNotifications : " + pendingNotifications) : "") +
-				((friendRequests != null) ? ", friendRequests : " + friendRequests : "") +
-				'}';
+		return "User{" + username + "}";
 	}
 
 	public List<FriendRequest> getFriendRequests() {

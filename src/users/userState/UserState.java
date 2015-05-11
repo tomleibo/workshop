@@ -9,8 +9,9 @@ import java.util.List;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)
 @DiscriminatorValue(value="user_state")
-public abstract class UserState {
+public class UserState {
     @Id
+    @GeneratedValue
     @Column(name = "state_id")
     private int id;
     @Column(name = "status")
@@ -63,8 +64,5 @@ public abstract class UserState {
 	public int getNumberOfManagedSubForums() {
 		return -1;
 	}
-
-	@Override
-	public abstract String toString();
 
 }

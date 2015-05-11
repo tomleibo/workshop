@@ -1,11 +1,14 @@
 package users;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="report")
 public class Report {
 	@Id
+    @GeneratedValue
 	@Column(name="report_id")
 	public int id;
 	@Column(name="title")
@@ -14,9 +17,11 @@ public class Report {
 	private String content;
 	@ManyToOne
 	@JoinColumn(name="reporter")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private User reporter;
 	@OneToOne
 	@JoinColumn(name="reported")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private User reported;
 	@Column(name="date")
 	@Temporal(TemporalType.DATE)

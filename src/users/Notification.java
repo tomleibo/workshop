@@ -11,6 +11,7 @@ import java.util.Date;
 public class Notification {
 
 	@Id
+    @GeneratedValue
 	@Column(name="notification_id")
 	public int id;
 	@Column(name="title")
@@ -19,7 +20,7 @@ public class Notification {
 	private String message;
 	@Column(name="date")
 	@Temporal(TemporalType.DATE)
-	private java.util.Date date;
+	private Date date;
 
 	public Notification(){
 
