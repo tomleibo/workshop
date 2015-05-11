@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class ForumPolicy{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	
+	public int id;
 	@Column(name = "max_moderators")
 	private int maxModerators;
 	@Column(name = "password_regex")

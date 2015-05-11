@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% String forum = request.getParameter("forum"); %>
+<% String forum = request.getParameter("forumId"); %>
 <% String senderId = request.getParameter("senderId"); %>
 <% String receiver = request.getParameter("receiver"); %>
 <% String receiverId = request.getParameter("receiverId"); %>
@@ -16,7 +16,7 @@
   <p>
     Your friend request to <%=receiver%>
   </p><br>
-    <input type="hidden" name="forum" value=<%=forum%> />
+    <input type="hidden" name="forumId" value=<%=forum%> />
     <input type="hidden" name="senderId" value=<%=senderId%> />
     <input type="hidden" name="receiver" value=<%=receiver%> />
     <input type="hidden" name="receiverId" value=<%=receiverId%> />

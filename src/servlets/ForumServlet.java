@@ -3,9 +3,12 @@ package servlets;
 import content.*;
 import content.Thread;
 import controllers.ContentController;
+import controllers.UserController;
 import exceptions.EmptyMessageTitleAndBodyException;
+import org.hibernate.dialect.CUBRIDDialect;
 import policy.ForumPolicy;
 import users.User;
+import utils.CookieUtils;
 import utils.HibernateUtils;
 
 import java.io.IOException;
@@ -49,7 +52,18 @@ public class ForumServlet extends HttpServlet {
 
 		Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
-		request.setAttribute("forum",forum);
+		User user;
+		String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+		if(userId != null) {
+			user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
+		}
+		else{
+			user = UserController.enterAsGuest(forum);
+			CookieUtils.addInfiniteCookie(response, CookieUtils.USER_ID_COOKIE_NAME , Integer.toString(user.getId()));
+		}
+
+		request.setAttribute("forum", forum);
+		request.setAttribute("user", user);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum.jsp");
 		dispatcher.forward(request,response);
 	}

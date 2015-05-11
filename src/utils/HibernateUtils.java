@@ -12,6 +12,8 @@ import users.Report;
 import users.User;
 import users.userState.UserState;
 
+import java.util.List;
+
 public class HibernateUtils {
 
     private static Configuration cfg;
@@ -174,5 +176,9 @@ public class HibernateUtils {
 //        HibernateUtils.start();
 //        HibernateUtils.test();
         HibernateUtils.init();
+    }
+
+    public static List<Forum> getAllForums() {
+        return null;
     }
 }
