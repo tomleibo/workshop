@@ -355,4 +355,8 @@ public class User {
 	public List<FriendRequest> getFriendRequests() {
 		return friendRequests;
 	}
+
+	public List<Notification> getPendingNotifications() {
+		return pendingNotifications;
+	}
 }
