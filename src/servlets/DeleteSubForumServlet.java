@@ -24,13 +24,13 @@ import java.io.IOException;
 		urlPatterns = {
 				"/deleteSubForum"}
 		)
-public class DeleteSubForum extends HttpServlet {
+public class DeleteSubForumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteSubForum() {
+    public DeleteSubForumServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
