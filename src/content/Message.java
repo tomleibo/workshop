@@ -1,12 +1,12 @@
 package content;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.*;
-
+import users.Notification;
 import users.User;
 import utils.IdGenerator;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 @Entity
 @Table(name="Message")
 public class Message {
@@ -67,6 +67,19 @@ public class Message {
 			return this.enclosingMessage.removeComment(this);
 		}
 	}
+
+    public void sendNotificationToAllUsersCommented(Notification notification) {
+        for (Message message : comments) {
+            message.getUser().sendNotification(notification);
+        }
+    }
+
+    public void sendNotificationToAllUsersCommentedRecursively(Notification notification) {
+        for (Message message : comments) {
+            message.sendNotificationToAllUsersCommentedRecursively(notification);
+            message.getUser().sendNotification(notification);
+        }
+    }
 
 	private boolean removeComment(Message message) {
 		return comments.remove(message);

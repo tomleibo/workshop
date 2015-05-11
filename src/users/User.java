@@ -177,6 +177,12 @@ public class User {
 		return false;
 	}
 
+	public void sendNotification(Notification notification) {
+        if (!pendingNotifications.contains(notification)) {
+            pendingNotifications.add(notification);
+        }
+    }
+
 	public boolean addFriend(User user) {
 		return friends.add(user);
 	}

@@ -6,8 +6,8 @@ import content.SubForum;
 import content.Thread;
 import exceptions.EmptyMessageTitleAndBodyException;
 import policy.ForumPolicy;
+import users.Notification;
 import users.User;
-import utils.ForumLogger;
 import utils.HibernateUtils;
 
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ public class ContentController {
 	
 	public static boolean editPost(Message post, String body) {
 		if (post.edit(body)) {
+            post.sendNotificationToAllUsersCommented(Notification.editMessageNotification(post));
 			return HibernateUtils.save(post);
 		}
 		return false;
@@ -26,6 +27,7 @@ public class ContentController {
 	
 	public static boolean deletePost(Message post) {
 		if (post.deleteSelf()) {
+            post.sendNotificationToAllUsersCommentedRecursively(Notification.deleteMessageNotification(post));
 			return HibernateUtils.save(post.getEnclosingMessage()) && HibernateUtils.del(post);
 		}
 		return false;
@@ -74,7 +76,8 @@ public class ContentController {
 		Message openingMsg = new Message(title, content, user, null, null);
 		Thread threadAdd = new Thread(user, openingMsg, subforum);
 		if (subforum.addThread(threadAdd)) {
-			HibernateUtils.save(subforum);
+            forum.sendNotificationToAllUsers(Notification.newThreadNotification(threadAdd));
+			HibernateUtils.save(forum);
 			return threadAdd;
 		}
 		return null;

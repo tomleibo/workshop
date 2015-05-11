@@ -1,6 +1,7 @@
 package content;
 
 import policy.ForumPolicy;
+import users.Notification;
 import users.Report;
 import users.User;
 import utils.ForumLogger;
@@ -85,6 +86,12 @@ public class Forum {
 		members.remove(user);
 		return true;
 	}
+
+    public void sendNotificationToAllUsers(Notification notification) {
+        for (User user : members) {
+            user.sendNotification(notification);
+        }
+    }
 
 	public void setAdmin(User admin) {
 		this.admin = admin;

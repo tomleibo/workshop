@@ -1,6 +1,8 @@
 package users;
 
 
+import content.Message;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -68,4 +70,22 @@ public class Notification {
 		result = 31 * result + date.hashCode();
 		return result;
 	}
+
+    public static Notification newThreadNotification(content.Thread thread) {
+        String title = "New thread published";
+        String message = thread.getMemberStarted().getUsername() + " has published a new thread on your forum.";
+        return new Notification(title, message);
+    }
+
+    public static Notification editMessageNotification(Message post) {
+        String title = "Message was edited";
+        String message =  post.getUser().getUsername() + " has edited a message you commented on: " + post.getTitle();
+        return new Notification(title, message);
+    }
+
+    public static Notification deleteMessageNotification(Message post) {
+        String title = "Message was deleted";
+        String message =  post.getUser().getUsername() + " has deleted a message you commented on: " + post.getTitle() + "\nAs a result your comment was deleted.";
+        return new Notification(title, message);
+    }
 }
