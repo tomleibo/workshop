@@ -135,4 +135,12 @@ public class SubForum {
 		}
 		return false;
 	}
+
+    public int getNumberOfMessages() {
+        int numOfMessages = 0;
+        for (Thread thread : threads) {
+            numOfMessages += thread.getNumberOfMessages();
+        }
+        return numOfMessages;
+    }
 }

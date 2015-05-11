@@ -4,16 +4,14 @@ import content.Forum;
 import content.ForumSystem;
 import content.Message;
 import exceptions.UserNotAuthorizedException;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import policy.ForumPolicy;
 import policy.PolicyHandler;
 import policy.UserStatusPolicy;
 import users.User;
-import utils.ErrorLog;
+import users.userState.UserStates;
 import utils.ForumLogger;
 import utils.HibernateUtils;
-
 
 import java.security.NoSuchAlgorithmException;
 
@@ -53,8 +51,11 @@ public class SuperAdminController {
 
 	public static boolean changeAdministrator(User superAdmin, Forum forum, User admin) throws UserNotAuthorizedException {
 		if (PolicyHandler.canReplaceAdmin(superAdmin, forum, admin)) {
-			forum.setAdmin(admin);
-            //TODO: should user update too? change state?
+			User oldAdmin = forum.getAdmin();
+            forum.setAdmin(admin);
+            admin.setState(UserStates.newState(UserStates.ADMIN));
+            oldAdmin.setState(UserStates.newState(UserStates.MEMBER));
+            HibernateUtils.save(oldAdmin);
 			return HibernateUtils.save(forum);
 		}
 		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't change administrator");
@@ -101,6 +102,14 @@ public class SuperAdminController {
 		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't destroy forum system");
 		throw new UserNotAuthorizedException("to destroy forum system.");
 	}
+
+    public static int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
+        if (PolicyHandler.canUserGetNumberOfForums(superAdmin)) {
+            Query query = HibernateUtils.getQuery("FROM forum");
+            return query.list().size();
+        }
+        throw new UserNotAuthorizedException("to view reports");
+    }
 
 	public static boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy){
 		//TODO: save in sql?

@@ -58,6 +58,10 @@ public class Forum {
 		return subForums.contains(subForum);
 	}
 
+    public boolean hasSubMember(User member) {
+        return members.contains(member);
+    }
+
 	public boolean addSubForum(SubForum sub) {
 		if (!subForums.contains(sub)){
 			subForums.add(sub);
@@ -139,4 +143,12 @@ public class Forum {
 	public boolean isSecured() {
 		return false;
 	}
+
+    public int getNumberOfMessages() {
+        int numOfMessages = 0;
+        for (SubForum subForum : subForums) {
+            numOfMessages += subForum.getNumberOfMessages();
+        }
+        return numOfMessages;
+    }
 }

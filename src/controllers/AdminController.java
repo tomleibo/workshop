@@ -3,10 +3,14 @@ package controllers;
 import content.Forum;
 import content.SubForum;
 import exceptions.UserNotAuthorizedException;
+import org.hibernate.Query;
 import policy.PolicyHandler;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import users.User;
 import utils.ForumLogger;
 import utils.HibernateUtils;
+
+import java.util.List;
 
 public class AdminController {
 	
@@ -92,5 +96,28 @@ public class AdminController {
 		ForumLogger.errorLog("The user " + admin.getUsername() + " can't delete sub forum");
 		throw new UserNotAuthorizedException("to delete sub forum");
 	}
+
+    public static int getReportTotalMessagesInForum(Forum forum, User admin, SubForum subForum) throws UserNotAuthorizedException {
+        if (PolicyHandler.canUserGetNumberOfMessagesInSubForum(forum, admin, subForum)) {
+            return subForum.getNumberOfMessages();
+        }
+        throw new UserNotAuthorizedException("to view reports");
+    }
+
+    public static int getReportTotalMessagesOfMember(Forum forum, User admin, User member) throws UserNotAuthorizedException {
+        if (PolicyHandler.canUserGetNumberOfMessagesOfMember(forum, admin, member)) {
+            Query query = HibernateUtils.getQuery("FROM message M WHERE M.publisher = " + member.getId());
+            return query.list().size();
+        }
+        throw new UserNotAuthorizedException("to view reports");
+    }
+
+    public static List getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException {
+        if (PolicyHandler.canUserGetModeratorList(forum, admin)) {
+            // TODO
+            throw new NotImplementedException();
+        }
+        throw new UserNotAuthorizedException("to view reports");
+    }
 	
 }

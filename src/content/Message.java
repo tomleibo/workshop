@@ -133,4 +133,11 @@ public class Message {
 				+ publisher + "]";
 	}
 
+    public int getNumberOfMessages() {
+        int numberOfMessages = 1;
+        for (Message message : comments) {
+            numberOfMessages += message.getNumberOfMessages();
+        }
+        return numberOfMessages;
+    }
 }

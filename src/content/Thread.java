@@ -60,4 +60,8 @@ public class Thread {
 		Thread obj = (Thread) o;
 		return obj.id == id;
 	}
+
+    public int getNumberOfMessages() {
+        return openingMessage.getNumberOfMessages();
+    }
 }

@@ -148,4 +148,20 @@ public class PolicyHandler {
 	public static boolean canUserDestroyForumSystem(User superAdmin) {
 		return superAdmin.getState().isSuperAdmin();
 	}
+
+    public static boolean canUserGetNumberOfMessagesInSubForum(Forum forum, User admin, SubForum subForum) {
+        return (admin.getState().isSuperAdmin() || (forum.getAdmin().equals(admin) & forum.hasSubForum(subForum)));
+    }
+
+    public static boolean canUserGetNumberOfMessagesOfMember(Forum forum, User admin, User member) {
+        return (admin.getState().isSuperAdmin() || (forum.getAdmin().equals(admin) & forum.hasSubMember(member)));
+    }
+
+    public static boolean canUserGetModeratorList(Forum forum, User admin) {
+        return (admin.getState().isSuperAdmin() || forum.getAdmin().equals(admin));
+    }
+
+    public static boolean canUserGetNumberOfForums(User superAdmin) {
+        return superAdmin.getState().isSuperAdmin();
+    }
 }
