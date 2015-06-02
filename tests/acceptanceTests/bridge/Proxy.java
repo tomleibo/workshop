@@ -4,7 +4,6 @@ import content.*;
 import content.Thread;
 import exceptions.*;
 import policy.ForumPolicy;
-import policy.Policy;
 import policy.UserStatusPolicy;
 import users.FriendRequest;
 import users.User;
@@ -200,7 +199,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean setModeratorAndAdminsSuspensionPolicy(Forum forum, Policy policy) {
+    public boolean setModeratorAndAdminsSuspensionPolicy(Forum forum, ForumPolicy policy) {
         if(real != null)
             return real.setModeratorAndAdminsSuspensionPolicy(forum, policy);
 
@@ -232,7 +231,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean setMemberSuspensionPolicy(Forum forum, Policy policy) {
+    public boolean setMemberSuspensionPolicy(Forum forum, ForumPolicy policy) {
         if(real != null)
             return real.setMemberSuspensionPolicy(forum, policy);
 

@@ -9,7 +9,6 @@ import policy.ForumPolicy;
 import policy.PolicyHandler;
 import policy.UserStatusPolicy;
 import users.User;
-import users.userState.UserStates;
 import utils.ForumLogger;
 import utils.HibernateUtils;
 
@@ -59,8 +58,8 @@ public class SuperAdminController {
 		if (PolicyHandler.canReplaceAdmin(superAdmin, forum, admin)) {
 			User oldAdmin = forum.getAdmin();
             forum.setAdmin(admin);
-            admin.setState(UserStates.newState(UserStates.ADMIN));
-            oldAdmin.setState(UserStates.newState(UserStates.MEMBER));
+            admin.setState(User.ADMIN);
+            oldAdmin.setState(User.MEMBER);
             HibernateUtils.save(oldAdmin);
 			return HibernateUtils.save(forum);
 		}

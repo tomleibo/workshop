@@ -35,14 +35,14 @@ public class UserController {
 				ForumLogger.actionLog("A response mail has arrived, the user reliability approved!");
 				if (forum.addMember(member)) {
                     HibernateUtils.save(member);
-                    HibernateUtils.save(forum);
+                    HibernateUtils.update(forum);
                     return member;
                 }
 			}
 		} else {
 			if (forum.addMember(member)) {
                 HibernateUtils.save(member);
-                HibernateUtils.save(forum);
+                HibernateUtils.update(forum);
                 return member;
             }
 		}
@@ -72,7 +72,7 @@ public class UserController {
 	public static User logout(int id) throws UserDoesNotExistsException, UserNotLoggedInException {
 		User user = getUserFromForum(id);
 		if (user != null) {
-            if(user.getState().isGuest()) {
+            if(user.isGuest()) {
                 HibernateUtils.del(user);
             }
 			ForumLogger.actionLog("The user " + id + "is logged out successfully");
@@ -219,7 +219,7 @@ public class UserController {
 
     private static User getUserFromForum(Forum forum, String user, String pass) {
         for(User u : forum.getMembers()){
-           if(u.getUsername().equals(user))
+           if(u.getUsername()!= null && u.getUsername().equals(user))
                return u;
         }
         return null;

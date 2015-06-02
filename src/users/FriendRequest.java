@@ -13,11 +13,11 @@ public class FriendRequest {
     @GeneratedValue
 	@Column(name="friend_request_id")
 	public int id;
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="requesting_member")
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private User requestingMember;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "receiving_member")
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private User receivingMember;
@@ -73,7 +73,8 @@ public class FriendRequest {
 		if (!requestingMember.equals(that.requestingMember)) return false;
 		if (!receivingMember.equals(that.receivingMember)) return false;
 		if (!message.equals(that.message)) return false;
-		return date.equals(that.date);
+		boolean b =date.equals(that.date);
+        return b;
 
 	}
 

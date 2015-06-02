@@ -1,16 +1,15 @@
 package acceptanceTests.bridge;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-
 import content.*;
 import content.Thread;
 import exceptions.*;
 import policy.ForumPolicy;
-import policy.Policy;
 import policy.UserStatusPolicy;
 import users.FriendRequest;
 import users.User;
+
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public interface IForumSystemBridge {
 	// General Services
@@ -39,13 +38,13 @@ public interface IForumSystemBridge {
 	String[] getForumStats(Forum forum);
 	//
 	boolean isMessageContentMatchesSubForumSubject(SubForum subForum, Message message);
-	boolean setModeratorAndAdminsSuspensionPolicy(Forum forum, Policy policy);
+	boolean setModeratorAndAdminsSuspensionPolicy(Forum forum, ForumPolicy policy);
 	boolean setAppointmentRules(Forum forum, String[] rules);
 	ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException;
 
 	String getHashedPassword(String pass) throws NoSuchAlgorithmException;
 
-	boolean setMemberSuspensionPolicy(Forum forum, Policy policy);
+	boolean setMemberSuspensionPolicy(Forum forum, ForumPolicy policy);
 	boolean changeForumPolicy(Forum forum, ForumPolicy policy, User superAdmin) throws UserNotAuthorizedException;
 	FriendRequest sendFriendRequest(Forum forum, User from, User to, String message) throws UserNotAuthorizedException;
 	boolean removeFriend(Forum forum, User user, User friend) throws UserNotAuthorizedException;

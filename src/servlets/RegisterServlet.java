@@ -7,6 +7,7 @@ import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,17 +42,20 @@ public class RegisterServlet extends HttpServlet {
 			id=Integer.parseInt(request.getParameter("forumId"));
 			userName = request.getParameter("username");
 			pass = request.getParameter("pass");
-			email = request.getParameter("email");
+//			email = request.getParameter("email");
 		}
 		catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
-			return;
-		}
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/error.jsp");
+            request.setAttribute("message", e.getMessage());
+            dispatcher.forward(request, response);
+            return;
+        }
 
 		Forum forum = (Forum) HibernateUtils.load(Forum.class, id);
 
 		try {
-			User user = UserController.register(forum, userName, pass, email);
+			User user = UserController.register(forum, userName, pass, "");
 			if(user == null)
 				throw new Exception("User is null");
 

@@ -5,7 +5,6 @@ import content.Thread;
 import controllers.*;
 import exceptions.*;
 import policy.ForumPolicy;
-import policy.Policy;
 import policy.UserStatusPolicy;
 import users.FriendRequest;
 import users.User;
@@ -143,7 +142,7 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean setModeratorAndAdminsSuspensionPolicy(Forum forum, Policy policy) {
+    public boolean setModeratorAndAdminsSuspensionPolicy(Forum forum, ForumPolicy policy) {
         return false;
     }
 
@@ -163,7 +162,7 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean setMemberSuspensionPolicy(Forum forum, Policy policy) {
+    public boolean setMemberSuspensionPolicy(Forum forum, ForumPolicy policy) {
         return false;
     }
 

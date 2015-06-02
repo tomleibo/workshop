@@ -12,7 +12,7 @@ import users.User;
 import content.Message;
 import content.SubForum;
 import content.Thread;
-import users.userState.UserStates;
+
 
 public class GeneralUserServicesTests extends ForumTests{
 	static User moderator;
@@ -24,7 +24,7 @@ public class GeneralUserServicesTests extends ForumTests{
 		registerToForum(theForum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
 		user = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		moderator = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
-		moderator.setState(UserStates.newState(UserStates.MODERATOR));
+		moderator.setState(User.MODERATOR);
 	}
 
 	@After

@@ -2,7 +2,6 @@ package content;
 
 import org.hibernate.annotations.*;
 import users.User;
-import utils.IdGenerator;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -21,13 +20,16 @@ public class SubForum {
 	private String name;
 	@OneToMany(mappedBy = "subForum")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    @LazyCollection(LazyCollectionOption.FALSE)
 	private List<Thread> threads;
-	@ManyToMany
+	@ManyToMany()
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> moderators;
-	@OneToMany
-	@JoinColumn(name="banned_moderators")
+	@OneToMany()
+	@JoinColumn(name="banned_from_subforum")
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> bannedModerators;
 	@Column(name="max_moderators")
 	private int maxModerators;
@@ -35,7 +37,6 @@ public class SubForum {
 	public SubForum(){}
 
 	public SubForum(String name, User mod, int maxModerators) {
-		this.id=IdGenerator.getId(IdGenerator.SUBFORUM);
 		this.name=name;
 		this.threads = new ArrayList<>();
 		this.moderators = new ArrayList<>();

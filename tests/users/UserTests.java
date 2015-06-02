@@ -23,19 +23,19 @@ public class UserTests {
     @Test
     public void newGuestTest() {
         User guest = User.newGuest();
-        Assert.assertTrue(guest.getState().isGuest());
+        Assert.assertTrue(guest.isGuest());
     }
 
     @Test
     public void newMemberTest() {
         User member = User.newMember(username, hashedPassword, emailAddress);
-        Assert.assertTrue(member.getState().isMember());
+        Assert.assertTrue(member.isMember());
     }
 
     @Test
     public void newSuperAdmin() {
         User superAdmin = User.newSuperAdmin(username, hashedPassword, emailAddress);
-        Assert.assertTrue(superAdmin.getState().isSuperAdmin());
+        Assert.assertTrue(superAdmin.isSuperAdmin());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class UserTests {
         User member = User.newMember(username, hashedPassword, emailAddress);
         User loggedInMember = member.login(hashedPassword);
         User guest = loggedInMember.logout();
-        Assert.assertTrue(guest.getState().isGuest());
+        Assert.assertTrue(guest.isGuest());
         Assert.assertFalse(member.isLoggedIn());
     }
 
@@ -164,7 +164,7 @@ public class UserTests {
         User member = User.newMember(username, hashedPassword, emailAddress);
         SubForum subForum = new SubForum(subForumName, admin, 2);
         Assert.assertTrue(member.appoint(subForum));
-        Assert.assertTrue(member.getState().isModerator());
+        Assert.assertTrue(member.isMod());
     }
 
     @Test
@@ -183,7 +183,7 @@ public class UserTests {
         SubForum subForum = new SubForum(subForumName, admin, 2);
         member.appoint(subForum);
         Assert.assertTrue(member.unAppoint(subForum));
-        Assert.assertFalse(member.getState().isModerator());
+        Assert.assertFalse(member.isMod());
     }
 
     @Test
@@ -195,9 +195,9 @@ public class UserTests {
         member.appoint(subForum1);
         member.appoint(subForum2);
         Assert.assertTrue(member.unAppoint(subForum1));
-        Assert.assertTrue(member.getState().isModerator());
+        Assert.assertTrue(member.isMod());
         Assert.assertTrue(member.unAppoint(subForum2));
-        Assert.assertFalse(member.getState().isModerator());
+        Assert.assertFalse(member.isMod());
     }
 
     @Test
@@ -206,6 +206,6 @@ public class UserTests {
         User member = User.newMember(username, hashedPassword, emailAddress);
         SubForum subForum = new SubForum(subForumName, admin, 1);
         Assert.assertFalse(member.unAppoint(subForum));
-        Assert.assertFalse(member.getState().isModerator());
+        Assert.assertFalse(member.isMod());
     }
 }

@@ -15,11 +15,11 @@ public class Report {
 	private String title;
 	@Column(name="content")
 	private String content;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="reporter")
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private User reporter;
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="reported")
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private User reported;

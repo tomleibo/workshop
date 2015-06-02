@@ -76,8 +76,8 @@ public class ForumSystem {
         if(userStatusTypes.remove(type)!=null) {
             for(Forum forum:forums){
                 for(User user: forum.getMembers()) {
-                    if(user.getState().getStatus().equals(type)){
-                        user.getState().setStatus("");
+                    if(user.getStatus().equals(type)){
+                        user.setStatus("");
                     }
                 }
             }

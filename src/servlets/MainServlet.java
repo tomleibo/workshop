@@ -22,8 +22,9 @@ package servlets;
  * Servlet implementation class MainServlet
  */
 
-@WebServlet(description = "Presents all forums", urlPatterns = { "/main" })
+@WebServlet(description = "Presents all forums", urlPatterns = { "/home" })
 public class MainServlet extends HttpServlet {
+    private static boolean initialized=false;
     private static final long serialVersionUID = 1L;
 
     /**
@@ -36,6 +37,9 @@ public class MainServlet extends HttpServlet {
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!initialized) {
+            HibernateUtils.start();
+        }
         List<Forum> forums = HibernateUtils.getAllForums();
 
         request.setAttribute("forums", forums);

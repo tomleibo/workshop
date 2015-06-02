@@ -27,8 +27,8 @@
 <body>
 <h2>registration</h2><br>
 <form action="\register" method="get" id="registerform">
-  <input name="forum" type="hidden" value="<%=id%>">
-  user:&nbsp;<input name="user" type="text" value=""><br>
+  <input name="forumId" type="hidden" value="<%=id%>">
+  user:&nbsp;<input name="username" type="text" value=""><br>
   password:&nbsp;<input name="pass" type="password" value=""><br>
   <input type="submit">
 </form>

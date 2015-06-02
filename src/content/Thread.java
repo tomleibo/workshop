@@ -3,7 +3,6 @@ package content;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 import users.User;
-import utils.IdGenerator;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -17,18 +16,18 @@ public class Thread {
     @GeneratedValue
 	@Column(name="subforum_id", nullable=false, unique=true)
 	public int id;
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="member_started")
     @Cascade({CascadeType.SAVE_UPDATE})
 	private User memberStarted;
 	@Column(name="date")
 	@Temporal(TemporalType.DATE)
 	private Date date;
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="opening_message")
     @Cascade({CascadeType.ALL})
 	private Message openingMessage;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="sub_forum")
     @Cascade({CascadeType.SAVE_UPDATE})
 	private SubForum subForum;
@@ -36,7 +35,6 @@ public class Thread {
 	public Thread(){}
 
 	public Thread(User user, Message openingMessage, SubForum subForum){
-		this.id=IdGenerator.getId(IdGenerator.THREAD);
 		this.memberStarted = user;
 		this.date = new Date(System.currentTimeMillis());
 		this.openingMessage = openingMessage;

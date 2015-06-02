@@ -18,7 +18,7 @@
 <%
   for (Forum forum : forums) {
 %>
-<a href="\forum?id=<%=forum.id%>"><%=forum.getName()%></a><br>
+<a href="\forum?forumId=<%=forum.id%>"><%=forum.getName()%></a><br>
 <%
   }
 %>

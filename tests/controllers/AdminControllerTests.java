@@ -57,7 +57,7 @@ public class AdminControllerTests {
         subForum = AdminController.addSubForum(forum, subForumName, superAdmin);
         AdminController.appointModerator(forum, subForum, superAdmin, firstModerator);
         Assert.assertTrue(subForum.getModerators().contains(firstModerator));
-        Assert.assertTrue(firstModerator.getState().isModerator());
+        Assert.assertTrue(firstModerator.isMod());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class AdminControllerTests {
         AdminController.appointModerator(forum, subForum, superAdmin, firstModerator);
         AdminController.unAppoint(forum, subForum, superAdmin, firstModerator);
         Assert.assertFalse(subForum.getModerators().contains(firstModerator));
-        Assert.assertFalse(firstModerator.getState().isModerator());
+        Assert.assertFalse(firstModerator.isMod());
     }
 
     @Test
@@ -80,9 +80,9 @@ public class AdminControllerTests {
         AdminController.appointModerator(forum, subForum, superAdmin, firstModerator);
         AdminController.replaceModerator(forum, subForum, superAdmin, firstModerator, secondModerator);
         Assert.assertFalse(subForum.getModerators().contains(firstModerator));
-        Assert.assertFalse(firstModerator.getState().isModerator());
+        Assert.assertFalse(firstModerator.isMod());
         Assert.assertTrue(subForum.getModerators().contains(secondModerator));
-        Assert.assertTrue(secondModerator.getState().isModerator());
+        Assert.assertTrue(secondModerator.isMod());
     }
 
     @Test

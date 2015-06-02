@@ -23,8 +23,8 @@ public class AdminController {
 		if (PolicyHandler.canAppointModerator(forum, subForum, admin, moderator)) {
 			boolean b =subForum.addModerator(moderator) && moderator.appoint(subForum);
 			if (b) {
-				HibernateUtils.save(subForum);
-				HibernateUtils.save(moderator);
+				HibernateUtils.update(subForum);
+				HibernateUtils.update(moderator);
 			}
 			return b;
 		}
@@ -49,8 +49,8 @@ public class AdminController {
 		if (PolicyHandler.canUnAppointModerator(forum, subForum, admin, moderator)) {
 			boolean b=subForum.removeModerator(moderator) && moderator.unAppoint(subForum);
 			if (b) {
-				HibernateUtils.save(subForum);
-				HibernateUtils.save(moderator);
+				HibernateUtils.update(subForum);
+				HibernateUtils.update(moderator);
 			}
 			return b;
 		}
@@ -63,9 +63,9 @@ public class AdminController {
 			boolean b = subForum.changeModerator(oldModerator, newModerator) && newModerator.appoint(subForum)
 					&& oldModerator.unAppoint(subForum);
 				if (b) {
-					HibernateUtils.save(subForum);
-					HibernateUtils.save(oldModerator);
-					HibernateUtils.save(newModerator);
+					HibernateUtils.update(subForum);
+					HibernateUtils.update(oldModerator);
+					HibernateUtils.update(newModerator);
 				}
 			return  b;
 		}
@@ -89,7 +89,7 @@ public class AdminController {
 			boolean b = ContentController.deleteSubForum(forum, subForum);
 			if (b) {
 				HibernateUtils.del(subForum);
-				HibernateUtils.save(forum);
+				HibernateUtils.update(forum);
 			}
 			return b;
 		}

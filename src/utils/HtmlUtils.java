@@ -17,7 +17,7 @@ public class HtmlUtils {
 
         numberOfNotifications = (notifications.isEmpty() ? "no" : Integer.toString(notifications.size()));
 
-        String button = "@<form id=\"frm\" action=\"${pageContext.request.contextPath}/notifications.jsp\" method=\"get\">\n" +
+        String button = "<form id=\"frm\" action=\"\\notificationsPage\" method=\"get\">\n" +
                 "  <input type=\"submit\" value=\"You have "+numberOfNotifications+" notifications!\">\n" +
                 "</form><br>";
 

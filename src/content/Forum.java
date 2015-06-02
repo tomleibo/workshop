@@ -1,6 +1,8 @@
 package content;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import policy.ForumPolicy;
 import users.Notification;
 import users.Report;
@@ -19,19 +21,21 @@ public class Forum {
 	public int id;
 	@Column(name="name")
 	private String name;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "admin")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private User admin;
 	@OneToMany
-	@JoinColumn(name="sub_forums")
+	@JoinColumn(name="containing_forum")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    @LazyCollection(LazyCollectionOption.FALSE)
 	private List<SubForum> subForums;
 	@OneToMany
-	@JoinColumn(name="members")
+	@JoinColumn(name="containing_forum")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    @LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> members;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="policy")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private ForumPolicy policy;

@@ -9,7 +9,6 @@ import org.junit.*;
 import policy.ForumPolicy;
 import users.FriendRequest;
 import users.User;
-import users.userState.UserStates;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -269,7 +268,7 @@ public class MemberUserServicesTests extends ForumTests {
 
 		openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user1);
 
-		user2.setState(UserStates.newState(UserStates.MODERATOR));
+		user2.setState(User.MODERATOR);
 		changeModetator(theForum, sf, superAdmin, user2);
 
 		boolean result = reportModeratorInForum(theForum, user1, user2, REPORT_TITLES[0], REPORT_CONTENTS[0]);
@@ -284,7 +283,7 @@ public class MemberUserServicesTests extends ForumTests {
 		Forum otherForum = addForum("Other Forum", otherSuperAdmin, getPolicy(10, ".", ForumPolicy.HashFunction.MD5));
 		SubForum sf2 = addSubForum(otherForum, SUB_FORUM_NAMES[0], otherSuperAdmin);
 
-		user2.setState(UserStates.newState(UserStates.MODERATOR));
+		user2.setState((User.MODERATOR));
 		changeModetator(otherForum, sf2, otherSuperAdmin, user2);
 
 		try {
@@ -302,7 +301,7 @@ public class MemberUserServicesTests extends ForumTests {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 
-		user2.setState(UserStates.newState(UserStates.MODERATOR));
+		user2.setState(User.MODERATOR);
 		changeModetator(theForum, sf, superAdmin, user2);
 
 		try {

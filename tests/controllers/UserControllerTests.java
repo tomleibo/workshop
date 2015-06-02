@@ -7,7 +7,6 @@ import org.junit.Test;
 import policy.ForumPolicy;
 import users.FriendRequest;
 import users.User;
-import users.userState.GuestState;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -34,7 +33,7 @@ public class UserControllerTests {
         User admin = User.newMember("hadar", "1234", "polad.hadar@gmail.com");
         Forum forum  = new Forum(admin, new ForumPolicy(2,"1234",ForumPolicy.HashFunction.MD5), "name");
         User user = userController.enterAsGuest(forum);
-        Assert.assertTrue(user.getState() instanceof GuestState);
+        Assert.assertTrue(user.getState() == User.GUEST);
     }
 
     @Test

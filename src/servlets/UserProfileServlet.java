@@ -10,7 +10,6 @@ import exceptions.UsernameAlreadyExistsException;
 import policy.ForumPolicy;
 import users.FriendRequest;
 import users.User;
-import users.userState.SuperAdminState;
 import utils.Cipher;
 import utils.CookieUtils;
 import utils.HibernateUtils;

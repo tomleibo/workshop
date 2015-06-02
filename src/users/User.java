@@ -4,12 +4,12 @@ import content.SubForum;
 import exceptions.UserAlreadyLoggedInException;
 import exceptions.UserNotLoggedInException;
 import exceptions.WrongPasswordException;
-import org.hibernate.annotations.Cascade;
-import users.userState.*;
+import org.hibernate.annotations.*;
 import utils.ForumLogger;
-import utils.IdGenerator;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +22,14 @@ public class User {
 	private static String guestUsername = "Guest";
 	private static String guestPassword = "";
 	private static String guestMail = "";
+
+    public final static int GUEST = 0;
+    public final static int MEMBER = 10;
+    public final static int MODERATOR = 20;
+    public final static int ADMIN = 30;
+    public final static int SUPERADMIN = 40;
+
+
 	@Id
     @GeneratedValue
 	@Column(name="user_id")
@@ -35,42 +43,74 @@ public class User {
 	@Column(name="date")
 	@Temporal(TemporalType.DATE)
 	private java.util.Date creationDate;
-	@OneToOne
-	@JoinColumn(name="state")
-    @Cascade({org.hibernate.annotations.CascadeType.ALL})
-	private UserState state;
 	@Column(name="is_active")
 	private boolean active;
 	@Column(name="is_banned")
 	private boolean banned;
 	@Column(name="is_logged_in")
 	private boolean loggedIn;
-	@ManyToMany
+    @Column(name="state")
+    private int state;
+    @Column(name="status")
+    private String status = "";
+	@ManyToMany()
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @LazyCollection(LazyCollectionOption.FALSE)
 	private Set<User> friends;
-	@OneToMany
+	@OneToMany()
 	@JoinColumn(name="panding_notfications")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    @LazyCollection(LazyCollectionOption.FALSE)
 	private List<Notification> pendingNotifications;
 	@OneToMany( mappedBy = "receivingMember")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    @LazyCollection(LazyCollectionOption.FALSE)
 	private List<FriendRequest> friendRequests;
 	@OneToMany( mappedBy = "reporter")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    @LazyCollection(LazyCollectionOption.FALSE)
 	private List<Report> sentReports;
 	@Column(name="seniority")
 	private int  seniority;
 	@Column(name="loginTime")
 	private long loginTime;
+    @OneToMany()
+    @JoinColumn(name="managing_users")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<SubForum> managedSubForums;
 
-	public User(){}
-	/**
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public User(){
+        initializeUser();
+    }
+
+    public List<SubForum> getManagedSubForums() {
+        return managedSubForums;
+    }
+
+    /**
 	 * Constructor for testing.
 	 */
 	public User(int i) {
 		this.id = i;
 		this.username = "" + id;
-		this.state = new GuestState();
+		this.state=MEMBER;
 		initializeUser();
 	}
 
@@ -81,9 +121,8 @@ public class User {
 	 * @param emailAddress String representing the user's email address.
 	 * @param state UserState for the created user.
 	 */
-	private User(String username, String hashedPassword, String emailAddress, UserState state) {
-		this.id = IdGenerator.getId(IdGenerator.USER);
-		if (state.isGuest())
+	private User(String username, String hashedPassword, String emailAddress, int state) {
+		if (state==GUEST)
 			this.username = username + id;
 		else
 			this.username = username;
@@ -97,11 +136,32 @@ public class User {
 		initializeUser();
 	}
 
-	private void initializeUser() {
+    public boolean isGuest() {
+        return state==GUEST;
+    }
+
+    public boolean isMember() {
+        return state>=MEMBER;
+    }
+
+    public boolean isMod() {
+        return state>=MODERATOR;
+    }
+
+    public boolean isAdmin() {
+        return state>=ADMIN;
+    }
+
+    public boolean isSuperAdmin() {
+        return state>=SUPERADMIN;
+    }
+
+    private void initializeUser() {
 		active = true;
 		banned = false;
 		loggedIn = false;
 		creationDate = new java.util.Date(System.currentTimeMillis());
+        managedSubForums = new ArrayList<>();
 	}
 
 	/**
@@ -109,7 +169,7 @@ public class User {
 	 * @return User with Guest state.
 	 */
 	public static User newGuest() {
-		return new User(guestUsername, guestPassword, guestMail, UserStates.newState(UserStates.GUEST));
+        return new User(guestUsername,guestPassword,guestMail,GUEST);
 	}
 
 	/**
@@ -120,7 +180,7 @@ public class User {
 	 * @return User with Member state.
 	 */
 	public static User newMember(String username, String hashedPassword, String emailAddress) {
-		return new User(username, hashedPassword, emailAddress, UserStates.newState(UserStates.MEMBER));
+		return new User(username, hashedPassword, emailAddress, MEMBER);
 	}
 
 	/**
@@ -131,7 +191,7 @@ public class User {
 	 * @return User with Super-Admin state.
 	 */
 	public static User newSuperAdmin(String username, String hashedPassword, String emailAddress) {
-		return new User(username, hashedPassword, emailAddress, UserStates.newState(UserStates.SUPER_ADMIN));
+		return new User(username, hashedPassword, emailAddress, SUPERADMIN);
 	}
 
 	/**
@@ -177,7 +237,7 @@ public class User {
 
 	public boolean addFriendRequest(FriendRequest request) {
 		if(friendRequests.add(request)) {
-			ForumLogger.actionLog("The user " + getUsername() + "got friend request from "+request.getRequestingMember().getUsername());
+			ForumLogger.actionLog("The user " + getUsername() + "got friend request from " + request.getRequestingMember().getUsername());
 			return true;
 		}
 		ForumLogger.errorLog("The user " + getUsername() + "could not get friend request from "+request.getRequestingMember().getUsername());
@@ -241,10 +301,10 @@ public class User {
 	}
 
 	public boolean unAppoint(SubForum subForum) {
-		if (state.isModerator()) {
-			boolean result = state.removeManagedSubForum(subForum);
-			if (result & (state.getNumberOfManagedSubForums() == 0)) {
-				setState(UserStates.newState(UserStates.MEMBER));
+		if (isMod()) {
+			boolean result = managedSubForums.remove(subForum);
+			if (result & (managedSubForums.size() == 0)) {
+				setState(MEMBER);
 				ForumLogger.actionLog("The user " + getUsername() + "is not a moderator anymore");
 			}
 			return result;
@@ -254,13 +314,13 @@ public class User {
 	}
 
 	public boolean appoint(SubForum subForum) {
-		if (state.isModerator()) {
+		if (isMod()) {
 			ForumLogger.errorLog("The user " + getUsername() + " is already moderator");
-			return state.addManagedSubForum(subForum);
+			return managedSubForums.add(subForum);
 		} else {
-			setState(UserStates.newState(UserStates.MODERATOR));
+			setState(MODERATOR);
 			ForumLogger.actionLog("The user " + getUsername() + " is now moderator of the sub-forum " + subForum.getName());
-			return state.addManagedSubForum(subForum);
+			return managedSubForums.add(subForum);
 		}
 	}
 
@@ -297,16 +357,6 @@ public class User {
 		this.hashedPassword = hashedPassword;
 	}
 
-	public UserState getState() {
-		return state;
-	}
-
-	public void setState(UserState state) {
-		String status = this.state.getStatus();
-		state.setStatus(status);
-		this.state = state;
-	}
-
 	public boolean addSentReport(Report report) {
 		return sentReports.add(report);
 	}
@@ -323,33 +373,23 @@ public class User {
 		return loginTime;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-		User user = (User) o;
+        User user = (User) o;
 
-		if (id != user.id) return false;
-		if (state != null ? !state.equals(user.state) : user.state != null) return false;
-		if (username != null ? !username.equals(user.username) : user.username != null) return false;
-		if (hashedPassword != null ? !hashedPassword.equals(user.hashedPassword) : user.hashedPassword != null)
-			return false;
-		return !(emailAddress != null ? !emailAddress.equals(user.emailAddress) : user.emailAddress != null);
+        return username.equals(user.username);
 
-	}
+    }
 
-	@Override
-	public int hashCode() {
-		int result = id;
-		result = 31 * result + (state != null ? state.hashCode() : 0);
-		result = 31 * result + (username != null ? username.hashCode() : 0);
-		result = 31 * result + (hashedPassword != null ? hashedPassword.hashCode() : 0);
-		result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        return username.hashCode();
+    }
 
-	@Override
+    @Override
 	public String toString() {
 		return "User{" + username + "}";
 	}
@@ -361,4 +401,6 @@ public class User {
 	public List<Notification> getPendingNotifications() {
 		return pendingNotifications;
 	}
+
+
 }

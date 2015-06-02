@@ -5,7 +5,6 @@ import controllers.UserController;
 import exceptions.UserNotAuthorizedException;
 import policy.ForumPolicy;
 import users.User;
-import users.userState.SuperAdminState;
 import utils.CookieUtils;
 import utils.HibernateUtils;
 

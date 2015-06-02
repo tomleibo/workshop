@@ -1,9 +1,10 @@
 package content;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import users.Notification;
 import org.hibernate.annotations.Cascade;
 import users.User;
-import utils.IdGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,19 +25,20 @@ public class Message {
 	private java.util.Date date;
 
 	//date last edited?
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="publisher")
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private User publisher;
 	@OneToMany(mappedBy = "enclosingMessage")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    @LazyCollection(LazyCollectionOption.FALSE)
 	private List<Message> comments;
 	//add insertable=false | uodateable=false
-	@ManyToOne()
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="enclosing")
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private Message enclosingMessage;
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="thread")
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private Thread thread;
@@ -45,8 +47,7 @@ public class Message {
 
 	}
 
-	public Message(String title, String body, User publisher, Thread thread, Message parent) {
-		this.id=IdGenerator.getId(IdGenerator.MESSAGE);
+	public Message(String title, String body, User publisher, Thread thread, Message parent){
 		this.title = title;
 		this.body = body;
 		this.date = new java.sql.Date(System.currentTimeMillis());

@@ -20,7 +20,7 @@ public class ContentController {
 	public static boolean editPost(Message post, String body) {
 		if (post.edit(body)) {
             post.sendNotificationToAllUsersCommented(Notification.editMessageNotification(post));
-			return HibernateUtils.save(post);
+			return HibernateUtils.update(post);
 		}
 		return false;
 	}
@@ -28,7 +28,7 @@ public class ContentController {
 	public static boolean deletePost(Message post) {
 		if (post.deleteSelf()) {
             post.sendNotificationToAllUsersCommentedRecursively(Notification.deleteMessageNotification(post));
-			return HibernateUtils.save(post.getEnclosingMessage()) && HibernateUtils.del(post);
+			return HibernateUtils.update(post.getEnclosingMessage()) && HibernateUtils.del(post);
 		}
 		return false;
 	}
@@ -77,7 +77,8 @@ public class ContentController {
 		Thread threadAdd = new Thread(user, openingMsg, subforum);
 		if (subforum.addThread(threadAdd)) {
             forum.sendNotificationToAllUsers(Notification.newThreadNotification(threadAdd));
-			HibernateUtils.save(forum);
+			HibernateUtils.update(forum);
+            HibernateUtils.update(subforum);
 			return threadAdd;
 		}
 		return null;
@@ -89,7 +90,8 @@ public class ContentController {
 		}
 		Message comment = new Message(title, content, user, null, addTo);
 		if (addTo.addComment(comment)) {
-			HibernateUtils.save(addTo);
+			HibernateUtils.save(comment);
+            HibernateUtils.update(addTo);
 			return comment;
 		}
 		return null;
@@ -97,7 +99,7 @@ public class ContentController {
 	
 	public static boolean deleteSubForum(Forum forum, SubForum subForum) {
 		if (forum.deleteSubForum(subForum)) {
-			return HibernateUtils.save(forum);
+			return HibernateUtils.update(forum) && HibernateUtils.del(subForum);
 		}
 		return false;
 	}
@@ -113,7 +115,7 @@ public class ContentController {
 	public static SubForum addSubForum(Forum forum, String title, User moderator) {
 		SubForum sub = new SubForum(title, moderator, forum.getPolicy().getMaxModerators());
 		if (forum.addSubForum(sub)) {
-			HibernateUtils.save(forum);
+			HibernateUtils.update(forum);
 			return sub;
 		}
 		return null;

@@ -12,20 +12,20 @@ public class PolicyHandler {
 
 	public static boolean canUserDeleteComment(Forum forum, SubForum subForum, User user, Message comment) {
 		//For now only the user who wrote the message can delete it, but it can change by forumPolicy.
-		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && comment.getUser().equals(user) && !(user.getState().isGuest()) && user.isActive())
+		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && comment.getUser().equals(user) && !(user.isGuest()) && user.isActive())
 			return true;
 		return false;
 	}
 
 	public static boolean canUserEditComment(Forum forum, SubForum subForum, User user, Message msg) {
 		//For now only the user who wrote the message can edit it, but it can change by forumPolicy.
-		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && msg.getUser().equals(user) && !(user.getState().isGuest()) && user.isActive())
+		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && msg.getUser().equals(user) && !(user.isGuest()) && user.isActive())
 			return true;
 		return false;
 	}
 	
 	public static boolean canUserOpenThread(Forum forum, User user) {
-		if(forum.getMembers().contains(user) && !(user.getState().isGuest()) && user.isActive())
+		if(forum.getMembers().contains(user) && !(user.isGuest()) && user.isActive())
 			return true;
 		return false;
 
@@ -36,13 +36,13 @@ public class PolicyHandler {
 	}
 
 	public static boolean canUserDeleteSubForum(Forum forum, User admin) {
-		if(forum.getAdmin().equals(admin) || admin.getState().isSuperAdmin())
+		if(forum.getAdmin().equals(admin) || admin.isSuperAdmin())
 			return true;
 		return false;
 	}
 
 	public static boolean canUserAddSubForum(Forum forum, User admin) {
-		if(forum.getAdmin().equals(admin) || admin.getState().isSuperAdmin())
+		if(forum.getAdmin().equals(admin) || admin.isSuperAdmin())
 			return true;
 		return false;
 	}
@@ -74,33 +74,33 @@ public class PolicyHandler {
 	}
 
 	public static boolean canUserHaveFriends(Forum forum, User user) {
-		if(!user.getState().isGuest())
+		if(!user.isGuest())
 			return true;
 		return false;
 	}
 
 	public static boolean canUserBanMember(SubForum subForum, User moderator, User member) {
-		if(subForum.getModerators().contains(moderator) && !member.getState().isGuest() && moderator.isActive())
+		if(subForum.getModerators().contains(moderator) && !member.isGuest() && moderator.isActive())
 			return true;
 		return false;
 
 	}
 
 	public static boolean canUserReply(Forum forum, User user) {
-		if(user.isActive() && !user.getState().isGuest())
+		if(user.isActive() && !user.isGuest())
 			return true;
 		return false;
 	}
 
 	public static boolean canUserAddForum(User superAdmin) {
-		if(superAdmin.getState().isSuperAdmin())
+		if(superAdmin.isSuperAdmin())
 			return true;
 		return false;
 
 	}
 
 	public static boolean canUserRemoveForum(User superAdmin) {
-		if(superAdmin.getState().isSuperAdmin())
+		if(superAdmin.isSuperAdmin())
 			return true;
 		return false;
 	}
@@ -118,20 +118,20 @@ public class PolicyHandler {
 	}
 
 	public static boolean canUserReplyToFriendRequest(Forum forum, User user, FriendRequest request) {
-		if(!user.getState().isGuest() && user.isActive())
+		if(!user.isGuest() && user.isActive())
 			return true;
 		return false;
 	}
 
 	public static boolean canUserReportAdmin(Forum forum, User reporter, User admin) {
-		if(!reporter.getState().isGuest() && reporter.isActive() && forum.getMembers().contains(reporter) && (forum.getAdmin().equals(admin) || didUserPostInModeratorSubForums(admin, reporter)))
+		if(!reporter.isGuest() && reporter.isActive() && forum.getMembers().contains(reporter) && (forum.getAdmin().equals(admin) || didUserPostInModeratorSubForums(admin, reporter)))
 			return true;
 		return false;
 	}
 
 	private static boolean didUserPostInModeratorSubForums(User moderator, User member) {
-		if (moderator.getState().isModerator()) {
-			List<SubForum> subForums = moderator.getState().getManagedSubForums();
+		if (moderator.isMod()) {
+			List<SubForum> subForums = moderator.getManagedSubForums();
 			for (SubForum subForum : subForums)
 				if (subForum.hasModerator(moderator) && subForum.didUserPostHere(member))
 					return true;
@@ -140,28 +140,28 @@ public class PolicyHandler {
 	}
 
 	public static boolean canUserBeDeactivated(User user) {
-		if(!user.getState().isGuest())
+		if(!user.isGuest())
 			return true;
 		return false;
 	}
 
 	public static boolean canUserDestroyForumSystem(User superAdmin) {
-		return superAdmin.getState().isSuperAdmin();
+		return superAdmin.isSuperAdmin();
 	}
 
     public static boolean canUserGetNumberOfMessagesInSubForum(Forum forum, User admin, SubForum subForum) {
-        return (admin.getState().isSuperAdmin() || (forum.getAdmin().equals(admin) & forum.hasSubForum(subForum)));
+        return (admin.isSuperAdmin() || (forum.getAdmin().equals(admin) & forum.hasSubForum(subForum)));
     }
 
     public static boolean canUserGetNumberOfMessagesOfMember(Forum forum, User admin, User member) {
-        return (admin.getState().isSuperAdmin() || (forum.getAdmin().equals(admin) & forum.hasSubMember(member)));
+        return (admin.isSuperAdmin() || (forum.getAdmin().equals(admin) & forum.hasSubMember(member)));
     }
 
     public static boolean canUserGetModeratorList(Forum forum, User admin) {
-        return (admin.getState().isSuperAdmin() || forum.getAdmin().equals(admin));
+        return (admin.isSuperAdmin() || forum.getAdmin().equals(admin));
     }
 
     public static boolean canUserGetNumberOfForums(User superAdmin) {
-        return superAdmin.getState().isSuperAdmin();
+        return superAdmin.isSuperAdmin();
     }
 }
