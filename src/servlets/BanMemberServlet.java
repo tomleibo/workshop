@@ -41,7 +41,7 @@ public class BanMemberServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = request.getRequestURL().toString();
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/memberBanned.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/success.jsp");
 
 		int subForumId, userId= -1, bannedId;
 		String bannedName;

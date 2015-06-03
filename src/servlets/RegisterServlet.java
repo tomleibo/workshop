@@ -43,26 +43,23 @@ public class RegisterServlet extends HttpServlet {
 			userName = request.getParameter("username");
 			pass = request.getParameter("pass");
 //			email = request.getParameter("email");
-		}
-		catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/error.jsp");
-            request.setAttribute("message", e.getMessage());
-            dispatcher.forward(request, response);
-            return;
-        }
 
-		Forum forum = (Forum) HibernateUtils.load(Forum.class, id);
 
-		try {
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, id);
+
 			User user = UserController.register(forum, userName, pass, "");
 			if(user == null)
 				throw new Exception("User is null");
 
 			CookieUtils.changeCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
 
+			request.setAttribute("forumId", id);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum");
+			dispatcher.forward(request, response);
+
+
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			ServletUtils.exitError(this, request,response,e.getMessage());
 		}
 	}
 

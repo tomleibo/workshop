@@ -40,7 +40,7 @@ public class DeleteSubForumServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subForumDeleted.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/success.jsp");
 
 		int forumId, userId=-1, subForumId;
 		String subForumName;

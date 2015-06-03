@@ -39,33 +39,27 @@ public class ForumServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		int forumId;
+		try {
+			int forumId = Integer.parseInt(request.getParameter("forumId"));
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
-		try{
-			forumId = Integer.parseInt(request.getParameter("forumId"));
+			User user;
+			String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if (userId != null) {
+				user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
+			} else {
+				user = UserController.enterAsGuest(forum);
+				CookieUtils.addInfiniteCookie(response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
+			}
+
+			request.setAttribute("forum", forum);
+			request.setAttribute("user", user);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum.jsp");
+			dispatcher.forward(request, response);
 		}
-
-		catch(NumberFormatException e) {
-			System.out.println(e.getMessage());
-			return;
+		catch (Exception e) {
+			ServletUtils.exitError(this, request, response, e.getMessage());
 		}
-
-		Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-
-		User user;
-		String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-		if(userId != null) {
-			user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
-		}
-		else{
-			user = UserController.enterAsGuest(forum);
-			CookieUtils.addInfiniteCookie(response, CookieUtils.USER_ID_COOKIE_NAME , Integer.toString(user.getId()));
-		}
-
-		request.setAttribute("forum", forum);
-		request.setAttribute("user", user);
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum.jsp");
-		dispatcher.forward(request,response);
 	}
 
 	/**

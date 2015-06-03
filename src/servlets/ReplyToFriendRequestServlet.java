@@ -41,7 +41,7 @@ public class ReplyToFriendRequestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = request.getRequestURL().toString();
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/friendRequestReplied.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/success.jsp");
 
 		int forumId, userId=-1, friendId, friendReqId;
 		String friendName;

@@ -40,7 +40,7 @@ public class ReportMemberServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/reportSent.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/success.jsp");
 
 		int forumId, senderId = -1, reporteeId;
 		String reporteeName, title, content;

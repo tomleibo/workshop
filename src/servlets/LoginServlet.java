@@ -7,6 +7,7 @@ import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,31 +35,27 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int id;
-		String userName, pass;
-		try {
-			id=Integer.parseInt(request.getParameter("forumId"));
-			userName = request.getParameter("user");
-			pass = request.getParameter("pass");
-		}
-		catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
-
-		Forum forum = (Forum) HibernateUtils.load(Forum.class, id);
 
 		try {
+			int id=Integer.parseInt(request.getParameter("forumId"));
+			String userName = request.getParameter("user");
+			String pass = request.getParameter("pass");
+
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, id);
+
+
 			User user = UserController.login(forum, userName, pass);
 			if (user == null)
 				throw new Exception("User is null");
 
 			CookieUtils.changeCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
 
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		} catch (UserAlreadyLoggedInException e) {
-			e.printStackTrace();
+			request.setAttribute("forumId", id);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum");
+			dispatcher.forward(request, response);
+		}
+		catch (Exception e) {
+			ServletUtils.exitError(this, request,response, e.getMessage());
 		}
 	}
 

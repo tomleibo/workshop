@@ -11,18 +11,29 @@
 <% List<Forum> forums = (List<Forum>) request.getAttribute("forums"); %>
 <html>
 <head>
+  <link href="css/list.css" rel="stylesheet">
   <title></title>
 </head>
 <body>
+
 <h2>Hello Dear guest, Where would you like to go?</h2><br><br>
-<%
-  for (Forum forum : forums) {
-%>
-<a href="\forum?forumId=<%=forum.id%>"><%=forum.getName()%></a><br>
-<%
-  }
-%>
 <br><br><br><br>
+
+<div id="list3">
+  <h2>Forums</h2>
+  <ul>
+    <%
+      for (Forum forum : forums) {
+    %>
+    <li>
+      <a href="\forum?forumId=<%=forum.id%>"><%=forum.getName()%></a><br>
+    </li>
+    <%
+      }
+    %>
+  </ul>
+</div>
+
 <form action="\supermain">
   <input type="submit" value="ADMINIZE">
 </form>

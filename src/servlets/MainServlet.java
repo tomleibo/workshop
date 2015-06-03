@@ -37,15 +37,21 @@ public class MainServlet extends HttpServlet {
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!initialized) {
-            HibernateUtils.start();
+        try {
+            if (!initialized) {
+                HibernateUtils.start();
+            }
+
+            List<Forum> forums = HibernateUtils.getAllForums();
+//            ServletUtils.exitSuccess(this, request,response,"Hello World");
+            request.setAttribute("forums", forums);
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/main.jsp");
+            dispatcher.forward(request, response);
         }
-        List<Forum> forums = HibernateUtils.getAllForums();
 
-        request.setAttribute("forums", forums);
-
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/main.jsp");
-        dispatcher.forward(request,response);
+        catch(Exception e){
+            ServletUtils.exitError(this, request, response, e.getMessage());
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

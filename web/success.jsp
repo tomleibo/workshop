@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% String receiver = (String)request.getAttribute("receiver"); %>
+<% String successMessage = (String)request.getAttribute("message"); %>
 
 <html>
 <head>
@@ -14,7 +14,8 @@
 </head>
 <body>
 <h1>
-  Friend Request Sent To <%=receiver%>!
+  Success!
 </h1>
+<h2><%=successMessage%>!</h2>
 </body>
 </html>

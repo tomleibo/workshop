@@ -5,7 +5,7 @@ import users.User;
 /**
  * Created by Yuval on 4/23/2015.
  */
-public class UserAlreadyLoggedInException extends Throwable {
+public class UserAlreadyLoggedInException extends Exception {
 
     private User user;
 
