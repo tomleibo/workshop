@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 public class CookieUtils {
 
 	public static final String USER_ID_COOKIE_NAME = "userId";
-	
+	public static final String FORUM_ID_COOKIE_NAME = "forumId";
+
 	/**
 	 * adds a cookie to the response.
 	 * domain, path and isSecure are optional.
@@ -35,11 +36,13 @@ public class CookieUtils {
 	/**
 	 * deletes all cookies in the given request.
 	 */
-	public static void deleteAllCookies(HttpServletRequest request, HttpServletResponse response) {
+	public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String key) {
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
-			cookie.setMaxAge(0); 
-			response.addCookie(cookie);
+			if(cookie.getName().equals(key)) {
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+			}
 		}
 	}
 	
@@ -49,18 +52,21 @@ public class CookieUtils {
 	public static String getCookieValue(HttpServletRequest request, String cookieName) {
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
-			if(cookie.getName().equals(cookieName)) {
+			if(cookie.getName().equals(cookieName) && cookie.getMaxAge()!= 0) {
 				return cookie.getValue();
 			}
 		}
 		return null;
 	}
 
-	public static boolean changeCookieValue(HttpServletRequest request, String cookieName, String newValue) {
+	public static boolean changeCookieValue(HttpServletRequest request, HttpServletResponse response, String cookieName, String newValue) {
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
 			if(cookie.getName().equals(cookieName)) {
 				cookie.setValue(newValue);
+				if(cookie.getMaxAge() == 0)
+					cookie.setMaxAge(Integer.MAX_VALUE);
+				response.addCookie(cookie);
 				return true;
 			}
 		}

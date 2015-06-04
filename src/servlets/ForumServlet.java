@@ -40,7 +40,8 @@ public class ForumServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-			int forumId = Integer.parseInt(request.getParameter("forumId"));
+			String forumIdString = request.getParameter("forumId");
+			int forumId = Integer.parseInt(forumIdString);
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
 			User user;
@@ -52,6 +53,13 @@ public class ForumServlet extends HttpServlet {
 				CookieUtils.addInfiniteCookie(response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
 			}
 
+			String forumCookieId = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			if (forumCookieId != null) {
+				CookieUtils.changeCookieValue(request, response, CookieUtils.FORUM_ID_COOKIE_NAME, forumIdString);
+			} else {
+				CookieUtils.addInfiniteCookie(response, CookieUtils.FORUM_ID_COOKIE_NAME, forumIdString);
+			}
+
 			request.setAttribute("forum", forum);
 			request.setAttribute("user", user);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum.jsp");
@@ -61,6 +69,7 @@ public class ForumServlet extends HttpServlet {
 			ServletUtils.exitError(this, request, response, e.getMessage());
 		}
 	}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

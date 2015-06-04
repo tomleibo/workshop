@@ -1,9 +1,8 @@
 package servlets;
 
 import content.Forum;
-import controllers.ModerationController;
-import controllers.UserController;
-import exceptions.UserNotAuthorizedException;
+import content.SubForum;
+import controllers.AdminController;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -20,17 +19,17 @@ import java.io.IOException;
  * Servlet implementation class UserProfileServlet
  */
 @WebServlet(
-		description = "Handles the request of reporting a member",
+		description = "Handles the request of adding a sub forum",
 		urlPatterns = {
-				"/reportMember"}
+				"/newSubForum"}
 		)
-public class ReportMemberServlet extends HttpServlet {
+public class AddSubForumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReportMemberServlet() {
+    public AddSubForumServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,40 +39,32 @@ public class ReportMemberServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		try{
-
-			int reporteeId = Integer.parseInt(request.getParameter("reporteeId"));
+		try {
+			int forumId = Integer.parseInt(request.getParameter("forumId"));
 			String title = request.getParameter("title");
-			String content = request.getParameter("content");
-
-			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if (cookieValue == null)
-				throw new Exception("User Cookie Value doesn't exist");
-
-			int userId = Integer.parseInt(cookieValue);
-
-			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
-			if (cookieValue == null)
-				throw new Exception("Forum Cookie Value doesn't exist");
-
-			int forumId = Integer.parseInt(cookieValue);
-
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-			User user  = (User) HibernateUtils.load(User.class, userId);
-			User reportee = (User) HibernateUtils.load(User.class, reporteeId);
 
-			UserController.report(forum, user, reportee, title, content);
+			String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			User user;
+			if (userId != null) {
+				user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
+			}
+			else{
+				throw new Exception("Empty Cookie");
+			}
 
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile.jsp");
+			SubForum subForum = AdminController.addSubForum(forum, title, user);
+			if(!HibernateUtils.save(subForum))
+				throw new Exception("Sub Forum Not Saved!");
+
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum.jsp");
 			request.setAttribute("user", user);
 			request.setAttribute("forum", forum);
-			dispatcher.forward(request,response);
+			dispatcher.forward(request, response);
 		}
-
-		catch(Exception e){
-			ServletUtils.exitError(this, request,response,e.getMessage());
+		catch (Exception e) {
+			ServletUtils.exitError(this, request, response, e.getMessage());
 		}
 	}
 

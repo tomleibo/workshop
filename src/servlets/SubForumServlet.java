@@ -38,29 +38,27 @@ public class SubForumServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			int subForumId = Integer.parseInt(request.getParameter("subForumId"));
 
-		int subForumId;
-		try{
-			subForumId = Integer.parseInt(request.getParameter("subForumId"));
+			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
+
+			User user = null;
+			String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if (userId != null) {
+				user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
+			}
+			else
+				throw new Exception("Empty Cookie");
+
+			request.setAttribute("subForum", subForum);
+			request.setAttribute("user", user);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subForum.jsp");
+			dispatcher.forward(request, response);
 		}
-		catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
-			return;
+		catch (Exception e){
+			ServletUtils.exitError(this, request,response, e.getMessage());
 		}
-
-		SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
-
-		User user = null;
-		String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-		if(userId != null) {
-			user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
-		}
-
-		request.setAttribute("subForum", subForum);
-		request.setAttribute("user", user);
-
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subforum.jsp");
-		dispatcher.forward(request, response);
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package users.userState;
 
 import content.SubForum;
+import users.User;
 
 import javax.persistence.*;
 import java.util.List;
@@ -63,6 +64,22 @@ public class UserState {
 
 	public int getNumberOfManagedSubForums() {
 		return -1;
+	}
+
+	public static String getStateName(int state){
+		switch(state){
+			case User.SUPERADMIN:
+				return "Super-Admin";
+			case User.ADMIN:
+				return "Admin";
+			case User.MODERATOR:
+				return "Moderator";
+			case User.MEMBER:
+				return "Member";
+			case User.GUEST:
+				return "Guest";
+		}
+		return "";
 	}
 
 }

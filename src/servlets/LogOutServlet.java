@@ -2,7 +2,6 @@ package servlets;
 
 import content.Forum;
 import controllers.UserController;
-import exceptions.UsernameAlreadyExistsException;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -14,20 +13,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Servlet implementation class ThreadServlet
  */
-@WebServlet(description = "A servlet for registering", urlPatterns = { "/register" })
-public class RegisterServlet extends HttpServlet {
+@WebServlet(description = "A servlet for logout", urlPatterns = { "/logout" })
+public class LogOutServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterServlet() {
+    public LogOutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,31 +34,25 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int id;
-		String userName, pass, email;
+
 		try {
-			id=Integer.parseInt(request.getParameter("forumId"));
-			userName = request.getParameter("username");
-			pass = request.getParameter("pass");
-//			email = request.getParameter("email");
+			int forumId = Integer.parseInt(request.getParameter("forumId"));
 
-			Forum forum = (Forum) HibernateUtils.load(Forum.class, id);
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("User Cookie Value doesn't exist");
 
-			UserController.register(forum, userName, pass, "");
-			User user = UserController.login(forum, userName, pass);
+			int userId = Integer.parseInt(cookieValue);
+			User newGuestUser = UserController.logout(userId);
 
-			if(user == null)
-				throw new Exception("User is null");
+			CookieUtils.changeCookieValue(request,response,CookieUtils.USER_ID_COOKIE_NAME,Integer.toString(newGuestUser.getId()));
 
-			CookieUtils.changeCookieValue(request, response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
-
-			request.setAttribute("forumId", id);
+			request.setAttribute("forumId", forumId);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum");
 			dispatcher.forward(request, response);
-
-
-		} catch (Exception e) {
-			ServletUtils.exitError(this, request,response,e.getMessage());
+		}
+		catch (Exception e) {
+			ServletUtils.exitError(this, request,response, e.getMessage());
 		}
 	}
 

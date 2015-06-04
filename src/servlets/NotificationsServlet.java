@@ -19,7 +19,7 @@ import java.io.IOException;
  * Servlet implementation class UserProfileServlet
  */
 @WebServlet(
-		description = "Handles the request of remove a friend from friends list",
+		description = "Shows the user's notifications",
 		urlPatterns = {
 				"/notificationsPage"}
 		)
@@ -39,8 +39,6 @@ public class NotificationsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = request.getRequestURL().toString();
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/notifications.jsp");
 
 		int userId=-1;
 
@@ -48,16 +46,17 @@ public class NotificationsServlet extends HttpServlet {
 			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if(value!= null)
 				userId = Integer.parseInt(value);
-		}
-		catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
 
 		User user = (User) HibernateUtils.load(User.class, userId);
 
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/notifications.jsp");
 		request.setAttribute("user", user);
 		dispatcher.forward(request,response);
+		}
+		catch (Exception e){
+			ServletUtils.exitError(this, request,response,e.getMessage());
+		}
+
 	}
 
 	/**

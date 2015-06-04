@@ -1,6 +1,8 @@
 <%@ page import="content.Forum" %>
 <%@ page import="users.User" %>
 <%@ page import="users.FriendRequest" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="users.userState.UserState" %>
 <%--
   Created by IntelliJ IDEA.
   User: Shai Rippel
@@ -20,19 +22,20 @@
 <body>
 <h1>Profile Settings</h1>
 <b><i>Hi <%= user.getUsername() %>! </i></b> <br>
+<b><i>State: <%= UserState.getStateName(user.getState()) %></i></b> <br>
+
 
 <%--Friend Requests--%>
 <span style="text-decoration: underline; font-weight: bold">Send Friend Requests:</span> <br><br>
 <UL>
   <%
+      Set<User> friends = user.getFriends();
   for (User member : forum.getMembers()) {
-    if(!user.getUsername().equals(member.getUsername())){
+    if(!user.getUsername().equals(member.getUsername()) && !friends.contains(member)){
 %>
 
   <LI>
-    <a href=<%="\\friendRequest.jsp?forumId="+forum.id+
-            "&senderId="+user.getId()+"&receiver="+member.getUsername()+"&receiverId="+member.getId()%>>
-
+        <a href="\friendRequest.jsp?receiverId=<%=member.getId()%>&receiver=<%=member.getUsername()%>">
       <b><%= member.getUsername() %></b>
     </a>
   </LI>
@@ -51,14 +54,12 @@
   %>
 
   <LI><p><b><%=fr.getRequestingMember().getUsername()+": "+fr.getMessage()%></b></p>
-    <a href=<%="\\replyToFriendRequest?forumId="+forum.id+
-            "&userId="+user.getId()+"&friend="+fr.getRequestingMember().getUsername()+"&friendId="+fr.getRequestingMember().getId()+"&answer=1"%>>
-      <b>Accept</b><br>
-    </a>
-    <a href=<%="\\replyToFriendRequest?forumId="+forum.id+
-            "&userId="+user.getId()+"&friend="+fr.getRequestingMember().getUsername()+"&friendId="+fr.getRequestingMember().getId()+"&answer=0"%>>
-      <b>Deny</b>
-    </a>
+      <a href="\replyToFriendRequest?friendReqId=<%=fr.id%>&answer=1">
+          <b>Accept</b><br>
+      </a>
+      <a href="\replyToFriendRequest?friendReqId=<%=fr.id%>&answer=0">
+          <b>Deny</b><br>
+      </a>
   </LI>
   <%
     }
@@ -95,8 +96,7 @@
     %>
 
     <LI>
-        <a href=<%="\\reportMember.jsp?forumId="+forum.id+
-                "&reporterId="+user.getId()+"&reportee="+member.getUsername()+"&reporteeId="+member.getId()%>>
+        <a href="\reportMember.jsp?reporteeId=<%=member.getId()%>&reportee=<%=member.getUsername()%>">
             <b><%= member.getUsername() %></b>
         </a>
     </LI>
@@ -110,9 +110,10 @@
 <span style="text-decoration: underline; font-weight: bold">Ban Member:</span> <br><br>
 <UL>
     <%
-        for (User member : forum.getMembers()) {
-            if(!user.getUsername().equals(member.getUsername())){
-                // TODO fix to get moderated
+        if(user.isMod()){
+            for (User member : forum.getMembers()) {
+                if(!user.getUsername().equals(member.getUsername())){
+                    // TODO fix to get moderated
     %>
 
     <LI>
@@ -122,6 +123,7 @@
         </a>
     </LI>
     <%
+                }
             }
         }
     %>

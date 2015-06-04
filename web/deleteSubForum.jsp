@@ -12,15 +12,14 @@
 </head>
 <body>
 
-<span style="text-decoration: underline; font-weight: bold">Appoint Moderator</span> <br><br>
+<span style="text-decoration: underline; font-weight: bold">Delete Sub Forum</span> <br><br>
 <UL>
   <%
   for (SubForum sf : forum.getSubForums()) {
 %>
 
   <LI>
-    <a href=<%="\\deleteSubForum?forumId="+forum.id+
-            "&subForumId="+sf.id+"&subForum="+sf.getName()%>>
+    <a href="\deleteSubForum?forumId=<%=forum.id%>&subForumId=<%=sf.id%>">
       <b><%= sf.getName() %></b>
     </a>
   </LI>

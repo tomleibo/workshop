@@ -4,6 +4,7 @@ import content.Forum;
 import controllers.UserController;
 import exceptions.UserNotAuthorizedException;
 import policy.ForumPolicy;
+import users.FriendRequest;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -40,40 +41,36 @@ public class SendFriendRequestServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/success.jsp");
-
-		int forumId, senderId=-1, receiverId;
-		String receiverName, content;
-
 		try {
-			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if(value!= null)
-				senderId = Integer.parseInt(value);
+			int receiverId = Integer.parseInt(request.getParameter("receiverId"));
+			String content = request.getParameter("content");
 
-			forumId = Integer.parseInt(request.getParameter("forumId"));
-			receiverName = request.getParameter("receiver");
-			receiverId = Integer.parseInt(request.getParameter("receiverId"));
-			content = request.getParameter("content");
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("User Cookie Value doesn't exist");
+
+			int userId = Integer.parseInt(cookieValue);
+
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("Forum Cookie Value doesn't exist");
+
+			int forumId = Integer.parseInt(cookieValue);
+
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+			User user = (User) HibernateUtils.load(User.class, userId);
+			User receiver = (User) HibernateUtils.load(User.class, receiverId);
+
+			UserController.sendFriendRequest(forum, user, receiver, content);
+
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/userProfile.jsp");
+			request.setAttribute("forum", forum);
+			request.setAttribute("user", user);
+			dispatcher.forward(request, response);
 		}
-		catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
-			return;
+		catch(Exception e){
+			ServletUtils.exitError(this, request,response, e.getMessage());
 		}
-
-		Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-		User sender  = (User) HibernateUtils.load(Forum.class, senderId);
-		User receiver = (User) HibernateUtils.load(Forum.class, receiverId);
-
-		try {
-			UserController.sendFriendRequest(forum, sender, receiver, content);
-		} catch (UserNotAuthorizedException e) {
-
-			System.out.println(e.getMessage());
-			return;
-		}
-
-		request.setAttribute("receiver", receiverName);
-		dispatcher.forward(request,response);
 	}
 
 	/**
