@@ -245,7 +245,7 @@ public class ForumTests {
         FriendRequest dbfr=(FriendRequest)HibernateUtils.load(FriendRequest.class, fr.id);
         Assert.assertEquals(dbfr, fr);
     }
-/*
+
     @Test
     public void testReplyToFriendRequest() throws UserNotAuthorizedException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
@@ -257,20 +257,20 @@ public class ForumTests {
         Assert.assertTrue(((User) HibernateUtils.load(User.class, user.getId())).getFriends().contains(admin));
         Assert.assertTrue(((User) HibernateUtils.load(User.class, admin.getId())).getFriends().contains(user));
     }
-/*
+
     @Test
     public void testReomveFriend() throws UserNotAuthorizedException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
-        User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
+        User admin = User.newSuperAdmin("admin", "user", "@");
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum1");
-        User user = UserController.register(forum1, "tom", "l", "mail@mail.com");
+        User user = UserController.register(forum1, "tom", "leibo", "0605@dsad.com");
         FriendRequest fr= UserController.sendFriendRequest(forum1, user, admin, "msg");
         UserController.replyToFriendRequest(forum1,admin,fr,true);
         UserController.removeFriend(forum1,user,admin);
         Assert.assertFalse(((User) HibernateUtils.load(User.class, user.getId())).getFriends().contains(admin));
         Assert.assertFalse(((User) HibernateUtils.load(User.class, admin.getId())).getFriends().contains(user));
     }
-
+/*
     @Test
     public void testAddSubAndDelete() {
         User u =User.newMember("bivan","dooogi","sdkfdjk@sld;kf.com");
