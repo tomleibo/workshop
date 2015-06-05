@@ -5,7 +5,6 @@ import content.SubForum;
 import controllers.SuperAdminController;
 import controllers.UserController;
 import users.User;
-import users.userState.UserState;
 import utils.CookieUtils;
 import utils.HibernateUtils;
 

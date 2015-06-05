@@ -122,20 +122,30 @@ public class ForumTests {
         AdminController.unAppoint(f, sub, admin, mod);
         Assert.assertFalse(((SubForum) HibernateUtils.load(SubForum.class, sub.id)).getModerators().contains(mod));
     }
-/*
+
     @Test
     public void testReplaceModeratorFromController() throws UserNotAuthorizedException {
-        User admin =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
-        User mod =User.newSuperAdmin("hadar", "hadarosh", "sdkfdjk@sld;kf.com");
+        User admin =User.newSuperAdmin("1", "dooogi", "sdkfdjk@sld;kf.com");
+
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
         Forum forum = SuperAdminController.createNewForum(admin, policy, "forum1");
+        User mod = null;
+        try {
+            mod = UserController.register(forum, "mod", "", "asd@asd@asd");
+        } catch (UsernameAlreadyExistsException e) {
+            e.printStackTrace();
+            Assert.fail();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            Assert.fail();
+        }
         SubForum sub = ContentController.addSubForum(forum, "hadar's sub", admin);
         Assert.assertTrue(((SubForum) HibernateUtils.load(SubForum.class, sub.id)).getModerators().contains(admin));
         AdminController.replaceModerator(forum, sub, admin, admin, mod);
         Assert.assertTrue(((SubForum) HibernateUtils.load(SubForum.class, sub.id)).getModerators().contains(mod));
         Assert.assertFalse(((SubForum) HibernateUtils.load(SubForum.class, sub.id)).getModerators().contains(admin));
     }
-    */
+
 
     @Test
     public void testAddNewThreadFromController() throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
@@ -253,7 +263,7 @@ public class ForumTests {
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum1");
         User user = UserController.register(forum1, "tom", "l", "mail@mail.com");
         FriendRequest fr= UserController.sendFriendRequest(forum1, user, admin, "msg");
-        UserController.replyToFriendRequest(forum1,admin,fr,true);
+        UserController.replyToFriendRequest(forum1, admin, fr, true);
         Assert.assertTrue(((User) HibernateUtils.load(User.class, user.getId())).getFriends().contains(admin));
         Assert.assertTrue(((User) HibernateUtils.load(User.class, admin.getId())).getFriends().contains(user));
     }
@@ -265,27 +275,12 @@ public class ForumTests {
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum1");
         User user = UserController.register(forum1, "tom", "leibo", "0605@dsad.com");
         FriendRequest fr= UserController.sendFriendRequest(forum1, user, admin, "msg");
-        UserController.replyToFriendRequest(forum1,admin,fr,true);
-        UserController.removeFriend(forum1,user,admin);
+        UserController.replyToFriendRequest(forum1, admin, fr, true);
+        UserController.removeFriend(forum1, user, admin);
         Assert.assertFalse(((User) HibernateUtils.load(User.class, user.getId())).getFriends().contains(admin));
         Assert.assertFalse(((User) HibernateUtils.load(User.class, admin.getId())).getFriends().contains(user));
     }
-/*
-    @Test
-    public void testAddSubAndDelete() {
-        User u =User.newMember("bivan","dooogi","sdkfdjk@sld;kf.com");
-        //int uid = (int)HibernateUtils.save(u,null);
-        Forum f = new Forum(u,new ForumPolicy(),"forum_name");
-        int fid = HibernateUtils.save(f,null);
-        SubForum sub = new SubForum("sub name",u,5);
-        f.addSubForum(sub);
-        HibernateUtils.save(f);
-        Forum ormf = (Forum) HibernateUtils.load(Forum.class, fid);
-        Assert.assertEquals(ormf.getSubForums().get(0), sub);
-        ormf.deleteSubForum(sub);
 
-    }
-*/
     @After
     public void deleteRows() {
 

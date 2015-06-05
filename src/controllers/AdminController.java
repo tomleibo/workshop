@@ -60,7 +60,8 @@ public class AdminController {
 	
 	public static boolean replaceModerator(Forum forum, SubForum subForum, User admin, User oldModerator, User newModerator) throws UserNotAuthorizedException {
 		if (PolicyHandler.canReplaceModerator(forum, subForum, admin, oldModerator, newModerator)) {
-			boolean b = subForum.changeModerator(oldModerator, newModerator) && newModerator.appoint(subForum)
+			boolean b = subForum.changeModerator(oldModerator, newModerator)
+                    && newModerator.appoint(subForum)
 					&& oldModerator.unAppoint(subForum);
 				if (b) {
 					HibernateUtils.update(subForum);
