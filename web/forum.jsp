@@ -2,6 +2,7 @@
 <%@ page import="content.SubForum" %>
 <%@ page import="utils.HtmlUtils" %>
 <%@ page import="users.User" %>
+<%@ page import="users.userState.UserState" %>
 <%--
   Created by IntelliJ IDEA.
   User: thinkPAD
@@ -13,7 +14,6 @@
 <% Forum forum = (Forum)request.getAttribute("forum"); %>
 <% User user = (User) request.getAttribute("user"); %>
 
-
 <html>
 <head>
     <title></title>
@@ -22,17 +22,27 @@
 </head>
 <body>
 <h1> Hi <%= user.getUsername()%>!</h1> <br>
-<%=HtmlUtils.getNotificationsLink(user)%>
+<%if(!user.isGuest()){%>
+  <%=HtmlUtils.getNotificationsLink(user)%>
 <div class="container">
-  <a href="\register.jsp?forumId=<%=forum.id%>" class="button"><span>✓</span>Register</a>
-  <a href="\login.jsp?forumId=<%=forum.id%>" class="button"><span>✓</span>Login</a>
+  <a href="\profile" class="button"><span>✓</span>Profile</a>
+</div>
+<%}%>
+
+<div class="container">
+  <% if(user.isGuest() || !user.isLoggedIn()){%>
+      <a href="\register.jsp?forumId=<%=forum.id%>" class="button"><span>✓</span>Register</a>
+      <a href="\login.jsp?forumId=<%=forum.id%>" class="button"><span>✓</span>Login</a>
+  <%} else{ %>
+      <a href="\logout?forumId=<%=forum.id%>" class="button"><span>✓</span>Logout</a>
+  <%} %>
 </div>
 <%--<a href="\register.jsp?forumId=<%=forum.id%>">register</a>--%>
 <%--<a href="\login.jsp?forumId=<%=forum.id%>">login</a>--%>
 <h2>Forum: <%= forum.getName() %> (<%=forum.getSubForums().size()%>)</h2><br>
 <br><br>
 <div>
-  <h2>Sub-Forums:</h2>
+  <h2>SubForums:</h2>
     <ul>
       <% for (SubForum sub : forum.getSubForums()) { %>
       <li>
@@ -42,7 +52,10 @@
     </ul>
 </div>
 
-
-<a href="\deleteSubForum.jsp?forumId=<%=forum.id%>">Delete Sub Forums</a><br>
+<%if(user.isAdmin()){%>
+  <a href="\newSubForum.jsp?forumId=<%=forum.id%>">Add Sub Forum</a><br>
+<a href="\deleteSubForumRequest?forumId=<%=forum.id%>">Delete Sub Forums</a><br>
+<%}%>
+<a href="\cleanup?forumId=<%=forum.id%>">CleanUp</a><br>
 </body>
 </html>

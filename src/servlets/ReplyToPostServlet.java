@@ -1,9 +1,9 @@
 package servlets;
 
 import content.Forum;
+import content.Message;
+import content.SubForum;
 import controllers.UserController;
-import exceptions.UserNotAuthorizedException;
-import policy.ForumPolicy;
 import users.FriendRequest;
 import users.User;
 import utils.CookieUtils;
@@ -21,17 +21,17 @@ import java.io.IOException;
  * Servlet implementation class UserProfileServlet
  */
 @WebServlet(
-		description =  "Handles the sending a friend request",
+		description = "Handles the request of replying to a friend request",
 		urlPatterns = {
-				"/sendFriendRequest"}
+				"/replyToPost"}
 		)
-public class SendFriendRequestServlet extends HttpServlet {
+public class ReplyToPostServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SendFriendRequestServlet() {
+    public ReplyToPostServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,8 +42,9 @@ public class SendFriendRequestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			int receiverId = Integer.parseInt(request.getParameter("receiverId"));
-			String content = request.getParameter("content");
+			int addToMsgId = Integer.parseInt(request.getParameter("msgId"));
+			String title = request.getParameter("title");
+			String content = request.getParameter("body");
 
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if (cookieValue == null)
@@ -57,14 +58,22 @@ public class SendFriendRequestServlet extends HttpServlet {
 
 			int forumId = Integer.parseInt(cookieValue);
 
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("Forum Cookie Value doesn't exist");
+
+			int subForumId = Integer.parseInt(cookieValue);
+
+
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
 			User user = (User) HibernateUtils.load(User.class, userId);
-			User receiver = (User) HibernateUtils.load(User.class, receiverId);
+			Message addTo = (Message)HibernateUtils.load(Message.class, addToMsgId);
 
-			UserController.sendFriendRequest(forum, user, receiver, content);
+			UserController.reply(forum, addTo, title, content, user);
 
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/userProfile.jsp");
-			request.setAttribute("forum", forum);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subforum.jsp");
+			request.setAttribute("subForum", subForum);
 			request.setAttribute("user", user);
 			dispatcher.forward(request, response);
 		}

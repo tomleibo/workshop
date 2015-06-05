@@ -80,7 +80,9 @@ public class User {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<SubForum> managedSubForums;
 
-    public void setState(int state) {
+
+
+	public void setState(int state) {
         this.state = state;
     }
 
@@ -402,5 +404,19 @@ public class User {
 		return pendingNotifications;
 	}
 
-
+	public String getStateName(){
+		switch(this.state){
+			case SUPERADMIN:
+				return "Super-Admin";
+			case ADMIN:
+				return "Admin";
+			case MODERATOR:
+				return "Moderator";
+			case MEMBER:
+				return "Member";
+			case GUEST:
+				return "Guest";
+		}
+		return "";
+	}
 }

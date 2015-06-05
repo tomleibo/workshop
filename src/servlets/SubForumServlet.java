@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class SubForumServlet
  */
-@WebServlet(description = "Shows the list of threads in the subforum", urlPatterns = { "/subforum" })
+@WebServlet(description = "Shows the list of threads in the subforum", urlPatterns = { "/subForum" })
 public class SubForumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -38,29 +38,35 @@ public class SubForumServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			String subForumIdString = request.getParameter("subForumId");
+			int subForumId = Integer.parseInt(subForumIdString);
 
-		int subForumId;
-		try{
-			subForumId = Integer.parseInt(request.getParameter("subForumId"));
+			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
+
+			User user = null;
+			String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if (userId != null) {
+				user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
+			}
+			else
+				throw new Exception("Empty Cookie");
+
+			String subForumCookieId = CookieUtils.getCookieValue(request, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);
+			if (subForumCookieId != null) {
+				CookieUtils.changeCookieValue(request, response, CookieUtils.SUB_FORUM_ID_COOKIE_NAME, subForumIdString);
+			} else {
+				CookieUtils.addInfiniteCookie(response, CookieUtils.SUB_FORUM_ID_COOKIE_NAME, subForumIdString);
+			}
+
+			request.setAttribute("subForum", subForum);
+			request.setAttribute("user", user);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subforum.jsp");
+			dispatcher.forward(request, response);
 		}
-		catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
-			return;
+		catch (Exception e){
+			ServletUtils.exitError(this, request,response, e.getMessage());
 		}
-
-		SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
-
-		User user = null;
-		String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-		if(userId != null) {
-			user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
-		}
-
-		request.setAttribute("subForum", subForum);
-		request.setAttribute("user", user);
-
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subforum.jsp");
-		dispatcher.forward(request, response);
 	}
 
 	/**

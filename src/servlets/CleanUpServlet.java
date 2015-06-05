@@ -1,36 +1,34 @@
 package servlets;
 
-import content.*;
-import content.Thread;
-import controllers.ContentController;
+import content.Forum;
+import content.SubForum;
+import controllers.SuperAdminController;
 import controllers.UserController;
-import exceptions.EmptyMessageTitleAndBodyException;
-import org.hibernate.dialect.CUBRIDDialect;
-import policy.ForumPolicy;
 import users.User;
+import users.userState.UserState;
 import utils.CookieUtils;
 import utils.HibernateUtils;
 
-import java.io.IOException;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Servlet implementation class ForumServlet
  */
-@WebServlet(description = "Presents all sub forums", urlPatterns = { "/forum" })
-public class ForumServlet extends HttpServlet {
+@WebServlet(description = "Presents all sub forums", urlPatterns = { "/cleanup" })
+public class CleanUpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ForumServlet() {
+    public CleanUpServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,25 +43,33 @@ public class ForumServlet extends HttpServlet {
 			int forumId = Integer.parseInt(forumIdString);
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
-			User user;
-			String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if (userId != null) {
-				user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
-			} else {
-				user = UserController.enterAsGuest(forum);
-				CookieUtils.addInfiniteCookie(response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
+			List<User> members = forum.getMembers();
+			for(User user : members){
+				HibernateUtils.del(user);
 			}
 
-			String forumCookieId = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
-			if (forumCookieId != null) {
-				CookieUtils.changeCookieValue(request, response, CookieUtils.FORUM_ID_COOKIE_NAME, forumIdString);
-			} else {
-				CookieUtils.addInfiniteCookie(response, CookieUtils.FORUM_ID_COOKIE_NAME, forumIdString);
+			members.clear();
+
+			List<SubForum> subForums = forum.getSubForums();
+
+			for(SubForum sf : subForums) {
+				HibernateUtils.del(sf);
 			}
 
-			request.setAttribute("forum", forum);
-			request.setAttribute("user", user);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum.jsp");
+			subForums.clear();
+
+
+			User superAdmin = UserController.register(forum, "Mysuper", "Mysuper", "");
+			superAdmin.setState(User.SUPERADMIN);
+			String state = superAdmin.getStateName();
+			forum.setAdmin(superAdmin);
+
+			HibernateUtils.update(forum);
+			CookieUtils.deleteCookie(request, response, CookieUtils.USER_ID_COOKIE_NAME);
+			CookieUtils.deleteCookie(request, response, CookieUtils.FORUM_ID_COOKIE_NAME);
+			CookieUtils.deleteCookie(request, response, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);
+
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum?forumId="+forumId);
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e) {

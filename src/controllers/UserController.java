@@ -34,7 +34,7 @@ public class UserController {
 			if (authenticator.authorizedMailIncome(emailAddress)) {
 				ForumLogger.actionLog("A response mail has arrived, the user reliability approved!");
 				if (forum.addMember(member)) {
-                    HibernateUtils.save(member);
+					HibernateUtils.save(member);
                     HibernateUtils.update(forum);
                     return member;
                 }
@@ -55,7 +55,10 @@ public class UserController {
 			ForumLogger.errorLog("The user " + username + " trying to login but he is not existing in the forum " + forum.getName());
 			throw new UserDoesNotExistsException();
 		}
-		return user.login(Cipher.hashString(password, Cipher.SHA));
+
+		user = user.login(Cipher.hashString(password, Cipher.SHA));
+		HibernateUtils.update(user);
+		return user;
 	}
 
 	public static User enterAsGuest(Forum forum) {
@@ -76,7 +79,10 @@ public class UserController {
                 HibernateUtils.del(user);
             }
 			ForumLogger.actionLog("The user " + id + "is logged out successfully");
-			return user.logout();
+			User guestUser = user.logout();
+			HibernateUtils.update(user);
+			HibernateUtils.save(guestUser);
+			return guestUser;
 		}
 		ForumLogger.errorLog("The user " + id + " trying to logout but he is not existing in the forum ");
 		throw new UserDoesNotExistsException();

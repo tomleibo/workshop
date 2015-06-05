@@ -1,10 +1,8 @@
 package servlets;
 
 import content.Forum;
-import controllers.UserController;
-import exceptions.UserNotAuthorizedException;
-import policy.ForumPolicy;
-import users.FriendRequest;
+import content.SubForum;
+import controllers.AdminController;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -21,17 +19,17 @@ import java.io.IOException;
  * Servlet implementation class UserProfileServlet
  */
 @WebServlet(
-		description =  "Handles the sending a friend request",
+		description = "Handles the request of adding a sub forum",
 		urlPatterns = {
-				"/sendFriendRequest"}
+				"/addSubForum"}
 		)
-public class SendFriendRequestServlet extends HttpServlet {
+public class AddSubForumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SendFriendRequestServlet() {
+    public AddSubForumServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,8 +40,7 @@ public class SendFriendRequestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			int receiverId = Integer.parseInt(request.getParameter("receiverId"));
-			String content = request.getParameter("content");
+			String title = request.getParameter("title");
 
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if (cookieValue == null)
@@ -59,17 +56,19 @@ public class SendFriendRequestServlet extends HttpServlet {
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 			User user = (User) HibernateUtils.load(User.class, userId);
-			User receiver = (User) HibernateUtils.load(User.class, receiverId);
 
-			UserController.sendFriendRequest(forum, user, receiver, content);
+			SubForum subForum = AdminController.addSubForum(forum, title, user);
+				if(subForum == null)
+					throw new Exception("SubForum not created!");
 
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/userProfile.jsp");
-			request.setAttribute("forum", forum);
-			request.setAttribute("user", user);
+
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum?forumId="+forumId);
+//			request.setAttribute("user", user);
+//			request.setAttribute("forum", forum);
 			dispatcher.forward(request, response);
 		}
-		catch(Exception e){
-			ServletUtils.exitError(this, request,response, e.getMessage());
+		catch (Exception e) {
+			ServletUtils.exitError(this, request, response, e.getMessage());
 		}
 	}
 

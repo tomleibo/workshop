@@ -40,39 +40,41 @@ public class ReportMemberServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/success.jsp");
 
-		int forumId, senderId = -1, reporteeId;
-		String reporteeName, title, content;
+		try{
 
-		try {
-			forumId = Integer.parseInt(request.getParameter("forumId"));
-			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if(value!= null)
-				senderId = Integer.parseInt(value);
-			reporteeName = request.getParameter("reportee");
-			reporteeId = Integer.parseInt(request.getParameter("reporteeId"));
-			title = request.getParameter("title");
-			content = request.getParameter("content");
+			int reporteeId = Integer.parseInt(request.getParameter("reporteeId"));
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("User Cookie Value doesn't exist");
+
+			int userId = Integer.parseInt(cookieValue);
+
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("Forum Cookie Value doesn't exist");
+
+			int forumId = Integer.parseInt(cookieValue);
+
+
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+			User user  = (User) HibernateUtils.load(User.class, userId);
+			User reportee = (User) HibernateUtils.load(User.class, reporteeId);
+
+			UserController.report(forum, user, reportee, title, content);
+
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile.jsp");
+			request.setAttribute("user", user);
+			request.setAttribute("forum", forum);
+			dispatcher.forward(request,response);
 		}
-		catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
-			return;
+
+		catch(Exception e){
+			ServletUtils.exitError(this, request,response,e.getMessage());
 		}
-
-		Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-		User sender  = (User) HibernateUtils.load(Forum.class, senderId);
-		User reportee = (User) HibernateUtils.load(Forum.class, reporteeId);
-
-		try {
-			UserController.report(forum, sender, reportee, title, content);
-		} catch (UserNotAuthorizedException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
-
-		request.setAttribute("reportee", reporteeName);
-		dispatcher.forward(request,response);
 	}
 
 	/**

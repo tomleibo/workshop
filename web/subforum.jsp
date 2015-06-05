@@ -10,14 +10,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% SubForum sub = (SubForum)request.getAttribute("subforum"); %>
+<% SubForum sub = (SubForum)request.getAttribute("subForum"); %>
 <% User user = (User) request.getAttribute("user"); %>
-<% String forumId = (String) request.getAttribute("forumId"); %>
 
 
 <html>
 <head>
     <title></title>
+    <link href="css/buttons.css" rel="stylesheet">
 </head>
 <body>
 
@@ -27,7 +27,9 @@
   <a href="\thread?threadId=<%=t.id%>"><%=t.getOpeningMessage().getTitle()%></a><br>
 <%}%>
 
-<a href="\appointModerator.jsp?forumId=<%=forumId%>&subForumId=<%=sub.id%>">Appoint Moderator</a><br>
-<a href="\dismissModerator.jsp?forumId=<%=forumId%>&subForumId=<%=sub.id%>">Dismiss Moderator</a><br>
+<a href="\newThread.jsp" class="medium green button">Post New Thread</a>
+<br>
+<a href="\appointModerator.jsp?&subForumId=<%=sub.id%>">Appoint Moderator</a><br>
+<a href="\dismissModerator.jsp?&subForumId=<%=sub.id%>">Dismiss Moderator</a><br>
 </body>
 </html>

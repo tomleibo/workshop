@@ -176,7 +176,6 @@ public class ForumTests {
 		driver.tearDownForumSystem(superAdmin, system);
 	}
 
-
 	protected boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy) {
 		return driver.addUserStatusType(superAdmin, type, userStatusPolicy);
 	}

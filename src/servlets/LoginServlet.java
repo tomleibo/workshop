@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
 			if (user == null)
 				throw new Exception("User is null");
 
-			CookieUtils.changeCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
+			CookieUtils.changeCookieValue(request, response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
 
 			request.setAttribute("forumId", id);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum");
