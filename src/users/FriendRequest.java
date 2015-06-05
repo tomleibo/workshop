@@ -13,6 +13,8 @@ public class FriendRequest {
     @GeneratedValue
 	@Column(name="friend_request_id")
 	public int id;
+    @Column(name="viewed")
+    private boolean viewed=false;
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="requesting_member")
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
@@ -35,6 +37,7 @@ public class FriendRequest {
 		this.receivingMember = receivingMember;
 		this.message = message;
 		this.date = new java.sql.Date(System.currentTimeMillis());
+        this.viewed = false;
 	}
 
 	public User getRequestingMember() {
@@ -72,9 +75,8 @@ public class FriendRequest {
 
 		if (!requestingMember.equals(that.requestingMember)) return false;
 		if (!receivingMember.equals(that.receivingMember)) return false;
-		if (!message.equals(that.message)) return false;
-		boolean b =date.equals(that.date);
-        return b;
+		return  (message.equals(that.message)) ;
+
 
 	}
 

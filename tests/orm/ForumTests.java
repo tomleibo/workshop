@@ -215,14 +215,16 @@ public class ForumTests {
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum1");
         Forum forum2 = SuperAdminController.createNewForum(admin, policy, "forum2");
         Forum forum3 = SuperAdminController.createNewForum(admin, policy, "forum3");
+
         SuperAdminController.deleteAllForums(admin);
+
         String hql = "FROM Forum";
         Query query = HibernateUtils.getSession().createQuery(hql);
         List results = query.list();
         Assert.assertTrue(results.isEmpty());
 
-    }
-    */
+    }*/
+
 
     @Test
     public void testEnterAsGuest() throws UserNotAuthorizedException {
@@ -232,18 +234,18 @@ public class ForumTests {
         User guest = UserController.enterAsGuest(forum1);
         Assert.assertEquals(HibernateUtils.load(User.class, guest.getId()), guest);
     }
-/*
+
     @Test
     public void testSendFriendRequest() throws UserNotAuthorizedException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
-        User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
-        Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum1");
-        User user = UserController.register(forum1, "tom", "l", "mail@mail.com");
-        FriendRequest fr= UserController.sendFriendRequest(forum1, user, admin, "msg");
+        User admin = User.newSuperAdmin("tom", "leibo", "yeah");
+        ForumPolicy policy = new ForumPolicy(155,"*************", ForumPolicy.HashFunction.MD5, false);
+        Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum123432");
+        User user = UserController.register(forum1, "tom2", "2", "mail@mail.com");
+        FriendRequest fr= UserController.sendFriendRequest(forum1, user, admin, "msg123");
         FriendRequest dbfr=(FriendRequest)HibernateUtils.load(FriendRequest.class, fr.id);
         Assert.assertEquals(dbfr, fr);
     }
-
+/*
     @Test
     public void testReplyToFriendRequest() throws UserNotAuthorizedException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
@@ -255,7 +257,7 @@ public class ForumTests {
         Assert.assertTrue(((User) HibernateUtils.load(User.class, user.getId())).getFriends().contains(admin));
         Assert.assertTrue(((User) HibernateUtils.load(User.class, admin.getId())).getFriends().contains(user));
     }
-
+/*
     @Test
     public void testReomveFriend() throws UserNotAuthorizedException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
