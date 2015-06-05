@@ -45,7 +45,7 @@ public class SuperAdminController {
 	public static boolean deleteAllForums(User superAdmin) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserRemoveForum(superAdmin)) {
             boolean ans = true;
-            List<Forum> forumList = HibernateUtils.getQuery("from Forum").list();
+            List<Forum> forumList = HibernateUtils.getAllForums();
             for (Forum forum: forumList) {
                 ans &= HibernateUtils.del(forum);
             }
@@ -53,6 +53,20 @@ public class SuperAdminController {
 		}
 		throw new UserNotAuthorizedException("to remove forum.");
 	}
+
+    private static boolean deleteAllUsers(Forum forum) throws UserNotAuthorizedException {
+        boolean ans = true;
+        for (User user: forum.getMembers()) {
+            ans &= HibernateUtils.del(user);
+        }
+        return ans;
+    }
+
+    private static boolean deleteAllSubForumAndThreads(Forum forum) {
+        return false;
+    }
+
+
 
 	public static boolean changeAdministrator(User superAdmin, Forum forum, User admin) throws UserNotAuthorizedException {
 		if (PolicyHandler.canReplaceAdmin(superAdmin, forum, admin)) {

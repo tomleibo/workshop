@@ -13,6 +13,7 @@
         <setting name="provider-name" value="" />
         <datasource-mapping>
           <factory-entry name="forum_pers" value="c8fadd41-675c-4c79-b539-a43b6bc897a4" />
+          <factory-entry name="forum_system" />
           <factory-entry name="persistenceUnit" value="c8fadd41-675c-4c79-b539-a43b6bc897a4" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/META-INF/persistence.xml" />

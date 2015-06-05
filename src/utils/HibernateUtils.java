@@ -35,6 +35,7 @@ public class HibernateUtils {
                 .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")
                 .setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver")
                 .setProperty("hibernate.connection.url","jdbc:mysql://localhost:3306/forum_system")
+                .setProperty("hibernate.current_session_context_class","thread")
                 .setProperty("hibernate.connection.username","root")
                 .setProperty("hibernate.password", "");
         if (init) {
@@ -176,8 +177,12 @@ public class HibernateUtils {
 
     public static List<Forum> getAllForums() {
         String hql = "FROM Forum";
-        Query query = HibernateUtils.getSession().createQuery(hql);
+        Session session = HibernateUtils.getSession();
+        Query query = session.createQuery(hql);
         List<Forum> results = query.list();
+        if (session.isOpen()) {
+            session.close();
+        }
         return results;
     }
 

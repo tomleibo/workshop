@@ -14,7 +14,7 @@ import java.util.Date;
 public class Thread {
 	@Id
     @GeneratedValue
-	@Column(name="subforum_id", nullable=false, unique=true)
+	@Column(name="thread_id", nullable=false, unique=true)
 	public int id;
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="member_started")
