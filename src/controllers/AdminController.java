@@ -77,6 +77,7 @@ public class AdminController {
 	public static SubForum addSubForum(Forum forum, String title, User admin) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserAddSubForum(forum, admin)) {
 			SubForum sub = ContentController.addSubForum(forum, title, admin);
+			HibernateUtils.save(sub);
 			return sub;
 		}
 		ForumLogger.errorLog("The user " + admin.getUsername() + " can't add subForum");
