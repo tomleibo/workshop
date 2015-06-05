@@ -22,13 +22,13 @@
 <html>
 <head>
     <title>
-    <%= title(op) %> post <%=id%>
+    <%= title(op, title) %> post <%=id%>
     </title>
 </head>
 <body>
-    <h2><%=title(op)%> post <%=id%></h2><br>
-    <form action="\<%=title(op)%>" method="get" id="editform">
-      <input name="id" type="hidden" value="<%=id%>">
+    <h2><%=title(op, title)%> post <%=id%></h2><br>
+    <form action="\<%=action(op)%>" method="get" id="editform">
+      <input name="msgId" type="hidden" value="<%=id%>">
       <input name="title" type="text" value="<%=title==null?"":title%>"><br>
       <textarea name="body" form="editform">
         <%=body==null?"":body%>
@@ -39,14 +39,32 @@
 </html>
 
 <%!
-  private String title(String op) {
+  private String title(String op, String title) {
     System.out.println(op);
     StringBuilder sb = new StringBuilder();
     if (op.equals("edit")) {
-      sb.append("edit");
+      sb.append("Edit Post ");
+      sb.append("\"");
+      sb.append(title);
+      sb.append("\"");
     }
     else if (op.equals("reply")) {
-      sb.append("reply");
+      sb.append("Reply To Post ");
+      sb.append("\"");
+      sb.append(title);
+      sb.append("\"");
+    }
+    return sb.toString();
+  }
+
+  private String action(String op) {
+    System.out.println(op);
+    StringBuilder sb = new StringBuilder();
+    if (op.equals("edit")) {
+      sb.append("editPost");
+    }
+    else if (op.equals("reply")) {
+      sb.append("replyToPost");
     }
     return sb.toString();
   }

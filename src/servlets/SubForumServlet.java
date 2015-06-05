@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class SubForumServlet
  */
-@WebServlet(description = "Shows the list of threads in the subforum", urlPatterns = { "/subforum" })
+@WebServlet(description = "Shows the list of threads in the subforum", urlPatterns = { "/subForum" })
 public class SubForumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -39,7 +39,8 @@ public class SubForumServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			int subForumId = Integer.parseInt(request.getParameter("subForumId"));
+			String subForumIdString = request.getParameter("subForumId");
+			int subForumId = Integer.parseInt(subForumIdString);
 
 			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
 
@@ -51,9 +52,16 @@ public class SubForumServlet extends HttpServlet {
 			else
 				throw new Exception("Empty Cookie");
 
+			String subForumCookieId = CookieUtils.getCookieValue(request, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);
+			if (subForumCookieId != null) {
+				CookieUtils.changeCookieValue(request, response, CookieUtils.SUB_FORUM_ID_COOKIE_NAME, subForumIdString);
+			} else {
+				CookieUtils.addInfiniteCookie(response, CookieUtils.SUB_FORUM_ID_COOKIE_NAME, subForumIdString);
+			}
+
 			request.setAttribute("subForum", subForum);
 			request.setAttribute("user", user);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subForum.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subforum.jsp");
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e){

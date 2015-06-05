@@ -1,8 +1,11 @@
 package servlets;
 
 import content.Forum;
+import content.SubForum;
+import controllers.SuperAdminController;
 import controllers.UserController;
 import users.User;
+import users.userState.UserState;
 import utils.CookieUtils;
 import utils.HibernateUtils;
 
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Servlet implementation class ForumServlet
@@ -39,14 +43,31 @@ public class CleanUpServlet extends HttpServlet {
 			int forumId = Integer.parseInt(forumIdString);
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
-			for(User user : forum.getMembers()){
+			List<User> members = forum.getMembers();
+			for(User user : members){
 				HibernateUtils.del(user);
 			}
 
-			forum.getMembers().clear();
+			members.clear();
+
+			List<SubForum> subForums = forum.getSubForums();
+
+			for(SubForum sf : subForums) {
+				HibernateUtils.del(sf);
+			}
+
+			subForums.clear();
+
+
+			User superAdmin = UserController.register(forum, "Mysuper", "Mysuper", "");
+			superAdmin.setState(User.SUPERADMIN);
+			String state = superAdmin.getStateName();
+			forum.setAdmin(superAdmin);
+
 			HibernateUtils.update(forum);
 			CookieUtils.deleteCookie(request, response, CookieUtils.USER_ID_COOKIE_NAME);
 			CookieUtils.deleteCookie(request, response, CookieUtils.FORUM_ID_COOKIE_NAME);
+			CookieUtils.deleteCookie(request, response, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);
 
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum?forumId="+forumId);
 			dispatcher.forward(request, response);

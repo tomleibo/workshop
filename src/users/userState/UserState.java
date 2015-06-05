@@ -66,20 +66,4 @@ public class UserState {
 		return -1;
 	}
 
-	public static String getStateName(int state){
-		switch(state){
-			case User.SUPERADMIN:
-				return "Super-Admin";
-			case User.ADMIN:
-				return "Admin";
-			case User.MODERATOR:
-				return "Moderator";
-			case User.MEMBER:
-				return "Member";
-			case User.GUEST:
-				return "Guest";
-		}
-		return "";
-	}
-
 }

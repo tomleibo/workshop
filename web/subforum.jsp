@@ -17,6 +17,7 @@
 <html>
 <head>
     <title></title>
+    <link href="css/buttons.css" rel="stylesheet">
 </head>
 <body>
 
@@ -26,6 +27,8 @@
   <a href="\thread?threadId=<%=t.id%>"><%=t.getOpeningMessage().getTitle()%></a><br>
 <%}%>
 
+<a href="\newThread.jsp" class="medium green button">Post New Thread</a>
+<br>
 <a href="\appointModerator.jsp?&subForumId=<%=sub.id%>">Appoint Moderator</a><br>
 <a href="\dismissModerator.jsp?&subForumId=<%=sub.id%>">Dismiss Moderator</a><br>
 </body>

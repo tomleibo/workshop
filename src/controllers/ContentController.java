@@ -5,6 +5,7 @@ import content.Message;
 import content.SubForum;
 import content.Thread;
 import exceptions.EmptyMessageTitleAndBodyException;
+import org.hibernate.Hibernate;
 import policy.ForumPolicy;
 import users.Notification;
 import users.User;
@@ -77,8 +78,8 @@ public class ContentController {
 		Thread threadAdd = new Thread(user, openingMsg, subforum);
 		if (subforum.addThread(threadAdd)) {
             forum.sendNotificationToAllUsers(Notification.newThreadNotification(threadAdd));
+			HibernateUtils.update(subforum);
 			HibernateUtils.update(forum);
-            HibernateUtils.update(subforum);
 			return threadAdd;
 		}
 		return null;
@@ -115,6 +116,7 @@ public class ContentController {
 	public static SubForum addSubForum(Forum forum, String title, User moderator) {
 		SubForum sub = new SubForum(title, moderator, forum.getPolicy().getMaxModerators());
 		if (forum.addSubForum(sub)) {
+			HibernateUtils.save(sub);
 			HibernateUtils.update(forum);
 			return sub;
 		}

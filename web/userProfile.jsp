@@ -22,7 +22,7 @@
 <body>
 <h1>Profile Settings</h1>
 <b><i>Hi <%= user.getUsername() %>! </i></b> <br>
-<b><i>State: <%= UserState.getStateName(user.getState()) %></i></b> <br>
+<b><i>State: <%= user.getStateName() %></i></b> <br>
 
 
 <%--Friend Requests--%>

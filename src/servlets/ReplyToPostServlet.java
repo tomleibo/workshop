@@ -1,8 +1,10 @@
 package servlets;
 
 import content.Forum;
+import content.Message;
 import content.SubForum;
-import controllers.AdminController;
+import controllers.UserController;
+import users.FriendRequest;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -19,17 +21,17 @@ import java.io.IOException;
  * Servlet implementation class UserProfileServlet
  */
 @WebServlet(
-		description = "Handles the request of adding a sub forum",
+		description = "Handles the request of replying to a friend request",
 		urlPatterns = {
-				"/addSubForum"}
+				"/replyToPost"}
 		)
-public class AddSubForumServlet extends HttpServlet {
+public class ReplyToPostServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddSubForumServlet() {
+    public ReplyToPostServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,7 +42,9 @@ public class AddSubForumServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			int addToMsgId = Integer.parseInt(request.getParameter("msgId"));
 			String title = request.getParameter("title");
+			String content = request.getParameter("body");
 
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if (cookieValue == null)
@@ -54,21 +58,27 @@ public class AddSubForumServlet extends HttpServlet {
 
 			int forumId = Integer.parseInt(cookieValue);
 
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("Forum Cookie Value doesn't exist");
+
+			int subForumId = Integer.parseInt(cookieValue);
+
+
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
 			User user = (User) HibernateUtils.load(User.class, userId);
+			Message addTo = (Message)HibernateUtils.load(Message.class, addToMsgId);
 
-			SubForum subForum = AdminController.addSubForum(forum, title, user);
-				if(subForum == null)
-					throw new Exception("SubForum not created!");
+			UserController.reply(forum, addTo, title, content, user);
 
-
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum?forumId="+forumId);
-//			request.setAttribute("user", user);
-//			request.setAttribute("forum", forum);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subforum.jsp");
+			request.setAttribute("subForum", subForum);
+			request.setAttribute("user", user);
 			dispatcher.forward(request, response);
 		}
-		catch (Exception e) {
-			ServletUtils.exitError(this, request, response, e.getMessage());
+		catch(Exception e){
+			ServletUtils.exitError(this, request,response, e.getMessage());
 		}
 	}
 

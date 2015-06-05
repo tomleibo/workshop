@@ -34,7 +34,7 @@ public class UserController {
 			if (authenticator.authorizedMailIncome(emailAddress)) {
 				ForumLogger.actionLog("A response mail has arrived, the user reliability approved!");
 				if (forum.addMember(member)) {
-                    HibernateUtils.save(member);
+					HibernateUtils.save(member);
                     HibernateUtils.update(forum);
                     return member;
                 }
@@ -124,8 +124,8 @@ public class UserController {
                 User requesting = request.getRequestingMember();
                 User receiving = request.getReceivingMember();
                 if (requesting.addFriend(receiving) && receiving.addFriend(requesting)){
-					receiving.getFriendRequests().remove(request);
-					HibernateUtils.del(request);
+//					receiving.getFriendRequests().remove(request);
+//					HibernateUtils.del(request);
                     HibernateUtils.update(requesting);
 					HibernateUtils.update(receiving);
                     return true;
@@ -184,11 +184,12 @@ public class UserController {
 	public static Thread openNewThread(Forum forum, SubForum subforum, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 		if (PolicyHandler.canUserOpenThread(forum, user)){
 			Thread t= ContentController.openNewThread(forum, subforum, title, content, user);
-            if (!HibernateUtils.save(t)) {
+            if (t == null) {
                 ForumLogger.errorLog("Open new thread failed in hibernate");
                 return null;
             }
-            return t;
+
+			return t;
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to open thread");
 		throw new UserNotAuthorizedException("to open thread.");
