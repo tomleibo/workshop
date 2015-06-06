@@ -22,8 +22,8 @@
 <body>
 <h1> Hi <%= user.getUsername()%>!</h1> <br>
 <%if(!user.isGuest()){%>
-    <%--<%=HtmlUtils.getNotificationsLink(user)%>--%>
-    Some notifications
+    <%=HtmlUtils.getNotificationsLink(user)%>
+    <%--Some notifications--%>
 <div class="container">
   <a href="\profile" class="button"><span>✓</span>Profile</a>
 </div>

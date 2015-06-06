@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by thinkPAD on 6/5/2015.
  */
-@WebServlet(name = "numberOfNotificationsServlet", urlPatterns = "numberOfNotifications")
+@WebServlet(name = "numberOfNotificationsServlet", urlPatterns = "/numberOfNotifications")
 public class numberOfNotificationsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

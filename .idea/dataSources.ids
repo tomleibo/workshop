@@ -37,6 +37,7 @@
       <column name="friend_request_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="date" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
       <column name="message" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="viewed" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <column name="receiving_member" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="requesting_member" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="friend_request_id"/>
@@ -55,7 +56,7 @@
       <column name="thread" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="message_id"/>
       <foreign-key name="FK_9rwdghda774npslcxvpgunl2x" columns="enclosing" ref-table="message" ref-schema="" ref-catalog="forum_system" ref-columns="message_id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="FK_bhwi07af4vfkyi74bg0q4kptf" columns="thread" ref-table="thread" ref-schema="" ref-catalog="forum_system" ref-columns="subforum_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_bhwi07af4vfkyi74bg0q4kptf" columns="thread" ref-table="thread" ref-schema="" ref-catalog="forum_system" ref-columns="thread_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_t5pyeus2p3yl9gye831yh24fq" columns="publisher" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="FK_9rwdghda774npslcxvpgunl2x" table="message" schema="" catalog="forum_system" columns="enclosing"/>
       <exported-key name="FK_8t476yx85jiujuar4ntw2ya7u" table="thread" schema="" catalog="forum_system" columns="opening_message"/>
@@ -110,12 +111,12 @@
       <index name="FK_ikg584f7o4tu05rwso43q4aqp" unique="false" columns="subforum_subforum_id"/>
     </table>
     <table name="thread" schema="" catalog="forum_system" type="TABLE">
-      <column name="subforum_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="thread_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="date" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
       <column name="member_started" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="opening_message" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="sub_forum" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="subforum_id"/>
+      <primary-key name="PRIMARY" columns="thread_id"/>
       <foreign-key name="FK_8t476yx85jiujuar4ntw2ya7u" columns="opening_message" ref-table="message" ref-schema="" ref-catalog="forum_system" ref-columns="message_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_mrqncxgonc1pmt2b99yts965x" columns="sub_forum" ref-table="subforum" ref-schema="" ref-catalog="forum_system" ref-columns="subforum_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_tmqf72y6uvf2jvoxibaoglvi5" columns="member_started" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>

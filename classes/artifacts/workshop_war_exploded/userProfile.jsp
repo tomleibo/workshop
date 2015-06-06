@@ -2,7 +2,6 @@
 <%@ page import="users.User" %>
 <%@ page import="users.FriendRequest" %>
 <%@ page import="java.util.Set" %>
-<%@ page import="users.userState.UserState" %>
 <%--
   Created by IntelliJ IDEA.
   User: Shai Rippel

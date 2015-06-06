@@ -92,6 +92,27 @@ public class HibernateUtils {
         }
     }
 
+
+    public synchronized static boolean merge(Object o) {
+        Session session = sessionFactory.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+            session.merge(o);
+            session.getTransaction().commit();
+            return true;
+        }
+        catch(HibernateException e) {
+            System.out.println(e);
+            ForumLogger.errorLog(e.toString());
+            return false;
+        }
+        finally{
+            if(session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
     public synchronized static int saveReturnId(Object o) {
         //Transaction tx = null;
         Session session = sessionFactory.getCurrentSession();

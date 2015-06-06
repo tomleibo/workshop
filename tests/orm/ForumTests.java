@@ -10,6 +10,7 @@ import controllers.UserController;
 import exceptions.EmptyMessageTitleAndBodyException;
 import exceptions.UserNotAuthorizedException;
 import exceptions.UsernameAlreadyExistsException;
+import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.Query;
 import org.junit.*;
 import policy.ForumPolicy;
@@ -17,6 +18,7 @@ import users.FriendRequest;
 import users.User;
 import utils.HibernateUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -87,12 +89,12 @@ public class ForumTests {
     }
 
     @Test
-    public void testAddSubforumToLoadedForumFromController() throws UserNotAuthorizedException {
+    public void testAddSubforumToLoadedForumFromController_roee() throws UserNotAuthorizedException, InvocationTargetException, IllegalAccessException {
         User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
         Forum loadedForum = (Forum) HibernateUtils.load(Forum.class, f.id);
-        HibernateUtils.update(loadedForum);
+        f.setAdmin(User.newSuperAdmin("hello", "fsdfsd", ""));
         Assert.assertEquals(loadedForum, f);
         SubForum sub = ContentController.addSubForum(loadedForum, "roee's sub", u);
         SubForum loadedSub = (SubForum) HibernateUtils.load(SubForum.class, sub.id);
@@ -100,6 +102,19 @@ public class ForumTests {
         Forum loadedForumAfterAdd = (Forum) HibernateUtils.load(Forum.class, f.id);
         Assert.assertEquals(loadedForumAfterAdd.getSubForums().size(), 1);
         Assert.assertEquals(loadedForumAfterAdd.getSubForums().get(0), loadedSub);
+    }
+
+    @Test
+    public void testAddMemberToLoadedForumFromController_roee() throws UserNotAuthorizedException, InvocationTargetException, IllegalAccessException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
+        User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
+        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
+        Forum loadedForum = (Forum) HibernateUtils.load(Forum.class, f.id);
+        Assert.assertEquals(loadedForum, f);
+        User registered = UserController.register(loadedForum, "newMember", "", "");
+        Forum loadedForumAfterAdd = (Forum) HibernateUtils.load(Forum.class, f.id);
+        Assert.assertEquals(loadedForumAfterAdd.getMembers().size(), 2);
+        Assert.assertEquals(loadedForumAfterAdd.getSubForums().get(1), registered);
     }
 
     @Test
