@@ -49,13 +49,27 @@ public class UserController {
 		return null;
 	}
 
-	public static User login(Forum forum, String username, String password) throws NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, WrongPasswordException {
+    public static void changePassword(User user, String oldPassword, String newPassword) throws NoSuchAlgorithmException, WrongPasswordException, PasswordAlreadyUsedException {
+        if (!user.isRightPassword(Cipher.hashString(oldPassword, Cipher.SHA))) {
+            throw new WrongPasswordException();
+        }
+        String newHashedPassword = Cipher.hashString(newPassword, Cipher.SHA);
+        if (user.alreadyUsedPassword(newHashedPassword)) {
+            throw new PasswordAlreadyUsedException();
+        }
+        user.setHashedPassword(newHashedPassword);
+        HibernateUtils.update(user);
+    }
+
+	public static User login(Forum forum, String username, String password) throws NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, WrongPasswordException, NeedToChangePasswordException {
         User user = getUserFromForum(forum, username, password);
 		if (user == null) {
 			ForumLogger.errorLog("The user " + username + " trying to login but he is not existing in the forum " + forum.getName());
 			throw new UserDoesNotExistsException();
 		}
-
+        if (PolicyHandler.shouldUserChangePassword(forum, user)) {
+            throw new NeedToChangePasswordException(user);
+        }
 		user = user.login(Cipher.hashString(password, Cipher.SHA));
 		HibernateUtils.update(user);
 		return user;
