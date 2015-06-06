@@ -6,10 +6,10 @@ import content.Forum;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Date;
 
-/**
- * Created by thinkPAD on 6/6/2015.
- */
+
 public class RequestListener implements ServletRequestListener {
 
     @Override
@@ -20,7 +20,7 @@ public class RequestListener implements ServletRequestListener {
     @Override
     public void requestInitialized(ServletRequestEvent servletRequestEvent) {
         try {
-            String s =CookieUtils.getCookieValue((HttpServletRequest)servletRequestEvent.getServletRequest(),CookieUtils.FORUM_ID_COOKIE_NAME);
+            String s =CookieUtils.getCookieValue((HttpServletRequest) servletRequestEvent.getServletRequest(), CookieUtils.FORUM_ID_COOKIE_NAME);
             if (s == null) {
                 return;
             }
@@ -29,11 +29,16 @@ public class RequestListener implements ServletRequestListener {
                 return;
             }
             Forum forum = (Forum) HibernateUtils.load(Forum.class,forumId);
-            //TODO: check forum policy vs active sesssion time (session.getCreationTime - new Date()) .
-
+            int maxActiveTime = forum.getPolicy().getSessionTimeout();
+            HttpSession session = ((HttpServletRequest) servletRequestEvent.getServletRequest()).getSession();
+            if (new Date().getTime() - session.getCreationTime() > maxActiveTime){
+                session.invalidate();
+            }
+            session.setMaxInactiveInterval(forum.getPolicy().getIdleTime()/1000);
         }
         catch (Exception e){
-            return;
+
         }
+        return;
     }
 }
