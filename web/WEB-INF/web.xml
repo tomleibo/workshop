@@ -13,4 +13,9 @@
             utils.SessionListener
         </listener-class>
     </listener>
+    <listener>
+        <listener-class>
+            utils.RequestListener
+        </listener-class>
+    </listener>
 </web-app>
