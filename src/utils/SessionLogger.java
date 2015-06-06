@@ -13,11 +13,15 @@ public class SessionLogger {
         this.sessionLogs = new HashMap<>();
     }
 
+    public void startSession(HttpSession session) {
+        log(session,"Session started at "+new Date().getTime());
+    }
+
     public void log(HttpSession session, String s) {
         if (!sessionLogs.containsKey(session)) {
             sessionLogs.put(session,new LinkedList<String>());
         }
-        sessionLogs.get(session).add(s);
+        sessionLogs.get(session).add("session: " + session.getId() + ":   " + s);
     }
 
     public void log(HttpSession session, Exception e) {
@@ -27,21 +31,29 @@ public class SessionLogger {
         for (StackTraceElement ste : e.getStackTrace()){
             sb.append(ste.toString()+"\n");
         }
-        log(session,sb.toString());
+        log(session, sb.toString());
     }
 
-    public void spill(HttpSession session) {
+    public void stopSession(HttpSession session) {
+        log(session, "session stopped at: " + new Date().getTime());
         for (String s : sessionLogs.get(session)) {
             ForumLogger.actionLog(s);
+            //System.out.println(s); //for testing only!
         }
+        sessionLogs.remove(session);
+    }
+
+    public Set<HttpSession> getAllActiveSessions() {
+        return sessionLogs.keySet();
     }
 
     public static void main (String args[]){
         SessionLogger sl = new SessionLogger();
         StubSession ss = new StubSession("id1");
+        sl.startSession(ss);
         sl.log(ss,"this is a log message!");
         sl.log(ss,"this is a log message2!");
-        sl.spill(ss);
+        sl.stopSession(ss);
 
     }
 
