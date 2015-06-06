@@ -25,7 +25,7 @@ public class ForumLogger {
 			}
 			actionLog.addHandler(actionfl);
 		}
-//		actionLog.info(Thread.currentThread().getStackTrace()[2].getClassName() + " " + actionMsg);
+		actionLog.info(Thread.currentThread().getStackTrace()[2].getClassName() + " " + actionMsg);
 	}
 	
 	public static void errorLog(String errorMsg){
@@ -42,7 +42,7 @@ public class ForumLogger {
 			}
 			errorLog.addHandler(errorfl);
 		}
-//		errorLog.severe(Thread.currentThread().getStackTrace()[2].getClassName() + " " + errorMsg);
+		errorLog.severe(Thread.currentThread().getStackTrace()[2].getClassName() + " " + errorMsg);
 	}
 	
 	
