@@ -70,7 +70,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public User loginUser(Forum forum, String user, String pass) throws NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException {
+    public User loginUser(Forum forum, String user, String pass) throws NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NeedToChangePasswordException {
         if(real != null)
             return real.loginUser(forum, user, pass);
 

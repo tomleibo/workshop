@@ -1,11 +1,12 @@
 package policy;
 
-import users.FriendRequest;
-import users.User;
 import content.Forum;
 import content.Message;
 import content.SubForum;
+import users.FriendRequest;
+import users.User;
 
+import java.util.Date;
 import java.util.List;
 
 public class PolicyHandler {
@@ -163,5 +164,14 @@ public class PolicyHandler {
 
     public static boolean canUserGetNumberOfForums(User superAdmin) {
         return superAdmin.isSuperAdmin();
+    }
+    public static boolean shouldUserChangePassword(Forum forum, User user) {
+        try {
+            long passwordSetTime = user.getPasswordSetDate().getTime();
+            long passwordMaxTime = ((long) forum.getPolicy().getPasswordMaxTime()) * 24 * 60 * 60 * 1000;
+            return (new Date()).after(new Date(passwordSetTime + passwordMaxTime));
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

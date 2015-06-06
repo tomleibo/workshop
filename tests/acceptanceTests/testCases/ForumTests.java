@@ -55,6 +55,8 @@ public class ForumTests {
 	protected static User superAdmin;
 	protected static ForumPolicy policy;
 
+    protected static final int changePasswordTime = 30;
+
 	@BeforeClass
 	public static void setUp() throws UserNotAuthorizedException, NoSuchAlgorithmException {
 		driver = Driver.getDriver();
@@ -91,7 +93,7 @@ public class ForumTests {
 	}
 	
 	
-	protected static User loginUser(Forum forum, String user, String pass) throws UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NoSuchAlgorithmException {
+	protected static User loginUser(Forum forum, String user, String pass) throws UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NoSuchAlgorithmException, NeedToChangePasswordException {
 		return driver.loginUser(forum, user, pass);
 	}
 	
@@ -149,7 +151,9 @@ public class ForumTests {
 	}
 
 	protected static ForumPolicy getPolicy(int maxMod, String passwordRegex, ForumPolicy.HashFunction func){
-		return new ForumPolicy(maxMod,passwordRegex,func);
+		ForumPolicy policy = new ForumPolicy(maxMod,passwordRegex,func);
+        policy.setPasswordMaxTime(changePasswordTime);
+        return policy;
 	}
 
 	protected static boolean changeAdmin(Forum forum, User superAdmin, User admin) throws UserNotAuthorizedException {

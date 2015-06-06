@@ -10,10 +10,7 @@ import utils.ForumLogger;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="user")
@@ -40,6 +37,11 @@ public class User {
 	private String emailAddress;
 	@Column(name="password")
 	private String hashedPassword;
+    @Column (name="oldPasswords")
+    private String oldHashedPasswords;
+    @Column(name="passwordSetDate")
+    @Temporal(TemporalType.DATE)
+    private java.util.Date passwordSetDate;
 	@Column(name="date")
 	@Temporal(TemporalType.DATE)
 	private java.util.Date creationDate;
@@ -80,9 +82,7 @@ public class User {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<SubForum> managedSubForums;
 
-
-
-	public void setState(int state) {
+    public void setState(int state) {
         this.state = state;
     }
 
@@ -128,7 +128,8 @@ public class User {
 			this.username = username + id;
 		else
 			this.username = username;
-		this.hashedPassword = hashedPassword;
+        this.oldHashedPasswords = "";
+		setHashedPassword(hashedPassword);
 		this.state = state;
 		this.emailAddress = emailAddress;
 		friends = new HashSet<>();
@@ -202,7 +203,7 @@ public class User {
 	 * @throws UserAlreadyLoggedInException if user already logged in, exception contains the logged in user.
 	 */
 	public User login(String hashedPassword) throws WrongPasswordException, UserAlreadyLoggedInException {
-		if (!hashedPassword.equals(this.hashedPassword)) {
+		if (!isRightPassword(hashedPassword)) {
 			ForumLogger.errorLog("The user " + username + " trying to login but he's password is incorrect");
 			throw new WrongPasswordException();
 		}
@@ -214,6 +215,10 @@ public class User {
 		ForumLogger.actionLog("The user " + username + " is now logged in!");
 		return this;
 	}
+
+    public boolean isRightPassword(String hashedPassword) {
+        return hashedPassword.equals(this.hashedPassword);
+    }
 
 	public User loginAsGuest() throws UserAlreadyLoggedInException, WrongPasswordException {
 		return login(guestPassword);
@@ -357,7 +362,17 @@ public class User {
 
 	public void setHashedPassword(String hashedPassword) {
 		this.hashedPassword = hashedPassword;
+        addToUsedPassword(hashedPassword);
+        setPasswordSetDate(new Date());
 	}
+
+    public Date getPasswordSetDate() {
+        return passwordSetDate;
+    }
+
+    public void setPasswordSetDate(Date passwordSetDate) {
+        this.passwordSetDate = passwordSetDate;
+    }
 
 	public boolean addSentReport(Report report) {
 		return sentReports.add(report);
@@ -403,6 +418,14 @@ public class User {
 	public List<Notification> getPendingNotifications() {
 		return pendingNotifications;
 	}
+
+    private void addToUsedPassword(String hashedPassword) {
+        oldHashedPasswords = oldHashedPasswords + hashedPassword + ";";
+    }
+
+    public boolean alreadyUsedPassword(String hashedPassword) {
+        return Arrays.asList(oldHashedPasswords.split(";")).contains(hashedPassword);
+    }
 
 	public String getStateName(){
 		switch(this.state){

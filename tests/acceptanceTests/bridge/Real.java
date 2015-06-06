@@ -62,7 +62,7 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public User loginUser(Forum forum, String user, String pass) throws NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException {
+    public User loginUser(Forum forum, String user, String pass) throws NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NeedToChangePasswordException {
         return UserController.login(forum, user, pass);
     }
 

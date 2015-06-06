@@ -15,9 +15,19 @@ public class ForumPolicy{
 	private HashFunction hashFunction;
 	@Column(name = "mail_verification")
 	private boolean doUsersNeedMailVerification;
-	public enum HashFunction{
+    @Column (name = "sessionTimeout")
+    private int sessionTimeout;
+    @Column (name = "idleTime")
+    private int idleTime;
+    @Column (name = "askIdentificationQuestion")
+    private boolean askIdentificationQuestion;
+    @Column (name = "passwordExpireDate")
+    private int passwordMaxTime;
+
+    public enum HashFunction{
 		MD5,SHA
 	}
+
 	public ForumPolicy(){}
 	public ForumPolicy(int maxModerators, String passwordRegex,HashFunction hash, boolean mailVeri) {
 		this.maxModerators = maxModerators;
@@ -67,5 +77,61 @@ public class ForumPolicy{
         result = 31 * result + (hashFunction != null ? hashFunction.hashCode() : 0);
         result = 31 * result + (doUsersNeedMailVerification ? 1 : 0);
         return result;
+    }
+
+    public void setMaxModerators(int maxModerators) {
+        this.maxModerators = maxModerators;
+    }
+
+    public String getPasswordRegex() {
+        return passwordRegex;
+    }
+
+    public void setPasswordRegex(String passwordRegex) {
+        this.passwordRegex = passwordRegex;
+    }
+
+    public void setHashFunction(HashFunction hashFunction) {
+        this.hashFunction = hashFunction;
+    }
+
+    public boolean isDoUsersNeedMailVerification() {
+        return doUsersNeedMailVerification;
+    }
+
+    public void setDoUsersNeedMailVerification(boolean doUsersNeedMailVerification) {
+        this.doUsersNeedMailVerification = doUsersNeedMailVerification;
+    }
+
+    public int getSessionTimeout() {
+        return sessionTimeout;
+    }
+
+    public void setSessionTimeout(int sessionTimeout) {
+        this.sessionTimeout = sessionTimeout;
+    }
+
+    public int getIdleTime() {
+        return idleTime;
+    }
+
+    public void setIdleTime(int idleTime) {
+        this.idleTime = idleTime;
+    }
+
+    public boolean isAskIdentificationQuestion() {
+        return askIdentificationQuestion;
+    }
+
+    public void setAskIdentificationQuestion(boolean askIdentificationQuestion) {
+        this.askIdentificationQuestion = askIdentificationQuestion;
+    }
+
+    public int getPasswordMaxTime() {
+        return passwordMaxTime;
+    }
+
+    public void setPasswordMaxTime(int passwordExpireDate) {
+        this.passwordMaxTime = passwordExpireDate;
     }
 }

@@ -1,17 +1,17 @@
 package acceptanceTests.testCases;
 
-import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
-import exceptions.*;
-import org.junit.*;
-
-import users.User;
-import content.Message;
 import content.SubForum;
 import content.Thread;
+import exceptions.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import users.User;
+
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GeneralUserServicesTests extends ForumTests{
@@ -19,7 +19,7 @@ public class GeneralUserServicesTests extends ForumTests{
 	static User user;
 	
 	@BeforeClass
-	public static void beforeTest() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException {
+	public static void beforeTest() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NeedToChangePasswordException {
 		registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 		registerToForum(theForum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
 		user = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
