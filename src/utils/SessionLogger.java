@@ -9,6 +9,24 @@ public class SessionLogger {
 
     Map<HttpSession,Queue<String>> sessionLogs =null;
 
+    //singleton stuff
+
+    private static SessionLogger instance = null;
+
+    public static SessionLogger get() {
+        if (instance == null) {
+            synchronized (instance) {
+                if (instance == null) {
+                    instance = new SessionLogger();
+                }
+            }
+        }
+        return instance;
+    }
+
+    //instance stuff
+
+
     public SessionLogger() {
         this.sessionLogs = new HashMap<>();
     }
@@ -45,6 +63,10 @@ public class SessionLogger {
 
     public Set<HttpSession> getAllActiveSessions() {
         return sessionLogs.keySet();
+    }
+
+    public Queue<String> getSessionLog(HttpSession session) {
+        return sessionLogs.get(session);
     }
 
     public static void main (String args[]){
