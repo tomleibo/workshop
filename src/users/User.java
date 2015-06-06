@@ -305,11 +305,11 @@ public class User {
 	public boolean unAppoint(SubForum subForum) {
 		if (isMod()) {
 			boolean result = managedSubForums.remove(subForum);
-			if (result & (managedSubForums.size() == 0)) {
+			if (managedSubForums.size() == 0) {
 				setState(MEMBER);
 				ForumLogger.actionLog("The user " + getUsername() + "is not a moderator anymore");
 			}
-			return result;
+			return true;
 		}
 		ForumLogger.errorLog("The user " + getUsername() + " can't unappoint from moderator position");
 		return false;

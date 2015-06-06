@@ -107,10 +107,10 @@ public class UserController {
 	public static boolean removeFriend(Forum forum, User user, User friend) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserHaveFriends(forum, user) & PolicyHandler.canUserHaveFriends(forum, friend)) {
 			if(friend.deleteFriend(user) && user.deleteFriend(friend)){
-                HibernateUtils.save(friend);
+                HibernateUtils.update(friend);
+                HibernateUtils.update(user);
                 return true;
             }
-
             return false;
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + "has no permissions to remove friends");
@@ -124,7 +124,7 @@ public class UserController {
                 User requesting = request.getRequestingMember();
                 User receiving = request.getReceivingMember();
                 if (requesting.addFriend(receiving) && receiving.addFriend(requesting)){
-                    HibernateUtils.save(requesting);
+                    HibernateUtils.update(requesting);
                     return true;
                 }
                 return false;
