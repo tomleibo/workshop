@@ -20,7 +20,7 @@ public interface IForumSystemBridge {
 	Message replyToMessage(Forum forum, Message addTo, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException;
 	// Member Services
 	User registerToForum(Forum forum, String user, String pass, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException;
-	User loginUser(Forum forum, String user, String pass) throws NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException;
+	User loginUser(Forum forum, String user, String pass) throws NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NeedToChangePasswordException;
 	User logoffUser(Forum forum, User user) throws UserDoesNotExistsException, UserNotLoggedInException;
 	Thread openThread(Forum forum, SubForum subForum, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException;
 	boolean editPost(Forum forum, SubForum subForum, User user, Message msg, String body) throws UserNotAuthorizedException;
