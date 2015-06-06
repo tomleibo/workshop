@@ -16,6 +16,9 @@
 <html>
 <head>
     <title></title>
+    <% if(!user.isGuest()){%>
+        <%=HtmlUtils.getAjaxScript()%>
+    <%}%>
     <link href="css/list.css" rel="stylesheet">
   <link href="css/buttons.css" rel="stylesheet">
 </head>
