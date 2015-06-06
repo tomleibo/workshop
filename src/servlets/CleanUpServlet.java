@@ -5,7 +5,6 @@ import content.SubForum;
 import controllers.SuperAdminController;
 import controllers.UserController;
 import users.User;
-import users.userState.UserState;
 import utils.CookieUtils;
 import utils.HibernateUtils;
 
@@ -65,6 +64,7 @@ public class CleanUpServlet extends HttpServlet {
 			forum.setAdmin(superAdmin);
 
 			HibernateUtils.update(forum);
+			HibernateUtils.update(superAdmin);
 			CookieUtils.deleteCookie(request, response, CookieUtils.USER_ID_COOKIE_NAME);
 			CookieUtils.deleteCookie(request, response, CookieUtils.FORUM_ID_COOKIE_NAME);
 			CookieUtils.deleteCookie(request, response, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);

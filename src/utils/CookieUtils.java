@@ -35,7 +35,7 @@ public class CookieUtils {
 	
 	
 	/**
-	 * deletes all cookies in the given request.
+	 * deletes a cookie with given key in the given request.
 	 */
 	public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String key) {
 		Cookie[] cookies = request.getCookies();
@@ -46,6 +46,19 @@ public class CookieUtils {
 			}
 		}
 	}
+
+	/**
+	 * deletes all cookies in the given request.
+	 */
+	public static void deleteAllCookies(HttpServletRequest request, HttpServletResponse response) {
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+		}
+	}
+
+
 	
 	/**
 	 * returns the value of the cookie. 

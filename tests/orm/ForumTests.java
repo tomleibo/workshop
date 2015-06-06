@@ -87,6 +87,22 @@ public class ForumTests {
     }
 
     @Test
+    public void testAddSubforumToLoadedForumFromController() throws UserNotAuthorizedException {
+        User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
+        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
+        Forum loadedForum = (Forum) HibernateUtils.load(Forum.class, f.id);
+        HibernateUtils.update(loadedForum);
+        Assert.assertEquals(loadedForum, f);
+        SubForum sub = ContentController.addSubForum(loadedForum, "roee's sub", u);
+        SubForum loadedSub = (SubForum) HibernateUtils.load(SubForum.class, sub.id);
+        Assert.assertEquals(loadedSub, sub);
+        Forum loadedForumAfterAdd = (Forum) HibernateUtils.load(Forum.class, f.id);
+        Assert.assertEquals(loadedForumAfterAdd.getSubForums().size(), 1);
+        Assert.assertEquals(loadedForumAfterAdd.getSubForums().get(0), loadedSub);
+    }
+
+    @Test
     public void testAddAndDeleteSubforumFromController() throws UserNotAuthorizedException {
         User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
