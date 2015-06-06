@@ -4,11 +4,9 @@ import content.SubForum;
 import exceptions.*;
 import junit.framework.Assert;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import users.User;
-
 
 import java.security.NoSuchAlgorithmException;
 
@@ -20,7 +18,7 @@ public class AdminServicesTests extends ForumTests{
 
 
 	@BeforeClass
-	public static void setState() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, UserNotAuthorizedException {
+	public static void setState() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, UserNotAuthorizedException, NeedToChangePasswordException {
 		admin = registerToForum(theForum,USER_NAMES[1],USER_PASSES[1], USER_EMAILS[1]);
 		admin.setState(User.ADMIN);
 		changeAdmin(theForum, superAdmin, admin);

@@ -37,10 +37,8 @@ public class User {
 	private String emailAddress;
 	@Column(name="password")
 	private String hashedPassword;
-    @ManyToMany
     @Column (name="oldPasswords")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<String> oldHashedPasswords;
+    private String oldHashedPasswords;
     @Column(name="passwordSetDate")
     @Temporal(TemporalType.DATE)
     private java.util.Date passwordSetDate;
@@ -130,7 +128,7 @@ public class User {
 			this.username = username + id;
 		else
 			this.username = username;
-        this.oldHashedPasswords = new HashSet<>();
+        this.oldHashedPasswords = "";
 		setHashedPassword(hashedPassword);
 		this.state = state;
 		this.emailAddress = emailAddress;
@@ -364,7 +362,7 @@ public class User {
 
 	public void setHashedPassword(String hashedPassword) {
 		this.hashedPassword = hashedPassword;
-        this.oldHashedPasswords.add(hashedPassword);
+        addToUsedPassword(hashedPassword);
         setPasswordSetDate(new Date());
 	}
 
@@ -421,8 +419,12 @@ public class User {
 		return pendingNotifications;
 	}
 
+    private void addToUsedPassword(String hashedPassword) {
+        oldHashedPasswords = oldHashedPasswords + hashedPassword + ";";
+    }
+
     public boolean alreadyUsedPassword(String hashedPassword) {
-        return oldHashedPasswords.contains(hashedPassword);
+        return Arrays.asList(oldHashedPasswords.split(";")).contains(hashedPassword);
     }
 
 	public String getStateName(){
