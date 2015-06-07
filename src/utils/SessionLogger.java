@@ -7,7 +7,7 @@ import java.util.*;
 
 public class SessionLogger {
 
-    Map<HttpSession,Queue<String>> sessionLogs =null;
+    Map<String,Queue<String>> sessionLogs =null;
 
     //singleton stuff
 
@@ -15,7 +15,7 @@ public class SessionLogger {
 
     public static SessionLogger get() {
         if (instance == null) {
-            synchronized (instance) {
+            synchronized (SessionLogger.class) {
                 if (instance == null) {
                     instance = new SessionLogger();
                 }
@@ -32,17 +32,17 @@ public class SessionLogger {
     }
 
     public void startSession(HttpSession session) {
-        log(session,"Session started at "+new Date().getTime());
+        log(session.getId(),"Session started at "+new Date().getTime());
     }
 
-    public void log(HttpSession session, String s) {
+    public void log(String session, String s) {
         if (!sessionLogs.containsKey(session)) {
             sessionLogs.put(session,new LinkedList<String>());
         }
-        sessionLogs.get(session).add("session: " + session.getId() + ":   " + s);
+        sessionLogs.get(session).add("session: " + session + ":   " + s);
     }
 
-    public void log(HttpSession session, Exception e) {
+    public void log(String session, Exception e) {
         StringBuilder sb= new StringBuilder();
         sb.append("cause: "+e.getCause());
         sb.append("\nstack trace: ");
@@ -52,7 +52,7 @@ public class SessionLogger {
         log(session, sb.toString());
     }
 
-    public void stopSession(HttpSession session) {
+    public void stopSession(String session) {
         log(session, "session stopped at: " + new Date().getTime());
         for (String s : sessionLogs.get(session)) {
             ForumLogger.actionLog(s);
@@ -61,21 +61,25 @@ public class SessionLogger {
         sessionLogs.remove(session);
     }
 
-    public Set<HttpSession> getAllActiveSessions() {
+    public Set<String> getAllActiveSessions() {
         return sessionLogs.keySet();
     }
 
-    public Queue<String> getSessionLog(HttpSession session) {
+    public Queue<String> getSessionLog(String session) {
         return sessionLogs.get(session);
     }
 
     public static void main (String args[]){
-        SessionLogger sl = new SessionLogger();
+
         StubSession ss = new StubSession("id1");
-        sl.startSession(ss);
-        sl.log(ss,"this is a log message!");
-        sl.log(ss,"this is a log message2!");
-        sl.stopSession(ss);
+        SessionLogger.get().startSession(ss);
+        System.out.println("all active sessions: \n");
+        for (String s : SessionLogger.get().getAllActiveSessions()) {
+            System.out.println(s);
+        }
+        SessionLogger.get().log(ss.getId(), "\nthis is a log message!");
+        SessionLogger.get().log(ss.getId(), "this is a log message2!");
+        SessionLogger.get().stopSession(ss.getId());
 
     }
 
