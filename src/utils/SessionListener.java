@@ -11,6 +11,6 @@ public class SessionListener implements HttpSessionListener {
 
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-        SessionLogger.get().stopSession(httpSessionEvent.getSession());
+        SessionLogger.get().stopSession(httpSessionEvent.getSession().getId());
     }
 }
