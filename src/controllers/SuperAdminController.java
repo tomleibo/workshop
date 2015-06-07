@@ -73,7 +73,9 @@ public class SuperAdminController {
 			User oldAdmin = forum.getAdmin();
             forum.setAdmin(admin);
             admin.setState(User.ADMIN);
-            oldAdmin.setState(User.MEMBER);
+            if (oldAdmin.getState() <= User.ADMIN) {
+                oldAdmin.setState(User.MEMBER);
+            }
             HibernateUtils.save(oldAdmin);
 			return HibernateUtils.save(forum);
 		}

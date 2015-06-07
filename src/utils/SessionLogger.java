@@ -27,7 +27,7 @@ public class SessionLogger {
     //instance stuff
 
 
-    public SessionLogger() {
+    private SessionLogger() {
         this.sessionLogs = new HashMap<>();
     }
 
