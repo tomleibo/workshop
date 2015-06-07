@@ -11,9 +11,12 @@ import policy.UserStatusPolicy;
 import users.User;
 import utils.ForumLogger;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 public class SuperAdminController {
 
@@ -125,6 +128,20 @@ public class SuperAdminController {
             return query.list().size();
         }
         throw new UserNotAuthorizedException("to view reports");
+    }
+
+    public static Queue<String> getSessionLog(User user,String id) throws UserNotAuthorizedException {
+        if (user.isSuperAdmin()) {
+            return SessionLogger.get().getSessionLog(id);
+        }
+        throw new UserNotAuthorizedException("to view session logs");
+    }
+
+    public static Set<String> getAllOpenSessions(User user) throws UserNotAuthorizedException {
+        if (user.isSuperAdmin()) {
+            return SessionLogger.get().getAllActiveSessions();
+        }
+        throw new UserNotAuthorizedException("to view session logs");
     }
 
 	public static boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy){
