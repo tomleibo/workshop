@@ -5,7 +5,6 @@ import content.Message;
 import content.SubForum;
 import content.Thread;
 import exceptions.EmptyMessageTitleAndBodyException;
-import org.hibernate.Hibernate;
 import policy.ForumPolicy;
 import users.Notification;
 import users.User;
@@ -29,6 +28,12 @@ public class ContentController {
 	public static boolean deletePost(Message post) {
 		if (post.deleteSelf()) {
             post.sendNotificationToAllUsersCommentedRecursively(Notification.deleteMessageNotification(post));
+            if (post.getEnclosingMessage() == null) {
+                Thread thread = post.getThread();
+                SubForum subForum = thread.getSubForum();
+                subForum.removeThread(thread);
+                return HibernateUtils.update(subForum);
+            }
 			return HibernateUtils.update(post.getEnclosingMessage()) && HibernateUtils.del(post);
 		}
 		return false;

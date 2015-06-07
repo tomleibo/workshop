@@ -8,14 +8,12 @@ import policy.ForumPolicy;
 import users.FriendRequest;
 import users.User;
 
-import java.security.NoSuchAlgorithmException;
-
 
 public class UserControllerTests {
     UserController userController;
 
     @Test
-    public void test_register() throws NoSuchAlgorithmException {
+    public void test_register() throws Exception {
         try {
             userController = new UserController();
             User admin = User.newMember("hadar", "1234", "polad.hadar@gmail.com");

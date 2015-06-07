@@ -57,7 +57,7 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public User registerToForum(Forum forum, String user, String pass, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
+    public User registerToForum(Forum forum, String user, String pass, String emailAddress) throws Exception {
         return UserController.register(forum, user, pass, emailAddress);
     }
 

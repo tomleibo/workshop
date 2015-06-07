@@ -23,8 +23,14 @@ public class UserController {
 	private static String mailUsername = "sadnase2015@gmail.com";
 	private static String mailPassword = "sadna2015";
 
-	public static User register(Forum forum, String username, String password, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
-		if (getUserFromForum(forum, username, password) != null)
+	public static User register(Forum forum, String username, String password, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, EmptyFieldException {
+		if (!password.matches(forum.getPolicy().getPasswordRegex())) {
+            throw new PasswordNotMatchesRegexException();
+        }
+        if (username.isEmpty() | password.isEmpty() | emailAddress.isEmpty()) {
+            throw new EmptyFieldException();
+        }
+        if (getUserFromForum(forum, username, password) != null)
 			throw new UsernameAlreadyExistsException("Username: " + username + " already exists in forum: " + forum.getName() + ".");
 		User member = User.newMember(username, Cipher.hashString(password, Cipher.SHA), emailAddress);
 		if (forum.isSecured()) {

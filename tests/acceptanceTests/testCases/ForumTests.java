@@ -62,7 +62,7 @@ public class ForumTests {
 		driver = Driver.getDriver();
 		//system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
 		superAdmin = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
-		policy = getPolicy(3, ".", ForumPolicy.HashFunction.MD5);
+		policy = getPolicy(3, ".+", ForumPolicy.HashFunction.MD5);
 		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);
 	}
 
@@ -117,7 +117,7 @@ public class ForumTests {
 	}
 	
 	
-	protected static User registerToForum(Forum forum, String user, String hashedPass, String emailAddress) throws NoSuchAlgorithmException, UsernameAlreadyExistsException {
+	protected static User registerToForum(Forum forum, String user, String hashedPass, String emailAddress) throws Exception {
 		return driver.registerToForum(forum, user, hashedPass, emailAddress);
 	}
 

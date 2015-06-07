@@ -70,4 +70,8 @@ public class Thread {
     public int getNumberOfMessages() {
         return openingMessage.getNumberOfMessages();
     }
+
+    public SubForum getSubForum() {
+        return subForum;
+    }
 }

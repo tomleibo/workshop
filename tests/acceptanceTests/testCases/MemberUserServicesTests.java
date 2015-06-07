@@ -20,7 +20,7 @@ public class MemberUserServicesTests extends ForumTests {
 	static User user2;
 
 	@BeforeClass
-	public static void register() throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
+	public static void register() throws Exception {
 		user1 = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 		user2 = registerToForum(theForum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
 //		moderator = registerToForum(theForum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
@@ -209,7 +209,7 @@ public class MemberUserServicesTests extends ForumTests {
 
 //	@Ignore
 //	@Test // 5.13
-//	public void test_replyToMessage_UserLoggedOff() throws UserNotAuthorizedException, WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, EmptyMessageTitleAndBodyException {
+//	public void test_replyToMessage_UserLoggedOff() throws Exception {
 //		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 //		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 //

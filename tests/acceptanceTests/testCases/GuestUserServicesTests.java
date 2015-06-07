@@ -1,16 +1,11 @@
 package acceptanceTests.testCases;
 
-import content.SubForum;
 import exceptions.UsernameAlreadyExistsException;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
-
 import users.User;
 import utils.HibernateUtils;
-
-import java.security.NoSuchAlgorithmException;
 
 public class GuestUserServicesTests extends ForumTests{
 
@@ -33,19 +28,21 @@ public class GuestUserServicesTests extends ForumTests{
 	}
 
 	@Test // 4.1
-	public void test_registerGuest_ValidCredentials() throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
-		User user = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
-		Assert.assertNotNull(user);
+	public void test_registerGuest_ValidCredentials() throws Exception {
+            User user = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 	}
 
 	@Test // 4.2
-	public void test_registerGuest_InvalidCredentials() throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
-		User user = registerToForum(theForum, "", "","");
-		Assert.assertNull(user);
+	public void test_registerGuest_InvalidCredentials() {
+		try {
+            User user = registerToForum(theForum, "", "","");
+            Assert.fail();
+        } catch (Exception e) {
+        }
 	}
 
 	@Test // 4.3
-	public void test_registerGuest_UserAlreadyExists() throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
+	public void test_registerGuest_UserAlreadyExists() throws Exception {
 		User user = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 		try {
 			User user2 = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
