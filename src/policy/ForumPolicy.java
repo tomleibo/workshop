@@ -22,7 +22,7 @@ public class ForumPolicy{
     @Column (name = "askIdentificationQuestion")
     private boolean askIdentificationQuestion;
     @Column (name = "passwordExpireDate")
-    private int passwordMaxTime;
+    private long passwordMaxTime;
 
     public enum HashFunction{
 		MD5,SHA
@@ -34,6 +34,7 @@ public class ForumPolicy{
 		this.passwordRegex = passwordRegex;
 		this.hashFunction=hash;
 		this.doUsersNeedMailVerification=mailVeri;
+        this.passwordMaxTime = -1;
 	}
 	
 	public ForumPolicy(int maxModerators, String passwordRegex,HashFunction hash) {
@@ -127,7 +128,7 @@ public class ForumPolicy{
         this.askIdentificationQuestion = askIdentificationQuestion;
     }
 
-    public int getPasswordMaxTime() {
+    public long getPasswordMaxTime() {
         return passwordMaxTime;
     }
 
