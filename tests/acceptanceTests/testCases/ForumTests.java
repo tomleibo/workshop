@@ -50,7 +50,7 @@ public class ForumTests {
 	protected static final String superAdminPassword = "";
 	protected static final String superAdminMail = "";
 
-	protected static ForumSystem system;
+	//protected static ForumSystem system;
 	protected static Forum theForum;
 	protected static User superAdmin;
 	protected static ForumPolicy policy;
@@ -60,16 +60,15 @@ public class ForumTests {
 	@BeforeClass
 	public static void setUp() throws UserNotAuthorizedException, NoSuchAlgorithmException {
 		driver = Driver.getDriver();
-		system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
-		superAdmin = system.getSuperAdmin(superAdminUsername, getHashedPassword(superAdminPassword));
+		//system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
+		superAdmin = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
 		policy = getPolicy(3, ".", ForumPolicy.HashFunction.MD5);
-
 		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);
 	}
 
 	@AfterClass
 	public static void tearDown() throws UserNotAuthorizedException {
-		tearDownForumSystem(superAdmin, system);
+		//tearDownForumSystem(superAdmin, system);
 	}
 
 	public User createSuperAdmin(String userName, String password, String emailAddress){
@@ -146,7 +145,7 @@ public class ForumTests {
 		return driver.deleteSubForum(forum, subForum, user);
 	}
 
-	protected static ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
+	protected static User initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
 		return driver.initializeForumSystem(user, pass, emailAddress);
 	}
 

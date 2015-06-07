@@ -33,10 +33,10 @@ public class AdminControllerTests {
     private User firstModerator;
     private User secondModerator;
 
-    @BeforeClass
-    public static void setup() throws NoSuchAlgorithmException {
-        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
-    }
+//    @BeforeClass
+//    public static void setup() throws NoSuchAlgorithmException {
+//        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
+//    }
 
     @AfterClass
     public static void afterClass() {

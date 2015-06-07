@@ -10,8 +10,18 @@ import org.junit.Test;
 import users.User;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
+import exceptions.*;
+import org.junit.*;
+
+import users.User;
+import content.Message;
+import content.SubForum;
+import content.Thread;
+import utils.HibernateUtils;
 
 
 public class GeneralUserServicesTests extends ForumTests{
@@ -29,6 +39,10 @@ public class GeneralUserServicesTests extends ForumTests{
 
 	@After
 	public void afterMethod() throws UserNotLoggedInException, UserDoesNotExistsException {
+		for (SubForum sub: theForum.getSubForums()){
+			HibernateUtils.del(sub);
+		}
+		HibernateUtils.update(theForum);
 		theForum.getSubForums().clear();
 	}
 

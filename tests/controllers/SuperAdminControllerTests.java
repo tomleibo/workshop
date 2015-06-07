@@ -29,10 +29,10 @@ public class SuperAdminControllerTests {
     private Forum forum;
     private User superAdmin;
 
-    @BeforeClass
-    public static void setup() throws NoSuchAlgorithmException {
-        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
-    }
+//    @BeforeClass
+//    public static void setup() throws NoSuchAlgorithmException {
+//        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
+//    }
 
     @AfterClass
     public static void afterClass() {

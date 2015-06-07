@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import users.User;
+import utils.HibernateUtils;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -30,6 +31,10 @@ public class AdminServicesTests extends ForumTests{
 
 	@After
 	public void afterMethod(){
+		for (SubForum sub: theForum.getSubForums()){
+			HibernateUtils.del(sub);
+		}
+		HibernateUtils.update(theForum);
 		theForum.getSubForums().clear();
 	}
 
@@ -41,11 +46,11 @@ public class AdminServicesTests extends ForumTests{
 
 		boolean result = cancelSubForum(theForum, sf1, superAdmin);
 		Assert.assertTrue(result);
-		Assert.assertEquals(showListOfSubForums(theForum, admin).size(), 2);
+		Assert.assertEquals(showListOfSubForums(theForum, admin).size(),2);
 
 		result = cancelSubForum(theForum, sf2, admin);
 		Assert.assertTrue(result);
-		Assert.assertEquals(showListOfSubForums(theForum, admin).size(), 1);
+		Assert.assertEquals(showListOfSubForums(theForum, admin).size(),1);
 
 		result = cancelSubForum(theForum, sf3, admin);
 		Assert.assertTrue(result);

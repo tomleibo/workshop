@@ -97,18 +97,18 @@ public class SuperAdminController {
 		throw new UserNotAuthorizedException("to change forum policy.");
 	}
 
-	public static ForumSystem initializeForumSystem(String username, String hashedPassword, String email) throws NoSuchAlgorithmException {
-        HibernateUtils.init();
+	public static User initializeForumSystem(String username, String hashedPassword, String email) throws NoSuchAlgorithmException {
+        HibernateUtils.start();
         User superAdmin = User.newSuperAdmin(username, hashedPassword, email);
         HibernateUtils.save(superAdmin);
-		return ForumSystem.newForumSystem(superAdmin);
-        //TODO: change this.
+		return superAdmin;
+		//return ForumSystem.newForumSystem(superAdmin);
 	}
 
 	public static void destroyForumSystem(User superAdmin, ForumSystem forumSystem) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserDestroyForumSystem(superAdmin)){
-            HibernateUtils.getQuery("drop database forum_system").executeUpdate();
-            //TODO: anything else?
+            //HibernateUtils.getQuery("drop database forum_system").executeUpdate();
+            //TODO: ^ this is not good... will make trouble for the orm... need to delete DB politely
             //forumSystem.destroy();
 			return;
 		}

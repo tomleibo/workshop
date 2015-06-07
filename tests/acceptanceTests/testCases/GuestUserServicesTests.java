@@ -1,5 +1,6 @@
 package acceptanceTests.testCases;
 
+import content.SubForum;
 import exceptions.UsernameAlreadyExistsException;
 import org.junit.After;
 import org.junit.Assert;
@@ -7,6 +8,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import users.User;
+import utils.HibernateUtils;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -15,13 +17,17 @@ public class GuestUserServicesTests extends ForumTests{
 
 	@After
 	public void afterMethod(){
+		for (User usr: theForum.getMembers()){
+			HibernateUtils.del(usr);
+		}
+		HibernateUtils.update(theForum);
+
 		int i=0;
 		while(theForum.getMembers().size() > 1){
 			if(theForum.getMembers().get(i).equals(superAdmin)){
 				i++;
 				continue;
 			}
-
 			theForum.getMembers().remove(i);
 		}
 	}
@@ -32,12 +38,11 @@ public class GuestUserServicesTests extends ForumTests{
 		Assert.assertNotNull(user);
 	}
 
-//	@Ignore
-//	@Test // 4.2
-//	public void test_registerGuest_InvalidCredentials() throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
-//		User user = registerToForum(theForum, "", "","");
-//		Assert.assertNull(user);
-//	}
+	@Test // 4.2
+	public void test_registerGuest_InvalidCredentials() throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
+		User user = registerToForum(theForum, "", "","");
+		Assert.assertNull(user);
+	}
 
 	@Test // 4.3
 	public void test_registerGuest_UserAlreadyExists() throws UsernameAlreadyExistsException, NoSuchAlgorithmException {

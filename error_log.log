@@ -1,4 +1,158 @@
 <?xml version="1.0" encoding="windows-1255" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690126</millis>
+  <sequence>17</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690147</millis>
+  <sequence>21</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690150</millis>
+  <sequence>22</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>controllers.SuperAdminController create new forum failed in hibernate.</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690164</millis>
+  <sequence>26</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690185</millis>
+  <sequence>29</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690206</millis>
+  <sequence>34</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690218</millis>
+  <sequence>38</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690224</millis>
+  <sequence>41</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690240</millis>
+  <sequence>46</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690248</millis>
+  <sequence>50</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690254</millis>
+  <sequence>53</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690272</millis>
+  <sequence>58</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690278</millis>
+  <sequence>61</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690290</millis>
+  <sequence>66</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.SQLGrammarException: could not execute statement</message>
+</record>
 </log>

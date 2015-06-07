@@ -9,6 +9,7 @@ import org.junit.*;
 import policy.ForumPolicy;
 import users.FriendRequest;
 import users.User;
+import utils.HibernateUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -33,7 +34,10 @@ public class MemberUserServicesTests extends ForumTests {
 				u.logout();
 			}
 		}
-
+		for (User usr: theForum.getMembers()){
+			HibernateUtils.del(usr);
+		}
+		HibernateUtils.update(theForum);
 		theForum.getSubForums().clear();
 	}
 	

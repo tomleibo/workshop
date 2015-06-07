@@ -30,10 +30,10 @@ public class ModerationControllerTests {
     private User moderator;
     private User member;
 
-    @BeforeClass
-    public static void setup() throws NoSuchAlgorithmException {
-        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
-    }
+//    @BeforeClass
+//    public static void setup() throws NoSuchAlgorithmException {
+//        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
+//    }
 
     @Before
     public void beforeMethod() throws UserNotAuthorizedException, UsernameAlreadyExistsException, NoSuchAlgorithmException {

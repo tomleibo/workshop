@@ -10,7 +10,7 @@ import controllers.UserController;
 import exceptions.EmptyMessageTitleAndBodyException;
 import exceptions.UserNotAuthorizedException;
 import exceptions.UsernameAlreadyExistsException;
-import org.apache.commons.beanutils.BeanUtils;
+//import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.Query;
 import org.junit.*;
 import policy.ForumPolicy;

@@ -40,7 +40,7 @@ public interface IForumSystemBridge {
 	boolean isMessageContentMatchesSubForumSubject(SubForum subForum, Message message);
 	boolean setModeratorAndAdminsSuspensionPolicy(Forum forum, ForumPolicy policy);
 	boolean setAppointmentRules(Forum forum, String[] rules);
-	ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException;
+	User initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException;
 
 	String getHashedPassword(String pass) throws NoSuchAlgorithmException;
 
