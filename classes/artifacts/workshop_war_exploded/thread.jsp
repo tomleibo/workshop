@@ -30,7 +30,8 @@
     }
     sb.append(generateHtmlSpaces(depth));
     sb.append("<b>"+msg.getTitle()+"</b>&nbsp;(");
-    sb.append("<a href=\"\\reply.jsp?op=reply&id="+ msg.id +"\">reply</a>");
+    sb.append("<a href=\"reply.jsp?op=reply&id="+msg.id+"&title="+msg.getTitle()+"\">reply</a>");
+
     sb.append("&nbsp;|&nbsp;<a href=\"\\reply.jsp?body="+msg.getBody()+"&title="+msg.getTitle()+"&op=edit&id="+ msg.id +"\">edit</a>");
 
     sb.append("&nbsp;|&nbsp;<a href=delete?id="+ msg.id +">delete</a>)");

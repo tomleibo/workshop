@@ -2,7 +2,6 @@
 <%@ page import="content.SubForum" %>
 <%@ page import="utils.HtmlUtils" %>
 <%@ page import="users.User" %>
-<%@ page import="users.userState.UserState" %>
 <%--
   Created by IntelliJ IDEA.
   User: thinkPAD
@@ -17,13 +16,17 @@
 <html>
 <head>
     <title></title>
+    <% if(!user.isGuest()){%>
+        <%=HtmlUtils.getAjaxScript()%>
+    <%}%>
     <link href="css/list.css" rel="stylesheet">
   <link href="css/buttons.css" rel="stylesheet">
 </head>
 <body>
 <h1> Hi <%= user.getUsername()%>!</h1> <br>
 <%if(!user.isGuest()){%>
-  <%=HtmlUtils.getNotificationsLink(user)%>
+    <%=HtmlUtils.getNotificationsLink(user)%>
+    <%--Some notifications--%>
 <div class="container">
   <a href="\profile" class="button"><span>✓</span>Profile</a>
 </div>

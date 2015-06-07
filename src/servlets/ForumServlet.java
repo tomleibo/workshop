@@ -45,6 +45,8 @@ public class ForumServlet extends HttpServlet {
 			int forumId = Integer.parseInt(forumIdString);
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
+//			CookieUtils.deleteAllCookies(request, response);
+
 			User user;
 			String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if (userId != null) {

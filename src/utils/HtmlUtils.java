@@ -39,7 +39,8 @@ public class HtmlUtils {
                 "                  type : \"GET\",\n" +
                 "                  dataType : \"html\",\n" +
                 "                  success : function (html) {\n" +
-                "                      $(\"#notificationsButton\").replace(\"you have \"+html+ \" notifications!<br>\");\n" +
+                "                      $(\"#notificationsButton\").val(\"you have \"+html+ \" notifications!\");\n" +
+//                "                      $(\"#notificationsButton\").value=\"you have \"+html+ \" notifications!<br>\";\n" +
                 "                  },\n" +
                 "                  error : function (xhr,status,errorT) {\n" +
                 "\n" +
