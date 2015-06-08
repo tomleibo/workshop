@@ -22,7 +22,7 @@ import java.io.IOException;
 @WebServlet(
 		description = "Handles the request of replying to a friend request",
 		urlPatterns = {
-				"/replyToPost"}
+				"/replyEditRequest"}
 		)
 public class ReplyEditRequestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -41,9 +41,18 @@ public class ReplyEditRequestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			int addToMsgId = Integer.parseInt(request.getParameter("msgId"));
+
+			String op = request.getParameter("op");
 			String title = request.getParameter("title");
-			String content = request.getParameter("body");
+			if(title == null)
+				title ="";
+
+			String body = request.getParameter("body");
+			if(body == null)
+				body = "";
+
+			int msgId = Integer.parseInt(request.getParameter("msgId"));
+			int threadId = Integer.parseInt(request.getParameter("threadId"));
 
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if (cookieValue == null)
@@ -63,17 +72,22 @@ public class ReplyEditRequestServlet extends HttpServlet {
 
 			int subForumId = Integer.parseInt(cookieValue);
 
-
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
 			User user = (User) HibernateUtils.load(User.class, userId);
-			Message addTo = (Message)HibernateUtils.load(Message.class, addToMsgId);
+			Thread thread = (Thread)HibernateUtils.load(Thread.class, threadId);
+			Message message = (Message)HibernateUtils.load(Message.class, msgId);
 
-			UserController.reply(forum, addTo, title, content, user);
-
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subforum.jsp");
-			request.setAttribute("subForum", subForum);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/replyEdit.jsp");
 			request.setAttribute("user", user);
+			request.setAttribute("forum", forum);
+			request.setAttribute("subForum", subForum);
+			request.setAttribute("thread", thread);
+			request.setAttribute("message", message);
+			request.setAttribute("op", op);
+			request.setAttribute("title", title);
+			request.setAttribute("body", body);
+
 			dispatcher.forward(request, response);
 		}
 		catch(Exception e){

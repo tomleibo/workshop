@@ -41,27 +41,45 @@ public class ThreadServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		int threadId;
+		try{
+			int threadId = Integer.parseInt(request.getParameter("threadId"));
 
-		try {
-			threadId = Integer.parseInt(request.getParameter("threadId"));
-		}
-		catch(NumberFormatException e){
-			System.out.println(e.getMessage());
-			return;
-		}
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if (cookieValue == null) {
+				throw new Exception("User Cookie Value doesn't exist");
+			}
 
-		Thread t = (Thread) HibernateUtils.load(Thread.class, threadId);
-		User user = null;
-		String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-		if(userId != null) {
-			user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
-		}
+			int userId = Integer.parseInt(cookieValue);
 
-		request.setAttribute("user", user);
-		request.setAttribute("thread", t);
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/thread.jsp");
-		dispatcher.forward(request,response);
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null) {
+				throw new Exception("Forum Cookie Value doesn't exist");
+			}
+
+			int forumId = Integer.parseInt(cookieValue);
+
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null) {
+				throw new Exception("Sub Forum Cookie Value doesn't exist");
+			}
+
+			int subForumId = Integer.parseInt(cookieValue);
+
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+			User user = (User) HibernateUtils.load(User.class,userId);
+			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
+			Thread t = (Thread) HibernateUtils.load(Thread.class, threadId);
+
+			request.setAttribute("user", user);
+			request.setAttribute("forum", forum);
+			request.setAttribute("subForum", subForum);
+			request.setAttribute("thread", t);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/thread.jsp");
+			dispatcher.forward(request,response);
+		}
+		catch(Exception e){
+			ServletUtils.exitError(this, request,response,e.getMessage());
+		}
 	}
 
 	/**

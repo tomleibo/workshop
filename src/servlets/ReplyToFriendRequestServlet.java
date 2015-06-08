@@ -62,7 +62,7 @@ public class ReplyToFriendRequestServlet extends HttpServlet {
 
 			UserController.replyToFriendRequest(forum, user, fr, answer);
 
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/friendRequests");
 			dispatcher.forward(request, response);
 		}
 		catch(Exception e){

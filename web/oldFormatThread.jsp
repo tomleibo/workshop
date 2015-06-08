@@ -1,5 +1,8 @@
 <%@ page import="content.Thread" %>
 <%@ page import="content.Message" %>
+<%@ page import="users.User" %>
+<%@ page import="content.Forum" %>
+<%@ page import="content.SubForum" %>
 <%--
   Created by IntelliJ IDEA.
   User: thinkPAD
@@ -8,6 +11,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<% SubForum sub = (SubForum)request.getAttribute("subForum"); %>
+<% Forum forum = (Forum)request.getAttribute("forum"); %>
+<% User user = (User) request.getAttribute("user"); %>
 <% content.Thread t = (content.Thread)request.getAttribute("thread"); %>
 
 <html>

@@ -83,8 +83,9 @@ public class ContentController {
 		Thread threadAdd = new Thread(user, openingMsg, subforum);
 		if (subforum.addThread(threadAdd)) {
             forum.sendNotificationToAllUsers(Notification.newThreadNotification(threadAdd));
-			HibernateUtils.update(subforum);
-			HibernateUtils.update(forum);
+			HibernateUtils.save(threadAdd);
+			HibernateUtils.merge(subforum);
+			HibernateUtils.merge(forum);
 			return threadAdd;
 		}
 		return null;

@@ -93,7 +93,7 @@ public class FriendRequest {
 		this.viewed = viewed;
 	}
 
-	public boolean getViewed() {
+	public boolean isViewed() {
 		return this.viewed;
 	}
 }

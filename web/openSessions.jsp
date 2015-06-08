@@ -20,7 +20,7 @@
 <%=HtmlUtils.getNotificationsLink(user)%>
 <%--Some notifications--%>
 <div class="container">
-    <a href="\profile" class="button"><span>✓</span>Profile</a>
+    <a href="/profile" class="button"><span>✓</span>Profile</a>
 </div>
 <%}%>
 

@@ -23,7 +23,7 @@ import java.io.IOException;
 @WebServlet(
 		description = "Handles the request of replying to a friend request",
 		urlPatterns = {
-				"/replyToPost"}
+				"/replyEdit"}
 		)
 public class ReplyToPostServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -35,7 +35,6 @@ public class ReplyToPostServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -63,6 +62,17 @@ public class ReplyToPostServlet extends HttpServlet {
 				throw new Exception("Forum Cookie Value doesn't exist");
 
 			int subForumId = Integer.parseInt(cookieValue);
+
+			//			switch(op){
+//				case "reply":
+//					UserController.reply(forum, message, title, body, user);
+//					break;
+//				case "edit":
+//					UserController.editMessage(forum, subForum, user, message, body);
+//					break;
+//				default:
+//					throw new Exception("Unknown operation");
+//			}
 
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
