@@ -12,6 +12,7 @@ import policy.ForumPolicy;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,6 +44,7 @@ public class EditServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        SessionLogger.get().log(request.getSession().getId(),"editing message");
 
 		int userId=-1;
 		int forumId;
@@ -50,6 +52,8 @@ public class EditServlet extends HttpServlet {
 		int messageId;
 		String title;
 		String body;
+
+
 
 		try {
 			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);

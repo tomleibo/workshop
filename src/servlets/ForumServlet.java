@@ -10,6 +10,7 @@ import policy.ForumPolicy;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +40,7 @@ public class ForumServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        SessionLogger.get().log(request.getSession().getId(),"showing forum page");
 		try {
 			String forumIdString = request.getParameter("forumId");
 			int forumId = Integer.parseInt(forumIdString);

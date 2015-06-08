@@ -7,6 +7,7 @@ import exceptions.UserNotAuthorizedException;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,8 +43,8 @@ public class DeleteSubForumServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-			int subForumId = Integer.parseInt(request.getParameter("subForumId"));
-
+            SessionLogger.get().log(request.getSession().getId(),"deleting subforum");
+            int subForumId = Integer.parseInt(request.getParameter("subForumId"));
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if (cookieValue == null)
 				throw new Exception("User Cookie Value doesn't exist");

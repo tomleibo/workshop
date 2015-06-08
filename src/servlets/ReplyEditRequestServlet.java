@@ -7,6 +7,7 @@ import content.Thread;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,7 +42,7 @@ public class ReplyEditRequestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-
+            SessionLogger.get().log(request.getSession().getId(),"edit or replying on a message");
 			String op = request.getParameter("op");
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");

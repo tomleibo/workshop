@@ -6,6 +6,7 @@ import controllers.AdminController;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,7 +42,7 @@ public class AddSubForumServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String title = request.getParameter("title");
-
+            SessionLogger.get().log(request.getSession().getId(),"Add subforum");
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if (cookieValue == null)
 				throw new Exception("User Cookie Value doesn't exist");

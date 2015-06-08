@@ -6,6 +6,7 @@ import exceptions.UserAlreadyLoggedInException;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,6 +38,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
+            SessionLogger.get().log(request.getSession().getId(),"logined");
 			int id=Integer.parseInt(request.getParameter("forumId"));
 			String userName = request.getParameter("user");
 			String pass = request.getParameter("pass");

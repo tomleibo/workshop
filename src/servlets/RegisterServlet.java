@@ -6,6 +6,7 @@ import exceptions.UsernameAlreadyExistsException;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,6 +40,7 @@ public class RegisterServlet extends HttpServlet {
 		int id;
 		String userName, pass, email;
 		try {
+            SessionLogger.get().log(request.getSession().getId(),"registering");
 			id=Integer.parseInt(request.getParameter("forumId"));
 			userName = request.getParameter("username");
 			pass = request.getParameter("pass");

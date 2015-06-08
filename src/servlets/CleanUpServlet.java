@@ -7,6 +7,7 @@ import controllers.UserController;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,6 +39,7 @@ public class CleanUpServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
+            SessionLogger.get().log(request.getSession().getId(),"cleaning up");
 			String forumIdString = request.getParameter("forumId");
 			int forumId = Integer.parseInt(forumIdString);
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);

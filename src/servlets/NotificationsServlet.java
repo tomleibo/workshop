@@ -6,6 +6,7 @@ import exceptions.UserNotAuthorizedException;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,6 +44,7 @@ public class NotificationsServlet extends HttpServlet {
 		int userId=-1;
 
 		try {
+            SessionLogger.get().log(request.getSession().getId(),"viewing notifications");
 			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if(value!= null)
 				userId = Integer.parseInt(value);

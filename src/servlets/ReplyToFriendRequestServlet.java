@@ -7,6 +7,7 @@ import users.FriendRequest;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,6 +42,7 @@ public class ReplyToFriendRequestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+            SessionLogger.get().log(request.getSession().getId(),"replying to friend requests");
 			int friendReqId = Integer.parseInt(request.getParameter("friendReqId"));
 			boolean answer = request.getParameter("answer").equals("1");
 

@@ -2,6 +2,7 @@ package servlets;
 
 import content.Forum;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,6 +31,7 @@ public class SuperMainServlet extends HttpServlet {
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        SessionLogger.get().log(request.getSession().getId(),"viewing the list of forums");
         List<Forum> forums = HibernateUtils.getAllForums();
 
         request.setAttribute("forums", forums);

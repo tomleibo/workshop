@@ -8,6 +8,7 @@ import users.FriendRequest;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,6 +43,7 @@ public class SendFriendRequestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+            SessionLogger.get().log(request.getSession().getId(),"sending friend request");
 			int receiverId = Integer.parseInt(request.getParameter("receiverId"));
 			String content = request.getParameter("content");
 
