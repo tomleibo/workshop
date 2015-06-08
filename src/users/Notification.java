@@ -89,4 +89,10 @@ public class Notification {
         String message =  post.getUser().getUsername() + " has deleted a message you commented on: " + post.getTitle() + "\nAs a result your comment was deleted.";
         return new Notification(title, message);
     }
+
+    public static Notification repliedToMessageNotification(User user, Message addedTo) {
+        String title = "Reply was published";
+        String message =  user.getUsername() + " replied to message: " + addedTo.getTitle();
+        return new Notification(title, message);
+    }
 }

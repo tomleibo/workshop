@@ -84,7 +84,10 @@ public class UserController {
 
 	public static User enterAsGuest(Forum forum) {
 		User guest = User.newGuest();
-        HibernateUtils.save(guest);
+        if (forum.addMember(guest)) {
+            HibernateUtils.save(guest);
+            HibernateUtils.update(forum);
+        }
 		try {
 			return guest.loginAsGuest();
 		} catch (UserAlreadyLoggedInException | WrongPasswordException e) {
