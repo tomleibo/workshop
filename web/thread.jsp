@@ -429,7 +429,9 @@
                   <div class="tab-pane active" id="comments-logout">
                     <ul class="media-list">
                       <%--depth 0 comment--%>
-                      <%=printMessageAndComments(user, t,openingMsg,0)%>
+                      <%for(Message comment : openingMsg.getComments()){%>
+                          <%=printMessageAndComments(user, t,openingMsg,0)%>
+                      <%}%>
                     </ul>
                   </div>
 

@@ -17,6 +17,7 @@
 <% String op = (String)request.getAttribute("op"); %>
 <% String title = (String)request.getAttribute("title"); %>
 <% String body = (String)request.getAttribute("body"); %>
+<% String operationTitle = op.equals("reply")? "Comment" : "Edit";%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -378,7 +379,9 @@
           <a href="/thread?threadId=<%=thread.id%>"><%=thread.getOpeningMessage().getTitle()%></a>
           <i class="icon-angle-right"></i>
         </li>
-        <li><a href="#">comment</a></li>
+        <li><a href="#">
+          <%=operationTitle%>
+        </a></li>
       </ul>
 
 
@@ -392,13 +395,12 @@
             <%%>
           </div>
           <div class="box-content">
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="get" action="/replyEdit?threadId=<%=thread.id%>&msgId=<%=message.id%>&op=<%=op%>">
               <fieldset>
                 <div class="control-group">
                   <label class="control-label" for="typeahead">Title: </label>
                   <div class="controls">
-                    <input type="text" id="title">
-                      <%=title%>
+                    <input  <% if(op.equals("edit")){%> class="uneditable-input" <%}%> type="text" id="title" value="<%=title%>">
                   </div>
                 </div>
 
@@ -411,14 +413,9 @@
                   </div>
                 </div>
                 <div class="form-actions">
-                  <a type="submit" class="btn btn-primary" href="/replyEdit">
-                    <%if(op.equals("reply")){%>
-                        Reply
-                    <%}
-                    else{%>
-                        Edit
-                    <%}%>
-                  </a>
+                  <button type="submit" class="btn btn-primary">
+                    <%=operationTitle%>
+                  </button>
                   <button type="reset" class="btn">Cancel</button>
                 </div>
               </fieldset>

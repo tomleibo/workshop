@@ -3,7 +3,7 @@ package servlets;
 import content.Forum;
 import content.Message;
 import content.SubForum;
-import controllers.UserController;
+import content.Thread;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -44,13 +44,7 @@ public class ReplyEditRequestServlet extends HttpServlet {
 
 			String op = request.getParameter("op");
 			String title = request.getParameter("title");
-			if(title == null)
-				title ="";
-
 			String body = request.getParameter("body");
-			if(body == null)
-				body = "";
-
 			int msgId = Integer.parseInt(request.getParameter("msgId"));
 			int threadId = Integer.parseInt(request.getParameter("threadId"));
 
@@ -71,6 +65,11 @@ public class ReplyEditRequestServlet extends HttpServlet {
 				throw new Exception("Forum Cookie Value doesn't exist");
 
 			int subForumId = Integer.parseInt(cookieValue);
+
+			if(op.equals("reply")){
+				title = "";
+				body = "";
+			}
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);

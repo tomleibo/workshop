@@ -25,13 +25,13 @@ import java.io.IOException;
 		urlPatterns = {
 				"/replyEdit"}
 		)
-public class ReplyToPostServlet extends HttpServlet {
+public class ReplyEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReplyToPostServlet() {
+    public ReplyEditServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,9 +41,11 @@ public class ReplyToPostServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			int addToMsgId = Integer.parseInt(request.getParameter("msgId"));
+			int msgId = Integer.parseInt(request.getParameter("msgId"));
+			int threadId = Integer.parseInt(request.getParameter("threadId"));
 			String title = request.getParameter("title");
-			String content = request.getParameter("body");
+			String body = request.getParameter("body");
+			String op = request.getParameter("op");
 
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if (cookieValue == null)
@@ -63,28 +65,33 @@ public class ReplyToPostServlet extends HttpServlet {
 
 			int subForumId = Integer.parseInt(cookieValue);
 
-			//			switch(op){
-//				case "reply":
-//					UserController.reply(forum, message, title, body, user);
-//					break;
-//				case "edit":
-//					UserController.editMessage(forum, subForum, user, message, body);
-//					break;
-//				default:
-//					throw new Exception("Unknown operation");
-//			}
-
-
+			User user = (User) HibernateUtils.load(User.class, userId);
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
-			User user = (User) HibernateUtils.load(User.class, userId);
-			Message addTo = (Message)HibernateUtils.load(Message.class, addToMsgId);
+			Thread thread = (Thread) HibernateUtils.load(SubForum.class, threadId);
+			Message message = (Message)HibernateUtils.load(Message.class, msgId);
 
-			UserController.reply(forum, addTo, title, content, user);
+			switch(op){
+				case "reply":
+					UserController.reply(forum, message, title, body, user);
+					break;
+				case "edit":
+					UserController.editMessage(forum, subForum, user, message, body);
+					break;
+				default:
+					throw new Exception("Unknown operation");
+			}
 
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subforum.jsp");
-			request.setAttribute("subForum", subForum);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/thread?threadId="+threadId);
 			request.setAttribute("user", user);
+			request.setAttribute("forum", forum);
+			request.setAttribute("user", user);
+			request.setAttribute("subForum", subForum);
+			request.setAttribute("thread", thread);
+			request.setAttribute("message", message);
+			request.setAttribute("op", op);
+			request.setAttribute("title", title);
+			request.setAttribute("body", body);
 			dispatcher.forward(request, response);
 		}
 		catch(Exception e){
