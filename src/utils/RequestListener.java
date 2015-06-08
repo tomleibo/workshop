@@ -29,12 +29,12 @@ public class RequestListener implements ServletRequestListener {
                 return;
             }
             Forum forum = (Forum) HibernateUtils.load(Forum.class,forumId);
-            int maxActiveTime = forum.getPolicy().getSessionTimeout();
+            long maxActiveTime = forum.getPolicy().getSessionTimeout();
             HttpSession session = ((HttpServletRequest) servletRequestEvent.getServletRequest()).getSession();
             if (new Date().getTime() - session.getCreationTime() > maxActiveTime){
                 session.invalidate();
             }
-            session.setMaxInactiveInterval(forum.getPolicy().getIdleTime()/1000);
+            session.setMaxInactiveInterval(forum.getPolicy().getIdleTime() / 1000);
         }
         catch (Exception e){
 

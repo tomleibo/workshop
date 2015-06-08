@@ -176,4 +176,8 @@ public class PolicyHandler {
             return false;
         }
     }
+
+    public static boolean canUserGetNotifications() {
+        return true;
+    }
 }
