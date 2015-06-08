@@ -7,9 +7,7 @@ import controllers.AdminController;
 import controllers.ContentController;
 import controllers.SuperAdminController;
 import controllers.UserController;
-import exceptions.EmptyMessageTitleAndBodyException;
-import exceptions.UserNotAuthorizedException;
-import exceptions.UsernameAlreadyExistsException;
+import exceptions.*;
 import org.junit.*;
 import policy.ForumPolicy;
 import users.FriendRequest;
@@ -109,9 +107,10 @@ public class ForumTests {
         Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
         Forum loadedForum = (Forum) HibernateUtils.load(Forum.class, f.id);
         Assert.assertEquals(loadedForum, f);
-        User registered = UserController.register(loadedForum, "newMember", "", "");
+        User registered = UserController.register(loadedForum, "newMember", "asdf", "asdf@asdf.com");
         Forum loadedForumAfterAdd = (Forum) HibernateUtils.load(Forum.class, f.id);
-        Assert.assertEquals(loadedForumAfterAdd.getMembers().size(), 2);Assert.assertEquals(loadedForumAfterAdd.getSubForums().get(1), registered);
+        Assert.assertEquals(loadedForumAfterAdd.getMembers().size(), 2);
+        Assert.assertEquals(loadedForumAfterAdd.getMembers().get(1), registered);
     }
 
     @Test
@@ -127,22 +126,22 @@ public class ForumTests {
     }
 
     @Test
-    public void testAppointModeratorFromController() throws UserNotAuthorizedException {
+    public void testAppointModeratorFromController() throws UserNotAuthorizedException, EmptyFieldException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, UsernameAlreadyExistsException {
         User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
-        User mod =User.newSuperAdmin("hadar", "hadarosh", "sdkfdjk@sld;kf.com");
         ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
+        User mod = UserController.register(f, "hadar", "hadarosh", "sdkfdjk@sld;kf.com");
         SubForum sub = ContentController.addSubForum(f, "hadar's sub", u);
         AdminController.appointModerator(f, sub, u, mod);
         Assert.assertTrue(((SubForum) HibernateUtils.load(SubForum.class, sub.id)).getModerators().contains(mod));
     }
 
     @Test
-    public void testAppointAndUnAppointFromController() throws UserNotAuthorizedException {
+    public void testAppointAndUnAppointFromController() throws UserNotAuthorizedException, EmptyFieldException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, UsernameAlreadyExistsException {
         User admin =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
-        User mod =User.newSuperAdmin("hadar", "hadarosh", "sdkfdjk@sld;kf.com");
         ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(admin, policy, "forum1");
+        User mod =UserController.register(f, "hadar", "hadarosh", "sdkfdjk@sld;kf.com");
         SubForum sub = ContentController.addSubForum(f, "hadar's sub", admin);
         Assert.assertTrue(((SubForum) HibernateUtils.load(SubForum.class, sub.id)).getModerators().contains(admin));
         AdminController.appointModerator(f,sub,admin,mod);
@@ -155,11 +154,11 @@ public class ForumTests {
     public void testReplaceModeratorFromController() throws Exception {
         User admin =User.newSuperAdmin("1", "dooogi", "sdkfdjk@sld;kf.com");
 
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".+", ForumPolicy.HashFunction.MD5, false);
         Forum forum = SuperAdminController.createNewForum(admin, policy, "forum1");
         User mod = null;
         try {
-            mod = UserController.register(forum, "mod", "", "asd@asd@asd");
+            mod = UserController.register(forum, "mod", "adsf", "asd@asd@asd");
         } catch (UsernameAlreadyExistsException e) {
             e.printStackTrace();
             Assert.fail();

@@ -1,8 +1,7 @@
 package controllers;
 
 import content.Forum;
-import exceptions.UserNotAuthorizedException;
-import exceptions.UsernameAlreadyExistsException;
+import exceptions.*;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,6 +53,13 @@ public class SuperAdminControllerTests {
         SuperAdminController.changeAdministrator(superAdmin, forum, user);
         Assert.assertEquals(user, forum.getAdmin());
     }
+
+//    @Test
+//    public void loinAdminTest() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException {
+//        User loggedInSuperAdmin = SuperAdminController.loginSuperAdmin(superUsername, hashedPassword);
+//        Assert.assertTrue(loggedInSuperAdmin.isSuperAdmin());
+//        Assert.assertTrue(loggedInSuperAdmin.isLoggedIn());
+//    }
 
 //    @Test
 //    public void changeForumPolicyTest() {

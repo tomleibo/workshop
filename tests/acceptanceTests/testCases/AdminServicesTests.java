@@ -1,6 +1,5 @@
 package acceptanceTests.testCases;
 
-import com.sun.xml.internal.ws.policy.Policy;
 import content.Forum;
 import content.SubForum;
 import exceptions.*;
@@ -8,7 +7,6 @@ import junit.framework.Assert;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import policy.ForumPolicy;
 import users.User;
 import utils.HibernateUtils;
 
@@ -125,7 +123,13 @@ public class AdminServicesTests extends ForumTests{
 
 		SubForum sf1 = addSubForum(f1, SUB_FORUM_NAMES[0], admin1);
 
-		Assert.assertFalse(appointModerator(f1,sf1, admin1, user));
+        try {
+            Assert.assertFalse(appointModerator(f1,sf1, admin1, user));
+            Assert.fail();
+        } catch (UserNotAuthorizedException e) {
+            Assert.assertTrue(true);
+        }
+
 		//Assert.assertTrue(sf1.getModerators().contains(user));
 
 

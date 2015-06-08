@@ -322,7 +322,7 @@ public class MemberUserServicesTests extends ForumTests {
 		SubForum sf2 = addSubForum(otherForum, SUB_FORUM_NAMES[0], otherSuperAdmin);
 
 		user2.setState((User.MODERATOR));
-		changeModetator(otherForum, sf2, otherSuperAdmin, user2);
+		//changeModetator(otherForum, sf2, otherSuperAdmin, user2);
 
 		try {
 			boolean result = reportModeratorInForum(theForum, user1, user2, REPORT_TITLES[0], REPORT_CONTENTS[0]);

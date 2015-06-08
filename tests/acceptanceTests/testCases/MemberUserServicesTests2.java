@@ -1,21 +1,17 @@
 package acceptanceTests.testCases;
 
-import content.Forum;
 import content.Message;
 import content.SubForum;
 import content.Thread;
-import exceptions.*;
+import exceptions.UserNotLoggedInException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import policy.ForumPolicy;
-import users.FriendRequest;
 import users.Notification;
 import users.User;
 import utils.HibernateUtils;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class MemberUserServicesTests2 extends ForumTests {
@@ -86,25 +82,25 @@ public class MemberUserServicesTests2 extends ForumTests {
 		Message msg = t.getOpeningMessage();
 
 		Message reply1 = replyToMessage(theForum, msg, THREAD_TITLES[1], THREAD_CONTENTS[1], user2);
-		Message reply2 = replyToMessage(theForum, msg, THREAD_TITLES[2], THREAD_CONTENTS[2], guest);
+		//Message reply2 = replyToMessage(theForum, msg, THREAD_TITLES[2], THREAD_CONTENTS[2], guest);
 
 		Boolean result = editPost(theForum, sf, user1, msg, THREAD_CONTENTS[1]);
 
 		//check user2 and guest have appending notifications
 		List<Notification> notifList = getPendingNotifications(theForum, user2);
-		Assert.assertEquals(notifList.size(), 4);
+		Assert.assertEquals(notifList.size(), 3);
 
 		List<Notification> notifList2 = getPendingNotifications(theForum, guest);
-		Assert.assertEquals(notifList2.size(), 4);
+		Assert.assertEquals(notifList2.size(), 2);
 
 
 		//check user1 didn't get a notification
 		notifList = getPendingNotifications(theForum,user1);
-		Assert.assertEquals(notifList.size(), 3);
+		Assert.assertEquals(notifList.size(), 2);
 
 
 		reply1.deleteSelf();
-		reply2.deleteSelf();
+		//reply2.deleteSelf();
 		msg.deleteSelf();
 	}
 
@@ -135,21 +131,21 @@ public class MemberUserServicesTests2 extends ForumTests {
 		Message msg = t.getOpeningMessage();
 
 		Message reply1 = replyToMessage(theForum, msg, THREAD_TITLES[1], THREAD_CONTENTS[1], user2);
-		Message reply2 = replyToMessage(theForum, msg, THREAD_TITLES[2], THREAD_CONTENTS[2], guest);
+		//Message reply2 = replyToMessage(theForum, msg, THREAD_TITLES[2], THREAD_CONTENTS[2], guest);
 
 		Boolean result = deletePost(theForum, sf, user1, msg);
 
 		//check user2 and guest have appending notifications
 		List<Notification> notifList = getPendingNotifications(theForum, user2);
-		Assert.assertEquals(notifList.size(), 4);
+		Assert.assertEquals(notifList.size(), 3);
 
 		List<Notification> notifList2 = getPendingNotifications(theForum, guest);
-		Assert.assertEquals(notifList2.size(), 4);
+		Assert.assertEquals(notifList2.size(), 2);
 
 
 		//check user1 didn't get a notification
 		notifList = getPendingNotifications(theForum,user1);
-		Assert.assertEquals(notifList.size(), 3);
+		Assert.assertEquals(notifList.size(), 2);
 
 
 //		reply1.deleteSelf();
