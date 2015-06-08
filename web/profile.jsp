@@ -1,20 +1,16 @@
 <%@ page import="content.Forum" %>
 <%@ page import="users.User" %>
 <%@ page import="java.util.Date" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: thinkPAD
-  Date: 6/8/2015
-  Time: 9:48 PM
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% Forum forum = (Forum)request.getAttribute("forum"); %>
 <% User user = (User) request.getAttribute("user"); %>
-<html>
+<html lang="en">
 <head>
+
+    <!-- start: Meta -->
     <meta charset="utf-8">
-    <title>Great Minds - Profile</title>
+    <title>Great Minds</title>
     <meta name="description" content="Bootstrap Metro Dashboard">
     <meta name="author" content="Dennis Ji">
     <meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -23,6 +19,11 @@
     <!-- start: Mobile Specific -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- end: Mobile Specific -->
+
+
+
+
+
     <!-- start: CSS -->
     <link id="bootstrap-style" href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
@@ -47,8 +48,14 @@
     <!-- start: Favicon -->
     <link rel="shortcut icon" href="img/favicon.ico">
     <!-- end: Favicon -->
+
+
+
+
 </head>
+
 <body>
+<!-- start: Header -->
 <div class="navbar">
     <div class="navbar-inner">
         <div class="container-fluid">
@@ -311,29 +318,16 @@
                                                         <td>
 
 
-                                                            <select id="selectError1" data-rel="chosen">
+                                                            <select name="reporteeId" id="selectError1" data-rel="chosen">
                                                                 <% for (User fuser : forum.getMembers()) { %>
                                                                 <option name="reporteeId" value="<%=fuser.getId()%>"><%=fuser.getUsername()%></option>
                                                                 <% } %>
                                                             </select>
-
-                                                            <div class="modal-body" id="report">
-
-                                                                <div class="modal-body">
-                                                                    <p><h3>Sending repot to:</h3> user name <br><br></p>
-                                                                    <p><h3>Title:  </h3><input name="title"></p>
-                                                                    <p><textarea form="formreportmember" name="content" class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea></p>
-
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <a href="#" class="btn" data-dismiss="modal">Close</a>
-                                                                    <a href="#" class="btn btn-primary">Send</a>
-                                                                </div>
-                                                            </div>
                                                         </td>
-
                                                         <td>
-                                                            <button type="submit" class="btn btn-primary btn-report">Report</button></td></table>
+                                                            <button type="submit" class="btn btn-primary">Report</a></td></table>
+                                                <br>
+                                                <textarea form="formreportmember" name="content" class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
 
 
 
@@ -373,10 +367,12 @@
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <a href="#" class="btn btn-primary btn-setting">Send friend request</a>
+                                                                <a href="#" class="btn btn-primary">Send friend request</a>
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    <br>
+                                                    <textarea class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
                                                 </div>
 
                                             </div>
@@ -478,7 +474,20 @@
     </div>
 
 
-
+    <div class="modal hide fade" id="report">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Report Member</h3>
+        </div>
+        <div class="modal-body">
+            <p><h3>Sending repot to:</h3> user name <br><br></p>
+            <p><textarea class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <a href="#" class="btn btn-primary">Send</a>
+        </div>
+    </div>
 
 
 
