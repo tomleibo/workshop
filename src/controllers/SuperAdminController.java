@@ -2,11 +2,12 @@ package controllers;
 
 import content.Forum;
 import content.Message;
-import exceptions.UserNotAuthorizedException;
+import exceptions.*;
 import org.hibernate.Query;
 import policy.ForumPolicy;
 import policy.PolicyHandler;
 import users.User;
+import utils.Cipher;
 import utils.ForumLogger;
 import utils.HibernateUtils;
 import utils.SessionLogger;
@@ -17,6 +18,29 @@ import java.util.Queue;
 import java.util.Set;
 
 public class SuperAdminController {
+
+    public static User loginSuperAdmin(String username, String password) throws NoSuchAlgorithmException, UserAlreadyLoggedInException, WrongPasswordException, UserDoesNotExistsException {
+        List<User> users = HibernateUtils.getAllUsers();
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.getState() == User.SUPERADMIN) {
+                user = user.login(Cipher.hashString(password, Cipher.SHA));
+                HibernateUtils.update(user);
+                return user;
+            }
+        }
+        ForumLogger.errorLog("The user " + username + " trying to login but he does not exists as a super user.");
+        throw new UserDoesNotExistsException();
+    }
+
+    public static void logoutSuperAdmin(User superAdmin) throws UserDoesNotExistsException, UserNotLoggedInException {
+        if (superAdmin != null && superAdmin.isSuperAdmin()) {
+            superAdmin.logout();
+            HibernateUtils.update(superAdmin);
+            ForumLogger.actionLog("The super user is logged out successfully");
+        }
+        ForumLogger.errorLog("The super user was trying to logout but he is not allowed");
+        throw new UserDoesNotExistsException();
+    }
 
 	public static Forum createNewForum(User superAdmin, ForumPolicy policy, String name) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserAddForum(superAdmin)) {
@@ -64,8 +88,6 @@ public class SuperAdminController {
         return false;
     }
 
-
-
 	public static boolean changeAdministrator(User superAdmin, Forum forum, User admin) throws UserNotAuthorizedException {
 		if (PolicyHandler.canReplaceAdmin(superAdmin, forum, admin)) {
 			User oldAdmin = forum.getAdmin();
@@ -97,9 +119,9 @@ public class SuperAdminController {
 		throw new UserNotAuthorizedException("to change forum policy.");
 	}
 
-	public static User initializeForumSystem(String username, String hashedPassword, String email) throws NoSuchAlgorithmException {
+	public static User initializeForumSystem(String username, String password, String email) throws NoSuchAlgorithmException {
         HibernateUtils.start();
-        User superAdmin = User.newSuperAdmin(username, hashedPassword, email);
+        User superAdmin = User.newSuperAdmin(username, Cipher.hashString(password, Cipher.SHA), email);
         HibernateUtils.save(superAdmin);
 		return superAdmin;
 	}

@@ -102,15 +102,14 @@ public class UserController {
             if(user.isGuest()) {
                 HibernateUtils.del(user);
             }
-			ForumLogger.actionLog("The user " + id + "is logged out successfully");
 			User guestUser = user.logout();
 			HibernateUtils.update(user);
 			HibernateUtils.save(guestUser);
+            ForumLogger.actionLog("The user " + id + "is logged out successfully");
 			return guestUser;
 		}
 		ForumLogger.errorLog("The user " + id + " trying to logout but he is not existing in the forum ");
 		throw new UserDoesNotExistsException();
-
 	}
 
 	public static String viewOwnProfile(User user) {

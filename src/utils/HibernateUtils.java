@@ -207,6 +207,17 @@ public class HibernateUtils {
         return results;
     }
 
+    public static List<User> getAllUsers() {
+        String hql = "FROM User";
+        Session session = HibernateUtils.getSession();
+        Query query = session.createQuery(hql);
+        List<User> results = query.list();
+        if (session.isOpen()) {
+            session.close();
+        }
+        return results;
+    }
+
     public static boolean runSql(Session session,String query) {
         Query q = session.createSQLQuery(query);
         System.out.println("running query: \'"+query+"\'");

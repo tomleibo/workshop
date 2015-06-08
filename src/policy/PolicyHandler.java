@@ -88,7 +88,7 @@ public class PolicyHandler {
 	}
 
 	public static boolean canUserReply(Forum forum, User user) {
-		if(user.isActive() && !user.isGuest())
+		if(forum.getMembers().contains(user) && user.isActive() && !user.isGuest())
 			return true;
 		return false;
 	}
