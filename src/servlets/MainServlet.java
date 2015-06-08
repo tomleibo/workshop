@@ -1,22 +1,16 @@
 package servlets;
 
-        import com.sun.corba.se.spi.protocol.RequestDispatcherDefault;
         import content.Forum;
-        import content.ForumSystem;
-        import content.SubForum;
-        import policy.ForumPolicy;
-        import users.User;
-        import utils.HibernateUtils;
+import utils.HibernateUtils;
 
-        import java.io.IOException;
-        import java.io.Writer;
-        import java.util.List;
-        import javax.servlet.RequestDispatcher;
-        import javax.servlet.ServletException;
-        import javax.servlet.annotation.WebServlet;
-        import javax.servlet.http.HttpServlet;
-        import javax.servlet.http.HttpServletRequest;
-        import javax.servlet.http.HttpServletResponse;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Servlet implementation class MainServlet

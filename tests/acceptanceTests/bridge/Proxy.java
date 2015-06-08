@@ -295,12 +295,6 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public void tearDownForumSystem(User superAdmin, ForumSystem system) throws UserNotAuthorizedException {
-        if(real != null)
-            real.tearDownForumSystem(superAdmin, system);
-    }
-
-    @Override
     public boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy) {
         if(real != null)
             return real.addUserStatusType(superAdmin, type, userStatusPolicy);

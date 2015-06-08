@@ -1,18 +1,17 @@
 package controllers;
 
 import content.Forum;
-import content.ForumSystem;
 import exceptions.UserNotAuthorizedException;
 import exceptions.UsernameAlreadyExistsException;
 import junit.framework.Assert;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import policy.ForumPolicy;
-import policy.UserStatusPolicy;
 import users.User;
+import utils.HibernateUtils;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public class SuperAdminControllerTests {
 
@@ -23,31 +22,29 @@ public class SuperAdminControllerTests {
     private static String forumName = "forumName";
     private static String subForumName = "subForumName";
 
-    private static ForumSystem forumSystem;
     private ForumPolicy policy;
     private Forum forum;
     private User superAdmin;
 
-//    @BeforeClass
-//    public static void setup() throws NoSuchAlgorithmException {
-//        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
-//    }
-
-    @AfterClass
-    public static void afterClass() {
-        forumSystem.destroy();
-    }
 
     @Before
     public void beforeMethod() throws UserNotAuthorizedException, UsernameAlreadyExistsException, NoSuchAlgorithmException {
-        superAdmin = forumSystem.getSuperAdmin(superUsername, hashedPassword);
-        policy = new ForumPolicy(2, "", ForumPolicy.HashFunction.SHA, false);
+        superAdmin = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
+        policy = new ForumPolicy(2, ".+", ForumPolicy.HashFunction.SHA, false);
     }
 
     @Test
     public void createNewForumTest() throws UserNotAuthorizedException {
         forum = SuperAdminController.createNewForum(superAdmin, policy, forumName);
-        Assert.assertTrue(forumSystem.hasForum(forum));
+        List<Forum> forums = HibernateUtils.getAllForums();
+        boolean found = false;
+        for (Forum forum : forums) {
+            if (forum.getName().equals(forumName)) {
+                found = true;
+                break;
+            }
+        }
+        Assert.assertTrue(found);
     }
 
     @Test
@@ -58,21 +55,21 @@ public class SuperAdminControllerTests {
         Assert.assertEquals(user, forum.getAdmin());
     }
 
-    @Test
-    public void changeForumPolicyTest() {
-        // TODO
-    }
+//    @Test
+//    public void changeForumPolicyTest() {
+//        // TODO
+//    }
 
-    @Test
-    public void addUserStatusTest() {
-        SuperAdminController.addUserStatusType(superAdmin, "type", new UserStatusPolicy(1, 0, 100));
-        Assert.assertTrue(forumSystem.hasUserStateType("type"));
-    }
+//    @Test
+//    public void addUserStatusTest() {
+//        SuperAdminController.addUserStatusType(superAdmin, "type", new UserStatusPolicy(1, 0, 100));
+//        Assert.assertTrue(forumSystem.hasUserStateType("type"));
+//    }
 
-    @Test
-    public void removeUserStatusTest() {
-        SuperAdminController.addUserStatusType(superAdmin, "type", new UserStatusPolicy(1, 0 , 100));
-        SuperAdminController.removeUserStatusType(superAdmin, "type");
-        Assert.assertFalse(forumSystem.hasUserStateType("type"));
-    }
+//    @Test
+//    public void removeUserStatusTest() {
+//        SuperAdminController.addUserStatusType(superAdmin, "type", new UserStatusPolicy(1, 0 , 100));
+//        SuperAdminController.removeUserStatusType(superAdmin, "type");
+//        Assert.assertFalse(forumSystem.hasUserStateType("type"));
+//    }
 }

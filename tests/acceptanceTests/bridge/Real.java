@@ -202,11 +202,6 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public void tearDownForumSystem(User superAdmin, ForumSystem system) throws UserNotAuthorizedException {
-        SuperAdminController.destroyForumSystem(superAdmin,system);
-    }
-
-    @Override
     public boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy) {
         return SuperAdminController.addUserStatusType(superAdmin,type,userStatusPolicy);
     }
