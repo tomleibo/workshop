@@ -42,11 +42,14 @@ public class RegisterServlet extends HttpServlet {
 			id=Integer.parseInt(request.getParameter("forumId"));
 			userName = request.getParameter("username");
 			pass = request.getParameter("pass");
-//			email = request.getParameter("email");
+			email = request.getParameter("email");
+
+			if(email == null)
+				email = "email;";
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, id);
 
-			UserController.register(forum, userName, pass, "");
+			UserController.register(forum, userName, pass, email);
 			User user = UserController.login(forum, userName, pass);
 
 			if(user == null)
@@ -68,7 +71,7 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		doGet(request,response);
 	}
 
 }

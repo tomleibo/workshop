@@ -39,7 +39,7 @@ public class NumberOfNotificationsAndFriendReqiestsServlet extends HttpServlet {
 
             int numOfFriendRequests = 0;
             for (FriendRequest fr : user.getFriendRequests()){
-                if(!fr.getViewed()){
+                if(!fr.isViewed()){
                     numOfFriendRequests++;
                 }
             }

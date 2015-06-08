@@ -161,10 +161,10 @@
                     <a href="/home">Home</a>
                     <i class="icon-angle-right"></i>
                 </li>
-                <li><a href="#">ForumName</a></li>
+                <li><a href="/forum?forumId=<%=forum.id%>"><%=forum.getName()%></a></li>
             </ul>
 
-            <h1>Forum Name</h1><br><br>
+            <h1><%=forum.getName()%></h1><br><br>
 
             <div>
                 <div class="box span12">
@@ -192,7 +192,9 @@
                             <tr>
                                 <td><a href="\subForum?subForumId=<%=sub.id%>"><%=sub.getName()%></a></td>
                                 <td class="center"><%=sub.getModerators().get(0).getUsername()%></td>
-                                <td class="center"><a href="\deleteSubForum?subForumId=<%=sub.id%>" class="btn btn-mini btn-danger">Delete</a></td>
+                                <%if(user.isAdmin()){%>
+                                    <td class="center"><a href="\deleteSubForum?subForumId=<%=sub.id%>" class="btn btn-mini btn-danger">Delete</a></td>
+                                <%}%>
                             </tr>
                             <%}%>
                             </tbody>

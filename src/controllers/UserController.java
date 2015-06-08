@@ -148,9 +148,10 @@ public class UserController {
                 User requesting = request.getRequestingMember();
                 User receiving = request.getReceivingMember();
                 if (requesting.addFriend(receiving) && receiving.addFriend(requesting)){
-					HibernateUtils.update(receiving);
-                    HibernateUtils.update(requesting);
 					request.setViewed(true);
+					HibernateUtils.update(receiving);
+					HibernateUtils.update(requesting);
+					HibernateUtils.update(request);
 					return true;
                 }
                 return false;
@@ -207,7 +208,7 @@ public class UserController {
 	public static Thread openNewThread(Forum forum, SubForum subforum, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 		if (PolicyHandler.canUserOpenThread(forum, user)){
 			Thread t= ContentController.openNewThread(forum, subforum, title, content, user);
-            if (!HibernateUtils.save(t)) {
+            if (t == null) {
                 ForumLogger.errorLog("Open new thread failed in hibernate");
                 return null;
             }

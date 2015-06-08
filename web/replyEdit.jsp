@@ -1,14 +1,23 @@
 <%@ page import="users.User" %>
-<%@ page import="users.FriendRequest" %>
+<%@ page import="content.*" %>
 <%--
   Created by IntelliJ IDEA.
-  User: Roee
-  Date: 06-05-15
-  Time: 18:41
+  User: thinkPAD
+  Date: 5/6/2015
+  Time: 6:39 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% User user = (User) request.getAttribute("user"); %>
+
+<% User user = (User)request.getAttribute("user"); %>
+<% Forum forum = (Forum)request.getAttribute("forum"); %>
+<% SubForum subForum = (SubForum)request.getAttribute("subForum"); %>
+<% content.Thread thread = (content.Thread)request.getAttribute("thread"); %>
+<% Message message = (Message)request.getAttribute("message"); %>
+<% String op = (String)request.getAttribute("op"); %>
+<% String title = (String)request.getAttribute("title"); %>
+<% String body = (String)request.getAttribute("body"); %>
+<% String operationTitle = op.equals("reply")? "Comment" : "Edit";%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +25,7 @@
 
   <!-- start: Meta -->
   <meta charset="utf-8">
-  <title>Great Minds</title>
+  <title>Greate Minds</title>
   <meta name="description" content="Bootstrap Metro Dashboard">
   <meta name="author" content="Dennis Ji">
   <meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -28,7 +37,7 @@
 
   <!-- start: CSS -->
   <link id="bootstrap-style" href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+  <link href="bcss/bootstrap-responsive.min.css" rel="stylesheet">
   <link href="css/comment.css" rel="stylesheet">
   <link id="base-style" href="css/style.css" rel="stylesheet">
   <link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
@@ -76,15 +85,148 @@
 								<span class="badge red">
 								7 </span>
             </a>
-
+            <ul class="dropdown-menu notifications">
+              <li class="dropdown-menu-title">
+                <span>You have 11 notifications</span>
+                <a href="#refresh"><i class="icon-repeat"></i></a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="icon blue"><i class="icon-user"></i></span>
+                  <span class="message">New user registration</span>
+                  <span class="time">1 min</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="icon green"><i class="icon-comment-alt"></i></span>
+                  <span class="message">New comment</span>
+                  <span class="time">7 min</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="icon green"><i class="icon-comment-alt"></i></span>
+                  <span class="message">New comment</span>
+                  <span class="time">8 min</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="icon green"><i class="icon-comment-alt"></i></span>
+                  <span class="message">New comment</span>
+                  <span class="time">16 min</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="icon blue"><i class="icon-user"></i></span>
+                  <span class="message">New user registration</span>
+                  <span class="time">36 min</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="icon yellow"><i class="icon-shopping-cart"></i></span>
+                  <span class="message">2 items sold</span>
+                  <span class="time">1 hour</span>
+                </a>
+              </li>
+              <li class="warning">
+                <a href="#">
+                  <span class="icon red"><i class="icon-user"></i></span>
+                  <span class="message">User deleted account</span>
+                  <span class="time">2 hour</span>
+                </a>
+              </li>
+              <li class="warning">
+                <a href="#">
+                  <span class="icon red"><i class="icon-shopping-cart"></i></span>
+                  <span class="message">New comment</span>
+                  <span class="time">6 hour</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="icon green"><i class="icon-comment-alt"></i></span>
+                  <span class="message">New comment</span>
+                  <span class="time">yesterday</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="icon blue"><i class="icon-user"></i></span>
+                  <span class="message">New user registration</span>
+                  <span class="time">yesterday</span>
+                </a>
+              </li>
+              <li class="dropdown-menu-sub-footer">
+                <a>View all notifications</a>
+              </li>
+            </ul>
           </li>
           <!-- start: Notifications Dropdown -->
-
+          <li class="dropdown hidden-phone">
+            <ul class="dropdown-menu tasks">
+              <li class="dropdown-menu-title">
+                <span>You have 17 tasks in progress</span>
+                <a href="#refresh"><i class="icon-repeat"></i></a>
+              </li>
+              <li>
+                <a href="#">
+										<span class="header">
+											<span class="title">iOS Development</span>
+											<span class="percent"></span>
+										</span>
+                  <div class="taskProgress progressSlim red">80</div>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+										<span class="header">
+											<span class="title">Android Development</span>
+											<span class="percent"></span>
+										</span>
+                  <div class="taskProgress progressSlim green">47</div>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+										<span class="header">
+											<span class="title">ARM Development</span>
+											<span class="percent"></span>
+										</span>
+                  <div class="taskProgress progressSlim yellow">32</div>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+										<span class="header">
+											<span class="title">ARM Development</span>
+											<span class="percent"></span>
+										</span>
+                  <div class="taskProgress progressSlim greenLight">63</div>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+										<span class="header">
+											<span class="title">ARM Development</span>
+											<span class="percent"></span>
+										</span>
+                  <div class="taskProgress progressSlim orange">80</div>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-menu-sub-footer">View all tasks</a>
+              </li>
+            </ul>
+          </li>
           <!-- end: Notifications Dropdown -->
           <!-- start: Message Dropdown -->
           <li class="dropdown hidden-phone">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="icon-user"></i>
+              <i class="icon-envelope"></i>
 								<span class="badge red">
 								4 </span>
             </a>
@@ -209,11 +351,7 @@
     <!-- start: Main Menu -->
     <div id="sidebar-left" class="span2">
       <div class="nav-collapse sidebar-nav">
-        <ul class="nav nav-tabs nav-stacked main-menu">
-          <li><a href="index.html"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a></li>
 
-
-        </ul>
       </div>
     </div>
     <!-- end: Main Menu -->
@@ -225,10 +363,6 @@
       </div>
     </noscript>
 
-
-
-
-
     <!-- start: Content -->
     <div id="content" class="span10">
 
@@ -236,55 +370,70 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home"></i>
-          <a href="index.html">Home</a>
-
+          <a href="/home">Home</a>
+          <i class="icon-angle-right"></i>
+          <a href="/forum?forumId=<%=forum.id%>"><%=forum.getName()%></a>
+          <i class="icon-angle-right"></i>
+          <a href="/subForum?subForumId=<%=subForum.id%>"><%=subForum.getName()%></a>
+          <i class="icon-angle-right"></i>
+          <a href="/thread?threadId=<%=thread.id%>"><%=thread.getOpeningMessage().getTitle()%></a>
+          <i class="icon-angle-right"></i>
         </li>
-
+        <li><a href="#">
+          <%=operationTitle%>
+        </a></li>
       </ul>
 
 
+
+      <%--//enter here--%>
       <div>
+
+
         <div class="box span12">
           <div class="box-header" data-original-title>
-            <h2><i class="halflings-icon white user"></i><span class="break"></span>Friend Requests</h2>
-
+            <%%>
           </div>
-
-
           <div class="box-content">
-            <table class="table table-striped table-bordered bootstrap-datatable datatable">
-              <col width="300">
-              <col width="50">
-              <col width="10">
-              <thead>
-              <tr>
-                <th>Request</th>
-                <th>From</th>
-                <th></th>
+            <form class="form-horizontal" method="get" action="/replyEdit?threadId=<%=thread.id%>&msgId=<%=message.id%>&op=<%=op%>">
+              <fieldset>
+                <div class="control-group">
+                  <label class="control-label" for="typeahead">Title: </label>
+                  <div class="controls">
+                    <input  <% if(op.equals("edit")){%> class="uneditable-input" <%}%> type="text" id="title" value="<%=title%>">
+                  </div>
+                </div>
 
-              </tr>
-              </thead>
-              <tbody>
-              <% for(FriendRequest fr : user.getFriendRequests()){%>
-                <% if(!fr.isViewed()){%>
-                  <tr>
-                    <td class="center"><%=fr.getMessage()%></td>
-                    <td class="center"><%=fr.getRequestingMember().getUsername()%></td>
-                    <td class="center">
-                      <a data-brackets-id="13985" href="\replyToFriendRequest?friendReqId=<%=fr.id%>&answer=1" class="btn btn-mini btn-success">Accept</a>
-                      <a data-brackets-id="13985" href="\replyToFriendRequest?friendReqId=<%=fr.id%>&answer=0" class="btn btn-mini btn-danger">Deny</a></td>
-                  </tr>
-                <%}%>
-              <%}%>
-              </tbody>
-            </table>
+                <div class="control-group hidden-phone">
+
+                  <div class="controls">
+                    <textarea class="cleditor" id="textarea2" rows="3">
+                      <%=body%>
+                    </textarea>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    <%=operationTitle%>
+                  </button>
+                  <button type="reset" class="btn">Cancel</button>
+                </div>
+              </fieldset>
+            </form>
+
           </div>
         </div><!--/span-->
 
-      </div><!--/row-->
+      </div>
+
+      <%--//done here--%>
+
+    </div><!--/row-->
 
 
-    </div><!--/.fluid-container-->
+
+
+
 
     <!-- end: Content -->
 
@@ -321,7 +470,11 @@
 
 <div class="clearfix"></div>
 
+<footer>
 
+
+
+</footer>
 
 <!-- start: JavaScript-->
 
@@ -379,7 +532,7 @@
 <script src="js/retina.js"></script>
 
 <script src="js/custom.js"></script>
-<script src = "js/comment.js"></script>
+
 <!-- end: JavaScript-->
 
 </body>

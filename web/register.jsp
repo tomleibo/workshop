@@ -66,7 +66,7 @@
                     <a href="#"><i class="halflings-icon cog"></i></a>
                 </div>
                 <h2>Login to your account</h2>
-                <form class="form-horizontal" action="\register" method="post">
+                <form class="form-horizontal" action="/register" method="get">
                     <fieldset>
                         <input name="forumId" type="hidden" value="<%=id%>">
                         <div class="input-prepend" title="Username">
@@ -86,7 +86,7 @@
                         </div>
 
                         <div class="input-prepend" title="Register">
-                            <a href="login.html" type="submit" class="btn btn-primary">Register</a>
+                            <button type="submit" class="btn btn-primary">Register</button>
                         </div>
                         <div class="clearfix"></div>
                 </form>

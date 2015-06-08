@@ -42,15 +42,22 @@ public class SubForumServlet extends HttpServlet {
 			String subForumIdString = request.getParameter("subForumId");
 			int subForumId = Integer.parseInt(subForumIdString);
 
-			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
 
-			User user = null;
-			String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if (userId != null) {
-				user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
-			}
-			else
-				throw new Exception("Empty Cookie");
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("User Cookie Value doesn't exist");
+
+			int userId = Integer.parseInt(cookieValue);
+
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("Forum Cookie Value doesn't exist");
+
+			int forumId = Integer.parseInt(cookieValue);
+
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+			User user = (User) HibernateUtils.load(User.class,userId);
+			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
 
 			String subForumCookieId = CookieUtils.getCookieValue(request, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);
 			if (subForumCookieId != null) {
@@ -59,6 +66,7 @@ public class SubForumServlet extends HttpServlet {
 				CookieUtils.addInfiniteCookie(response, CookieUtils.SUB_FORUM_ID_COOKIE_NAME, subForumIdString);
 			}
 
+			request.setAttribute("forum", forum);
 			request.setAttribute("subForum", subForum);
 			request.setAttribute("user", user);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subforum.jsp");
