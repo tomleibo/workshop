@@ -166,10 +166,12 @@
 
             <h1><%=forum.getName()%></h1><br><br>
 
+            <div class="pull-left">
+                <a href="\new.jsp" class="btn btn-large btn-primary btn-round"><i class="halflings-icon white plus"></i><span class="break"></span> Add New Sub-Forum</a></div>
             <div>
                 <div class="box span12">
                     <div class="box-header" data-original-title>
-                        <h2><i class="halflings-icon white user"></i><span class="break"></span>Sub Forums</h2>
+                        <h2><i class="halflings-icon white th"></i><span class="break"></span>Sub Forums</h2>
 
                     </div>
 

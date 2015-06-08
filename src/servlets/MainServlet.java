@@ -32,9 +32,9 @@ public class MainServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            if (!initialized) {
-                HibernateUtils.start();
-            }
+//            if (!initialized) {
+//                HibernateUtils.start();
+//            }
 
             List<Forum> forums = HibernateUtils.getAllForums();
             request.setAttribute("forums", forums);

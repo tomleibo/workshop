@@ -63,8 +63,8 @@ public class AddSubForumServlet extends HttpServlet {
 
 
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum?forumId="+forumId);
-//			request.setAttribute("user", user);
-//			request.setAttribute("forum", forum);
+			request.setAttribute("user", user);
+			request.setAttribute("forum", forum);
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e) {

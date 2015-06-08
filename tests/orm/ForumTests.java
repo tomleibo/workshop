@@ -105,7 +105,7 @@ public class ForumTests {
     @Test
     public void testAddMemberToLoadedForumFromController_roee() throws Exception {
         User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
         Forum loadedForum = (Forum) HibernateUtils.load(Forum.class, f.id);
         Assert.assertEquals(loadedForum, f);
@@ -130,7 +130,7 @@ public class ForumTests {
     public void testAppointModeratorFromController() throws UserNotAuthorizedException {
         User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
         User mod =User.newSuperAdmin("hadar", "hadarosh", "sdkfdjk@sld;kf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
         SubForum sub = ContentController.addSubForum(f, "hadar's sub", u);
         AdminController.appointModerator(f, sub, u, mod);
@@ -141,7 +141,7 @@ public class ForumTests {
     public void testAppointAndUnAppointFromController() throws UserNotAuthorizedException {
         User admin =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
         User mod =User.newSuperAdmin("hadar", "hadarosh", "sdkfdjk@sld;kf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(admin, policy, "forum1");
         SubForum sub = ContentController.addSubForum(f, "hadar's sub", admin);
         Assert.assertTrue(((SubForum) HibernateUtils.load(SubForum.class, sub.id)).getModerators().contains(admin));
@@ -188,7 +188,7 @@ public class ForumTests {
     @Test
     public void testAddNewReplyToMessageFromController() throws Exception {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum forum = SuperAdminController.createNewForum(admin, policy, "forum1");
         User user = UserController.register(forum, "CHIKA", "theCoolit", "jkffh@gmail.com");
         SubForum sub = ContentController.addSubForum(forum, "hadars sub", admin);
@@ -201,7 +201,7 @@ public class ForumTests {
     @Test
     public void testAddAndDeleteNewMessageFromController() throws Exception {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum forum = SuperAdminController.createNewForum(admin, policy, "forum1");
         User user = UserController.register(forum, "CHIKA", "theCoolit", "jkffh@gmail.com");
         SubForum sub = ContentController.addSubForum(forum, "hadars sub", admin);
@@ -215,7 +215,7 @@ public class ForumTests {
     @Test
     public void testAddAndEditPostNewMessageFromController() throws Exception {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum forum = SuperAdminController.createNewForum(admin, policy, "forum1");
         User user = UserController.register(forum, "CHIKA", "theCoolit", "jkffh@gmail.com");
         SubForum sub = ContentController.addSubForum(forum, "hadars sub", admin);
@@ -276,7 +276,7 @@ public class ForumTests {
     @Test
     public void testSendFriendRequest() throws Exception {
         User admin = User.newSuperAdmin("tom", "leibo", "yeah");
-        ForumPolicy policy = new ForumPolicy(155,"*************", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(155,".*", ForumPolicy.HashFunction.MD5, false);
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum123432");
         User user = UserController.register(forum1, "tom2", "2", "mail@mail.com");
         FriendRequest fr= UserController.sendFriendRequest(forum1, user, admin, "msg123");
@@ -287,7 +287,7 @@ public class ForumTests {
     @Test
     public void testReplyToFriendRequest() throws Exception {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum1");
         User user = UserController.register(forum1, "tom", "l", "mail@mail.com");
         FriendRequest fr= UserController.sendFriendRequest(forum1, user, admin, "msg");
@@ -299,7 +299,7 @@ public class ForumTests {
     @Test
     public void testReomveFriend() throws Exception {
         User admin = User.newSuperAdmin("admin", "user", "@");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum1");
         User user = UserController.register(forum1, "tom", "leibo", "0605@dsad.com");
         FriendRequest fr= UserController.sendFriendRequest(forum1, user, admin, "msg");

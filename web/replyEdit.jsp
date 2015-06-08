@@ -395,8 +395,11 @@
             <%%>
           </div>
           <div class="box-content">
-            <form class="form-horizontal" method="get" action="/replyEdit?threadId=<%=thread.id%>&msgId=<%=message.id%>&op=<%=op%>">
+            <form class="form-horizontal" method="get" action="/replyEdit">
               <fieldset>
+                <input name="threadId" type="hidden" value="<%=thread.id%>">
+                <input name="msgId" type="hidden" value="<%=message.id%>">
+                <input name="op" type="hidden" value="<%=op%>">
                 <div class="control-group">
                   <label class="control-label" for="typeahead">Title: </label>
                   <div class="controls">
