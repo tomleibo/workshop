@@ -42,16 +42,24 @@ public class DeleteSubForumServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-			int userId = -1;
-			int forumId = Integer.parseInt(request.getParameter("forumId"));
 			int subForumId = Integer.parseInt(request.getParameter("subForumId"));
-			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if (value != null)
-				userId = Integer.parseInt(value);
+
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("User Cookie Value doesn't exist");
+
+			int userId = Integer.parseInt(cookieValue);
+
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("Forum Cookie Value doesn't exist");
+
+			int forumId = Integer.parseInt(cookieValue);
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
 			User user = (User) HibernateUtils.load(User.class, userId);
+			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
+
 			AdminController.deleteSubForum(forum, subForum, user);
 
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum.jsp");

@@ -34,12 +34,14 @@ public class HtmlUtils {
                 "\n" +
                 "          function getNotis() {\n" +
                 "              $.ajax({\n" +
-                "                  url : \"/numberOfNotifications\",\n" +
+                "                  url : \"/numberOfNotificationsAndFriendRequests\",\n" +
                 "                  data : {uid:1},\n" +
                 "                  type : \"GET\",\n" +
                 "                  dataType : \"html\",\n" +
-                "                  success : function (html) {\n" +
-                "                      $(\"#notificationsButton\").val(\"you have \"+html+ \" notifications!\");\n" +
+                "                  success : function (json) {\n" +
+                "                  var jsonParsed = JSON.parse(json); "+
+                "                      $(\"#notificationsButton\").text(jsonParsed.notifs);\n" +
+                "                      $(\"#requestsButton\").text(jsonParsed.frs);\n" +
 //                "                      $(\"#notificationsButton\").value=\"you have \"+html+ \" notifications!<br>\";\n" +
                 "                  },\n" +
                 "                  error : function (xhr,status,errorT) {\n" +

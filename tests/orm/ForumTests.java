@@ -111,8 +111,7 @@ public class ForumTests {
         Assert.assertEquals(loadedForum, f);
         User registered = UserController.register(loadedForum, "newMember", "", "");
         Forum loadedForumAfterAdd = (Forum) HibernateUtils.load(Forum.class, f.id);
-        Assert.assertEquals(loadedForumAfterAdd.getMembers().size(), 2);
-        Assert.assertEquals(loadedForumAfterAdd.getSubForums().get(1), registered);
+        Assert.assertEquals(loadedForumAfterAdd.getMembers().size(), 2);Assert.assertEquals(loadedForumAfterAdd.getSubForums().get(1), registered);
     }
 
     @Test
