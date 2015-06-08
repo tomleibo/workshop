@@ -69,7 +69,7 @@ public class PolicyHandler {
 	}
 
 	public static boolean canAppointModerator(Forum forum, SubForum subForum, User admin, User moderator) {
-		if(forum.getSubForums().contains(subForum) && forum.getAdmin().equals(admin) && moderator.isActive())
+		if(forum.getSubForums().contains(subForum) && forum.getAdmin().equals(admin) && moderator.isActive() && forum.getMembers().contains(moderator))
 			return true;
 		return  false;
 	}
