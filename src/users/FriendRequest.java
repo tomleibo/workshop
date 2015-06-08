@@ -88,4 +88,12 @@ public class FriendRequest {
 		result = 31 * result + date.hashCode();
 		return result;
 	}
+
+	public void setViewed(boolean viewed) {
+		this.viewed = viewed;
+	}
+
+	public boolean getViewed() {
+		return this.viewed;
+	}
 }

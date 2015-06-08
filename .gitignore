@@ -1,3 +1,4 @@
 /bin/
 /.idea/
-
+/action_log.log
+/error_log.log
