@@ -1,11 +1,13 @@
 package acceptanceTests.bridge;
 
-import content.*;
+import content.Forum;
+import content.Message;
+import content.SubForum;
 import content.Thread;
 import exceptions.*;
 import policy.ForumPolicy;
-import policy.UserStatusPolicy;
 import users.FriendRequest;
+import users.Notification;
 import users.User;
 
 import java.security.NoSuchAlgorithmException;
@@ -53,6 +55,8 @@ public interface IForumSystemBridge {
 	boolean deleteSubForum(Forum forum, SubForum subForum,User user) throws UserNotAuthorizedException;
 	boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException;
 
-	void tearDownForumSystem(User superAdmin, ForumSystem system) throws UserNotAuthorizedException;
-	boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy);
+	boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException;
+	// Version 2
+	List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException;
+	boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException;
 }

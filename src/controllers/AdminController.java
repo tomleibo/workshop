@@ -121,4 +121,18 @@ public class AdminController {
         throw new UserNotAuthorizedException("to view reports");
     }
 
+    public static boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
+        if (PolicyHandler.canUserAddRemoveStatusType(forum, admin)) {
+            return forum.addStatusType(type);
+        }
+        throw new UserNotAuthorizedException("to add user status");
+    }
+
+    public static boolean removeUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
+        if (PolicyHandler.canUserAddRemoveStatusType(forum, admin)) {
+            return forum.removeStatusType(type);
+        }
+        throw new UserNotAuthorizedException("to add user status");
+    }
+
 }

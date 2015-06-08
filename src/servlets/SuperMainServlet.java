@@ -1,10 +1,6 @@
 package servlets;
 
 import content.Forum;
-import content.ForumSystem;
-import content.SubForum;
-import policy.ForumPolicy;
-import users.User;
 import utils.HibernateUtils;
 
 import javax.servlet.RequestDispatcher;

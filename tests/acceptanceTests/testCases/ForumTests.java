@@ -3,15 +3,16 @@ package acceptanceTests.testCases;
 import acceptanceTests.bridge.Driver;
 import acceptanceTests.bridge.IForumSystemBridge;
 import content.Forum;
-import content.ForumSystem;
 import content.Message;
 import content.SubForum;
+import controllers.AdminController;
+import controllers.UserController;
 import exceptions.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import policy.ForumPolicy;
-import policy.UserStatusPolicy;
 import users.FriendRequest;
+import users.Notification;
 import users.User;
 
 import java.security.NoSuchAlgorithmException;
@@ -50,7 +51,6 @@ public class ForumTests {
 	protected static final String superAdminPassword = "";
 	protected static final String superAdminMail = "";
 
-	//protected static ForumSystem system;
 	protected static Forum theForum;
 	protected static User superAdmin;
 	protected static ForumPolicy policy;
@@ -175,13 +175,15 @@ public class ForumTests {
 		return driver.replyToFriendRequest(forum, user, request, msg);
 	}
 
-	protected static void tearDownForumSystem(User superAdmin,ForumSystem system) throws UserNotAuthorizedException {
-		driver.tearDownForumSystem(superAdmin, system);
+	protected boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
+		return driver.addUserStatusType(forum, admin, type);
 	}
 
-	protected boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy) {
-		return driver.addUserStatusType(superAdmin, type, userStatusPolicy);
+	protected List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException{
+		return driver.getPendingNotifications(forum, user);
 	}
 
-
+	public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+		return AdminController.appointModerator(forum, subForum, admin, moderator);
+	}
 }

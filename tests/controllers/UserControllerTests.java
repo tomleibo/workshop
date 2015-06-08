@@ -1,8 +1,10 @@
 package controllers;
 import content.Forum;
+import content.SubForum;
 import exceptions.UserNotAuthorizedException;
 import exceptions.UsernameAlreadyExistsException;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import policy.ForumPolicy;
 import users.FriendRequest;
@@ -10,15 +12,31 @@ import users.User;
 
 
 public class UserControllerTests {
-    UserController userController;
+
+    private static String superUsername = "superUsername";
+    private static String hashedPassword = "hashedPassword";
+    private static String mail = "mail";
+    private static String forumName = "forumName";
+    private static String subForumName = "subForumName";
+
+    private ForumPolicy policy;
+    private Forum forum;
+    private SubForum subForum;
+    private User superAdmin;
+
+    @Before
+    public void beforeMethod() throws Exception {
+        superAdmin = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
+        policy = new ForumPolicy(2, ".+", ForumPolicy.HashFunction.SHA, false);
+        forum = SuperAdminController.createNewForum(superAdmin, policy, forumName);
+    }
 
     @Test
     public void test_register() throws Exception {
         try {
-            userController = new UserController();
             User admin = User.newMember("hadar", "1234", "polad.hadar@gmail.com");
             Forum forum  = new Forum(admin, new ForumPolicy(2,"1234",ForumPolicy.HashFunction.MD5), "name");
-            User user = userController.register(forum, "Hadar Polad", "1234", "polad.hadar@gmail.com");
+            User user = UserController.register(forum, "Hadar Polad", "1234", "polad.hadar@gmail.com");
             Assert.assertTrue(user != null);
         } catch (UsernameAlreadyExistsException e) {
             e.printStackTrace();
@@ -27,16 +45,14 @@ public class UserControllerTests {
 
     @Test
     public void test_enterAsGuest() {
-        userController = new UserController();
         User admin = User.newMember("hadar", "1234", "polad.hadar@gmail.com");
         Forum forum  = new Forum(admin, new ForumPolicy(2,"1234",ForumPolicy.HashFunction.MD5), "name");
-        User user = userController.enterAsGuest(forum);
+        User user = UserController.enterAsGuest(forum);
         Assert.assertTrue(user.getState() == User.GUEST);
     }
 
     @Test
     public void test_sendFriendRequest() throws UserNotAuthorizedException {
-        userController = new UserController();
         User admin = User.newMember("Lior", "1234", "lior@gmail.com");
         User user1 = User.newMember("hadar", "1234", "polad.hadar@gmail.com");
         User user2 = User.newMember("Yuval", "1234", "yuvalapidot@gmail.com");
@@ -49,7 +65,6 @@ public class UserControllerTests {
 
     @Test
     public void test_replyToFriendRequest() throws UserNotAuthorizedException {
-        userController = new UserController();
         User admin = User.newMember("Lior", "1234", "lior@gmail.com");
         User user1 = User.newMember("hadar", "1234", "polad.hadar@gmail.com");
         User user2 = User.newMember("Yuval", "1234", "yuvalapidot@gmail.com");
@@ -57,14 +72,13 @@ public class UserControllerTests {
         forum.addMember(user1);
         forum.addMember(user2);
         FriendRequest fr = new FriendRequest(user1,user2,"hi");
-        userController.replyToFriendRequest(forum, user1, fr, true);
+        UserController.replyToFriendRequest(forum, user1, fr, true);
         Assert.assertTrue(user1.getFriends().contains(user2) && user2.getFriends().contains(user1));
     }
 
 
     @Test
     public void test_removeFriend() throws UserNotAuthorizedException {
-        userController = new UserController();
         User admin = User.newMember("Lior", "1234", "lior@gmail.com");
         User user1 = User.newMember("hadar", "1234", "polad.hadar@gmail.com");
         User user2 = User.newMember("Yuval", "1234", "yuvalapidot@gmail.com");
@@ -73,7 +87,7 @@ public class UserControllerTests {
         forum.addMember(user2);
         user1.addFriend(user2);
         user2.addFriend(user1);
-        userController.removeFriend(forum, user1, user2);
+        UserController.removeFriend(forum, user1, user2);
         Assert.assertFalse(user1.getFriends().contains(user2) && user2.getFriends().contains(user1));
     }
 

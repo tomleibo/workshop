@@ -1,11 +1,14 @@
 package acceptanceTests.testCases;
 
+import com.sun.xml.internal.ws.policy.Policy;
+import content.Forum;
 import content.SubForum;
 import exceptions.*;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import policy.ForumPolicy;
 import users.User;
 import utils.HibernateUtils;
 
@@ -34,8 +37,8 @@ public class AdminServicesTests extends ForumTests{
 		for (SubForum sub: theForum.getSubForums()){
 			HibernateUtils.del(sub);
 		}
-		HibernateUtils.update(theForum);
 		theForum.getSubForums().clear();
+		HibernateUtils.update(theForum);
 	}
 
 	@Test // 1.1
@@ -54,7 +57,7 @@ public class AdminServicesTests extends ForumTests{
 
 		result = cancelSubForum(theForum, sf3, admin);
 		Assert.assertTrue(result);
-		Assert.assertEquals(showListOfSubForums(theForum, admin).size(),0);
+		Assert.assertEquals(showListOfSubForums(theForum, admin).size(), 0);
 	}
 
 	@Test // 1.2
@@ -97,6 +100,41 @@ public class AdminServicesTests extends ForumTests{
 
 		Assert.assertTrue(false);
 	}
+
+	// version 2
+	@Test // 1.6
+	public void test_appoint_moderator() throws UserNotAuthorizedException {
+		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
+
+		Assert.assertTrue(appointModerator(theForum,sf1, admin, user));
+		Assert.assertTrue(sf1.getModerators().contains(user));
+
+
+		user.setState(User.MEMBER);
+	}
+
+	@Test // 1.7
+	public void test_appoint_user_to_subforum_of_not_the_same_forum() throws Exception {
+		Forum f1 = addForum(FORUM_NAMES[1], superAdmin, policy);
+
+		//creating a new forum f1 with a new admin1
+		User admin1 = registerToForum(f1, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
+		admin1.setState(User.ADMIN);
+		changeAdmin(f1, superAdmin, admin1);
+		admin1 = loginUser(f1, USER_NAMES[1], USER_PASSES[1]);
+
+		SubForum sf1 = addSubForum(f1, SUB_FORUM_NAMES[0], admin1);
+
+		Assert.assertFalse(appointModerator(f1,sf1, admin1, user));
+		//Assert.assertTrue(sf1.getModerators().contains(user));
+
+
+		//user.setState(User.MEMBER);
+	}
+
+
+
+
 
 
 }

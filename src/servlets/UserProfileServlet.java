@@ -1,21 +1,9 @@
 package servlets;
 
 import content.Forum;
-import content.ForumSystem;
-import content.SubForum;
-import controllers.SuperAdminController;
-import controllers.UserController;
-import exceptions.UserNotAuthorizedException;
-import exceptions.UsernameAlreadyExistsException;
-import policy.ForumPolicy;
-import users.FriendRequest;
 import users.User;
-import utils.Cipher;
 import utils.CookieUtils;
 import utils.HibernateUtils;
-
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Servlet implementation class UserProfileServlet

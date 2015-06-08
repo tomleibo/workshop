@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 public class UserStatusPolicy {
+
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "seniority")
@@ -13,7 +14,10 @@ public class UserStatusPolicy {
     @Column(name = "number_of_messages")
     private int numberOfMessages;
 
-    public UserStatusPolicy(){}
+    public UserStatusPolicy(){
+
+    }
+
     public UserStatusPolicy(int seniority, long loginTime, int numberOfMessages){
         this.seniority = seniority;
         this.loginTime = loginTime;
