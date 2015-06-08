@@ -62,7 +62,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public User registerToForum(Forum forum, String user, String pass, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
+    public User registerToForum(Forum forum, String user, String pass, String emailAddress) throws Exception {
         if(real != null)
             return real.registerToForum(forum, user, pass, emailAddress);
 
@@ -215,7 +215,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
+    public User initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
         if(real != null)
             return real.initializeForumSystem(user, pass, emailAddress);
 

@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import users.User;
+import utils.HibernateUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class GeneralUserServicesTests extends ForumTests{
 	static User user;
 	
 	@BeforeClass
-	public static void beforeTest() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NeedToChangePasswordException {
+	public static void beforeTest() throws Exception {
 		registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 		registerToForum(theForum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
 		user = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
@@ -29,6 +30,10 @@ public class GeneralUserServicesTests extends ForumTests{
 
 	@After
 	public void afterMethod() throws UserNotLoggedInException, UserDoesNotExistsException {
+		for (SubForum sub: theForum.getSubForums()){
+			HibernateUtils.del(sub);
+		}
+		HibernateUtils.update(theForum);
 		theForum.getSubForums().clear();
 	}
 

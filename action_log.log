@@ -1,4 +1,59 @@
 <?xml version="1.0" encoding="windows-1255" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690138</millis>
+  <sequence>18</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user SuperAdminadded to the forum YNET</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690156</millis>
+  <sequence>23</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user Daniadded to the forum YNET</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690210</millis>
+  <sequence>35</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user added to the forum YNET</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690242</millis>
+  <sequence>47</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user Daniadded to the forum YNET</message>
+</record>
+<record>
+  <date>2015-06-07T20:04:50</date>
+  <millis>1433696690280</millis>
+  <sequence>62</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>users.User The user Guest0 is now logged in!</message>
+</record>
 </log>

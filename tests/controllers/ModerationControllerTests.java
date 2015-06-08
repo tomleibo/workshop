@@ -4,13 +4,13 @@ import content.Forum;
 import content.ForumSystem;
 import content.SubForum;
 import exceptions.UserNotAuthorizedException;
-import exceptions.UsernameAlreadyExistsException;
 import junit.framework.Assert;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Test;
 import policy.ForumPolicy;
 import users.User;
-
-import java.security.NoSuchAlgorithmException;
 
 public class ModerationControllerTests {
 
@@ -30,13 +30,13 @@ public class ModerationControllerTests {
     private User moderator;
     private User member;
 
-    @BeforeClass
-    public static void setup() throws NoSuchAlgorithmException {
-        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
-    }
+//    @BeforeClass
+//    public static void setup() throws NoSuchAlgorithmException {
+//        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
+//    }
 
     @Before
-    public void beforeMethod() throws UserNotAuthorizedException, UsernameAlreadyExistsException, NoSuchAlgorithmException {
+    public void beforeMethod() throws Exception {
         superAdmin = forumSystem.getSuperAdmin(superUsername, hashedPassword);
         policy = new ForumPolicy(2, "", ForumPolicy.HashFunction.SHA, false);
         forum = SuperAdminController.createNewForum(superAdmin, policy, forumName);

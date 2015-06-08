@@ -57,7 +57,7 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public User registerToForum(Forum forum, String user, String pass, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException {
+    public User registerToForum(Forum forum, String user, String pass, String emailAddress) throws Exception {
         return UserController.register(forum, user, pass, emailAddress);
     }
 
@@ -152,7 +152,7 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
+    public User initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
         return SuperAdminController.initializeForumSystem(user, getHashedPassword(pass), emailAddress);
     }
 

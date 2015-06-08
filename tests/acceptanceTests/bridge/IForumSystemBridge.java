@@ -19,7 +19,7 @@ public interface IForumSystemBridge {
 	Forum addForum(String title, User superAdmin, ForumPolicy policy) throws UserNotAuthorizedException;
 	Message replyToMessage(Forum forum, Message addTo, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException;
 	// Member Services
-	User registerToForum(Forum forum, String user, String pass, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException;
+	User registerToForum(Forum forum, String user, String pass, String emailAddress) throws Exception;
 	User loginUser(Forum forum, String user, String pass) throws NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NeedToChangePasswordException;
 	User logoffUser(Forum forum, User user) throws UserDoesNotExistsException, UserNotLoggedInException;
 	Thread openThread(Forum forum, SubForum subForum, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException;
@@ -40,7 +40,7 @@ public interface IForumSystemBridge {
 	boolean isMessageContentMatchesSubForumSubject(SubForum subForum, Message message);
 	boolean setModeratorAndAdminsSuspensionPolicy(Forum forum, ForumPolicy policy);
 	boolean setAppointmentRules(Forum forum, String[] rules);
-	ForumSystem initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException;
+	User initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException;
 
 	String getHashedPassword(String pass) throws NoSuchAlgorithmException;
 

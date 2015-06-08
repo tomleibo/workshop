@@ -7,7 +7,6 @@ import exceptions.UsernameAlreadyExistsException;
 import junit.framework.Assert;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import policy.ForumPolicy;
 import policy.UserStatusPolicy;
@@ -29,10 +28,10 @@ public class SuperAdminControllerTests {
     private Forum forum;
     private User superAdmin;
 
-    @BeforeClass
-    public static void setup() throws NoSuchAlgorithmException {
-        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
-    }
+//    @BeforeClass
+//    public static void setup() throws NoSuchAlgorithmException {
+//        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
+//    }
 
     @AfterClass
     public static void afterClass() {
@@ -52,7 +51,7 @@ public class SuperAdminControllerTests {
     }
 
     @Test
-    public void changeAdministratorTest() throws UserNotAuthorizedException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
+    public void changeAdministratorTest() throws Exception {
         forum = SuperAdminController.createNewForum(superAdmin, policy, forumName);
         User user = UserController.register(forum, username, hashedPassword, mail);
         SuperAdminController.changeAdministrator(superAdmin, forum, user);

@@ -10,8 +10,6 @@ import controllers.UserController;
 import exceptions.EmptyMessageTitleAndBodyException;
 import exceptions.UserNotAuthorizedException;
 import exceptions.UsernameAlreadyExistsException;
-import org.apache.commons.beanutils.BeanUtils;
-import org.hibernate.Query;
 import org.junit.*;
 import policy.ForumPolicy;
 import users.FriendRequest;
@@ -19,9 +17,9 @@ import users.User;
 import utils.HibernateUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
+
+//import org.apache.commons.beanutils.BeanUtils;
 
 
 public class ForumTests {
@@ -105,7 +103,7 @@ public class ForumTests {
     }
 
     @Test
-    public void testAddMemberToLoadedForumFromController_roee() throws UserNotAuthorizedException, InvocationTargetException, IllegalAccessException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
+    public void testAddMemberToLoadedForumFromController_roee() throws Exception {
         User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
@@ -117,7 +115,7 @@ public class ForumTests {
     }
 
     @Test
-    public void testAddAndDeleteSubforumFromController() throws UserNotAuthorizedException {
+    public void testAddAndDeleteSubforumFromController() throws Exception {
         User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
@@ -154,7 +152,7 @@ public class ForumTests {
     }
 
     @Test
-    public void testReplaceModeratorFromController() throws UserNotAuthorizedException {
+    public void testReplaceModeratorFromController() throws Exception {
         User admin =User.newSuperAdmin("1", "dooogi", "sdkfdjk@sld;kf.com");
 
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
@@ -188,7 +186,7 @@ public class ForumTests {
     }
 
     @Test
-    public void testAddNewReplyToMessageFromController() throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
+    public void testAddNewReplyToMessageFromController() throws Exception {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
         Forum forum = SuperAdminController.createNewForum(admin, policy, "forum1");
@@ -201,7 +199,7 @@ public class ForumTests {
     }
 
     @Test
-    public void testAddAndDeleteNewMessageFromController() throws UserNotAuthorizedException, NoSuchAlgorithmException, UsernameAlreadyExistsException, EmptyMessageTitleAndBodyException {
+    public void testAddAndDeleteNewMessageFromController() throws Exception {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
         Forum forum = SuperAdminController.createNewForum(admin, policy, "forum1");
@@ -215,7 +213,7 @@ public class ForumTests {
     }
 
     @Test
-    public void testAddAndEditPostNewMessageFromController() throws UserNotAuthorizedException, NoSuchAlgorithmException, UsernameAlreadyExistsException, EmptyMessageTitleAndBodyException {
+    public void testAddAndEditPostNewMessageFromController() throws Exception {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
         Forum forum = SuperAdminController.createNewForum(admin, policy, "forum1");
@@ -276,7 +274,7 @@ public class ForumTests {
     }
 
     @Test
-    public void testSendFriendRequest() throws UserNotAuthorizedException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
+    public void testSendFriendRequest() throws Exception {
         User admin = User.newSuperAdmin("tom", "leibo", "yeah");
         ForumPolicy policy = new ForumPolicy(155,"*************", ForumPolicy.HashFunction.MD5, false);
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum123432");
@@ -287,7 +285,7 @@ public class ForumTests {
     }
 
     @Test
-    public void testReplyToFriendRequest() throws UserNotAuthorizedException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
+    public void testReplyToFriendRequest() throws Exception {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum1");
@@ -299,7 +297,7 @@ public class ForumTests {
     }
 
     @Test
-    public void testReomveFriend() throws UserNotAuthorizedException, NoSuchAlgorithmException, UsernameAlreadyExistsException {
+    public void testReomveFriend() throws Exception {
         User admin = User.newSuperAdmin("admin", "user", "@");
         ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum1");

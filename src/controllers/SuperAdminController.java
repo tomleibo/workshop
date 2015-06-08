@@ -11,9 +11,12 @@ import policy.UserStatusPolicy;
 import users.User;
 import utils.ForumLogger;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 public class SuperAdminController {
 
@@ -73,7 +76,9 @@ public class SuperAdminController {
 			User oldAdmin = forum.getAdmin();
             forum.setAdmin(admin);
             admin.setState(User.ADMIN);
-            oldAdmin.setState(User.MEMBER);
+            if (oldAdmin.getState() <= User.ADMIN) {
+                oldAdmin.setState(User.MEMBER);
+            }
             HibernateUtils.save(oldAdmin);
 			return HibernateUtils.save(forum);
 		}
@@ -97,18 +102,18 @@ public class SuperAdminController {
 		throw new UserNotAuthorizedException("to change forum policy.");
 	}
 
-	public static ForumSystem initializeForumSystem(String username, String hashedPassword, String email) throws NoSuchAlgorithmException {
-        HibernateUtils.init();
+	public static User initializeForumSystem(String username, String hashedPassword, String email) throws NoSuchAlgorithmException {
+        HibernateUtils.start();
         User superAdmin = User.newSuperAdmin(username, hashedPassword, email);
         HibernateUtils.save(superAdmin);
-		return ForumSystem.newForumSystem(superAdmin);
-        //TODO: change this.
+		return superAdmin;
+		//return ForumSystem.newForumSystem(superAdmin);
 	}
 
 	public static void destroyForumSystem(User superAdmin, ForumSystem forumSystem) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserDestroyForumSystem(superAdmin)){
-            HibernateUtils.getQuery("drop database forum_system").executeUpdate();
-            //TODO: anything else?
+            //HibernateUtils.getQuery("drop database forum_system").executeUpdate();
+            //TODO: ^ this is not good... will make trouble for the orm... need to delete DB politely
             //forumSystem.destroy();
 			return;
 		}
@@ -123,6 +128,20 @@ public class SuperAdminController {
             return query.list().size();
         }
         throw new UserNotAuthorizedException("to view reports");
+    }
+
+    public static Queue<String> getSessionLog(User user,String id) throws UserNotAuthorizedException {
+        if (user.isSuperAdmin()) {
+            return SessionLogger.get().getSessionLog(id);
+        }
+        throw new UserNotAuthorizedException("to view session logs");
+    }
+
+    public static Set<String> getAllOpenSessions(User user) throws UserNotAuthorizedException {
+        if (user.isSuperAdmin()) {
+            return SessionLogger.get().getAllActiveSessions();
+        }
+        throw new UserNotAuthorizedException("to view session logs");
     }
 
 	public static boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy){
