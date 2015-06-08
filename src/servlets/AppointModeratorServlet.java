@@ -41,40 +41,45 @@ public class AppointModeratorServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/moderatorOperationCompleted.jsp");
+		try{
 
-		int forumId, userId=-1, subForumId, moderatorId;
-		String moderatorName;
+			String subForumIdString = request.getParameter("moderatorId");
+			int moderatorId = Integer.parseInt(subForumIdString);
 
-		try {
-			forumId = Integer.parseInt(request.getParameter("forumId"));
-			subForumId = Integer.parseInt(request.getParameter("subForumId"));
-			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if(value!= null)
-				userId = Integer.parseInt(value);
-			moderatorName = request.getParameter("moderator");
-			moderatorId = Integer.parseInt(request.getParameter("moderatorId"));
-		}
-		catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if (cookieValue == null) {
+				throw new Exception("User Cookie Value doesn't exist");
+			}
 
-		Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-		SubForum subForum = (SubForum) HibernateUtils.load(Forum.class, subForumId);
-		User user = (User) HibernateUtils.load(User.class, userId);
-		User moderator = (User) HibernateUtils.load(User.class, moderatorId);
+			int userId = Integer.parseInt(cookieValue);
 
-		try {
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null) {
+				throw new Exception("Forum Cookie Value doesn't exist");
+			}
+
+			int forumId = Integer.parseInt(cookieValue);
+
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null) {
+				throw new Exception("Forum Cookie Value doesn't exist");
+			}
+
+			int subForumId = Integer.parseInt(cookieValue);
+
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+			User user = (User) HibernateUtils.load(User.class, userId);
+			User moderator = (User) HibernateUtils.load(User.class, moderatorId);
+			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
+
 			AdminController.appointModerator(forum, subForum, user, moderator);
-		} catch (UserNotAuthorizedException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
 
-		request.setAttribute("moderator", moderatorName);
-		request.setAttribute("op", "appoint");
-		dispatcher.forward(request,response);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subForum?subForumId="+subForumId);
+			dispatcher.forward(request,response);
+		}
+		catch(Exception e) {
+			ServletUtils.exitError(this, request, response, e.getMessage());
+		}
 	}
 
 	/**

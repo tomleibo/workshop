@@ -43,7 +43,6 @@ public class LoginServlet extends HttpServlet {
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, id);
 
-
 			User user = UserController.login(forum, userName, pass);
 			if (user == null)
 				throw new Exception("User is null");

@@ -166,12 +166,13 @@ public class PolicyHandler {
         return superAdmin.isSuperAdmin();
     }
     public static boolean shouldUserChangePassword(Forum forum, User user) {
-        try {
-            long passwordSetTime = user.getPasswordSetDate().getTime();
-            long passwordMaxTime = ((long) forum.getPolicy().getPasswordMaxTime()) * 24 * 60 * 60 * 1000;
-            return (new Date()).after(new Date(passwordSetTime + passwordMaxTime));
-        } catch (Exception e) {
-            return false;
-        }
+		return false;
+//        try {
+//            long passwordSetTime = user.getPasswordSetDate().getTime();
+//            long passwordMaxTime = ((long) forum.getPolicy().getPasswordMaxTime()) * 24 * 60 * 60 * 1000;
+//            return (new Date()).after(new Date(passwordSetTime + passwordMaxTime));
+//        } catch (Exception e) {
+//            return false;
+//        }
     }
 }

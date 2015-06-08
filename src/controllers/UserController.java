@@ -138,8 +138,10 @@ public class UserController {
                 User requesting = request.getRequestingMember();
                 User receiving = request.getReceivingMember();
                 if (requesting.addFriend(receiving) && receiving.addFriend(requesting)){
+					HibernateUtils.update(receiving);
                     HibernateUtils.update(requesting);
-                    return true;
+					request.setViewed(true);
+					return true;
                 }
                 return false;
 			}

@@ -26,10 +26,14 @@
     </table>
     <table name="forumpolicy" schema="" catalog="forum_system" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="askIdentificationQuestion" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <column name="mail_verification" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <column name="hashFunction" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="idleTime" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="max_moderators" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="passwordExpireDate" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="password_regex" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="sessionTimeout" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="FK_4ebovpr3l5gy6h3gcgwlsmr55" table="forum" schema="" catalog="forum_system" columns="policy"/>
     </table>
@@ -134,6 +138,8 @@
       <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="is_logged_in" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <column name="loginTime" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="oldPasswords" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="passwordSetDate" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
       <column name="seniority" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="state" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="status" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
