@@ -36,7 +36,7 @@ public class MainServlet extends HttpServlet {
             List<Forum> forums = HibernateUtils.getAllForums();
             request.setAttribute("forums", forums);
 //            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/oldFormatMain.jsp");
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Main.jsp");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/main.jsp");
             dispatcher.forward(request, response);
         }
 

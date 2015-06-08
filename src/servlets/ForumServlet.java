@@ -40,7 +40,8 @@ public class ForumServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SessionLogger.get().log(request.getSession().getId(),"showing forum page");
+		int i =1;
+		SessionLogger.get().log(request.getSession().getId(),"showing forum page");
 		try {
 			String forumIdString = request.getParameter("forumId");
 			int forumId = Integer.parseInt(forumIdString);

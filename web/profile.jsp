@@ -349,30 +349,29 @@
                                         <!--                    //start serch people-->
 
 
-                                        <form class="well sapn8">
+                                        <form class="well sapn8" action="/sendFriendRequest">
                                             <div class="control-group">
-                                                <label class="control-label" for="selectError"><h3>Add new friend</h3></label>
+                                                <label class="control-label" for="idontknow"><h3>Add new friend</h3></label>
                                                 <div class="controls">
                                                     <table>
                                                         <col width="250">
                                                         <col width="250">
                                                         <tr>
                                                             <td>
-                                                                <select id="selectError" data-rel="chosen">
-                                                                    <option>Friend 1</option>
-                                                                    <option>Friend 2</option>
-                                                                    <option>Friend 3</option>
-                                                                    <option>Friend 4</option>
-                                                                    <option>Friend 5</option>
+                                                                <select name="receiverId" id="idontknow" data-rel="chosen">
+                                                                    <% for (User fuser : forum.getMembers()) { %>
+                                                                    <option name="receiverId" value="<%=fuser.getId()%>"><%=fuser.getUsername()%></option>
+                                                                    <% } %>
                                                                 </select>
+
                                                             </td>
                                                             <td>
-                                                                <a href="#" class="btn btn-primary">Send friend request</a>
+                                                                <button type="submit" class="btn btn-primary">Send friend request</a>
                                                             </td>
                                                         </tr>
                                                     </table>
                                                     <br>
-                                                    <textarea class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
+                                                    <textarea form="idontknow" name="content" class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
                                                 </div>
 
                                             </div>

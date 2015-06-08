@@ -55,7 +55,7 @@ public class UserProfileServlet extends HttpServlet {
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 			User user = (User) HibernateUtils.load(User.class, userId);
 
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/userProfile.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile.jsp");
 			request.setAttribute("forum", forum);
 			request.setAttribute("user", user);
 			dispatcher.forward(request, response);

@@ -65,7 +65,7 @@ public class SendFriendRequestServlet extends HttpServlet {
 
 			UserController.sendFriendRequest(forum, user, receiver, content);
 
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/userProfile.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile.jsp");
 			request.setAttribute("forum", forum);
 			request.setAttribute("user", user);
 			dispatcher.forward(request, response);
