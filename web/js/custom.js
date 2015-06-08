@@ -402,6 +402,11 @@ function template_functions(){
 		e.preventDefault();
 		$('#myModal').modal('show');
 	});
+    
+    $('.btn-report').click(function(e){
+		e.preventDefault();
+		$('#report').modal('show');
+	});
 	
 	
 	/* ---------- Progress  ---------- */

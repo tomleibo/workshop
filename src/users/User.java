@@ -442,4 +442,8 @@ public class User {
 		}
 		return "";
 	}
+
+    public String getEmail() {
+        return emailAddress;
+    }
 }
