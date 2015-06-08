@@ -21,6 +21,8 @@ public class Forum {
 	public int id;
 	@Column(name="name")
 	private String name;
+    @Column (name="status_types")
+    private String statusTypes;
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "admin")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
@@ -47,10 +49,10 @@ public class Forum {
 	public Forum(User admin, ForumPolicy policy, String name) {
 		this.name = name;
 		this.admin = admin;
+        this.statusTypes = "Gold;Silver;Regular;";
 		members = new ArrayList<>();
 		subForums = new ArrayList<>();
 		this.policy = policy;
-		//	addMember(SuperAdmin);
 		addMember(admin);
 	}
 
@@ -58,10 +60,10 @@ public class Forum {
         this.id=id;
         this.name = name;
         this.admin = admin;
+        this.statusTypes = "Gold;Silver;Regular;";
         members = new ArrayList<>();
         subForums = new ArrayList<>();
         this.policy = policy;
-        //	addMember(SuperAdmin);
         addMember(admin);
     }
 
@@ -169,5 +171,47 @@ public class Forum {
             numOfMessages += subForum.getNumberOfMessages();
         }
         return numOfMessages;
+    }
+
+    public boolean addStatusType(String type) {
+        String[] statuses = statusTypes.split(";");
+        boolean found = false;
+        for (String status : statuses) {
+            if (status.equalsIgnoreCase(type)) {
+                found = true;
+                break;
+            }
+        }
+        if (found)
+            return false;
+        statusTypes = statusTypes + type + ";";
+        return true;
+    }
+
+    public boolean removeStatusType(String type) {
+        String[] statuses = statusTypes.split(";");
+        StringBuilder builder = new StringBuilder();
+        boolean found = false;
+        for (String status : statuses) {
+            if (status.equalsIgnoreCase(type)) {
+                found = true;
+            } else {
+                builder.append(status + ";");
+            }
+        }
+        statusTypes = builder.toString();
+        return found;
+    }
+
+    public boolean hasStatusType(String type) {
+        String[] statuses = statusTypes.split(";");
+        boolean found = false;
+        for (String status : statuses) {
+            if (status.equalsIgnoreCase(type)) {
+                found = true;
+                break;
+            }
+        }
+        return found;
     }
 }

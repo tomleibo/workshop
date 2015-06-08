@@ -6,7 +6,6 @@ import exceptions.UserNotAuthorizedException;
 import org.hibernate.Query;
 import policy.ForumPolicy;
 import policy.PolicyHandler;
-import policy.UserStatusPolicy;
 import users.User;
 import utils.ForumLogger;
 import utils.HibernateUtils;
@@ -126,15 +125,5 @@ public class SuperAdminController {
         }
         throw new UserNotAuthorizedException("to view session logs");
     }
-
-	public static boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy){
-		//TODO: save in sql?
-        return true;
-	}
-
-	public static boolean removeUserStatusType(User superAdmin, String type){
-        //TODO: save in sql?
-		return true;
-	}
 
 }

@@ -9,7 +9,6 @@ import exceptions.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import policy.ForumPolicy;
-import policy.UserStatusPolicy;
 import users.FriendRequest;
 import users.User;
 
@@ -173,8 +172,8 @@ public class ForumTests {
 		return driver.replyToFriendRequest(forum, user, request, msg);
 	}
 
-	protected boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy) {
-		return driver.addUserStatusType(superAdmin, type, userStatusPolicy);
+	protected boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
+		return driver.addUserStatusType(forum, admin, type);
 	}
 
 

@@ -1,10 +1,11 @@
 package acceptanceTests.bridge;
 
-import content.*;
+import content.Forum;
+import content.Message;
+import content.SubForum;
 import content.Thread;
 import exceptions.*;
 import policy.ForumPolicy;
-import policy.UserStatusPolicy;
 import users.FriendRequest;
 import users.User;
 
@@ -53,5 +54,5 @@ public interface IForumSystemBridge {
 	boolean deleteSubForum(Forum forum, SubForum subForum,User user) throws UserNotAuthorizedException;
 	boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException;
 
-	boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy);
+	boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException;
 }

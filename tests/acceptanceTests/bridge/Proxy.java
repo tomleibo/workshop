@@ -1,10 +1,11 @@
 package acceptanceTests.bridge;
 
-import content.*;
+import content.Forum;
+import content.Message;
+import content.SubForum;
 import content.Thread;
 import exceptions.*;
 import policy.ForumPolicy;
-import policy.UserStatusPolicy;
 import users.FriendRequest;
 import users.User;
 
@@ -295,9 +296,9 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy) {
+    public boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
         if(real != null)
-            return real.addUserStatusType(superAdmin, type, userStatusPolicy);
+            return real.addUserStatusType(forum, admin, type);
 
         return false;
     }

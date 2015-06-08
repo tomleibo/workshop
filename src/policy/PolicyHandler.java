@@ -180,4 +180,8 @@ public class PolicyHandler {
     public static boolean canUserGetNotifications() {
         return true;
     }
+
+    public static boolean canUserAddRemoveStatusType(Forum forum, User admin) {
+        return (admin.isSuperAdmin() || forum.getAdmin().equals(admin));
+    }
 }

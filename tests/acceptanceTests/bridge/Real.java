@@ -1,11 +1,12 @@
 package acceptanceTests.bridge;
 
-import content.*;
+import content.Forum;
+import content.Message;
+import content.SubForum;
 import content.Thread;
 import controllers.*;
 import exceptions.*;
 import policy.ForumPolicy;
-import policy.UserStatusPolicy;
 import users.FriendRequest;
 import users.User;
 import utils.Cipher;
@@ -33,7 +34,7 @@ public class Real implements IForumSystemBridge {
 
     @Override
     public List<SubForum> showSubForumList(Forum forum, User user) throws UserNotAuthorizedException {
-        return UserController.viewSubForumList(forum,user);
+        return UserController.viewSubForumList(forum, user);
     }
 
     @Override
@@ -202,8 +203,8 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy) {
-        return SuperAdminController.addUserStatusType(superAdmin,type,userStatusPolicy);
+    public boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
+        return AdminController.addUserStatusType(forum, admin,type);
     }
 }
 
