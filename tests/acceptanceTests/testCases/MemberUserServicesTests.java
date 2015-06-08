@@ -34,22 +34,37 @@ public class MemberUserServicesTests extends ForumTests {
 				u.logout();
 			}
 		}
-		for (User usr: theForum.getMembers()){
-			HibernateUtils.del(usr);
-		}
-		HibernateUtils.update(theForum);
+//		for (User usr: theForum.getMembers()){
+//			HibernateUtils.del(usr);
+//		}
+//		HibernateUtils.update(theForum);
+//		for (SubForum sub: theForum.getSubForums()){
+//			for(Thread th: sub.viewThreads()){
+//				if (th.getOpeningMessage() != null){
+//					HibernateUtils.del(th.getOpeningMessage());
+//					HibernateUtils.update(th);
+//				}
+//				HibernateUtils.del(th);
+//				HibernateUtils.update(sub);
+//			}
+//			HibernateUtils.del(sub);
+//			theForum.deleteSubForum(sub);
+//			HibernateUtils.update(theForum);
+//		}
+//		HibernateUtils.update(theForum);
 		theForum.getSubForums().clear();
+		HibernateUtils.update(theForum);
 	}
 	
 	@Test // 5.1
-	public void test_login_ExistingUser() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, NeedToChangePasswordException {
+	public void test_login_ExistingUser() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, NeedToChangePasswordException, UserNotLoggedInException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		Assert.assertNotNull(user1);
 		Assert.assertTrue(user1.isLoggedIn());
 	}
 
 	@Test // 5.2
-	public void test_login_NonExistingUser() throws UserAlreadyLoggedInException, NoSuchAlgorithmException, WrongPasswordException, NeedToChangePasswordException {
+	public void test_login_NonExistingUser() throws UserAlreadyLoggedInException, NoSuchAlgorithmException, WrongPasswordException, NeedToChangePasswordException, UserNotLoggedInException {
 		try {
 			user1 = loginUser(theForum, USER_NAMES[2], USER_PASSES[2]);
 		} catch (UserDoesNotExistsException e) {
@@ -58,10 +73,11 @@ public class MemberUserServicesTests extends ForumTests {
 		}
 
 		Assert.assertTrue(false);
+
 	}
 
 	@Test // 5.3
-	public void test_login_WrongPassword() throws NoSuchAlgorithmException, UserDoesNotExistsException, WrongPasswordException, UserAlreadyLoggedInException, NeedToChangePasswordException {
+	public void test_login_WrongPassword() throws NoSuchAlgorithmException, UserDoesNotExistsException, WrongPasswordException, UserAlreadyLoggedInException, NeedToChangePasswordException, UserNotLoggedInException {
 		try {
 			user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[1]);
 		} catch (WrongPasswordException e) {
@@ -70,11 +86,12 @@ public class MemberUserServicesTests extends ForumTests {
 		}
 
 		Assert.assertTrue(false);
+
 	}
 
 
 	@Test // 5.4
-	 public void test_login_ExistingUser_DoubleLogin() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, NeedToChangePasswordException {
+	 public void test_login_ExistingUser_DoubleLogin() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, NeedToChangePasswordException, UserNotLoggedInException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 
 		try {
@@ -85,6 +102,7 @@ public class MemberUserServicesTests extends ForumTests {
 		}
 
 		Assert.assertTrue(false);
+		user1.logout();
 	}
 
 	@Test // 5.5
@@ -109,19 +127,22 @@ public class MemberUserServicesTests extends ForumTests {
 
 
 	@Test // 5.7
-	public void test_post_validParameters() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException, NeedToChangePasswordException {
+	public void test_post_validParameters() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException, NeedToChangePasswordException, UserNotLoggedInException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 
 		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user1);
 		Message msg = t.getOpeningMessage();
 
+
 		Assert.assertNotNull(msg);
 		Assert.assertEquals(msg.getBody(), THREAD_CONTENTS[0]);
+
+		msg.deleteSelf();
 	}
 
 	@Test // 5.8
-	public void test_post_emptyMessage() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, NeedToChangePasswordException {
+	public void test_post_emptyMessage() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, NeedToChangePasswordException, UserNotLoggedInException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 
@@ -140,15 +161,17 @@ public class MemberUserServicesTests extends ForumTests {
 	public void test_editPost_ExistingMessage() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException, NeedToChangePasswordException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
-		
+
 		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user1);
 		Message msg = t.getOpeningMessage();
-		
+
 		boolean result = editPost(theForum, sf, user1, msg, THREAD_CONTENTS[1]);
 		msg = t.getOpeningMessage();
 
 		Assert.assertTrue(result);
 		Assert.assertEquals(msg.getBody(), THREAD_CONTENTS[1]);
+
+		msg.deleteSelf();
 	}
 	
 	
@@ -167,6 +190,7 @@ public class MemberUserServicesTests extends ForumTests {
 
 		Assert.assertTrue(result);
 		Assert.assertTrue(threads.isEmpty());
+
 	}
 
 	@Test // 5.11
@@ -183,10 +207,13 @@ public class MemberUserServicesTests extends ForumTests {
 			boolean result = deletePost(theForum,sf, user2, msg);
 		} catch (UserNotAuthorizedException e) {
 			Assert.assertTrue(true);
+			msg.deleteSelf();
 			return;
 		}
 
 		Assert.assertTrue(false);
+
+
 	}
 
 
@@ -205,6 +232,11 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.assertNotNull(reply1);
 		Assert.assertNotNull(reply2);
 		Assert.assertEquals(msg.getComments().size(), 2);
+
+		reply1.deleteSelf();
+		reply2.deleteSelf();
+		msg.deleteSelf();
+
 	}
 
 //	@Ignore
@@ -270,13 +302,15 @@ public class MemberUserServicesTests extends ForumTests {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 
-		openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user1);
+		Thread th = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user1);
 
 		user2.setState(User.MODERATOR);
 		changeModetator(theForum, sf, superAdmin, user2);
 
 		boolean result = reportModeratorInForum(theForum, user1, user2, REPORT_TITLES[0], REPORT_CONTENTS[0]);
 		Assert.assertTrue(result);
+
+		th.getOpeningMessage().deleteSelf();
 	}
 
 	@Test // 5.18
@@ -301,7 +335,7 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 
 	@Test // 5.19
-	public void test_reportModerator_SameForum_UserHasntPostedBeofre() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, UserNotAuthorizedException, NeedToChangePasswordException {
+	public void test_reportModerator_SameForum_UserHasntPostedBefore() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, UserNotAuthorizedException, NeedToChangePasswordException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 
@@ -318,15 +352,15 @@ public class MemberUserServicesTests extends ForumTests {
 		Assert.fail();
 	}
 
-	@Test // 5.20
-	public void test_emailNotification_ValidEmailAddress() {
-		// TODO
-	}
-
-	@Test // 5.21
-	public void test_emailNotification_InvalidEmailAddress() {
-		// TODO
-	}
+//	@Test // 5.20
+//	public void test_emailNotification_ValidEmailAddress() {
+//		// TODO
+//	}
+//
+//	@Test // 5.21
+//	public void test_emailNotification_InvalidEmailAddress() {
+//		// TODO
+//	}
 
 
 
