@@ -5,11 +5,14 @@ import acceptanceTests.bridge.IForumSystemBridge;
 import content.Forum;
 import content.Message;
 import content.SubForum;
+import controllers.AdminController;
+import controllers.UserController;
 import exceptions.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import policy.ForumPolicy;
 import users.FriendRequest;
+import users.Notification;
 import users.User;
 
 import java.security.NoSuchAlgorithmException;
@@ -176,5 +179,11 @@ public class ForumTests {
 		return driver.addUserStatusType(forum, admin, type);
 	}
 
+	protected List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException{
+		return driver.getPendingNotifications(forum, user);
+	}
 
+	public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+		return AdminController.appointModerator(forum, subForum, admin, moderator);
+	}
 }

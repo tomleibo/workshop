@@ -7,6 +7,7 @@ import content.Thread;
 import exceptions.*;
 import policy.ForumPolicy;
 import users.FriendRequest;
+import users.Notification;
 import users.User;
 
 import java.security.NoSuchAlgorithmException;
@@ -299,6 +300,24 @@ public class Proxy implements IForumSystemBridge {
     public boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
         if(real != null)
             return real.addUserStatusType(forum, admin, type);
+
+        return false;
+    }
+
+
+
+    @Override
+    public List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException {
+        if(real != null)
+            return real.getPendingNotifications(forum, user);
+
+        return null;
+    }
+
+    @Override
+    public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+        if(real != null)
+            return real.appointModerator(forum, subForum, admin, moderator);
 
         return false;
     }

@@ -7,6 +7,7 @@ import content.Thread;
 import exceptions.*;
 import policy.ForumPolicy;
 import users.FriendRequest;
+import users.Notification;
 import users.User;
 
 import java.security.NoSuchAlgorithmException;
@@ -55,4 +56,7 @@ public interface IForumSystemBridge {
 	boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException;
 
 	boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException;
+	// Version 2
+	List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException;
+	boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException;
 }
