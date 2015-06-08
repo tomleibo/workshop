@@ -7,6 +7,7 @@ import exceptions.UserNotAuthorizedException;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,6 +41,7 @@ public class BanMemberServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        SessionLogger.get().log(request.getSession().getId(),"banning member");
 		String url = request.getRequestURL().toString();
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/success.jsp");
 

@@ -10,6 +10,7 @@ import policy.ForumPolicy;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -39,6 +40,7 @@ public class SubForumServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+            SessionLogger.get().log(request.getSession().getId(),"showing subforum");
 			String subForumIdString = request.getParameter("subForumId");
 			int subForumId = Integer.parseInt(subForumIdString);
 

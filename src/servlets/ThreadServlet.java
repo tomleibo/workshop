@@ -9,6 +9,7 @@ import policy.ForumPolicy;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -42,6 +43,7 @@ public class ThreadServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try{
+            SessionLogger.get().log(request.getSession().getId(),"viewing thread");
 			int threadId = Integer.parseInt(request.getParameter("threadId"));
 
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);

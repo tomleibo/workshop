@@ -6,6 +6,7 @@ import exceptions.UserNotAuthorizedException;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,6 +48,7 @@ public class RemoveFriendServlet extends HttpServlet {
 		String friendName;
 
 		try {
+            SessionLogger.get().log(request.getSession().getId(),"removing friend");
 			forumId = Integer.parseInt(request.getParameter("forumId"));
 			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if(value!= null)

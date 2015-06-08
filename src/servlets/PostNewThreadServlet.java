@@ -6,6 +6,7 @@ import controllers.UserController;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,6 +41,7 @@ public class PostNewThreadServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+            SessionLogger.get().log(request.getSession().getId(),"posting a new thread");
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 
