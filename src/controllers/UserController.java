@@ -7,6 +7,7 @@ import content.Thread;
 import exceptions.*;
 import policy.PolicyHandler;
 import users.FriendRequest;
+import users.Notification;
 import users.Report;
 import users.User;
 import utils.Cipher;
@@ -241,6 +242,13 @@ public class UserController {
 		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to view threads");
 		throw new UserNotAuthorizedException("to view threads.");
 	}
+
+    public static List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException {
+        if (PolicyHandler.canUserGetNotifications()) {
+            return user.getPendingNotifications();
+        }
+        throw new UserNotAuthorizedException("to view notifications.");
+    }
 
 	private static User getUserFromForum(int id) {
         return (User)HibernateUtils.load(User.class,id);

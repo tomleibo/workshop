@@ -16,7 +16,7 @@ public class ForumPolicy{
 	@Column(name = "mail_verification")
 	private boolean doUsersNeedMailVerification;
     @Column (name = "sessionTimeout")
-    private int sessionTimeout;
+    private long sessionTimeout;
     @Column (name = "idleTime")
     private int idleTime;
     @Column (name = "askIdentificationQuestion")
@@ -28,13 +28,26 @@ public class ForumPolicy{
 		MD5,SHA
 	}
 
-	public ForumPolicy(){}
+	public ForumPolicy() {
+        this.maxModerators = 1;
+        this.passwordRegex = ".+";
+        this.hashFunction = HashFunction.MD5;
+        this.doUsersNeedMailVerification = false;
+        this.passwordMaxTime = -1;
+        this.askIdentificationQuestion = false;
+        this.sessionTimeout = 7 * 24 * 60 * 60 * 1000;
+        this.idleTime = 24 * 60 * 60 * 1000;
+    }
+
 	public ForumPolicy(int maxModerators, String passwordRegex,HashFunction hash, boolean mailVeri) {
 		this.maxModerators = maxModerators;
 		this.passwordRegex = passwordRegex;
-		this.hashFunction=hash;
-		this.doUsersNeedMailVerification=mailVeri;
+		this.hashFunction = hash;
+		this.doUsersNeedMailVerification = mailVeri;
         this.passwordMaxTime = -1;
+        this.askIdentificationQuestion = false;
+        this.sessionTimeout = 7 * 24 * 60 * 60 * 1000;
+        this.idleTime = 24 * 60 * 60 * 1000;
 	}
 	
 	public ForumPolicy(int maxModerators, String passwordRegex,HashFunction hash) {
@@ -42,9 +55,24 @@ public class ForumPolicy{
 		this.passwordRegex = passwordRegex;
 		this.hashFunction=hash;
 		this.doUsersNeedMailVerification=false;
+        this.passwordMaxTime = -1;
+        this.askIdentificationQuestion = false;
+        this.sessionTimeout = 7 * 24 * 60 * 60 * 1000;
+        this.idleTime = 24 * 60 * 60 * 1000;
 	}
 
-	public int getMaxModerators() {
+    public ForumPolicy(int maxModerators, String passwordRegex, HashFunction hashFunction, boolean doUsersNeedMailVerification, long sessionTimeout, int idleTime, boolean askIdentificationQuestion, long passwordMaxTime) {
+        this.maxModerators = maxModerators;
+        this.passwordRegex = passwordRegex;
+        this.hashFunction = hashFunction;
+        this.doUsersNeedMailVerification = doUsersNeedMailVerification;
+        this.sessionTimeout = sessionTimeout;
+        this.idleTime = idleTime;
+        this.askIdentificationQuestion = askIdentificationQuestion;
+        this.passwordMaxTime = passwordMaxTime;
+    }
+
+    public int getMaxModerators() {
 		return maxModerators;
 	}
 	
@@ -104,7 +132,7 @@ public class ForumPolicy{
         this.doUsersNeedMailVerification = doUsersNeedMailVerification;
     }
 
-    public int getSessionTimeout() {
+    public long getSessionTimeout() {
         return sessionTimeout;
     }
 

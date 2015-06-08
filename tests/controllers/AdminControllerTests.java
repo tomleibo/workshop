@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import policy.ForumPolicy;
 import users.User;
+import utils.HibernateUtils;
 
 public class AdminControllerTests {
 
@@ -21,7 +22,7 @@ public class AdminControllerTests {
     private static String forumName = "forumName";
     private static String subForumName = "subForumName";
 
-    private static ForumSystem forumSystem;
+
     private ForumPolicy policy;
     private Forum forum;
     private SubForum subForum;
@@ -36,12 +37,13 @@ public class AdminControllerTests {
 
     @AfterClass
     public static void afterClass() {
-        forumSystem.destroy();
+
     }
 
     @Before
     public void beforeMethod() throws Exception {
-        superAdmin = forumSystem.getSuperAdmin(superUsername, hashedPassword);
+        HibernateUtils.start();
+        superAdmin = User.newSuperAdmin("super","pass","super@admins.com");
         policy = new ForumPolicy(2, "", ForumPolicy.HashFunction.SHA, false);
         forum = SuperAdminController.createNewForum(superAdmin, policy, forumName);
         firstModerator = UserController.register(forum, firstModeratorUsername, hashedPassword, mail);
