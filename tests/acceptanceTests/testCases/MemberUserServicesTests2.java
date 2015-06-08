@@ -34,6 +34,7 @@ public class MemberUserServicesTests2 extends ForumTests {
 	@After
 	public void afterMethod() throws UserNotLoggedInException {
 		for(User u : theForum.getMembers()){
+			u.getPendingNotifications().clear();
 			if(u.isLoggedIn() && !u.equals(superAdmin)){
 				u.logout();
 			}
@@ -156,22 +157,22 @@ public class MemberUserServicesTests2 extends ForumTests {
 //		msg.deleteSelf();
 	}
 
-	@Test // 5.9
-	public void test_editPost_ExistingMessage() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException, NeedToChangePasswordException {
-		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
-		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
-
-		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user1);
-		Message msg = t.getOpeningMessage();
-
-		boolean result = editPost(theForum, sf, user1, msg, THREAD_CONTENTS[1]);
-		msg = t.getOpeningMessage();
-
-		Assert.assertTrue(result);
-		Assert.assertEquals(msg.getBody(), THREAD_CONTENTS[1]);
-
-		msg.deleteSelf();
-	}
+//	@Test // 5.9
+//	public void test_editPost_ExistingMessage() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, EmptyMessageTitleAndBodyException, NeedToChangePasswordException {
+//		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
+//		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
+//
+//		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user1);
+//		Message msg = t.getOpeningMessage();
+//
+//		boolean result = editPost(theForum, sf, user1, msg, THREAD_CONTENTS[1]);
+//		msg = t.getOpeningMessage();
+//
+//		Assert.assertTrue(result);
+//		Assert.assertEquals(msg.getBody(), THREAD_CONTENTS[1]);
+//
+//		msg.deleteSelf();
+//	}
 
 
 
