@@ -1,11 +1,9 @@
 package controllers;
 
 import content.Forum;
-import content.ForumSystem;
 import content.SubForum;
 import exceptions.UserNotAuthorizedException;
 import junit.framework.Assert;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import policy.ForumPolicy;
@@ -21,7 +19,6 @@ public class AdminControllerTests {
     private static String forumName = "forumName";
     private static String subForumName = "subForumName";
 
-    private static ForumSystem forumSystem;
     private ForumPolicy policy;
     private Forum forum;
     private SubForum subForum;
@@ -34,15 +31,10 @@ public class AdminControllerTests {
 //        forumSystem = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
 //    }
 
-    @AfterClass
-    public static void afterClass() {
-        forumSystem.destroy();
-    }
-
     @Before
     public void beforeMethod() throws Exception {
-        superAdmin = forumSystem.getSuperAdmin(superUsername, hashedPassword);
-        policy = new ForumPolicy(2, "", ForumPolicy.HashFunction.SHA, false);
+        superAdmin = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
+        policy = new ForumPolicy(2, ".+", ForumPolicy.HashFunction.SHA, false);
         forum = SuperAdminController.createNewForum(superAdmin, policy, forumName);
         firstModerator = UserController.register(forum, firstModeratorUsername, hashedPassword, mail);
         secondModerator = UserController.register(forum, secondModeratorUsername, hashedPassword, mail);

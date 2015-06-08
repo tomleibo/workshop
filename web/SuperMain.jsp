@@ -1,4 +1,3 @@
-<%@ page import="content.ForumSystem" %>
 <%@ page import="content.Forum" %>
 <%@ page import="java.util.List" %>
 <%--

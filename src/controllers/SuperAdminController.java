@@ -1,7 +1,6 @@
 package controllers;
 
 import content.Forum;
-import content.ForumSystem;
 import content.Message;
 import exceptions.UserNotAuthorizedException;
 import org.hibernate.Query;
@@ -23,8 +22,6 @@ public class SuperAdminController {
 	public static Forum createNewForum(User superAdmin, ForumPolicy policy, String name) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserAddForum(superAdmin)) {
 			Forum forum = new Forum(superAdmin, policy, name);
-            //TODO: delete forum system?
-			//ForumSystem.getInstance().addForum(forum);
             if (forum !=null) {
                 if (!HibernateUtils.save(forum)) {
                     System.out.println("create new forum failed in hibernate.");
@@ -39,7 +36,6 @@ public class SuperAdminController {
 
 	public static boolean deleteForum(User superAdmin, Forum forum) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserRemoveForum(superAdmin)) {
-			// ForumSystem.getInstance().removeForum(forum);
             return HibernateUtils.del(forum);
 		}
 		throw new UserNotAuthorizedException("to remove forum.");
@@ -107,19 +103,6 @@ public class SuperAdminController {
         User superAdmin = User.newSuperAdmin(username, hashedPassword, email);
         HibernateUtils.save(superAdmin);
 		return superAdmin;
-		//return ForumSystem.newForumSystem(superAdmin);
-	}
-
-	public static void destroyForumSystem(User superAdmin, ForumSystem forumSystem) throws UserNotAuthorizedException {
-		if (PolicyHandler.canUserDestroyForumSystem(superAdmin)){
-            //HibernateUtils.getQuery("drop database forum_system").executeUpdate();
-            //TODO: ^ this is not good... will make trouble for the orm... need to delete DB politely
-            //forumSystem.destroy();
-			return;
-		}
-
-		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't destroy forum system");
-		throw new UserNotAuthorizedException("to destroy forum system.");
 	}
 
     public static int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
@@ -146,12 +129,12 @@ public class SuperAdminController {
 
 	public static boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy){
 		//TODO: save in sql?
-        return ForumSystem.getInstance().addUserStatusType(type, userStatusPolicy);
+        return true;
 	}
 
 	public static boolean removeUserStatusType(User superAdmin, String type){
         //TODO: save in sql?
-		return ForumSystem.getInstance().removeUserStatusType(type);
+		return true;
 	}
 
 }

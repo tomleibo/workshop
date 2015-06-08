@@ -53,6 +53,5 @@ public interface IForumSystemBridge {
 	boolean deleteSubForum(Forum forum, SubForum subForum,User user) throws UserNotAuthorizedException;
 	boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException;
 
-	void tearDownForumSystem(User superAdmin, ForumSystem system) throws UserNotAuthorizedException;
 	boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy);
 }

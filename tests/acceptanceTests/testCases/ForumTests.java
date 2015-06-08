@@ -3,7 +3,6 @@ package acceptanceTests.testCases;
 import acceptanceTests.bridge.Driver;
 import acceptanceTests.bridge.IForumSystemBridge;
 import content.Forum;
-import content.ForumSystem;
 import content.Message;
 import content.SubForum;
 import exceptions.*;
@@ -50,7 +49,6 @@ public class ForumTests {
 	protected static final String superAdminPassword = "";
 	protected static final String superAdminMail = "";
 
-	//protected static ForumSystem system;
 	protected static Forum theForum;
 	protected static User superAdmin;
 	protected static ForumPolicy policy;
@@ -173,10 +171,6 @@ public class ForumTests {
 
 	protected boolean replyToFriendRequest(Forum forum, User user,FriendRequest request, boolean msg) throws UserNotAuthorizedException {
 		return driver.replyToFriendRequest(forum, user, request, msg);
-	}
-
-	protected static void tearDownForumSystem(User superAdmin,ForumSystem system) throws UserNotAuthorizedException {
-		driver.tearDownForumSystem(superAdmin, system);
 	}
 
 	protected boolean addUserStatusType(User superAdmin, String type, UserStatusPolicy userStatusPolicy) {
