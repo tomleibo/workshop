@@ -70,7 +70,7 @@ public class ReplyEditServlet extends HttpServlet {
 			User user = (User) HibernateUtils.load(User.class, userId);
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
-			Thread thread = (Thread) HibernateUtils.load(SubForum.class, threadId);
+			Thread thread = (Thread) HibernateUtils.load(Thread.class, threadId);
 			Message message = (Message)HibernateUtils.load(Message.class, msgId);
 
 			switch(op){
@@ -87,7 +87,6 @@ public class ReplyEditServlet extends HttpServlet {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/thread?threadId="+threadId);
 			request.setAttribute("user", user);
 			request.setAttribute("forum", forum);
-			request.setAttribute("user", user);
 			request.setAttribute("subForum", subForum);
 			request.setAttribute("thread", thread);
 			request.setAttribute("message", message);

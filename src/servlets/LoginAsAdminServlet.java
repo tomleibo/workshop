@@ -1,6 +1,7 @@
 package servlets;
 
 import content.Forum;
+import controllers.SuperAdminController;
 import controllers.UserController;
 import users.User;
 import utils.CookieUtils;
@@ -14,18 +15,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
- * Servlet implementation class ForumServlet
+ * Servlet implementation class ThreadServlet
  */
-@WebServlet(description = "Presents all sub forums", urlPatterns = { "/friendRequests" })
-public class FriendRequestsServlet extends HttpServlet {
+@WebServlet(description = "A servlet for registering", urlPatterns = { "/loginAsAdmin" })
+public class LoginAsAdminServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FriendRequestsServlet() {
+    public LoginAsAdminServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,38 +39,33 @@ public class FriendRequestsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-            SessionLogger.get().log(request.getSession().getId(),"showing friend requests");
-			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if (cookieValue == null)
-				throw new Exception("User Cookie Value doesn't exist");
+            SessionLogger.get().log(request.getSession().getId(),"logined");
+			String userName = request.getParameter("user");
+			String pass = request.getParameter("pass");
 
-			int userId = Integer.parseInt(cookieValue);
+			User user = SuperAdminController.loginSuperAdmin(userName, pass);
+			String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if(userId != null)
+				CookieUtils.changeCookieValue(request, response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
+			else
+				CookieUtils.addInfiniteCookie(response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
 
-			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
-			if (cookieValue == null)
-				throw new Exception("Forum Cookie Value doesn't exist");
-
-			int forumId = Integer.parseInt(cookieValue);
-
-			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-			User user = (User) HibernateUtils.load(User.class, userId);
-
+			List<Forum> forums = HibernateUtils.getAllForums();
+			request.setAttribute("forums", forums);
 			request.setAttribute("user", user);
-			request.setAttribute("forum", forum);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/friendRequests.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/home");
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e) {
-			ServletUtils.exitError(this, request, response, e.getMessage());
+			ServletUtils.exitError(this, request,response, e.getMessage());
 		}
 	}
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		doGet(request,response);
 	}
 
 }

@@ -18,14 +18,14 @@ import java.io.IOException;
 /**
  * Servlet implementation class ForumServlet
  */
-@WebServlet(description = "Presents all sub forums", urlPatterns = { "/friendRequests" })
-public class FriendRequestsServlet extends HttpServlet {
+@WebServlet(description = "Presents all sub forums", urlPatterns = { "/forumManagement" })
+public class ForumManagementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FriendRequestsServlet() {
+    public ForumManagementServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,9 +34,11 @@ public class FriendRequestsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		SessionLogger.get().log(request.getSession().getId(),"showing forum page");
 		try {
-            SessionLogger.get().log(request.getSession().getId(),"showing friend requests");
+
+//			CookieUtils.deleteAllCookies(request, response);
+
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
 			if (cookieValue == null)
 				throw new Exception("User Cookie Value doesn't exist");
@@ -50,11 +52,11 @@ public class FriendRequestsServlet extends HttpServlet {
 			int forumId = Integer.parseInt(cookieValue);
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-			User user = (User) HibernateUtils.load(User.class, userId);
+			User user = (User) HibernateUtils.load(User.class,userId);
 
-			request.setAttribute("user", user);
 			request.setAttribute("forum", forum);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/friendRequests.jsp");
+			request.setAttribute("user", user);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forumManagement.jsp");
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e) {
@@ -67,7 +69,7 @@ public class FriendRequestsServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		doGet(request,response);
 	}
 
 }

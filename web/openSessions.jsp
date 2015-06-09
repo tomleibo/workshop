@@ -15,14 +15,8 @@
     <link href="css/buttons.css" rel="stylesheet">
 </head>
 <body>
-<h1> Hi <%= user.getUsername()%>!</h1> <br>
-<%if(!user.isGuest()){%>
-<%=HtmlUtils.getNotificationsLink(user)%>
-<%--Some notifications--%>
-<div class="container">
-    <a href="/profile" class="button"><span>✓</span>Profile</a>
-</div>
-<%}%>
+<h1> Open Sessions!</h1> <br>
+
 
 <% for (String ses : openSessions) { %>
     <a href="/openSession?sid=<%=ses%>"><%=ses%></a><br>
