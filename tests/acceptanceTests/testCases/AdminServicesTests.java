@@ -101,7 +101,7 @@ public class AdminServicesTests extends ForumTests{
 
 	// version 2
 	@Test // 1.6
-	public void test_appoint_moderator() throws UserNotAuthorizedException {
+	public void test_appoint_moderator() throws Exception {
 		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
 
 		Assert.assertTrue(appointModerator(theForum,sf1, admin, user));
@@ -137,7 +137,7 @@ public class AdminServicesTests extends ForumTests{
 	}
 
 	@Test // 1.8
-	public void test_unappoint_moderator() throws UserNotAuthorizedException {
+	public void test_unappoint_moderator() throws Exception {
 		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
 
 		Assert.assertTrue(appointModerator(theForum, sf1, admin, user));

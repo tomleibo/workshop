@@ -129,7 +129,7 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean appointNewModerator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException {
+    public boolean appointNewModerator(Forum forum, SubForum subForum, User admin, User newModerator) throws Exception {
         return AdminController.appointModerator(forum, subForum, admin, newModerator);
     }
 
@@ -155,7 +155,7 @@ public class Real implements IForumSystemBridge {
 
     @Override
     public User initializeForumSystem(String user, String pass, String emailAddress) throws NoSuchAlgorithmException {
-        return SuperAdminController.initializeForumSystem(user, getHashedPassword(pass), emailAddress);
+        return SuperAdminController.startForumSystem(user, getHashedPassword(pass), emailAddress);
     }
 
     @Override
@@ -216,7 +216,7 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+    public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws Exception {
         return AdminController.appointModerator(forum, subForum, admin, moderator);
     }
 

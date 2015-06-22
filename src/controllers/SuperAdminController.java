@@ -126,6 +126,13 @@ public class SuperAdminController {
 		return superAdmin;
 	}
 
+    public static User startForumSystem(String username, String password, String email) throws NoSuchAlgorithmException {
+        HibernateUtils.start();
+        User superAdmin = User.newSuperAdmin(username, Cipher.hashString(password, Cipher.SHA), email);
+        HibernateUtils.save(superAdmin);
+        return superAdmin;
+    }
+
     public static int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserGetNumberOfForums(superAdmin)) {
             Query query = HibernateUtils.getQuery("FROM forum");

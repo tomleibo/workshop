@@ -177,7 +177,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean appointNewModerator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException {
+    public boolean appointNewModerator(Forum forum, SubForum subForum, User admin, User newModerator) throws Exception {
         if(real != null)
             return real.appointNewModerator(forum, subForum, admin, newModerator);
 
@@ -315,7 +315,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+    public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws Exception {
         if(real != null)
             return real.appointModerator(forum, subForum, admin, moderator);
 
