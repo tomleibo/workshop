@@ -1,28 +1,12 @@
 <%@ page import="content.Forum" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: thinkPAD
-  Date: 5/6/2015
-  Time: 6:39 PM
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% String forumIdString = (String)request.getParameter("forumId"); %>
-<%
-  int id=-1;
-  try {
-    id=Integer.parseInt(forumIdString);
-  }
-  catch (NumberFormatException e) {
-    System.out.println(e);
-  }
-%>
-<!DOCTYPE html>
+
+
 <html>
 <head>
-
   <title>
-    Registration
+    login
   </title>
     <!-- start: Mobile Specific -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -54,7 +38,6 @@
     <style type="text/css">
         body { background: url(img/bg-login.jpg) !important; }
     </style>
-
 </head>
 <body>
 <div class="container-fluid-full">
@@ -63,17 +46,15 @@
         <div class="row-fluid">
             <div class="login-box">
                 <div class="icons">
-                    <a href="/home"><i class="halflings-icon home"></i></a>
+                    <a href="index.html"><i class="halflings-icon home"></i></a>
+                    <a href="#"><i class="halflings-icon cog"></i></a>
                 </div>
-                <div class = "input-prepend">
-                    <h1>Register</h1>
-                </div>
-                <form class="form-horizontal" action="/register" method="get">
+                <h2>Login to your account as admin</h2>
+                <form class="form-horizontal" action="\loginAsAdmin" method="post" >
                     <fieldset>
-                        <input name="forumId" type="hidden" value="<%=id%>">
                         <div class="input-prepend" title="Username">
                             <span class="add-on"><i class="halflings-icon user"></i></span>
-                            <input class="input-large span10" name="username" id="username" type="text" placeholder="type username"/>
+                            <input class="input-large span10" name="user" id="username" type="text" placeholder="type username"/>
                         </div>
                         <div class="clearfix"></div>
 
@@ -81,31 +62,15 @@
                             <span class="add-on"><i class="halflings-icon lock"></i></span>
                             <input class="input-large span10" name="pass" id="password" type="password" placeholder="type password"/>
                         </div>
-
-                        <div class="input-prepend" title="Email">
-                            <span class="add-on"><i class="halflings-icon envelope"></i></span>
-                            <input class="input-large span10" name="email" id="email" type="text" placeholder="type email"/>
-                        </div>
-
-
-                        <div class="input-prepend" title="Quest&Ans">
-
-                            <span class="add-on"><i class="halflings-icon question-sign"></i></span>
-                            <input class="input-large span10" name="question" id="question" type="text" placeholder="type a question" style="background-color: cornsilk;"/>
-
-                        </div>
-
-                        <div class="input-prepend" title="Quest&Ans" >
-                            <span class="add-on"><i class="halflings-icon pencil"></i></span>
-                            <input class="input-large span10" name="answer" id="answer" type="text" placeholder="type possible answer" style="background-color: cornsilk;"/>
-                        </div>
-
-                        <div class="input-prepend" title="Register">
-                            <button type="submit" class="btn btn-primary">Register</button>
-                        </div>
                         <div class="clearfix"></div>
 
-                </fieldset>
+                        <label class="remember" for="remember"><input type="checkbox" id="remember" value="1" disabled />Remember me</label>
+
+                        <div class="button-login">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </fieldset>
                 </form>
 
             </div><!--/span-->
@@ -184,14 +149,3 @@
 </body>
 </html>
 
-
-<!--
-<h2>registration</h2><br>
-<form action="\register" method="get" id="registerform">
-  <input name="forumId" type="hidden" value="<%=id%>">
-  user:&nbsp;<input name="username" type="text" value=""><br>
-  password:&nbsp;<input name="pass" type="password" value=""><br>
-  <input type="submit">
-</form>
-</body>
-</html>-->
