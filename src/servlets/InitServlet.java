@@ -24,7 +24,6 @@ public class InitServlet extends HttpServlet {
         String password = request.getParameter("pass");
         String email = request.getParameter("email");
         if (code.equals(CODE)) {
-            HibernateUtils.init();
             try {
                 SuperAdminController.initializeForumSystem(username,password,email);
             }
