@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% String errorMessage = (String)request.getAttribute("message"); %>
+<% String info = (String)request.getAttribute("info"); %>
+<% String stack= (String)request.getAttribute("exception"); %>
 
 <html lang="en" class=" js inlinesvg"><head>
 
@@ -113,10 +115,13 @@
 
         <!-- start: Content -->
         <div id="content" class="span10" style="min-height: 193px;">
-
-            Error! <%=errorMessage%>!
+            <h2>
+            Error: <%=errorMessage%> <br>
+            </h2>
+            <h3>Additional information: <%=info%></h3>
+            <!-- <%=stack%> -->
             <br>
-            <button onclick="goBack()">Go Back</button>
+            <button class="btn btn-large btn-primary" onclick="goBack()">Go Back</button>
 
         </div><!--/.fluid-container-->
 
