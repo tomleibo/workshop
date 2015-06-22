@@ -400,7 +400,11 @@ public class User {
 		return seniority;
 	}
 
-	public long getLoginTime(){
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public long getLoginTime(){
 		return loginTime;
 	}
 

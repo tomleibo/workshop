@@ -12,6 +12,7 @@ import users.User;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Set;
 
 public interface IForumSystemBridge {
 	// General Services
@@ -36,7 +37,7 @@ public interface IForumSystemBridge {
 	boolean dismissModerator(SubForum subForum);
 	boolean appointNewAdmin(Forum forum, User superAdmin, User admin) throws UserNotAuthorizedException;
 	SubForum addSubForum(Forum forum, String title, User admin) throws UserNotAuthorizedException;
-	boolean appointNewModerator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException;
+	boolean appointNewModerator(Forum forum, SubForum subForum, User admin, User newModerator) throws Exception;
 	String[] getForumStats(Forum forum);
 	//
 	boolean isMessageContentMatchesSubForumSubject(SubForum subForum, Message message);
@@ -58,6 +59,11 @@ public interface IForumSystemBridge {
 	boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException;
 	// Version 2
 	List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException;
-	boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException;
+	boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws Exception;
 	boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException;
-}
+	int getReportTotalMessagesInSubForum(Forum forum, User admin, SubForum subForum) throws UserNotAuthorizedException;
+	List<Message> getReportTotalMessagesOfMember(Forum forum, User admin, User member) throws UserNotAuthorizedException;
+	Set<User> getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException;
+	int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException;
+
+	}

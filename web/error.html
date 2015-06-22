@@ -1,15 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Roee
-  Date: 06-05-15
-  Time: 18:41
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% String errorMessage = (String)request.getAttribute("message"); %>
-<% String info = (String)request.getAttribute("info"); %>
-<% String stack= (String)request.getAttribute("exception"); %>
-
 <html lang="en" class=" js inlinesvg"><head>
 
     <!-- start: Meta -->
@@ -115,13 +103,10 @@
 
         <!-- start: Content -->
         <div id="content" class="span10" style="min-height: 193px;">
-            <h2>
-            Error: <%=errorMessage%> <br>
-            </h2>
-            <h3>Additional information: <%=info%></h3>
-            <!-- <%=stack%> -->
+
+            Error! Uncaught error.
             <br>
-            <button class="btn btn-large btn-primary" onclick="goBack()">Go Back</button>
+            <button onclick="goBack()">Go Back</button>
 
         </div><!--/.fluid-container-->
 
@@ -226,5 +211,7 @@
 <script src="js/custom.js"></script>
 <script src="js/comment.js"></script>
 <!-- end: JavaScript-->
+
+
 
 </body><button id="javascript-popup-blocker-notify" style="display: none;"></button></html>

@@ -192,7 +192,6 @@ public class HibernateUtils {
 
     public static void main (String args[]) {
         //HibernateUtils.configure(false);
-        //System.out.println(cleanUp());
         HibernateUtils.init();
     }
 
@@ -218,28 +217,48 @@ public class HibernateUtils {
         return results;
     }
 
-    public static boolean runSql(Session session,String query) {
-        Query q = session.createSQLQuery(query);
-        System.out.println("running query: \'"+query+"\'");
-        int rowsAffected = q.executeUpdate();
-        System.out.println("result: "+rowsAffected+" rows affected");
-        return  rowsAffected> 0;
-    }
-
-    public static boolean cleanUp() {
-        /*Session session = sessionFactory.getCurrentSession();
-        Transaction t = session.beginTransaction();
-        boolean ans = runSql(session,"update forum set admin=NULL;") &&
-        runSql(session,"update user set state=NULL;") &&
-        runSql(session,"delete from userstate;") &&
-        runSql(session,"delete from user;") &&
-        runSql(session,"delete from forum;") &&
-        runSql(session,"delete from forumpolicy;");
-        t.commit();
-        if(session.isOpen()) {
+    public static List<Message> getUsersMessages(int id) {
+        String hql = "FROM Message M WHERE M.publisher.id = " + id;
+        Session session = HibernateUtils.getSession();
+        Query query = session.createQuery(hql);
+        List<Message> results = query.list();
+        if (session.isOpen()) {
             session.close();
         }
-        return ans;*/
-        return false;
+        return results;
+    }
+
+    public static boolean runSql(String query) {
+        Session session = sessionFactory.openSession();
+        Query q = session.createSQLQuery(query);
+        int rowsAffected = q.executeUpdate();
+        if (session.isOpen())
+            session.close();
+        return  rowsAffected > 0;
+    }
+
+    /**
+     * Cleanup all database
+     * @return true after finish
+     */
+    public static boolean cleanUp() {
+        String[] tables = {"forum",
+                        "forumpolicy",
+                        "friendrequest",
+                        "message",
+                        "notification",
+                        "report",
+                        "subforum",
+                        "subforum_user",
+                        "thread",
+                        "user",
+                        "user_user",
+                        "userstatuspolicy"};
+        runSql("SET FOREIGN_KEY_CHECKS = 0;");
+        for (String s : tables) {
+            runSql("TRUNCATE " + s + ";");
+        }
+        runSql("SET FOREIGN_KEY_CHECKS = 1;");
+        return true;
     }
 }

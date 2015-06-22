@@ -147,4 +147,12 @@ public class Message {
         }
         return numberOfMessages;
     }
+
+    public int getNumberOfMessagesByUser(User user) {
+        int numberOfMessages = (getUser().equals(user)) ? 1 : 0;
+        for (Message message : comments) {
+            numberOfMessages += message.getNumberOfMessagesByUser(user);
+        }
+        return numberOfMessages;
+    }
 }

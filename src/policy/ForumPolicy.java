@@ -16,21 +16,19 @@ public class ForumPolicy{
 	@Column(name = "mail_verification")
 	private boolean doUsersNeedMailVerification;
     @Column (name = "sessionTimeout")
-    private long sessionTimeout;
+    private long sessionTimeout; // Milliseconds.
     @Column (name = "idleTime")
     private int idleTime;
     @Column (name = "askIdentificationQuestion")
     private boolean askIdentificationQuestion;
     @Column (name = "passwordExpireDate")
-    private long passwordMaxTime;
+    private long passwordMaxTime; // Milliseconds.
     @Column (name = "canModeratorEditPosts")
     private boolean canModeratorEditPosts;
     @Column (name = "moderatorMinimumNumberOfPosts")
     private int moderatorMinimumNumberOfPosts;
     @Column (name = "moderatorMinimumSeniority")
-    private long moderatorMinimumSeniority;
-    @Column (name = "canAnyAdminUnappointModerator")
-    private boolean canAnyAdminUnappointModerator;
+    private long moderatorMinimumSeniority; // Milliseconds.
 
 
     public enum HashFunction{
@@ -38,21 +36,21 @@ public class ForumPolicy{
 	}
 
 	public ForumPolicy() {
-        this(1, ".+", HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, true, 0, 0, true);
+        this(1, ".+", HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, true, 0, 0);
     }
 
 	public ForumPolicy(int maxModerators, String passwordRegex,HashFunction hash, boolean mailVeri) {
-        this(maxModerators, passwordRegex, hash, mailVeri, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, true, 0, 0, true);
+        this(maxModerators, passwordRegex, hash, mailVeri, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, true, 0, 0);
     }
 	
 	public ForumPolicy(int maxModerators, String passwordRegex,HashFunction hash) {
-		this(maxModerators, passwordRegex, hash, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, true, 0, 0, true);
+		this(maxModerators, passwordRegex, hash, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, true, 0, 0);
 	}
 
     public ForumPolicy(int maxModerators, String passwordRegex, HashFunction hashFunction,
                        boolean doUsersNeedMailVerification, long sessionTimeout, int idleTime,
                        boolean askIdentificationQuestion, long passwordMaxTime, boolean canModeratorEditPosts,
-                       int moderatorMinimumNumberOfPosts, long moderatorMinimumSeniority, boolean canAnyAdminUnappointModerator) {
+                       int moderatorMinimumNumberOfPosts, long moderatorMinimumSeniority) {
         this.maxModerators = maxModerators;
         this.passwordRegex = passwordRegex;
         this.hashFunction = hashFunction;
@@ -64,7 +62,6 @@ public class ForumPolicy{
         this.canModeratorEditPosts = canModeratorEditPosts;
         this.moderatorMinimumNumberOfPosts = moderatorMinimumNumberOfPosts;
         this.moderatorMinimumSeniority = moderatorMinimumSeniority;
-        this.canAnyAdminUnappointModerator = canAnyAdminUnappointModerator;
     }
 
     public int getMaxModerators() {
@@ -95,7 +92,6 @@ public class ForumPolicy{
         if (canModeratorEditPosts != policy.canModeratorEditPosts) return false;
         if (moderatorMinimumNumberOfPosts != policy.moderatorMinimumNumberOfPosts) return false;
         if (moderatorMinimumSeniority != policy.moderatorMinimumSeniority) return false;
-        if (canAnyAdminUnappointModerator != policy.canAnyAdminUnappointModerator) return false;
         if (!passwordRegex.equals(policy.passwordRegex)) return false;
         return hashFunction == policy.hashFunction;
 
@@ -114,7 +110,6 @@ public class ForumPolicy{
         result = 31 * result + (canModeratorEditPosts ? 1 : 0);
         result = 31 * result + moderatorMinimumNumberOfPosts;
         result = 31 * result + (int) (moderatorMinimumSeniority ^ (moderatorMinimumSeniority >>> 32));
-        result = 31 * result + (canAnyAdminUnappointModerator ? 1 : 0);
         return result;
     }
 
@@ -204,13 +199,5 @@ public class ForumPolicy{
 
     public void setModeratorMinimumSeniority(long moderatorMinimumSeniority) {
         this.moderatorMinimumSeniority = moderatorMinimumSeniority;
-    }
-
-    public boolean isCanAnyAdminUnappointModerator() {
-        return canAnyAdminUnappointModerator;
-    }
-
-    public void setCanAnyAdminUnappointModerator(boolean canAnyAdminUnappointModerator) {
-        this.canAnyAdminUnappointModerator = canAnyAdminUnappointModerator;
     }
 }

@@ -1,103 +1,15 @@
-<?xml version="1.0" encoding="windows-1255" standalone="no"?>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2015-06-09T09:34:48</date>
-  <millis>1433831688950</millis>
-  <sequence>19</sequence>
+  <date>2015-06-22T17:42:48</date>
+  <millis>1434984168933</millis>
+  <sequence>20</sequence>
   <logger>error</logger>
   <level>SEVERE</level>
   <class>utils.ForumLogger</class>
   <method>errorLog</method>
   <thread>1</thread>
-  <message>users.User The user John is already moderator</message>
-</record>
-<record>
-  <date>2015-06-09T09:34:49</date>
-  <millis>1433831689841</millis>
-  <sequence>22</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>users.User The user John is already moderator</message>
-</record>
-<record>
-  <date>2015-06-09T09:34:49</date>
-  <millis>1433831689950</millis>
-  <sequence>23</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>controllers.UserController The user Dani has no permissions to send a report</message>
-</record>
-<record>
-  <date>2015-06-09T09:34:50</date>
-  <millis>1433831690083</millis>
-  <sequence>26</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>users.User The user Dani trying to login but ha is already logged in</message>
-</record>
-<record>
-  <date>2015-06-09T09:34:52</date>
-  <millis>1433831692325</millis>
-  <sequence>34</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>controllers.UserController The user John can't delete post</message>
-</record>
-<record>
-  <date>2015-06-09T09:34:53</date>
-  <millis>1433831693649</millis>
-  <sequence>43</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>users.User The user Johncould not deleted Danifrom he's friends</message>
-</record>
-<record>
-  <date>2015-06-09T09:34:53</date>
-  <millis>1433831693958</millis>
-  <sequence>48</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>controllers.UserController The user Dani has no permissions to send a report</message>
-</record>
-<record>
-  <date>2015-06-09T09:34:54</date>
-  <millis>1433831694159</millis>
-  <sequence>52</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>controllers.UserController The user Joe trying to login but he is not existing in the forum YNET</message>
-</record>
-<record>
-  <date>2015-06-09T09:34:54</date>
-  <millis>1433831694262</millis>
-  <sequence>53</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>users.User The user Dani trying to login but he's password is incorrect</message>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
 </record>
 </log>

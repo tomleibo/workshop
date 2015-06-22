@@ -71,7 +71,12 @@ public class Thread {
         return openingMessage.getNumberOfMessages();
     }
 
+    public int getNumberOfMessagesForUser(User user) {
+        return openingMessage.getNumberOfMessagesByUser(user);
+    }
+
     public SubForum getSubForum() {
         return subForum;
     }
+
 }

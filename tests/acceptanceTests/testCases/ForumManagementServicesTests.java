@@ -110,4 +110,11 @@ public class ForumManagementServicesTests extends ForumTests {
 //
 //	}
 
+	//version 2
+	//	public int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
+
+	@Test // 2.9
+	public void test_report_forum_number() throws Exception{
+		Assert.assertEquals(1, getReportNumberOfForums(superAdmin));
+	}
 }

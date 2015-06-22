@@ -57,7 +57,7 @@ public class DismissModeratorServlet extends HttpServlet {
 			moderatorId = Integer.parseInt(request.getParameter("moderatorId"));
 		}
 		catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
+            ServletUtils.exitError(this, request, response, e);
 			return;
 		}
 
@@ -69,7 +69,7 @@ public class DismissModeratorServlet extends HttpServlet {
 		try {
 			AdminController.unAppoint(forum, subForum, user, moderator);
 		} catch (UserNotAuthorizedException e) {
-			System.out.println(e.getMessage());
+            ServletUtils.exitError(this, request, response, e);
 			return;
 		}
 

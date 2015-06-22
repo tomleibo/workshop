@@ -5,8 +5,6 @@ import acceptanceTests.bridge.IForumSystemBridge;
 import content.Forum;
 import content.Message;
 import content.SubForum;
-import controllers.AdminController;
-import controllers.UserController;
 import exceptions.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -17,14 +15,15 @@ import users.User;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Set;
 
 public class ForumTests {
 	protected static IForumSystemBridge driver;
 	public static final String[] FORUM_NAMES = {"YNET", "FXP", "StackOverFlow"};
 	public static final String[] SUB_FORUM_NAMES = {"Games", "Nature", "Physics"};
-	public static final String[] USER_NAMES = {"Dani", "John", "Joe"};
-	public static final String[] USER_PASSES = {"DaniDaKing", "JohnDoe", "BazookaJoe"};
-	public static final String[] USER_EMAILS = {"roee@gmail.com", "shrimple@gmail.com", "jontreve@gmail.co.il"};
+	public static final String[] USER_NAMES = {"Dani", "John", "Joe", "bb"};
+	public static final String[] USER_PASSES = {"DaniDaKing", "JohnDoe", "BazookaJoe", "bBbB"};
+	public static final String[] USER_EMAILS = {"roee@gmail.com", "shrimple@gmail.com", "jontreve@gmail.co.il", "bbB@gmail.co.il"};
 	public static final String[] THREAD_TITLES ={ "Who wants to play Sims?",
 			 "Who wants to play Age of Empires?", "Who wants to play Sims?"};
 	public final String[] THREAD_CONTENTS = {"Hello everyone, is there someone who wants to play Sims?",
@@ -159,7 +158,7 @@ public class ForumTests {
 		return driver.appointNewAdmin(forum, superAdmin, admin);
 	}
 
-	protected boolean changeModetator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException {
+	protected boolean changeModetator(Forum forum, SubForum subForum, User admin, User newModerator) throws Exception {
 		return driver.appointNewModerator(forum, subForum, admin, newModerator);
 	}
 
@@ -185,11 +184,25 @@ public class ForumTests {
 		return driver.getPendingNotifications(forum, user);
 	}
 
-	public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
-		return AdminController.appointModerator(forum, subForum, admin, moderator);
+	public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws Exception {
+		return driver.appointModerator(forum, subForum, admin, moderator);
 	}
 
-	public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
-		return AdminController.unAppoint(forum, subForum, admin, moderator);
+	public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws Exception {
+		return driver.unAppoint(forum, subForum, admin, moderator);
+	}
+
+	int getReportTotalMessagesInSubForum(Forum forum, User admin, SubForum subForum) throws UserNotAuthorizedException{
+		return driver.getReportTotalMessagesInSubForum(forum, admin, subForum);
+	}
+	List<Message> getReportTotalMessagesOfMember(Forum forum, User admin, User member) throws UserNotAuthorizedException{
+		return driver.getReportTotalMessagesOfMember(forum, admin, member);
+	}
+	Set<User> getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException{
+		return driver.getReportModeratorList(forum, admin);
+	}
+
+	public int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
+		return driver.getReportNumberOfForums(superAdmin);
 	}
 }

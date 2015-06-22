@@ -41,7 +41,7 @@ public class AdminControllerTests {
     }
 
     @Test
-    public void appointModeratorTest() throws UserNotAuthorizedException {
+    public void appointModeratorTest() throws Exception {
         subForum = AdminController.addSubForum(forum, subForumName, superAdmin);
         AdminController.appointModerator(forum, subForum, superAdmin, firstModerator);
         Assert.assertTrue(subForum.getModerators().contains(firstModerator));
@@ -54,7 +54,7 @@ public class AdminControllerTests {
     }
 
     @Test
-    public void unAppointTest() throws UserNotAuthorizedException {
+    public void unAppointTest() throws Exception {
         subForum = AdminController.addSubForum(forum, subForumName, superAdmin);
         AdminController.appointModerator(forum, subForum, superAdmin, firstModerator);
         AdminController.unAppoint(forum, subForum, superAdmin, firstModerator);
@@ -63,7 +63,7 @@ public class AdminControllerTests {
     }
 
     @Test
-    public void replaceModeratorTest() throws UserNotAuthorizedException {
+    public void replaceModeratorTest() throws Exception {
         subForum = AdminController.addSubForum(forum, subForumName, superAdmin);
         AdminController.appointModerator(forum, subForum, superAdmin, firstModerator);
         AdminController.replaceModerator(forum, subForum, superAdmin, firstModerator, secondModerator);

@@ -298,7 +298,7 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 
 	@Test // 5.17
-	public void test_reportModerator_SameForum_UserHasPostedBefore() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, UsernameAlreadyExistsException, EmptyMessageTitleAndBodyException, NeedToChangePasswordException {
+	public void test_reportModerator_SameForum_UserHasPostedBefore() throws Exception {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 
@@ -335,7 +335,7 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 
 	@Test // 5.19
-	public void test_reportModerator_SameForum_UserHasntPostedBefore() throws UsernameAlreadyExistsException, NoSuchAlgorithmException, UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, UserNotAuthorizedException, NeedToChangePasswordException {
+	public void test_reportModerator_SameForum_UserHasntPostedBefore() throws Exception {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 

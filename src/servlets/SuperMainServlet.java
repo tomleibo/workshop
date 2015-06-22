@@ -31,13 +31,18 @@ public class SuperMainServlet extends HttpServlet {
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SessionLogger.get().log(request.getSession().getId(),"viewing the list of forums");
-        List<Forum> forums = HibernateUtils.getAllForums();
+        try{
+           SessionLogger.get().log(request.getSession().getId(),"viewing the list of forums");
+            List<Forum> forums = HibernateUtils.getAllForums();
 
-        request.setAttribute("forums", forums);
+            request.setAttribute("forums", forums);
 
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/superMain.jsp");
-        dispatcher.forward(request,response);
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/superMain.jsp");
+            dispatcher.forward(request, response);
+        }
+        catch (Exception e) {
+            ServletUtils.exitError(this, request,response,e);
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
