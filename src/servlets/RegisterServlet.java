@@ -65,7 +65,7 @@ public class RegisterServlet extends HttpServlet {
 
 
 		} catch (Exception e) {
-			ServletUtils.exitError(this, request,response,e.getMessage());
+			ServletUtils.exitError(this, request,response,e);
 		}
 	}
 

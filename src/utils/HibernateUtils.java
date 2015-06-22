@@ -218,6 +218,19 @@ public class HibernateUtils {
         return results;
     }
 
+    public static List<Message> getUsersMessages(int id) {
+        String hql = "FROM Message M WHERE M.id = " + id;
+        Session session = HibernateUtils.getSession();
+        Query query = session.createQuery(hql);
+        List<Message> results = query.list();
+        if (session.isOpen()) {
+            session.close();
+        }
+        return results;
+    }
+
+
+
     public static boolean runSql(Session session,String query) {
         Query q = session.createSQLQuery(query);
         System.out.println("running query: \'"+query+"\'");

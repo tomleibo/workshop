@@ -13,6 +13,7 @@ import users.User;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 
 public class Proxy implements IForumSystemBridge {
@@ -177,7 +178,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean appointNewModerator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException {
+    public boolean appointNewModerator(Forum forum, SubForum subForum, User admin, User newModerator) throws Exception {
         if(real != null)
             return real.appointNewModerator(forum, subForum, admin, newModerator);
 
@@ -315,7 +316,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+    public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws Exception {
         if(real != null)
             return real.appointModerator(forum, subForum, admin, moderator);
 
@@ -330,5 +331,31 @@ public class Proxy implements IForumSystemBridge {
         return false;
     }
 
+    @Override
+    public int getReportTotalMessagesInSubForum(Forum forum, User admin, SubForum subForum) throws UserNotAuthorizedException {
+        if (real != null)
+            return real.getReportTotalMessagesInSubForum(forum, admin, subForum);
+        return 0;
+    }
 
+    @Override
+    public List<Message> getReportTotalMessagesOfMember(Forum forum, User admin, User member) throws UserNotAuthorizedException {
+        if (real != null)
+            return real.getReportTotalMessagesOfMember(forum, admin, member);
+        return null;
+    }
+
+    @Override
+    public Set<User> getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException {
+        if (real != null)
+            return real.getReportModeratorList(forum, admin);
+        return null;
+    }
+
+    @Override
+    public int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
+        if (real != null)
+            return real.getReportNumberOfForums(superAdmin);
+        return 0;
+    }
 }

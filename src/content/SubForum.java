@@ -151,4 +151,12 @@ public class SubForum {
         }
         return numOfMessages;
     }
+
+    public int getNumberOfMessagesForUser(User user) {
+        int numOfMessages = 0;
+        for (Thread thread : threads) {
+            numOfMessages += thread.getNumberOfMessagesForUser(user);
+        }
+        return numOfMessages;
+    }
 }

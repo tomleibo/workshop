@@ -59,7 +59,6 @@ public class PolicyHandler {
 	}
 
 	public static boolean canUnAppointModerator(Forum forum, SubForum subForum, User admin, User moderator) {
-		//and depends on ForumPolicy
 		if(forum.getSubForums().contains(subForum) && forum.getAdmin().equals(admin) && moderator.getManagedSubForums().contains(subForum))
 			return true;
 		return  false;
@@ -185,5 +184,9 @@ public class PolicyHandler {
 
     public static boolean canGetModeratorSubForumList(Forum forum, User admin, User moderator) {
         return ((admin.isSuperAdmin() || forum.getAdmin().equals(admin)) & (forum.getMembers().contains(moderator)));
+    }
+
+    public static boolean canUserBeModerator(User moderator, Forum forum, SubForum subForum) {
+        return (forum.getSubForums().contains(subForum)) && (subForum.getNumberOfMessagesForUser(moderator) >= forum.getPolicy().getModeratorMinimumNumberOfPosts()) && (moderator.getCreationDate().getTime() + forum.getPolicy().getModeratorMinimumSeniority() <= new Date().getTime());
     }
 }

@@ -57,7 +57,7 @@ public class RemoveFriendServlet extends HttpServlet {
 			friendId = Integer.parseInt(request.getParameter("friendId"));
 		}
 		catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
+            ServletUtils.exitError(this, request, response, e);
 			return;
 		}
 
@@ -68,7 +68,7 @@ public class RemoveFriendServlet extends HttpServlet {
 		try {
 			UserController.removeFriend(forum, user, friend);
 		} catch (UserNotAuthorizedException e) {
-			System.out.println(e.getMessage());
+            ServletUtils.exitError(this, request, response, e);
 			return;
 		}
 

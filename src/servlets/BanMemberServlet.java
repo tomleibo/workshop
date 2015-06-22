@@ -59,7 +59,7 @@ public class BanMemberServlet extends HttpServlet {
 		}
 
 		catch(NumberFormatException e) {
-			System.out.println(e.getMessage());
+            ServletUtils.exitError(this, request, response, e);
 			return;
 		}
 
@@ -70,8 +70,7 @@ public class BanMemberServlet extends HttpServlet {
 		try {
 			ModerationController.banUser(subForum, moderator, banned);
 		} catch (UserNotAuthorizedException e) {
-			// TODO add error screen?
-			e.printStackTrace();
+            ServletUtils.exitError(this, request, response, e);
 			return;
 		}
 
