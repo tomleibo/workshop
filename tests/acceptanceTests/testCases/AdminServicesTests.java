@@ -1,7 +1,6 @@
 package acceptanceTests.testCases;
 
-import content.Forum;
-import content.SubForum;
+import content.*;
 import exceptions.*;
 import junit.framework.Assert;
 import org.junit.After;
@@ -11,6 +10,7 @@ import users.User;
 import utils.HibernateUtils;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 
 public class AdminServicesTests extends ForumTests{
@@ -116,10 +116,10 @@ public class AdminServicesTests extends ForumTests{
 		Forum f1 = addForum(FORUM_NAMES[1], superAdmin, policy);
 
 		//creating a new forum f1 with a new admin1
-		User admin1 = registerToForum(f1, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
+		User admin1 = registerToForum(f1, USER_NAMES[3], USER_PASSES[3], USER_EMAILS[3]);
 		admin1.setState(User.ADMIN);
 		changeAdmin(f1, superAdmin, admin1);
-		admin1 = loginUser(f1, USER_NAMES[1], USER_PASSES[1]);
+		admin1 = loginUser(f1, USER_NAMES[3], USER_PASSES[3]);
 
 		SubForum sf1 = addSubForum(f1, SUB_FORUM_NAMES[0], admin1);
 
@@ -159,26 +159,56 @@ public class AdminServicesTests extends ForumTests{
 		user.setState(User.MEMBER);
 	}
 
-//	@Test // 1.10
-//	public void test_unappoint_moderator_by_admin_not_the_same_forum() throws Exception {
-//		Forum f1 = addForum(FORUM_NAMES[1], superAdmin, policy);
-//
-//		//creating a new forum f1 with a new admin1
-//		User admin1 = registerToForum(f1, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
-//		admin1.setState(User.ADMIN);
-//		changeAdmin(f1, superAdmin, admin1);
-//		admin1 = loginUser(f1, USER_NAMES[1], USER_PASSES[1]);
-//
-//		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
-//
-//		Assert.assertTrue(appointModerator(theForum, sf1, admin, user));
-//
-//		Assert.assertFalse(unAppoint(theForum, sf1, admin1, user));
-//		//Assert.assertTrue(sf1.getModerators().contains(user));s
-//		//Assert.assertTrue(sf1.getModerators().contains(user));
-//		//user.setState(User.MEMBER);
-//	}
+	@Test // 1.10
+	public void test_unappoint_moderator_by_admin_not_the_same_forum() throws Exception {
+		Forum f1 = addForum(FORUM_NAMES[1], superAdmin, policy);
 
+		//creating a new forum f1 with a new admin1
+		User admin1 = registerToForum(f1, USER_NAMES[3], USER_PASSES[3], USER_EMAILS[3]);
+		admin1.setState(User.ADMIN);
+		changeAdmin(f1, superAdmin, admin1);
+		admin1 = loginUser(f1, USER_NAMES[3], USER_PASSES[3]);
+
+		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
+
+		Assert.assertTrue(appointModerator(theForum, sf1, admin, user));
+
+		try {
+			Assert.assertFalse(unAppoint(theForum, sf1, admin1, user));
+			Assert.fail();
+		} catch (UserNotAuthorizedException e) {
+			Assert.assertTrue(true);
+		}
+		Assert.assertTrue(sf1.getModerators().contains(user));
+	}
+
+	@Test // 1.11
+	public void test_report_number_of_mesg_in_subforum() throws Exception{
+		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
+
+		Assert.assertEquals(0, getReportTotalMessagesInSubForum(theForum, admin, sf1));
+
+		content.Thread t = openNewThread(theForum, sf1, THREAD_TITLES[0], THREAD_CONTENTS[0], user);
+		Message msg = t.getOpeningMessage();
+
+		Assert.assertEquals(1, getReportTotalMessagesInSubForum(theForum, admin, sf1));
+		msg.deleteSelf();
+		Assert.assertEquals(0, getReportTotalMessagesInSubForum(theForum, admin, sf1));
+	}
+
+	@Test // 1.12/
+	public void test_report_msg_from_member() throws Exception{
+		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
+
+		content.Thread t = openNewThread(theForum, sf1, THREAD_TITLES[0], THREAD_CONTENTS[0], user);
+		Message msg = t.getOpeningMessage();
+
+		List<Message> msgsOfUser = getReportTotalMessagesOfMember(theForum, admin, user);
+
+		Assert.assertEquals(1, msgsOfUser.size());
+
+		msg.deleteSelf();
+	}
 
 
 

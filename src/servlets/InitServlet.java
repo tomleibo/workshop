@@ -1,6 +1,7 @@
 package servlets;
 
 import controllers.SuperAdminController;
+import exceptions.UserNotAuthorizedException;
 import utils.HibernateUtils;
 
 import javax.servlet.ServletException;
@@ -28,17 +29,18 @@ public class InitServlet extends HttpServlet {
                 SuperAdminController.initializeForumSystem(username,password,email);
             }
             catch (NoSuchAlgorithmException e) {
-                ServletUtils.exitError(this,request,response,"Init servlet. this should never happen.");
+                Exception e2 = new Exception("in init servlet. this should never happened unless bivan fucked something");
+                ServletUtils.exitError(this,request,response,e2);
             }
             ServletUtils.exitSuccess(this, request, response, "You have successfully initialized a new forum-system.");
         }
         else {
-            ServletUtils.exitError(this,request,response,"You are not authorized to initialize forum-system.");
+            ServletUtils.exitError(this,request,response,new UserNotAuthorizedException("To initalize forum."));
         }
 
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request,response);
+        doGet(request, response);
     }
 }

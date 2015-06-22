@@ -94,4 +94,12 @@ public class CookieUtils {
 	public static void addInfiniteCookie(HttpServletResponse response, String name, String value) throws IllegalArgumentException {
 		addCookie(response, name, value, Integer.MAX_VALUE, null, null, false);
 	}
+
+	public static String getUserCookieName(String forumId){
+		return forumId+"_"+USER_ID_COOKIE_NAME;
+	}
+
+	public static String getUserCookieName(int forumId){
+		return getUserCookieName(""+forumId);
+	}
 }

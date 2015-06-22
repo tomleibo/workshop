@@ -47,17 +47,19 @@ public class DeleteMessageServlet extends HttpServlet {
             SessionLogger.get().log(request.getSession().getId(),"deleting message");
             int msgId = Integer.parseInt(request.getParameter("msgId"));
 
-			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if (cookieValue == null)
-				throw new Exception("User Cookie Value doesn't exist");
-
-			int userId = Integer.parseInt(cookieValue);
-
-			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
-			if (cookieValue == null)
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null) {
 				throw new Exception("Forum Cookie Value doesn't exist");
+			}
 
 			int forumId = Integer.parseInt(cookieValue);
+
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
+			if (cookieValue == null) {
+				throw new Exception("User Cookie Value doesn't exist");
+			}
+
+			int userId = Integer.parseInt(cookieValue);
 
 			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);
 			if (cookieValue == null)
@@ -79,7 +81,7 @@ public class DeleteMessageServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e){
-			ServletUtils.exitError(this, request,response,e.getMessage());
+            ServletUtils.exitError(this, request, response, e);
 		}
 	}
 

@@ -49,20 +49,21 @@ public class ForumServlet extends HttpServlet {
 
 //			CookieUtils.deleteAllCookies(request, response);
 
-			User user;
-			String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if (userId != null) {
-				user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
-			} else {
-				user = UserController.enterAsGuest(forum);
-				CookieUtils.addInfiniteCookie(response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
-			}
-
 			String forumCookieId = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
 			if (forumCookieId != null) {
 				CookieUtils.changeCookieValue(request, response, CookieUtils.FORUM_ID_COOKIE_NAME, forumIdString);
 			} else {
 				CookieUtils.addInfiniteCookie(response, CookieUtils.FORUM_ID_COOKIE_NAME, forumIdString);
+			}
+
+
+			User user;
+			String userId = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumCookieId));
+			if (userId != null) {
+				user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
+			} else {
+				user = UserController.enterAsGuest(forum);
+				CookieUtils.addInfiniteCookie(response, CookieUtils.getUserCookieName(forumCookieId), Integer.toString(user.getId()));
 			}
 
 			request.setAttribute("forum", forum);
@@ -71,7 +72,7 @@ public class ForumServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e) {
-			ServletUtils.exitError(this, request, response, e.getMessage());
+			ServletUtils.exitError(this, request, response, e);
 		}
 	}
 

@@ -45,17 +45,20 @@ public class DeleteSubForumServlet extends HttpServlet {
 		try {
             SessionLogger.get().log(request.getSession().getId(),"deleting subforum");
             int subForumId = Integer.parseInt(request.getParameter("subForumId"));
-			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if (cookieValue == null)
-				throw new Exception("User Cookie Value doesn't exist");
 
-			int userId = Integer.parseInt(cookieValue);
-
-			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
-			if (cookieValue == null)
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null) {
 				throw new Exception("Forum Cookie Value doesn't exist");
+			}
 
 			int forumId = Integer.parseInt(cookieValue);
+
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
+			if (cookieValue == null) {
+				throw new Exception("User Cookie Value doesn't exist");
+			}
+
+			int userId = Integer.parseInt(cookieValue);
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 			User user = (User) HibernateUtils.load(User.class, userId);
@@ -69,7 +72,7 @@ public class DeleteSubForumServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e){
-			ServletUtils.exitError(this, request,response,e.getMessage());
+            ServletUtils.exitError(this, request, response, e);
 		}
 	}
 

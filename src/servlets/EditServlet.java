@@ -66,7 +66,7 @@ public class EditServlet extends HttpServlet {
 			body = request.getParameter("body");
 		}
 		catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
+            ServletUtils.exitError(this, request, response, e);
 			return;
 		}
 
@@ -78,7 +78,7 @@ public class EditServlet extends HttpServlet {
 		try {
 			UserController.editMessage(forum, subForum, user, message, body);
 		} catch (UserNotAuthorizedException e) {
-			System.out.println(e.getMessage());
+            ServletUtils.exitError(this, request, response, e);
 		}
 
 
