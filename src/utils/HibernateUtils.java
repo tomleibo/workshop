@@ -237,6 +237,10 @@ public class HibernateUtils {
         return  rowsAffected > 0;
     }
 
+    /**
+     * Cleanup all database
+     * @return true after finish
+     */
     public static boolean cleanUp() {
         String[] tables = {"forum",
                         "forumpolicy",
