@@ -57,8 +57,9 @@ public class LoginServlet extends HttpServlet {
 				CookieUtils.addInfiniteCookie(response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
 			}
 
-			request.setAttribute("forumId", id);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum");
+			request.setAttribute("user", user);
+			request.setAttribute("forum", forum);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum.jsp");
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e) {
