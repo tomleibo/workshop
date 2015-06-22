@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CookieUtils {
 
 	public static final String USER_ID_COOKIE_NAME = "userId";
+	public static final String SUPER_USER_ID_COOKIE_NAME = "superUserId";
 	public static final String FORUM_ID_COOKIE_NAME = "forumId";
 	public static final String SUB_FORUM_ID_COOKIE_NAME = "subForumId";
 
