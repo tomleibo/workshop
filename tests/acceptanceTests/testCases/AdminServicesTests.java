@@ -196,7 +196,7 @@ public class AdminServicesTests extends ForumTests{
 		Assert.assertEquals(0, getReportTotalMessagesInSubForum(theForum, admin, sf1));
 	}
 
-	@Test // 1.12
+	@Test // 1.12/
 	public void test_report_msg_from_member() throws Exception{
 		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
 
