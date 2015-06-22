@@ -218,8 +218,7 @@ public class HibernateUtils {
     }
 
     public static List<Message> getUsersMessages(int id) {
-        // TODO fix this!!!!
-        String hql = "FROM Message M WHERE M.publisher.id = 1";
+        String hql = "FROM Message M WHERE M.publisher.id = " + id;
         Session session = HibernateUtils.getSession();
         Query query = session.createQuery(hql);
         List<Message> results = query.list();
