@@ -42,7 +42,7 @@ public class UserController {
         }
         if (getUserFromForum(forum, username, password) != null)
 			throw new UsernameAlreadyExistsException("Username: " + username + " already exists in forum: " + forum.getName() + ".");
-		User member = User.newMember(username, Cipher.hashString(password, Cipher.SHA), emailAddress, question, Cipher.hashString(answer, Cipher.SHA));
+		User member = User.newMember(username, Cipher.hashString(password, Cipher.SHA), emailAddress, question, (answer == null) ? null : Cipher.hashString(answer, Cipher.SHA));
 		if (forum.isSecured()) {
 			MailAuthenticator authenticator = new MailAuthenticator(mailHost, mailUsername, mailPassword);
 			authenticator.sendVerificationMail(emailAddress, username);
