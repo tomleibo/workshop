@@ -149,7 +149,7 @@ public class AdminServicesTests extends ForumTests{
 	}
 
 	@Test // 1.9
-	public void test_unappoint_regular_user() throws UserNotAuthorizedException {
+	public void test_unappoint_regular_user() throws Exception {
 		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
 
 		Assert.assertFalse(sf1.getModerators().contains(user));

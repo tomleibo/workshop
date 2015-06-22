@@ -5,8 +5,6 @@ import acceptanceTests.bridge.IForumSystemBridge;
 import content.Forum;
 import content.Message;
 import content.SubForum;
-import controllers.AdminController;
-import controllers.UserController;
 import exceptions.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -160,7 +158,7 @@ public class ForumTests {
 		return driver.appointNewAdmin(forum, superAdmin, admin);
 	}
 
-	protected boolean changeModetator(Forum forum, SubForum subForum, User admin, User newModerator) throws UserNotAuthorizedException {
+	protected boolean changeModetator(Forum forum, SubForum subForum, User admin, User newModerator) throws Exception {
 		return driver.appointNewModerator(forum, subForum, admin, newModerator);
 	}
 
