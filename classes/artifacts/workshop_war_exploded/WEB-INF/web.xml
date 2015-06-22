@@ -3,4 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <listener>
+        <listener-class>
+            utils.ForumSystemContextListener
+        </listener-class>
+    </listener>
+    <listener>
+        <listener-class>
+            utils.SessionListener
+        </listener-class>
+    </listener>
+    <listener>
+        <listener-class>
+            utils.RequestListener
+        </listener-class>
+    </listener>
 </web-app>

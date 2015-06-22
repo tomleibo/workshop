@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Created by thinkPAD on 6/22/2015.
  */
-@WebServlet(name = "InitServlet",urlPatterns = "init")
+@WebServlet(name = "InitServlet",urlPatterns = "/init")
 public class InitServlet extends HttpServlet {
     private static final String CODE = "bivanbivanbivan";
 
