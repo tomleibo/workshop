@@ -120,7 +120,7 @@ public class SuperAdminController {
 	}
 
 	public static User initializeForumSystem(String username, String password, String email) throws NoSuchAlgorithmException {
-        HibernateUtils.start();
+        HibernateUtils.init();
         User superAdmin = User.newSuperAdmin(username, Cipher.hashString(password, Cipher.SHA), email);
         HibernateUtils.save(superAdmin);
 		return superAdmin;
