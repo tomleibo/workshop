@@ -26,13 +26,13 @@ import java.io.IOException;
 		urlPatterns = {
 				"/addForum"}
 		)
-public class AddForumRequestServlet extends HttpServlet {
+public class AddForumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddForumRequestServlet() {
+    public AddForumServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -72,7 +72,7 @@ public class AddForumRequestServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e) {
-			ServletUtils.exitError(this, request, response, e.getMessage());
+			ServletUtils.exitError(this, request, response, e);
 		}
 	}
 

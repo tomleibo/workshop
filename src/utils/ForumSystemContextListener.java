@@ -13,9 +13,10 @@ public class ForumSystemContextListener implements ServletContextListener {
             HibernateUtils.start();
         }
         catch (Exception e) {
+            System.out.println("Database Initialization Failed");
+            ForumLogger.errorLog("Database Initialization Failed");
             //should be ignored if database is not inited.
         }
-
     }
 
     @Override
