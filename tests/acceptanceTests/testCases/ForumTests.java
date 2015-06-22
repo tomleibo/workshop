@@ -179,11 +179,17 @@ public class ForumTests {
 		return driver.addUserStatusType(forum, admin, type);
 	}
 
+// version 2
+
 	protected List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException{
 		return driver.getPendingNotifications(forum, user);
 	}
 
 	public boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
 		return AdminController.appointModerator(forum, subForum, admin, moderator);
+	}
+
+	public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+		return AdminController.unAppoint(forum, subForum, admin, moderator);
 	}
 }
