@@ -5,7 +5,6 @@ import content.Message;
 import content.SubForum;
 import exceptions.UserCantBeModeratorException;
 import exceptions.UserNotAuthorizedException;
-import org.hibernate.Query;
 import policy.PolicyHandler;
 import users.User;
 import utils.ForumLogger;
@@ -113,8 +112,7 @@ public class AdminController {
 
     public static List<Message> getReportTotalMessagesOfMember(Forum forum, User admin, User member) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserGetNumberOfMessagesOfMember(forum, admin, member)) {
-            Query query = HibernateUtils.getQuery("FROM message M WHERE M.publisher = " + member.getId());
-            return query.list();
+            return HibernateUtils.getUsersMessages(member.getId());
         }
         throw new UserNotAuthorizedException("to view reports");
     }

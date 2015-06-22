@@ -3,7 +3,6 @@ package controllers;
 import content.Forum;
 import content.Message;
 import exceptions.*;
-import org.hibernate.Query;
 import policy.ForumPolicy;
 import policy.PolicyHandler;
 import users.User;
@@ -135,8 +134,7 @@ public class SuperAdminController {
 
     public static int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserGetNumberOfForums(superAdmin)) {
-            Query query = HibernateUtils.getQuery("FROM forum");
-            return query.list().size();
+            return HibernateUtils.getAllForums().size();
         }
         throw new UserNotAuthorizedException("to view reports");
     }
