@@ -23,45 +23,36 @@ public class ForumPolicy{
     private boolean askIdentificationQuestion;
     @Column (name = "passwordExpireDate")
     private long passwordMaxTime;
+    @Column (name = "canModeratorEditPosts")
+    private boolean canModeratorEditPosts;
+    @Column (name = "moderatorMinimumNumberOfPosts")
+    private int moderatorMinimumNumberOfPosts;
+    @Column (name = "moderatorMinimumSeniority")
+    private long moderatorMinimumSeniority;
+    @Column (name = "canAnyAdminUnappointModerator")
+    private boolean canAnyAdminUnappointModerator;
+
 
     public enum HashFunction{
 		MD5,SHA
 	}
 
 	public ForumPolicy() {
-        this.maxModerators = 1;
-        this.passwordRegex = ".+";
-        this.hashFunction = HashFunction.MD5;
-        this.doUsersNeedMailVerification = false;
-        this.passwordMaxTime = -1;
-        this.askIdentificationQuestion = false;
-        this.sessionTimeout = 7 * 24 * 60 * 60 * 1000;
-        this.idleTime = 24 * 60 * 60 * 1000;
+        this(1, ".+", HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, true, 0, 0, true);
     }
 
 	public ForumPolicy(int maxModerators, String passwordRegex,HashFunction hash, boolean mailVeri) {
-		this.maxModerators = maxModerators;
-		this.passwordRegex = passwordRegex;
-		this.hashFunction = hash;
-		this.doUsersNeedMailVerification = mailVeri;
-        this.passwordMaxTime = -1;
-        this.askIdentificationQuestion = false;
-        this.sessionTimeout = 7 * 24 * 60 * 60 * 1000;
-        this.idleTime = 24 * 60 * 60 * 1000;
-	}
+        this(maxModerators, passwordRegex, hash, mailVeri, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, true, 0, 0, true);
+    }
 	
 	public ForumPolicy(int maxModerators, String passwordRegex,HashFunction hash) {
-		this.maxModerators = maxModerators;
-		this.passwordRegex = passwordRegex;
-		this.hashFunction=hash;
-		this.doUsersNeedMailVerification=false;
-        this.passwordMaxTime = -1;
-        this.askIdentificationQuestion = false;
-        this.sessionTimeout = 7 * 24 * 60 * 60 * 1000;
-        this.idleTime = 24 * 60 * 60 * 1000;
+		this(maxModerators, passwordRegex, hash, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, true, 0, 0, true);
 	}
 
-    public ForumPolicy(int maxModerators, String passwordRegex, HashFunction hashFunction, boolean doUsersNeedMailVerification, long sessionTimeout, int idleTime, boolean askIdentificationQuestion, long passwordMaxTime) {
+    public ForumPolicy(int maxModerators, String passwordRegex, HashFunction hashFunction,
+                       boolean doUsersNeedMailVerification, long sessionTimeout, int idleTime,
+                       boolean askIdentificationQuestion, long passwordMaxTime, boolean canModeratorEditPosts,
+                       int moderatorMinimumNumberOfPosts, long moderatorMinimumSeniority, boolean canAnyAdminUnappointModerator) {
         this.maxModerators = maxModerators;
         this.passwordRegex = passwordRegex;
         this.hashFunction = hashFunction;
@@ -70,6 +61,10 @@ public class ForumPolicy{
         this.idleTime = idleTime;
         this.askIdentificationQuestion = askIdentificationQuestion;
         this.passwordMaxTime = passwordMaxTime;
+        this.canModeratorEditPosts = canModeratorEditPosts;
+        this.moderatorMinimumNumberOfPosts = moderatorMinimumNumberOfPosts;
+        this.moderatorMinimumSeniority = moderatorMinimumSeniority;
+        this.canAnyAdminUnappointModerator = canAnyAdminUnappointModerator;
     }
 
     public int getMaxModerators() {
@@ -89,22 +84,37 @@ public class ForumPolicy{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ForumPolicy that = (ForumPolicy) o;
+        ForumPolicy policy = (ForumPolicy) o;
 
-        if (maxModerators != that.maxModerators) return false;
-        if (doUsersNeedMailVerification != that.doUsersNeedMailVerification) return false;
-        if (passwordRegex != null ? !passwordRegex.equals(that.passwordRegex) : that.passwordRegex != null)
-            return false;
-        return hashFunction == that.hashFunction;
+        if (maxModerators != policy.maxModerators) return false;
+        if (doUsersNeedMailVerification != policy.doUsersNeedMailVerification) return false;
+        if (sessionTimeout != policy.sessionTimeout) return false;
+        if (idleTime != policy.idleTime) return false;
+        if (askIdentificationQuestion != policy.askIdentificationQuestion) return false;
+        if (passwordMaxTime != policy.passwordMaxTime) return false;
+        if (canModeratorEditPosts != policy.canModeratorEditPosts) return false;
+        if (moderatorMinimumNumberOfPosts != policy.moderatorMinimumNumberOfPosts) return false;
+        if (moderatorMinimumSeniority != policy.moderatorMinimumSeniority) return false;
+        if (canAnyAdminUnappointModerator != policy.canAnyAdminUnappointModerator) return false;
+        if (!passwordRegex.equals(policy.passwordRegex)) return false;
+        return hashFunction == policy.hashFunction;
 
     }
 
     @Override
     public int hashCode() {
         int result = maxModerators;
-        result = 31 * result + (passwordRegex != null ? passwordRegex.hashCode() : 0);
-        result = 31 * result + (hashFunction != null ? hashFunction.hashCode() : 0);
+        result = 31 * result + passwordRegex.hashCode();
+        result = 31 * result + hashFunction.hashCode();
         result = 31 * result + (doUsersNeedMailVerification ? 1 : 0);
+        result = 31 * result + (int) (sessionTimeout ^ (sessionTimeout >>> 32));
+        result = 31 * result + idleTime;
+        result = 31 * result + (askIdentificationQuestion ? 1 : 0);
+        result = 31 * result + (int) (passwordMaxTime ^ (passwordMaxTime >>> 32));
+        result = 31 * result + (canModeratorEditPosts ? 1 : 0);
+        result = 31 * result + moderatorMinimumNumberOfPosts;
+        result = 31 * result + (int) (moderatorMinimumSeniority ^ (moderatorMinimumSeniority >>> 32));
+        result = 31 * result + (canAnyAdminUnappointModerator ? 1 : 0);
         return result;
     }
 
@@ -162,5 +172,45 @@ public class ForumPolicy{
 
     public void setPasswordMaxTime(int passwordExpireDate) {
         this.passwordMaxTime = passwordExpireDate;
+    }
+
+    public void setSessionTimeout(long sessionTimeout) {
+        this.sessionTimeout = sessionTimeout;
+    }
+
+    public void setPasswordMaxTime(long passwordMaxTime) {
+        this.passwordMaxTime = passwordMaxTime;
+    }
+
+    public boolean isCanModeratorEditPosts() {
+        return canModeratorEditPosts;
+    }
+
+    public void setCanModeratorEditPosts(boolean canModeratorEditPosts) {
+        this.canModeratorEditPosts = canModeratorEditPosts;
+    }
+
+    public int getModeratorMinimumNumberOfPosts() {
+        return moderatorMinimumNumberOfPosts;
+    }
+
+    public void setModeratorMinimumNumberOfPosts(int moderatorMinimumNumberOfPosts) {
+        this.moderatorMinimumNumberOfPosts = moderatorMinimumNumberOfPosts;
+    }
+
+    public long getModeratorMinimumSeniority() {
+        return moderatorMinimumSeniority;
+    }
+
+    public void setModeratorMinimumSeniority(long moderatorMinimumSeniority) {
+        this.moderatorMinimumSeniority = moderatorMinimumSeniority;
+    }
+
+    public boolean isCanAnyAdminUnappointModerator() {
+        return canAnyAdminUnappointModerator;
+    }
+
+    public void setCanAnyAdminUnappointModerator(boolean canAnyAdminUnappointModerator) {
+        this.canAnyAdminUnappointModerator = canAnyAdminUnappointModerator;
     }
 }
