@@ -48,7 +48,7 @@ public class LogOutServlet extends HttpServlet {
 			User newGuestUser = UserController.logout(userId);
 
 			CookieUtils.changeCookieValue(request,response,CookieUtils.USER_ID_COOKIE_NAME,Integer.toString(newGuestUser.getId()));
-
+            //request.getSession().invalidate();
 			request.setAttribute("forumId", forumId);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum");
 			dispatcher.forward(request, response);

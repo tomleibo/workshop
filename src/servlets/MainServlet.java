@@ -37,7 +37,7 @@ public class MainServlet extends HttpServlet {
             request.setAttribute("forums", forums);
             request.setAttribute("user", null);
 //            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/oldFormatMain.jsp");
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Main.jsp");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/main.jsp");
             dispatcher.forward(request, response);
         }
 

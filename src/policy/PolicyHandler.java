@@ -12,15 +12,13 @@ import java.util.List;
 public class PolicyHandler {
 
 	public static boolean canUserDeleteComment(Forum forum, SubForum subForum, User user, Message comment) {
-		//For now only the user who wrote the message can delete it, but it can change by forumPolicy.
-		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && comment.getUser().equals(user) && !(user.isGuest()) && user.isActive())
+		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && !(user.isGuest()) && user.isActive() && (comment.getUser().equals(user) || user.isAdmin() || (user.isMod() && forum.getPolicy().isCanModeratorEditPosts())))
 			return true;
 		return false;
 	}
 
 	public static boolean canUserEditComment(Forum forum, SubForum subForum, User user, Message msg) {
-		//For now only the user who wrote the message can edit it, but it can change by forumPolicy.
-		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && msg.getUser().equals(user) && !(user.isGuest()) && user.isActive())
+		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && !(user.isGuest()) && user.isActive() && (msg.getUser().equals(user) || user.isAdmin() || (user.isMod() && forum.getPolicy().isCanModeratorEditPosts())))
 			return true;
 		return false;
 	}
@@ -62,7 +60,7 @@ public class PolicyHandler {
 
 	public static boolean canUnAppointModerator(Forum forum, SubForum subForum, User admin, User moderator) {
 		//and depends on ForumPolicy
-		if(forum.getSubForums().contains(subForum) && forum.getAdmin().equals(admin))
+		if(forum.getSubForums().contains(subForum) && forum.getAdmin().equals(admin) && moderator.getManagedSubForums().contains(subForum))
 			return true;
 		return  false;
 

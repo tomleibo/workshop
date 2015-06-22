@@ -9,7 +9,13 @@ import javax.servlet.ServletContextListener;
 public class ForumSystemContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        HibernateUtils.start();
+        try {
+            HibernateUtils.start();
+        }
+        catch (Exception e) {
+            //should be ignored if database is not inited.
+        }
+
     }
 
     @Override
