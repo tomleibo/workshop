@@ -1,76 +1,10 @@
-<?xml version="1.0" encoding="windows-1255" standalone="no"?>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2015-06-08T16:14:44</date>
-  <millis>1433769284693</millis>
+  <date>2015-06-22T17:42:48</date>
+  <millis>1434984168933</millis>
   <sequence>20</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>controllers.AdminController The user Joe can't add subForum</message>
-</record>
-<record>
-  <date>2015-06-08T16:14:45</date>
-  <millis>1433769285260</millis>
-  <sequence>21</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
-</record>
-<record>
-  <date>2015-06-08T16:14:45</date>
-  <millis>1433769285483</millis>
-  <sequence>23</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>controllers.AdminController The user Joe can't delete sub forum</message>
-</record>
-<record>
-  <date>2015-06-08T16:14:45</date>
-  <millis>1433769285544</millis>
-  <sequence>24</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
-</record>
-<record>
-  <date>2015-06-08T16:14:46</date>
-  <millis>1433769286096</millis>
-  <sequence>26</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
-</record>
-<record>
-  <date>2015-06-08T16:14:46</date>
-  <millis>1433769286423</millis>
-  <sequence>28</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
-</record>
-<record>
-  <date>2015-06-08T16:14:46</date>
-  <millis>1433769286596</millis>
-  <sequence>30</sequence>
   <logger>error</logger>
   <level>SEVERE</level>
   <class>utils.ForumLogger</class>

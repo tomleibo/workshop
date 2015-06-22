@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
   <data-source name="MySQL - forum_system@localhost" uuid="c8fadd41-675c-4c79-b539-a43b6bc897a4">
-    <database-info product="MySQL" version="5.6.24" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+    <database-info product="MySQL" version="5.6.25" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
@@ -136,11 +136,13 @@
       <column name="is_banned" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <column name="date" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
       <column name="email_address" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="answer" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="is_logged_in" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
       <column name="loginTime" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="oldPasswords" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="passwordSetDate" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="question" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="seniority" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="state" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="status" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
@@ -160,10 +162,20 @@
       <exported-key name="FK_dnfhfhvjibuci6nf4n17fy1gs" table="subforum" schema="" catalog="forum_system" columns="managing_users"/>
       <exported-key name="FK_3cln0xl2nbd9ocey4xuo81gj7" table="subforum_user" schema="" catalog="forum_system" columns="moderators_user_id"/>
       <exported-key name="FK_tmqf72y6uvf2jvoxibaoglvi5" table="thread" schema="" catalog="forum_system" columns="member_started"/>
+      <exported-key name="FK_8729pf5rqtkxgt3ld25eafh56" table="user_user" schema="" catalog="forum_system" columns="user_user_id"/>
+      <exported-key name="FK_s7eyxvxwjj8l4gwgyu12k11gu" table="user_user" schema="" catalog="forum_system" columns="friends_user_id"/>
       <index name="FK_llyj6f3vyrcciuescq7tlvdqm" unique="false" columns="banned_from_subforum"/>
       <index name="FK_qpor5i9edrxcltf9shvk95ngx" unique="false" columns="containing_forum"/>
     </table>
-    <table name="user_user" schema="" catalog="forum_system" type="TABLE"/>
+    <table name="user_user" schema="" catalog="forum_system" type="TABLE">
+      <column name="user_user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="friends_user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="user_user_id,friends_user_id"/>
+      <foreign-key name="FK_8729pf5rqtkxgt3ld25eafh56" columns="user_user_id" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_s7eyxvxwjj8l4gwgyu12k11gu" columns="friends_user_id" ref-table="user" ref-schema="" ref-catalog="forum_system" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_8729pf5rqtkxgt3ld25eafh56" unique="false" columns="user_user_id"/>
+      <index name="FK_s7eyxvxwjj8l4gwgyu12k11gu" unique="false" columns="friends_user_id"/>
+    </table>
     <table name="userstatuspolicy" schema="" catalog="forum_system" type="TABLE">
       <column name="seniority" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="login_time" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
