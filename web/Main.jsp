@@ -111,7 +111,7 @@
         <div id="sidebar-left" class="span2">
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a href="/home"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a></li>
+                    <li><a href="/home"><i class="glyphicons-icon white group"></i><span class="hidden-tablet"> Forums</span></a></li>
 
 
                 </ul>
