@@ -240,5 +240,10 @@ public class Real implements IForumSystemBridge {
     public Set<User> getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException {
         return AdminController.getReportModeratorList(forum, admin);
     }
+
+    @Override
+    public int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
+        return SuperAdminController.getReportNumberOfForums(superAdmin);
+    }
 }
 

@@ -202,5 +202,7 @@ public class ForumTests {
 		return driver.getReportModeratorList(forum, admin);
 	}
 
-
+	public int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
+		return driver.getReportNumberOfForums(superAdmin);
+	}
 }

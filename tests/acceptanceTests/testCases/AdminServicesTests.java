@@ -11,6 +11,7 @@ import utils.HibernateUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Set;
 
 
 public class AdminServicesTests extends ForumTests{
@@ -196,7 +197,7 @@ public class AdminServicesTests extends ForumTests{
 		Assert.assertEquals(0, getReportTotalMessagesInSubForum(theForum, admin, sf1));
 	}
 
-	@Test // 1.12/
+	@Test // 1.12
 	public void test_report_msg_from_member() throws Exception{
 		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
 
@@ -206,8 +207,23 @@ public class AdminServicesTests extends ForumTests{
 		List<Message> msgsOfUser = getReportTotalMessagesOfMember(theForum, admin, user);
 
 		Assert.assertEquals(1, msgsOfUser.size());
+		Assert.assertTrue(msgsOfUser.contains(msg));
 
 		msg.deleteSelf();
+	}
+
+
+	@Test // 1.13
+	public void test_report_moderator_list() throws Exception{
+		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
+		appointModerator(theForum, sf1, admin, user);
+
+		Set<User> modList = getReportModeratorList(theForum, admin);
+
+		Assert.assertEquals(2, modList.size());
+		Assert.assertTrue(modList.contains(user));
+
+		user.setState(User.MEMBER);
 	}
 
 

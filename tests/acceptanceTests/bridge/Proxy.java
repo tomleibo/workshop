@@ -352,5 +352,10 @@ public class Proxy implements IForumSystemBridge {
         return null;
     }
 
-
+    @Override
+    public int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
+        if (real != null)
+            return real.getReportNumberOfForums(superAdmin);
+        return 0;
+    }
 }

@@ -2,102 +2,465 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2015-06-09T09:34:48</date>
-  <millis>1433831688950</millis>
-  <sequence>19</sequence>
+  <date>2015-06-22T22:09:06</date>
+  <millis>1435000146256</millis>
+  <sequence>25</sequence>
   <logger>error</logger>
   <level>SEVERE</level>
   <class>utils.ForumLogger</class>
   <method>errorLog</method>
   <thread>1</thread>
-  <message>users.User The user John is already moderator</message>
+  <message>controllers.AdminController The user bb can't appoint moderator</message>
 </record>
 <record>
-  <date>2015-06-09T09:34:49</date>
-  <millis>1433831689841</millis>
-  <sequence>22</sequence>
+  <date>2015-06-22T22:09:07</date>
+  <millis>1435000147156</millis>
+  <sequence>30</sequence>
   <logger>error</logger>
   <level>SEVERE</level>
   <class>utils.ForumLogger</class>
   <method>errorLog</method>
   <thread>1</thread>
-  <message>users.User The user John is already moderator</message>
+  <message>controllers.AdminController The user bb can't un-appoint moderator</message>
 </record>
 <record>
-  <date>2015-06-09T09:34:49</date>
-  <millis>1433831689950</millis>
-  <sequence>23</sequence>
+  <date>2015-06-22T22:09:07</date>
+  <millis>1435000147306</millis>
+  <sequence>31</sequence>
   <logger>error</logger>
   <level>SEVERE</level>
   <class>utils.ForumLogger</class>
   <method>errorLog</method>
   <thread>1</thread>
-  <message>controllers.UserController The user Dani has no permissions to send a report</message>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
 </record>
 <record>
-  <date>2015-06-09T09:34:50</date>
-  <millis>1433831690083</millis>
-  <sequence>26</sequence>
-  <logger>error</logger>
-  <level>SEVERE</level>
-  <class>utils.ForumLogger</class>
-  <method>errorLog</method>
-  <thread>1</thread>
-  <message>users.User The user Dani trying to login but ha is already logged in</message>
-</record>
-<record>
-  <date>2015-06-09T09:34:52</date>
-  <millis>1433831692325</millis>
+  <date>2015-06-22T22:09:07</date>
+  <millis>1435000147426</millis>
   <sequence>34</sequence>
   <logger>error</logger>
   <level>SEVERE</level>
   <class>utils.ForumLogger</class>
   <method>errorLog</method>
   <thread>1</thread>
-  <message>controllers.UserController The user John can't delete post</message>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#2]</message>
 </record>
 <record>
-  <date>2015-06-09T09:34:53</date>
-  <millis>1433831693649</millis>
+  <date>2015-06-22T22:09:07</date>
+  <millis>1435000147576</millis>
+  <sequence>36</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#2]</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:07</date>
+  <millis>1435000147716</millis>
+  <sequence>38</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#2]</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:07</date>
+  <millis>1435000147726</millis>
+  <sequence>39</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:07</date>
+  <millis>1435000147746</millis>
+  <sequence>41</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:07</date>
+  <millis>1435000147756</millis>
   <sequence>43</sequence>
   <logger>error</logger>
   <level>SEVERE</level>
   <class>utils.ForumLogger</class>
   <method>errorLog</method>
   <thread>1</thread>
-  <message>users.User The user Johncould not deleted Danifrom he's friends</message>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
 </record>
 <record>
-  <date>2015-06-09T09:34:53</date>
-  <millis>1433831693958</millis>
+  <date>2015-06-22T22:09:17</date>
+  <millis>1435000157823</millis>
+  <sequence>45</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:18</date>
+  <millis>1435000158016</millis>
   <sequence>48</sequence>
   <logger>error</logger>
   <level>SEVERE</level>
   <class>utils.ForumLogger</class>
   <method>errorLog</method>
   <thread>1</thread>
-  <message>controllers.UserController The user Dani has no permissions to send a report</message>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#2]</message>
 </record>
 <record>
-  <date>2015-06-09T09:34:54</date>
-  <millis>1433831694159</millis>
-  <sequence>52</sequence>
+  <date>2015-06-22T22:09:18</date>
+  <millis>1435000158019</millis>
+  <sequence>49</sequence>
   <logger>error</logger>
   <level>SEVERE</level>
   <class>utils.ForumLogger</class>
   <method>errorLog</method>
   <thread>1</thread>
-  <message>controllers.UserController The user Joe trying to login but he is not existing in the forum YNET</message>
+  <message>controllers.AdminController The user Joe can't delete sub forum</message>
 </record>
 <record>
-  <date>2015-06-09T09:34:54</date>
-  <millis>1433831694262</millis>
+  <date>2015-06-22T22:09:18</date>
+  <millis>1435000158169</millis>
+  <sequence>50</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:18</date>
+  <millis>1435000158377</millis>
   <sequence>53</sequence>
   <logger>error</logger>
   <level>SEVERE</level>
   <class>utils.ForumLogger</class>
   <method>errorLog</method>
   <thread>1</thread>
-  <message>users.User The user Dani trying to login but he's password is incorrect</message>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#2]</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:18</date>
+  <millis>1435000158496</millis>
+  <sequence>54</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:18</date>
+  <millis>1435000158624</millis>
+  <sequence>57</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#2]</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:18</date>
+  <millis>1435000158626</millis>
+  <sequence>58</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>users.User The user Joe is already moderator</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:18</date>
+  <millis>1435000158640</millis>
+  <sequence>59</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:18</date>
+  <millis>1435000158657</millis>
+  <sequence>61</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:18</date>
+  <millis>1435000158995</millis>
+  <sequence>63</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159151</millis>
+  <sequence>66</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#8]</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159187</millis>
+  <sequence>68</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159200</millis>
+  <sequence>70</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159414</millis>
+  <sequence>72</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159420</millis>
+  <sequence>74</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>controllers.AdminController The user Joe can't add subForum</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159439</millis>
+  <sequence>75</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159465</millis>
+  <sequence>77</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159657</millis>
+  <sequence>80</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#8]</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159677</millis>
+  <sequence>81</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159915</millis>
+  <sequence>84</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#8]</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159937</millis>
+  <sequence>87</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.exception.ConstraintViolationException: could not execute statement</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:19</date>
+  <millis>1435000159949</millis>
+  <sequence>89</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:20</date>
+  <millis>1435000160086</millis>
+  <sequence>92</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#8]</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:20</date>
+  <millis>1435000160217</millis>
+  <sequence>93</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:20</date>
+  <millis>1435000160325</millis>
+  <sequence>96</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#8]</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:20</date>
+  <millis>1435000160345</millis>
+  <sequence>97</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:20</date>
+  <millis>1435000160512</millis>
+  <sequence>100</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#8]</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:20</date>
+  <millis>1435000160956</millis>
+  <sequence>101</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:21</date>
+  <millis>1435000161090</millis>
+  <sequence>104</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [content.SubForum#8]</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:21</date>
+  <millis>1435000161105</millis>
+  <sequence>106</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:21</date>
+  <millis>1435000161115</millis>
+  <sequence>108</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
+</record>
+<record>
+  <date>2015-06-22T22:09:21</date>
+  <millis>1435000161236</millis>
+  <sequence>110</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>utils.HibernateUtils org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1</message>
 </record>
 </log>

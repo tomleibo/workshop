@@ -2,113 +2,14 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2015-06-09T09:41:19</date>
-  <millis>1433832079581</millis>
-  <sequence>15</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user SuperAdminadded to the forum YNET</message>
-</record>
-<record>
-  <date>2015-06-09T09:41:19</date>
-  <millis>1433832079648</millis>
-  <sequence>16</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user Daniadded to the forum YNET</message>
-</record>
-<record>
-  <date>2015-06-09T09:41:19</date>
-  <millis>1433832079740</millis>
+  <date>2015-06-22T22:11:46</date>
+  <millis>1435000306696</millis>
   <sequence>17</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user Johnadded to the forum YNET</message>
-</record>
-<record>
-  <date>2015-06-09T09:41:19</date>
-  <millis>1433832079868</millis>
-  <sequence>18</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user Dani is now logged in!</message>
-</record>
-<record>
-  <date>2015-06-09T09:41:19</date>
-  <millis>1433832079906</millis>
-  <sequence>19</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user John is now logged in!</message>
-</record>
-<record>
-  <date>2015-06-09T09:41:19</date>
-  <millis>1433832079948</millis>
-  <sequence>20</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user Guest0added to the forum YNET</message>
-</record>
-<record>
-  <date>2015-06-09T09:41:20</date>
-  <millis>1433832080165</millis>
-  <sequence>21</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user Guest0 is now logged in!</message>
-</record>
-<record>
-  <date>2015-06-09T09:41:20</date>
-  <millis>1433832080850</millis>
-  <sequence>22</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user Guest0 is now logged in!</message>
-</record>
-<record>
-  <date>2015-06-09T09:41:20</date>
-  <millis>1433832080851</millis>
-  <sequence>23</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user Guest0 is now logged in!</message>
-</record>
-<record>
-  <date>2015-06-09T09:41:20</date>
-  <millis>1433832080852</millis>
-  <sequence>24</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user Guest0 is now logged in!</message>
+  <message>content.Forum The user SuperAdminadded to the forum YNET</message>
 </record>
 </log>

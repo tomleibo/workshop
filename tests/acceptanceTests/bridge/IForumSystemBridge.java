@@ -64,4 +64,6 @@ public interface IForumSystemBridge {
 	int getReportTotalMessagesInSubForum(Forum forum, User admin, SubForum subForum) throws UserNotAuthorizedException;
 	List<Message> getReportTotalMessagesOfMember(Forum forum, User admin, User member) throws UserNotAuthorizedException;
 	Set<User> getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException;
-}
+	int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException;
+
+	}
