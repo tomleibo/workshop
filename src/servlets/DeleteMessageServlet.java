@@ -81,7 +81,7 @@ public class DeleteMessageServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e){
-			ServletUtils.exitError(this, request,response,e.getMessage());
+            ServletUtils.exitError(this, request, response, e);
 		}
 	}
 

@@ -22,8 +22,8 @@ public class ServletUtils {
         successDispatcher.forward(request,response);
     }
 
-    public static void exitError(HttpServlet servlet,HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {
-        request.setAttribute(MESSAGE_ATTRIBUTE, message);
+    public static void exitError(HttpServlet servlet,HttpServletRequest request, HttpServletResponse response, Exception e) throws ServletException, IOException {
+        request.setAttribute(MESSAGE_ATTRIBUTE, e.getMessage());
         RequestDispatcher errorDispatcher = servlet.getServletContext().getRequestDispatcher(ERROR_PAGE);
         errorDispatcher.forward(request,response);
     }
