@@ -13,6 +13,7 @@ import users.User;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 
 public class Proxy implements IForumSystemBridge {
@@ -328,6 +329,27 @@ public class Proxy implements IForumSystemBridge {
             return real.unAppoint(forum, subForum, admin, moderator);
 
         return false;
+    }
+
+    @Override
+    public int getReportTotalMessagesInSubForum(Forum forum, User admin, SubForum subForum) throws UserNotAuthorizedException {
+        if (real != null)
+            return real.getReportTotalMessagesInSubForum(forum, admin, subForum);
+        return 0;
+    }
+
+    @Override
+    public List<Message> getReportTotalMessagesOfMember(Forum forum, User admin, User member) throws UserNotAuthorizedException {
+        if (real != null)
+            return real.getReportTotalMessagesOfMember(forum, admin, member);
+        return null;
+    }
+
+    @Override
+    public Set<User> getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException {
+        if (real != null)
+            return real.getReportModeratorList(forum, admin);
+        return null;
     }
 
 

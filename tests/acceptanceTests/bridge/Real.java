@@ -15,6 +15,7 @@ import utils.Cipher;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 
 public class Real implements IForumSystemBridge {
@@ -205,14 +206,14 @@ public class Real implements IForumSystemBridge {
 
     @Override
     public boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
-        return AdminController.addUserStatusType(forum, admin,type);
+        return AdminController.addUserStatusType(forum, admin, type);
     }
 
- // version 2
+    // version 2
 
     @Override
     public List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException {
-        return UserController.getPendingNotifications(forum,user);
+        return UserController.getPendingNotifications(forum, user);
     }
 
     @Override
@@ -225,5 +226,19 @@ public class Real implements IForumSystemBridge {
         return AdminController.unAppoint(forum, subForum, admin, moderator);
     }
 
+    @Override
+    public int getReportTotalMessagesInSubForum(Forum forum, User admin, SubForum subForum) throws UserNotAuthorizedException {
+        return AdminController.getReportTotalMessagesInSubForum(forum, admin, subForum);
+    }
+
+    @Override
+    public List<Message> getReportTotalMessagesOfMember(Forum forum, User admin, User member) throws UserNotAuthorizedException {
+        return AdminController.getReportTotalMessagesOfMember(forum, admin, member);
+    }
+
+    @Override
+    public Set<User> getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException {
+        return AdminController.getReportModeratorList(forum, admin);
+    }
 }
 
