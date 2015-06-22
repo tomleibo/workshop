@@ -12,6 +12,7 @@ import policy.ForumPolicy;
 import users.FriendRequest;
 import users.Notification;
 import users.User;
+import utils.HibernateUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -67,7 +68,7 @@ public class ForumTests {
 
 	@AfterClass
 	public static void tearDown() throws UserNotAuthorizedException {
-		//tearDownForumSystem(superAdmin, system);
+		HibernateUtils.cleanUp();
 	}
 
 	public User createSuperAdmin(String userName, String password, String emailAddress){
