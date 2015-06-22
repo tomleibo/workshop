@@ -1,488 +1,179 @@
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<?xml version="1.0" encoding="windows-1255" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2015-06-22T17:42:46</date>
-  <millis>1434984166419</millis>
-  <sequence>15</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:47</date>
-  <millis>1434984167586</millis>
-  <sequence>16</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:47</date>
-  <millis>1434984167987</millis>
-  <sequence>17</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user newMemberadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:48</date>
-  <millis>1434984168114</millis>
-  <sequence>18</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:48</date>
-  <millis>1434984168463</millis>
-  <sequence>19</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:49</date>
-  <millis>1434984169022</millis>
-  <sequence>22</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:49</date>
-  <millis>1434984169081</millis>
-  <sequence>23</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user hadaradded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:49</date>
-  <millis>1434984169452</millis>
-  <sequence>24</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user hadar is now moderator of the sub-forum hadar's sub</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:49</date>
-  <millis>1434984169610</millis>
-  <sequence>25</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:49</date>
-  <millis>1434984169670</millis>
+  <date>2015-06-23T00:33:38</date>
+  <millis>1435008818268</millis>
   <sequence>26</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user hadaradded to the forum forum1</message>
+  <message>content.Forum The user SuperAdminadded to the forum YNET</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:50</date>
-  <millis>1434984170034</millis>
+  <date>2015-06-23T00:33:38</date>
+  <millis>1435008818349</millis>
   <sequence>27</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>users.User The user hadar is now moderator of the sub-forum hadar's sub</message>
+  <message>content.Forum The user Johnadded to the forum YNET</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:50</date>
-  <millis>1434984170194</millis>
+  <date>2015-06-23T00:33:38</date>
+  <millis>1435008818482</millis>
   <sequence>28</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>users.User The user hadaris not a moderator anymore</message>
+  <message>users.User The user John is now logged in!</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:50</date>
-  <millis>1434984170373</millis>
+  <date>2015-06-23T00:33:38</date>
+  <millis>1435008818504</millis>
   <sequence>29</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user 1added to the forum forum1</message>
+  <message>content.Forum The user Joeadded to the forum YNET</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:50</date>
-  <millis>1434984170470</millis>
+  <date>2015-06-23T00:33:38</date>
+  <millis>1435008818571</millis>
   <sequence>30</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user modadded to the forum forum1</message>
+  <message>users.User The user Joe is now logged in!</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:50</date>
-  <millis>1434984170813</millis>
+  <date>2015-06-23T00:33:38</date>
+  <millis>1435008818602</millis>
   <sequence>31</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>users.User The user mod is now moderator of the sub-forum hadar's sub</message>
+  <message>content.Forum The user SuperAdminadded to the forum FXP</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:50</date>
-  <millis>1434984170814</millis>
+  <date>2015-06-23T00:33:38</date>
+  <millis>1435008818626</millis>
   <sequence>32</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>users.User The user 1is not a moderator anymore</message>
+  <message>content.Forum The user bbadded to the forum FXP</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:51</date>
-  <millis>1434984171143</millis>
+  <date>2015-06-23T00:33:38</date>
+  <millis>1435008818738</millis>
   <sequence>33</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
+  <message>users.User The user bb is now logged in!</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:51</date>
-  <millis>1434984171337</millis>
-  <sequence>34</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user asdsadadded to the forum forum_name</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:51</date>
-  <millis>1434984171428</millis>
+  <date>2015-06-23T00:33:38</date>
+  <millis>1435008818918</millis>
   <sequence>35</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
+  <message>content.Forum The user SuperAdminadded to the forum FXP</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:51</date>
-  <millis>1434984171552</millis>
+  <date>2015-06-23T00:33:38</date>
+  <millis>1435008818960</millis>
   <sequence>36</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
+  <message>content.Forum The user bbadded to the forum FXP</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:52</date>
-  <millis>1434984172172</millis>
+  <date>2015-06-23T00:33:39</date>
+  <millis>1435008819060</millis>
   <sequence>37</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
+  <message>users.User The user bb is now logged in!</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:52</date>
-  <millis>1434984172247</millis>
+  <date>2015-06-23T00:33:39</date>
+  <millis>1435008819183</millis>
   <sequence>38</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user CHIKAadded to the forum forum1</message>
+  <message>users.User The user Joe is now moderator of the sub-forum Games</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:52</date>
-  <millis>1434984172889</millis>
-  <sequence>39</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:53</date>
-  <millis>1434984173026</millis>
-  <sequence>40</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user CHIKAadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:53</date>
-  <millis>1434984173926</millis>
-  <sequence>41</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:53</date>
-  <millis>1434984173981</millis>
-  <sequence>42</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user CHIKAadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:54</date>
-  <millis>1434984174769</millis>
-  <sequence>43</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user adminadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:54</date>
-  <millis>1434984174826</millis>
-  <sequence>44</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user tomadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:54</date>
-  <millis>1434984174926</millis>
-  <sequence>45</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user admingot friend request from tom</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:54</date>
-  <millis>1434984174993</millis>
-  <sequence>46</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>controllers.UserController The user admin accepted the friend request from tom</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:55</date>
-  <millis>1434984175203</millis>
-  <sequence>47</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user admindeleted tomfrom he's friends</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:55</date>
-  <millis>1434984175206</millis>
-  <sequence>48</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user tomdeleted adminfrom he's friends</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:55</date>
-  <millis>1434984175426</millis>
-  <sequence>49</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user useradded to the forum forum_name</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:55</date>
-  <millis>1434984175564</millis>
-  <sequence>50</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user tomadded to the forum forum123432</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:55</date>
-  <millis>1434984175614</millis>
-  <sequence>51</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user tom2added to the forum forum123432</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:55</date>
-  <millis>1434984175714</millis>
-  <sequence>52</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user tomgot friend request from tom2</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:55</date>
-  <millis>1434984175866</millis>
+  <date>2015-06-23T00:33:39</date>
+  <millis>1435008819517</millis>
   <sequence>53</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
+  <message>users.User The user Joe is now moderator of the sub-forum Games</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:55</date>
-  <millis>1434984175961</millis>
-  <sequence>54</sequence>
+  <date>2015-06-23T00:33:40</date>
+  <millis>1435008820758</millis>
+  <sequence>80</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user Guest0added to the forum forum1</message>
+  <message>users.User The user Joe is now moderator of the sub-forum Games</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:56</date>
-  <millis>1434984176091</millis>
-  <sequence>55</sequence>
+  <date>2015-06-23T00:33:43</date>
+  <millis>1435008823016</millis>
+  <sequence>149</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>users.User The user Guest0 is now logged in!</message>
+  <message>content.Forum The user SuperAdminadded to the forum YNET</message>
 </record>
 <record>
-  <date>2015-06-22T17:42:56</date>
-  <millis>1434984176128</millis>
-  <sequence>56</sequence>
+  <date>2015-06-23T00:33:43</date>
+  <millis>1435008823050</millis>
+  <sequence>150</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user nulladded to the forum forum_name</message>
+  <message>content.Forum The user SuperAdminadded to the forum FXP</message>
 </record>
-<record>
-  <date>2015-06-22T17:42:56</date>
-  <millis>1434984176276</millis>
-  <sequence>57</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user bivanadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:56</date>
-  <millis>1434984176336</millis>
-  <sequence>58</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>content.Forum The user tomadded to the forum forum1</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:56</date>
-  <millis>1434984176447</millis>
-  <sequence>59</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>users.User The user bivangot friend request from tom</message>
-</record>
-<record>
-  <date>2015-06-22T17:42:56</date>
-  <millis>1434984176503</millis>
-  <sequence>60</sequence>
-  <logger>action</logger>
-  <level>INFO</level>
-  <class>utils.ForumLogger</class>
-  <method>actionLog</method>
-  <thread>1</thread>
-  <message>controllers.UserController The user bivan accepted the friend request from tom</message>
-</record>
-</log>
