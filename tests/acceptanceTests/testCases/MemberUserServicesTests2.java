@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import policy.ForumPolicy;
 import users.Notification;
 import users.User;
 import utils.HibernateUtils;
@@ -17,6 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import static controllers.UserController.changePassword;
+
 
 public class MemberUserServicesTests2 extends ForumTests {
 
@@ -175,6 +177,17 @@ public class MemberUserServicesTests2 extends ForumTests {
 
 		@Test // 6.6
 	public void test_identifing_questions() throws Exception{
+
+			policy = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, true, -1, true, 0, 0);
+
+			Forum theForum2 = addForum(FORUM_NAMES[1], superAdmin, policy);
+
+			User user3 = registerToForum(theForum, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2]);
+
+
+
+			// create a forum with a policie for questions
+			// try out the question register
 
 	}
 
