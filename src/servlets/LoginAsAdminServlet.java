@@ -44,16 +44,17 @@ public class LoginAsAdminServlet extends HttpServlet {
 			String pass = request.getParameter("pass");
 
 			User user = SuperAdminController.loginSuperAdmin(userName, pass);
-			String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			String userId = CookieUtils.getCookieValue(request, CookieUtils.SUPER_USER_ID_COOKIE_NAME);
 			if(userId != null)
-				CookieUtils.changeCookieValue(request, response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
+				CookieUtils.changeCookieValue(request, response, CookieUtils.SUPER_USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
 			else
-				CookieUtils.addInfiniteCookie(response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
+				CookieUtils.addInfiniteCookie(response, CookieUtils.SUPER_USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
+
 
 			List<Forum> forums = HibernateUtils.getAllForums();
 			request.setAttribute("forums", forums);
-			request.setAttribute("user", user);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/home");
+			request.setAttribute("superAdmin", user);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/main.jsp");
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e) {

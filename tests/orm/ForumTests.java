@@ -77,7 +77,7 @@ public class ForumTests {
     @Test
     public void testAddSubforumFromController() throws UserNotAuthorizedException {
         User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
         Assert.assertEquals(HibernateUtils.load(Forum.class, f.id), f);
         SubForum sub = ContentController.addSubForum(f, "hadar's sub", u);
@@ -87,7 +87,7 @@ public class ForumTests {
     @Test
     public void testAddSubforumToLoadedForumFromController_roee() throws UserNotAuthorizedException, InvocationTargetException, IllegalAccessException {
         User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
         Forum loadedForum = (Forum) HibernateUtils.load(Forum.class, f.id);
         f.setAdmin(User.newSuperAdmin("hello", "fsdfsd", ""));
@@ -116,7 +116,7 @@ public class ForumTests {
     @Test
     public void testAddAndDeleteSubforumFromController() throws Exception {
         User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
         Assert.assertEquals(HibernateUtils.load(Forum.class, f.id), f);
         SubForum sub = ContentController.addSubForum(f, "hadar's sub", u);
@@ -177,7 +177,7 @@ public class ForumTests {
     @Test
     public void testAddNewThreadFromController() throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
         User admin =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum forum = SuperAdminController.createNewForum(admin, policy, "forum1");
         SubForum sub = ContentController.addSubForum(forum, "hadar's sub", admin);
         content.Thread thread = ContentController.openNewThread(forum, sub, "chika is cool", "chika is very cool", admin);
@@ -228,7 +228,7 @@ public class ForumTests {
     @Test
     public void testAddAndDeleteSubForumFromController() throws UserNotAuthorizedException {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum forum = SuperAdminController.createNewForum(admin, policy, "forum1");
         SubForum sub = ContentController.addSubForum(forum, "hadars sub", admin);
         ContentController.deleteSubForum(forum, sub);
@@ -238,7 +238,7 @@ public class ForumTests {
     @Test
     public void testAddAndDeleteForumFromController() throws UserNotAuthorizedException {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum forum = SuperAdminController.createNewForum(admin, policy, "forum1");
         int forumId = forum.id;
         SuperAdminController.deleteForum(admin, forum);
@@ -248,7 +248,7 @@ public class ForumTests {
     @Test
     public void testDeleteAllForumsFromController() throws UserNotAuthorizedException {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum1");
         Forum forum2 = SuperAdminController.createNewForum(admin, policy, "forum2");
         Forum forum3 = SuperAdminController.createNewForum(admin, policy, "forum3");
@@ -266,7 +266,7 @@ public class ForumTests {
     @Test
     public void testEnterAsGuest() throws UserNotAuthorizedException {
         User admin = User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sldkf.com");
-        ForumPolicy policy = new ForumPolicy(5,"*****", ForumPolicy.HashFunction.MD5, false);
+        ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum forum1 = SuperAdminController.createNewForum(admin, policy, "forum1");
         User guest = UserController.enterAsGuest(forum1);
         Assert.assertEquals(HibernateUtils.load(User.class, guest.getId()), guest);

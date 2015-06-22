@@ -1,7 +1,8 @@
 package servlets;
 
         import content.Forum;
-import utils.HibernateUtils;
+        import users.User;
+        import utils.HibernateUtils;
         import utils.SessionLogger;
 
         import javax.servlet.RequestDispatcher;
@@ -33,10 +34,11 @@ public class MainServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            User superAdmin = (User) request.getAttribute("superAdmin");
+
             List<Forum> forums = HibernateUtils.getAllForums();
             request.setAttribute("forums", forums);
-            request.setAttribute("user", null);
-//            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/oldFormatMain.jsp");
+            request.setAttribute("superAdmin", superAdmin);
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/main.jsp");
             dispatcher.forward(request, response);
         }

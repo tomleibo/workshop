@@ -17,12 +17,11 @@
     System.out.println(e);
   }
 %>
-<!DOCTYPE html>
+
 <html>
 <head>
-
   <title>
-    Registration
+    registration
   </title>
     <!-- start: Mobile Specific -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,11 +62,10 @@
         <div class="row-fluid">
             <div class="login-box">
                 <div class="icons">
-                    <a href="/home"><i class="halflings-icon home"></i></a>
+                    <a href="index.html"><i class="halflings-icon home"></i></a>
+                    <a href="#"><i class="halflings-icon cog"></i></a>
                 </div>
-                <div class = "input-prepend">
-                    <h1>Register</h1>
-                </div>
+                <h2>Login to your account</h2>
                 <form class="form-horizontal" action="/register" method="get">
                     <fieldset>
                         <input name="forumId" type="hidden" value="<%=id%>">
@@ -87,25 +85,10 @@
                             <input class="input-large span10" name="email" id="email" type="text" placeholder="type email"/>
                         </div>
 
-
-                        <div class="input-prepend" title="Quest&Ans">
-
-                            <span class="add-on"><i class="halflings-icon question-sign"></i></span>
-                            <input class="input-large span10" name="question" id="question" type="text" placeholder="type a question" style="background-color: cornsilk;"/>
-
-                        </div>
-
-                        <div class="input-prepend" title="Quest&Ans" >
-                            <span class="add-on"><i class="halflings-icon pencil"></i></span>
-                            <input class="input-large span10" name="answer" id="answer" type="text" placeholder="type possible answer" style="background-color: cornsilk;"/>
-                        </div>
-
                         <div class="input-prepend" title="Register">
                             <button type="submit" class="btn btn-primary">Register</button>
                         </div>
                         <div class="clearfix"></div>
-
-                </fieldset>
                 </form>
 
             </div><!--/span-->

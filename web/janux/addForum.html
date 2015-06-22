@@ -330,7 +330,11 @@
 			<!-- start: Main Menu -->
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
-					
+					<ul class="nav nav-tabs nav-stacked main-menu">
+						<li><a href="/home"><i class="glyphicons-icon white group"></i><span class="hidden-tablet"> Forums</span></a></li>	
+						
+						
+					</ul>
 				</div>
 			</div>
 			<!-- end: Main Menu -->
@@ -355,19 +359,15 @@
 					<i class="icon-home"></i>
 					<a href="index.html">Home</a> 
 					<i class="icon-angle-right"></i>
-                    <a href="subforums.html">ForumName</a>
-                    <i class="icon-angle-right"></i>
-                    <a href="threads.html">subForumName</a>
-                    <i class="icon-angle-right"></i>
-                    <a href="comment.html">threadName</a>
-                    <i class="icon-angle-right"></i>
 				</li>
-				<li><a href="#">comment</a></li>
+				<li><a href="#">Add new forum</a></li>
 			</ul>
 
 					
+<!--
                 
 				//enter here
+-->
              <div>
                  
                  
@@ -378,25 +378,112 @@
 						
 					</div>
 					<div class="box-content">
-						<form class="form-horizontal">
-						  <fieldset>
+						
+						  
 							<div class="control-group">
-							  <label class="control-label" for="typeahead">Forum Name: </label>
+                                <form class="form-horizontal well">
+							  <label class="control-label" for="forumName"><h3>Forum Name:</h3> </label>
 							  <div class="controls">
-                                  <input type="text" id="title">
-								
+                                  <input type="text" id="forumName">
+								</div>
+                                </form>
+                                
+                                <br>
+                                <form class="form-horizontal">
+                                    <div>
+                                <fieldset>
+                                <legend>Forum Policy:</legend>
+                                <label class="control-label" for="maxMod">Max number of moderators: </label>
+							  <div class="controls">
+                                  <input type="text" id="maxMod">
+								</div>
+                                
+                                <br>
+                                
+                                 <label class="control-label" for="passReg">Password regex: </label>
+							  <div class="controls">
+                                  <input type="text" id="passReg">
+								</div>
+                                
+                                <br>
+                                
+                                 <label class="control-label" for="selectHash">Hash function: </label>
+							  <div class="controls">
+                                  <select id="selectHash" data-rel="chosen">
+                                    <option>Hash 1</option>
+                                    <option>Hash 2</option>
+                                    <option>Hash 3</option>
+                                    <option>Hash 4</option>
+                                    <option>Hash 5</option>
+                                  </select>
+                                </div> 
+                                
+                                <br>
+                                
+                                <div class="control-group">
+								<label class="control-label ">Should user have mail authentication?</label>
+								<div class="controls">
+								  <label class="radio">
+									<input type="radio" name="optionsRadios1" id="yesOptMail" value="True" checked="">
+									Yes
+								  </label>
+								  <div style="clear:both"></div>
+								  <label class="radio">
+									<input type="radio" name="optionsRadios1" id="noOptMail" value="False">
+									No
+								  </label>
+								</div>
 							  </div>
-							</div>
+                                
+                                <br>
+                                
+                                 <label class="control-label" for="sessionTO">Session time out: </label>
+							  <div class="controls">
+                                  <input type="number" id="sessionTO">
+								</div>
+                                
+                                <br>
+                                
+                                <div class="control-group">
+								<label class="control-label ">Should ask user identification question?</label>
+								<div class="controls">
+								  <label class="radio">
+									<input type="radio" name="optionsRadios" id="yesOptId" value="True" checked="">
+									Yes
+								  </label>
+								  <div style="clear:both"></div>
+								  <label class="radio">
+									<input type="radio" name="optionsRadios" id="noOptId" value="False">
+									No
+								  </label>
+								</div>
+							  </div>
+                                
+                                <br>
+                                
+                                <label class="control-label" for="passMaxTime">Password expired time: </label>
+							  <div class="controls">
+                                  <input type="number" id="passMaxTime">
+								</div>
+                                
+                                <br>
+                            
+                                
+                              </div>
+                                   
+							  </fieldset>
 							
 
 							
 							
 							<div class="form-actions">
-                                
-                                    <a type="submit" class="btn btn-primary" href="comment.html">Add</a>
-							  <button type="reset" class="btn">Cancel</button>
+                                <a type="submit" class="btn btn-primary" href="comment.html">Add</a>
+                                <a type="reset" class="btn" href="comment.html">Cancel</a>
 							</div>
-						  </fieldset>
+                                
+                        </div>
+                                    
+						 
 						</form>   
 
 					</div>
@@ -407,7 +494,7 @@
                 
                 </div>
                 
-                //done here
+<!--                //done here-->
 			
 			</div><!--/row-->
 
