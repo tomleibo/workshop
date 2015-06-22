@@ -24,16 +24,25 @@ public class UserController {
 	private static String mailUsername = "sadnase2015@gmail.com";
 	private static String mailPassword = "sadna2015";
 
-	public static User register(Forum forum, String username, String password, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, EmptyFieldException {
+    public static User register(Forum forum, String username, String password, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, EmptyFieldException, IdentificationQuestionMissingException {
+        return register(forum, username, password, emailAddress, null, null);
+    }
+
+    public static User register(Forum forum, String username, String password, String emailAddress, String question, String answer) throws UsernameAlreadyExistsException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, EmptyFieldException, IdentificationQuestionMissingException {
 		if (!password.matches(forum.getPolicy().getPasswordRegex())) {
             throw new PasswordNotMatchesRegexException();
         }
         if (username.isEmpty() | password.isEmpty() | emailAddress.isEmpty()) {
             throw new EmptyFieldException();
         }
+        if (forum.getPolicy().isAskIdentificationQuestion()) {
+            if ((question == null | answer == null) || (question.isEmpty() | answer.isEmpty())) {
+                throw new IdentificationQuestionMissingException();
+            }
+        }
         if (getUserFromForum(forum, username, password) != null)
 			throw new UsernameAlreadyExistsException("Username: " + username + " already exists in forum: " + forum.getName() + ".");
-		User member = User.newMember(username, Cipher.hashString(password, Cipher.SHA), emailAddress);
+		User member = User.newMember(username, Cipher.hashString(password, Cipher.SHA), emailAddress, question, Cipher.hashString(answer, Cipher.SHA));
 		if (forum.isSecured()) {
 			MailAuthenticator authenticator = new MailAuthenticator(mailHost, mailUsername, mailPassword);
 			authenticator.sendVerificationMail(emailAddress, username);

@@ -55,6 +55,10 @@ public class User {
     private int state;
     @Column(name="status")
     private String status = "";
+    @Column(name="question")
+    private String question;
+    @Column(name="answer")
+    private String hashedAnswer;
 	@ManyToMany()
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -124,20 +128,26 @@ public class User {
 	 * @param state UserState for the created user.
 	 */
 	private User(String username, String hashedPassword, String emailAddress, int state) {
-		if (state==GUEST)
-			this.username = username + id;
-		else
-			this.username = username;
-        this.oldHashedPasswords = "";
-		setHashedPassword(hashedPassword);
-		this.state = state;
-		this.emailAddress = emailAddress;
-		friends = new HashSet<>();
-		friendRequests = new ArrayList<>();
-		pendingNotifications = new  ArrayList<>();
-		sentReports = new ArrayList<>();
-		initializeUser();
+		this(username, hashedPassword, emailAddress, state, null, null);
 	}
+
+    public User(String username, String hashedPassword, String emailAddress, int state, String question, String hashedAnswer) {
+        if (state==GUEST)
+            this.username = username + id;
+        else
+            this.username = username;
+        this.oldHashedPasswords = "";
+        setHashedPassword(hashedPassword);
+        this.state = state;
+        this.emailAddress = emailAddress;
+        this.question = question;
+        this.hashedAnswer = hashedAnswer;
+        friends = new HashSet<>();
+        friendRequests = new ArrayList<>();
+        pendingNotifications = new  ArrayList<>();
+        sentReports = new ArrayList<>();
+        initializeUser();
+    }
 
     public boolean isGuest() {
         return state==GUEST;
@@ -185,6 +195,10 @@ public class User {
 	public static User newMember(String username, String hashedPassword, String emailAddress) {
 		return new User(username, hashedPassword, emailAddress, MEMBER);
 	}
+
+    public static User newMember(String username, String hashedPassword, String emailAddress, String question, String hashedAnswer) {
+        return new User(username, hashedPassword, emailAddress, MEMBER, question, hashedAnswer);
+    }
 
 	/**
 	 * returns new super admin with given credentials.
