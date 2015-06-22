@@ -167,7 +167,7 @@
                                 <div class="control-group">
                                     <label class="control-label" for="typeahead">Sub Forum Name: </label>
                                     <div class="controls">
-                                        <input type="text" id="title" name="title">
+                                        <input type="text" id="title" name="title"  maxlength="25">
 
                                     </div>
                                 </div>

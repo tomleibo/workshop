@@ -232,7 +232,7 @@
                                     <div class="control-group">
                                         <label class="control-label" for="typeahead">Sub Forum Name: </label>
                                         <div class="controls">
-                                            <input type="text" id="title">
+                                            <input type="text" id="title" maxlength="25">
 
                                         </div>
                                     </div>
