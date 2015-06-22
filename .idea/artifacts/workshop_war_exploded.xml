@@ -10,11 +10,11 @@
         <element id="directory" name="lib">
           <element id="library" level="project" name="Hibernate 4.2.2-4.2.2" />
           <element id="library" level="project" name="JPA 2.0-2.0" />
+          <element id="library" level="project" name="java-mail-1.4.4 (3)" />
           <element id="library" level="project" name="mysql-connector-java-5.1.35-bin" />
           <element id="library" level="project" name="javax.transaction" />
-          <element id="file-copy" path="$PROJECT_DIR$/lib/junit-4.4.jar" />
           <element id="file-copy" path="$APPLICATION_HOME_DIR$/lib/junit.jar" />
-          <element id="library" level="project" name="java-mail-1.4.4 (3)" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/junit-4.4.jar" />
         </element>
       </element>
     </root>
