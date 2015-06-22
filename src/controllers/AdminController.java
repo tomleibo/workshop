@@ -1,6 +1,7 @@
 package controllers;
 
 import content.Forum;
+import content.Message;
 import content.SubForum;
 import exceptions.UserNotAuthorizedException;
 import org.hibernate.Query;
@@ -99,22 +100,22 @@ public class AdminController {
 		throw new UserNotAuthorizedException("to delete sub forum");
 	}
 
-    public static int getReportTotalMessagesInForum(Forum forum, User admin, SubForum subForum) throws UserNotAuthorizedException {
+    public static int getReportTotalMessagesInSubForum(Forum forum, User admin, SubForum subForum) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserGetNumberOfMessagesInSubForum(forum, admin, subForum)) {
             return subForum.getNumberOfMessages();
         }
         throw new UserNotAuthorizedException("to view reports");
     }
 
-    public static int getReportTotalMessagesOfMember(Forum forum, User admin, User member) throws UserNotAuthorizedException {
+    public static List<Message> getReportTotalMessagesOfMember(Forum forum, User admin, User member) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserGetNumberOfMessagesOfMember(forum, admin, member)) {
             Query query = HibernateUtils.getQuery("FROM message M WHERE M.publisher = " + member.getId());
-            return query.list().size();
+            return query.list();
         }
         throw new UserNotAuthorizedException("to view reports");
     }
 
-    public static Set getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException {
+    public static Set<User> getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserGetModeratorList(forum, admin)) {
             Set<User> moderators = new HashSet<>();
             for (SubForum subForum : forum.getSubForums()) {
