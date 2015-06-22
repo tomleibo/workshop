@@ -41,18 +41,27 @@ public class NotificationsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		int userId=-1;
-
 		try {
             SessionLogger.get().log(request.getSession().getId(),"viewing notifications");
-			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if(value!= null)
-				userId = Integer.parseInt(value);
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("User Cookie Value doesn't exist");
 
-		User user = (User) HibernateUtils.load(User.class, userId);
+			int userId = Integer.parseInt(cookieValue);
+
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("Forum Cookie Value doesn't exist");
+
+			int forumId = Integer.parseInt(cookieValue);
+
+
+			User user = (User) HibernateUtils.load(User.class, userId);
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/notifications.jsp");
 		request.setAttribute("user", user);
+		request.setAttribute("forum", forum);
 		dispatcher.forward(request,response);
 		}
 		catch (Exception e){

@@ -1,20 +1,19 @@
 <%@ page import="content.Forum" %>
 <%@ page import="users.User" %>
 <%@ page import="java.util.Date" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: thinkPAD
-  Date: 6/8/2015
-  Time: 9:48 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="utils.HtmlUtils" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% Forum forum = (Forum)request.getAttribute("forum"); %>
 <% User user = (User) request.getAttribute("user"); %>
-<html>
+
+
+<html lang="en">
 <head>
+
+    <!-- start: Meta -->
     <meta charset="utf-8">
-    <title>Great Minds - Profile</title>
+    <title>Great Minds</title>
     <meta name="description" content="Bootstrap Metro Dashboard">
     <meta name="author" content="Dennis Ji">
     <meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -23,16 +22,18 @@
     <!-- start: Mobile Specific -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- end: Mobile Specific -->
+
     <!-- start: CSS -->
     <link id="bootstrap-style" href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="css/comment.css" rel="stylesheet">
     <link id="base-style" href="css/style.css" rel="stylesheet">
     <link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
-
-    <link href="css/profile.css" rel="stylesheet">
     <!-- end: CSS -->
-
+    <% if(!user.isGuest()){%>
+    <%=HtmlUtils.getAjaxScript()%>
+    <%}%>
 
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -47,8 +48,14 @@
     <!-- start: Favicon -->
     <link rel="shortcut icon" href="img/favicon.ico">
     <!-- end: Favicon -->
+
+
+
+
 </head>
+
 <body>
+<!-- start: Header -->
 <div class="navbar">
     <div class="navbar-inner">
         <div class="container-fluid">
@@ -57,132 +64,49 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="index.html"><span>Great Minds</span></a>
+            <a class="brand" href="/home"><span>Great Minds</span></a>
 
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
+                    <% if(!user.isGuest()){%>
                     <li class="dropdown hidden-phone">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        <a class="btn dropdown-toggle" href="\notificationsPage">
                             <i class="icon-bell"></i>
-								<span class="badge red">
-								7 </span>
+                                    <span id="notificationsButton" class="badge red">
+                                    0 </span>
                         </a>
-
                     </li>
                     <!-- start: Notifications Dropdown -->
-
                     <!-- end: Notifications Dropdown -->
-                    <!-- start: Message Dropdown -->
+                    <%--friend requests--%>
                     <li class="dropdown hidden-phone">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        <a class="btn dropdown-toggle" href="\friendRequests">
                             <i class="icon-user"></i>
-								<span class="badge red">
-								4 </span>
+                                    <span id="requestsButton" class="badge red">
+                                    0 </span>
                         </a>
-                        <ul class="dropdown-menu messages">
-                            <li class="dropdown-menu-title">
-                                <span>You have 9 messages</span>
-                                <a href="#refresh"><i class="icon-repeat"></i></a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
-										<span class="header">
-											<span class="from">
-										    	Dennis Ji
-										     </span>
-											<span class="time">
-										    	6 min
-										    </span>
-										</span>
-                                        <span class="message">
-                                            Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
-                                        </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
-										<span class="header">
-											<span class="from">
-										    	Dennis Ji
-										     </span>
-											<span class="time">
-										    	56 min
-										    </span>
-										</span>
-                                        <span class="message">
-                                            Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
-                                        </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
-										<span class="header">
-											<span class="from">
-										    	Dennis Ji
-										     </span>
-											<span class="time">
-										    	3 hours
-										    </span>
-										</span>
-                                        <span class="message">
-                                            Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
-                                        </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
-										<span class="header">
-											<span class="from">
-										    	Dennis Ji
-										     </span>
-											<span class="time">
-										    	yesterday
-										    </span>
-										</span>
-                                        <span class="message">
-                                            Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
-                                        </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
-										<span class="header">
-											<span class="from">
-										    	Dennis Ji
-										     </span>
-											<span class="time">
-										    	Jul 25, 2012
-										    </span>
-										</span>
-                                        <span class="message">
-                                            Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
-                                        </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-menu-sub-footer">View all messages</a>
-                            </li>
-                        </ul>
                     </li>
-
+                    <%}%>
                     <!-- start: User Dropdown -->
                     <li class="dropdown">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="halflings-icon white user"></i> Dennis Ji
+                            <i class="halflings-icon white user"></i> <%=user.getUsername()%>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-menu-title">
                                 <span>Account Settings</span>
                             </li>
-                            <li><a href="#"><i class="halflings-icon user"></i> Profile</a></li>
-                            <li><a href="login.html"><i class="halflings-icon off"></i> Logout</a></li>
+
+                            <% if(user.isGuest() || !user.isLoggedIn()){%>
+                            <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
+                            <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
+                            <%} else{ %>
+                            <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
+                            <li><a href="\profile"><i class="halflings-icon user"></i> Profile</a></li>
+                            <%} %>
+
                         </ul>
                     </li>
                     <!-- end: User Dropdown -->
@@ -202,7 +126,7 @@
         <div id="sidebar-left" class="span2">
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a href="index.html"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a></li>
+                    <li><a href="/home"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a></li>
 
 
                 </ul>
@@ -220,7 +144,7 @@
 
 
 
-
+    </div><!--/fluid-row-->
         <!-- start: Content -->
         <div id="content" class="span10">
 
@@ -311,29 +235,16 @@
                                                         <td>
 
 
-                                                            <select id="selectError1" data-rel="chosen">
+                                                            <select name="reporteeId" id="selectError1" data-rel="chosen">
                                                                 <% for (User fuser : forum.getMembers()) { %>
                                                                 <option name="reporteeId" value="<%=fuser.getId()%>"><%=fuser.getUsername()%></option>
                                                                 <% } %>
                                                             </select>
-
-                                                            <div class="modal-body" id="report">
-
-                                                                <div class="modal-body">
-                                                                    <p><h3>Sending repot to:</h3> user name <br><br></p>
-                                                                    <p><h3>Title:  </h3><input name="title"></p>
-                                                                    <p><textarea form="formreportmember" name="content" class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea></p>
-
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <a href="#" class="btn" data-dismiss="modal">Close</a>
-                                                                    <a href="#" class="btn btn-primary">Send</a>
-                                                                </div>
-                                                            </div>
                                                         </td>
-
                                                         <td>
-                                                            <button type="submit" class="btn btn-primary btn-report">Report</button></td></table>
+                                                            <a type="submit" class="btn btn-primary">Report</a></td></table>
+                                                <br>
+                                                <textarea form="formreportmember" name="content" class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
 
 
 
@@ -355,28 +266,29 @@
                                         <!--                    //start serch people-->
 
 
-                                        <form class="well sapn8">
+                                        <form class="well sapn8" action="/sendFriendRequest">
                                             <div class="control-group">
-                                                <label class="control-label" for="selectError"><h3>Add new friend</h3></label>
+                                                <label class="control-label" for="idontknow"><h3>Add new friend</h3></label>
                                                 <div class="controls">
                                                     <table>
                                                         <col width="250">
                                                         <col width="250">
                                                         <tr>
                                                             <td>
-                                                                <select id="selectError" data-rel="chosen">
-                                                                    <option>Friend 1</option>
-                                                                    <option>Friend 2</option>
-                                                                    <option>Friend 3</option>
-                                                                    <option>Friend 4</option>
-                                                                    <option>Friend 5</option>
+                                                                <select name="receiverId" id="idontknow" data-rel="chosen">
+                                                                    <% for (User fuser : forum.getMembers()) { %>
+                                                                    <option name="receiverId" value="<%=fuser.getId()%>"><%=fuser.getUsername()%></option>
+                                                                    <% } %>
                                                                 </select>
+
                                                             </td>
                                                             <td>
-                                                                <a href="#" class="btn btn-primary btn-setting">Send friend request</a>
+                                                                <a type="submit" class="btn btn-primary">Send friend request</a>
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    <br>
+                                                    <textarea form="idontknow" name="content" class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
                                                 </div>
 
                                             </div>
@@ -460,7 +372,7 @@
 
 
         </div><!--/#content.span10-->
-    </div><!--/fluid-row-->
+
 
     <div class="modal hide fade" id="myModal">
         <div class="modal-header">
@@ -478,7 +390,20 @@
     </div>
 
 
-
+    <div class="modal hide fade" id="report">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Report Member</h3>
+        </div>
+        <div class="modal-body">
+            <p><h3>Sending repot to:</h3> user name <br><br></p>
+            <p><textarea class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <a href="#" class="btn btn-primary">Send</a>
+        </div>
+    </div>
 
 
 
@@ -490,7 +415,7 @@
                 <li><a href="http://themescloud.org">Bootstrap themes</a></li>
             </ul>
         </div>
-    </div>
+    </div></div>
 
     <div class="clearfix"></div>
 

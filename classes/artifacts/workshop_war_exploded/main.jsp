@@ -375,7 +375,7 @@
       <div>
         <div class="box span12">
           <div class="box-header" data-original-title>
-            <h2><i class="halflings-icon white user"></i><span class="break"></span>Forums</h2>
+            <h2><i class="halflings-icon white th"></i><span class="break"></span>Forums</h2>
 
           </div>
 
