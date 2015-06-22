@@ -21,6 +21,8 @@ public class Notification {
 	@Column(name="date")
 	@Temporal(TemporalType.DATE)
 	private Date date;
+    @Column (name="viewed")
+    private boolean viewed=false;
 
 	public Notification(){
 
@@ -29,6 +31,7 @@ public class Notification {
 		this.title = title;
 		this.message = message;
 		this.date = new java.sql.Date(System.currentTimeMillis());
+        this.viewed = false;
 	}
 
 	public String getTitle() {
@@ -94,5 +97,13 @@ public class Notification {
         String title = "Reply was published";
         String message =  user.getUsername() + " replied to message: " + addedTo.getTitle();
         return new Notification(title, message);
+    }
+
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
+    }
+
+    public boolean isViewed() {
+        return this.viewed;
     }
 }

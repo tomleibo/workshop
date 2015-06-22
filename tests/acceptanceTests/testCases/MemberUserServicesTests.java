@@ -28,12 +28,7 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 
 	@After
-	public void afterMethod() throws UserNotLoggedInException {
-		for(User u : theForum.getMembers()){
-			if(u.isLoggedIn() && !u.equals(superAdmin)){
-				u.logout();
-			}
-		}
+	public void afterMethod() {
 //		for (User usr: theForum.getMembers()){
 //			HibernateUtils.del(usr);
 //		}
@@ -57,10 +52,9 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 	
 	@Test // 5.1
-	public void test_login_ExistingUser() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, NeedToChangePasswordException, UserNotLoggedInException {
+	public void test_login_ExistingUser() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, NeedToChangePasswordException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		Assert.assertNotNull(user1);
-		Assert.assertTrue(user1.isLoggedIn());
 	}
 
 	@Test // 5.2
@@ -90,20 +84,20 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 
 
-	@Test // 5.4
-	 public void test_login_ExistingUser_DoubleLogin() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, NeedToChangePasswordException, UserNotLoggedInException {
-		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
-
-		try {
-			User userLoginsTwice = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
-		} catch (UserAlreadyLoggedInException e) {
-			Assert.assertTrue(true);
-			return;
-		}
-
-		Assert.assertTrue(false);
-		user1.logout();
-	}
+//	@Test // 5.4
+//	 public void test_login_ExistingUser_DoubleLogin() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, NeedToChangePasswordException, UserNotLoggedInException {
+//		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
+//
+//		try {
+//			User userLoginsTwice = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
+//		} catch (UserAlreadyLoggedInException e) {
+//			Assert.assertTrue(true);
+//			return;
+//		}
+//
+//		Assert.assertTrue(false);
+//		user1.logout();
+//	}
 
 	@Test // 5.5
 	public void test_logoff_UserLoggedIn() throws UserNotLoggedInException, UserDoesNotExistsException, UserAlreadyLoggedInException, NoSuchAlgorithmException, WrongPasswordException, NeedToChangePasswordException {

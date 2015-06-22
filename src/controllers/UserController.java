@@ -77,7 +77,7 @@ public class UserController {
         HibernateUtils.update(user);
     }
 
-	public static User login(Forum forum, String username, String password) throws NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, WrongPasswordException, NeedToChangePasswordException {
+	public static User login(Forum forum, String username, String password) throws NoSuchAlgorithmException, UserDoesNotExistsException, WrongPasswordException, NeedToChangePasswordException {
         User user = getUserFromForum(forum, username, password);
 		if (user == null) {
 			ForumLogger.errorLog("The user " + username + " trying to login but he is not existing in the forum " + forum.getName());
@@ -99,7 +99,7 @@ public class UserController {
         }
 		try {
 			return guest.loginAsGuest();
-		} catch (UserAlreadyLoggedInException | WrongPasswordException e) {
+		} catch (WrongPasswordException e) {
 			e.printStackTrace();
 			return null;
 		}
