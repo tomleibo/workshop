@@ -1,17 +1,11 @@
 <%@ page import="users.User" %>
-<%@ page import="users.FriendRequest" %>
+<%@ page import="users.Notification" %>
 <%@ page import="utils.HtmlUtils" %>
 <%@ page import="content.Forum" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Roee
-  Date: 06-05-15
-  Time: 18:41
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% User user = (User) request.getAttribute("user"); %>
-<% Forum forum = (Forum) request.getAttribute("forum"); %>
+<% User user = (User)request.getAttribute("user"); %>
+<% Forum forum = (Forum)request.getAttribute("forum"); %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -150,7 +144,6 @@
 
 
 
-
     <!-- start: Content -->
     <div id="content" class="span10">
 
@@ -168,42 +161,44 @@
       <div>
         <div class="box span12">
           <div class="box-header" data-original-title>
-            <h2><i class="halflings-icon white user"></i><span class="break"></span>Friend Requests</h2>
+            <h2><i class="halflings-icon white bell"></i><span class="break"></span>Notifications</h2>
 
           </div>
 
 
           <div class="box-content">
             <table class="table table-striped table-bordered bootstrap-datatable datatable">
-              <col width="300">
+              <col width="100">
               <col width="50">
               <col width="10">
               <thead>
               <tr>
-                <th>Request</th>
-                <th>From</th>
+                <th>Title</th>
+                <th>Date</th>
                 <th></th>
 
               </tr>
               </thead>
               <tbody>
-              <% for(FriendRequest fr : user.getFriendRequests()){%>
-                <% if(!fr.isViewed()){%>
+              <% for (Notification notification : user.getPendingNotifications()) { %>
                   <tr>
-                    <td class="center"><%=fr.getMessage()%></td>
-                    <td class="center"><%=fr.getRequestingMember().getUsername()%></td>
-                    <td class="center">
-                      <a data-brackets-id="13985" href="\replyToFriendRequest?friendReqId=<%=fr.id%>&answer=1" class="btn btn-mini btn-success">Accept</a>
-                      <a data-brackets-id="13985" href="\replyToFriendRequest?friendReqId=<%=fr.id%>&answer=0" class="btn btn-mini btn-danger">Deny</a></td>
+                    <td class=" sorting_1">
+                      <div class="span4 collapse-group row center">
+                        <p><a class="btn btn-mini" href="#">+</a>&nbsp;&nbsp;&nbsp;<%=notification.getTitle()%></p>
+                        <p class="collapse"><%=notification.getMessage()%></p>
+
+                      </div>
+                    </td>
                   </tr>
-                <%}%>
-              <%}%>
+              <% } %>
+
               </tbody>
             </table>
           </div>
         </div><!--/span-->
 
       </div><!--/row-->
+
 
 
     </div><!--/.fluid-container-->
@@ -306,7 +301,7 @@
 <script src="js/retina.js"></script>
 
 <script src="js/custom.js"></script>
-<script src = "js/comment.js"></script>
+<script src = "js/dropdown.js"></script>
 <!-- end: JavaScript-->
 
 </body>
