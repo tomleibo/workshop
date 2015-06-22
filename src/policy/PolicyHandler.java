@@ -184,4 +184,8 @@ public class PolicyHandler {
     public static boolean canUserAddRemoveStatusType(Forum forum, User admin) {
         return (admin.isSuperAdmin() || forum.getAdmin().equals(admin));
     }
+
+    public static boolean canGetModeratorSubForumList(Forum forum, User admin, User moderator) {
+        return ((admin.isSuperAdmin() || forum.getAdmin().equals(admin)) & (forum.getMembers().contains(moderator)));
+    }
 }

@@ -5,12 +5,13 @@ import content.SubForum;
 import exceptions.UserNotAuthorizedException;
 import org.hibernate.Query;
 import policy.PolicyHandler;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import users.User;
 import utils.ForumLogger;
 import utils.HibernateUtils;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AdminController {
 	
@@ -113,12 +114,22 @@ public class AdminController {
         throw new UserNotAuthorizedException("to view reports");
     }
 
-    public static List getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException {
+    public static Set getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserGetModeratorList(forum, admin)) {
-            // TODO
-            throw new NotImplementedException();
+            Set<User> moderators = new HashSet<>();
+            for (SubForum subForum : forum.getSubForums()) {
+                moderators.addAll(subForum.getModerators());
+            }
+            return moderators;
         }
         throw new UserNotAuthorizedException("to view reports");
+    }
+
+    public static List getModeratorSubForumList(Forum forum, User admin, User moderator) throws UserNotAuthorizedException {
+        if (PolicyHandler.canGetModeratorSubForumList(forum, admin, moderator)) {
+            return moderator.getManagedSubForums();
+        }
+        throw new UserNotAuthorizedException("to view moderator sub forum list");
     }
 
     public static boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {

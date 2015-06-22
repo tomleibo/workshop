@@ -59,4 +59,5 @@ public interface IForumSystemBridge {
 	// Version 2
 	List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException;
 	boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException;
+	boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException;
 }

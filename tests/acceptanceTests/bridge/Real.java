@@ -220,5 +220,10 @@ public class Real implements IForumSystemBridge {
         return AdminController.appointModerator(forum, subForum, admin, moderator);
     }
 
+    @Override
+    public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+        return AdminController.unAppoint(forum, subForum, admin, moderator);
+    }
+
 }
 

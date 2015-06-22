@@ -126,7 +126,7 @@ public class ForumTests {
     }
 
     @Test
-    public void testAppointModeratorFromController() throws UserNotAuthorizedException, EmptyFieldException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, UsernameAlreadyExistsException {
+    public void testAppointModeratorFromController() throws UserNotAuthorizedException, EmptyFieldException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, UsernameAlreadyExistsException, IdentificationQuestionMissingException {
         User u =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
         ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(u, policy, "forum1");
@@ -137,7 +137,7 @@ public class ForumTests {
     }
 
     @Test
-    public void testAppointAndUnAppointFromController() throws UserNotAuthorizedException, EmptyFieldException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, UsernameAlreadyExistsException {
+    public void testAppointAndUnAppointFromController() throws UserNotAuthorizedException, EmptyFieldException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, UsernameAlreadyExistsException, IdentificationQuestionMissingException {
         User admin =User.newSuperAdmin("bivan", "dooogi", "sdkfdjk@sld;kf.com");
         ForumPolicy policy = new ForumPolicy(5,".*", ForumPolicy.HashFunction.MD5, false);
         Forum f = SuperAdminController.createNewForum(admin, policy, "forum1");
