@@ -1,7 +1,8 @@
-<%@ page import="content.Forum" %>
 <%@ page import="content.SubForum" %>
-<%@ page import="utils.HtmlUtils" %>
+<%@ page import="content.Thread" %>
 <%@ page import="users.User" %>
+<%@ page import="utils.HtmlUtils" %>
+<%@ page import="content.Forum" %>
 <%--
   Created by IntelliJ IDEA.
   User: thinkPAD
@@ -10,8 +11,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% Forum forum = (Forum) request.getAttribute("forum"); %>
+<% SubForum sub = (SubForum)request.getAttribute("subForum"); %>
+<% Forum forum = (Forum)request.getAttribute("forum"); %>
 <% User user = (User) request.getAttribute("user"); %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,8 +25,7 @@
     <title>Great Minds</title>
     <meta name="description" content="Bootstrap Metro Dashboard">
     <meta name="author" content="Dennis Ji">
-    <meta name="keyword"
-          content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
     <!-- end: Meta -->
 
     <!-- start: Mobile Specific -->
@@ -36,10 +38,9 @@
     <link href="css/comment.css" rel="stylesheet">
     <link id="base-style" href="css/style.css" rel="stylesheet">
     <link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext'
-          rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
     <!-- end: CSS -->
-    <% if (!user.isGuest()) {%>
+    <% if(!user.isGuest()){%>
     <%=HtmlUtils.getAjaxScript()%>
     <%}%>
 
@@ -58,6 +59,8 @@
     <!-- end: Favicon -->
 
 
+
+
 </head>
 
 <body>
@@ -65,8 +68,7 @@
 <div class="navbar">
     <div class="navbar-inner">
         <div class="container-fluid">
-            <a class="btn btn-navbar" data-toggle="collapse"
-               data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -76,7 +78,7 @@
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
-                    <% if (!user.isGuest()) {%>
+                    <% if(!user.isGuest()){%>
                     <li class="dropdown hidden-phone">
                         <a class="btn dropdown-toggle" href="\notificationsPage">
                             <i class="icon-bell"></i>
@@ -106,14 +108,11 @@
                                 <span>Account Settings</span>
                             </li>
 
-                            <% if (user.isGuest() || !user.isLoggedIn()) {%>
-                            <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i>
-                                Register</a></li>
-                            <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a>
-                            </li>
-                            <%} else { %>
-                            <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a>
-                            </li>
+                            <% if(user.isGuest() || !user.isLoggedIn()){%>
+                            <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
+                            <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
+                            <%} else{ %>
+                            <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
                             <li><a href="\profile"><i class="halflings-icon user"></i> Profile</a></li>
                             <%} %>
 
@@ -136,8 +135,7 @@
         <div id="sidebar-left" class="span2">
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a href="/home"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a>
-                    </li>
+                    <li><a href="/home"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a></li>
 
 
                 </ul>
@@ -148,11 +146,12 @@
         <noscript>
             <div class="alert alert-block span10">
                 <h4 class="alert-heading">Warning!</h4>
-
-                <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a>
-                    enabled to use this site.</p>
+                <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
             </div>
         </noscript>
+
+
+
 
 
         <!-- start: Content -->
@@ -164,23 +163,23 @@
                     <i class="icon-home"></i>
                     <a href="/home">Home</a>
                     <i class="icon-angle-right"></i>
+                    <a href="/forum?forumId=<%=forum.id%>"><%=forum.getName()%></a>
+                    <i class="icon-angle-right"></i>
                 </li>
-                <li><a href="/forum?forumId=<%=forum.id%>"><%=forum.getName()%>
-                </a></li>
+                <li><a href="#"><%=sub.getName()%></a></li>
             </ul>
 
-            <h1><%=forum.getName()%>
-            </h1><br><br>
+            <h1><%=sub.getName()%></h1><br><br>
 
+            <%--Post New Thread--%>
+            <div class="pull-left">
+                <a href="\newThread" class="btn btn-large btn-primary btn-round"><i class="halflings-icon white plus"></i><span class="break"></span> Post New Thread</a></div>
 
-            <a class="btn btn-large btn-primary btn-round pull-right" href="\newSubForum">
-                <i class="halflings-icon white plus"></i><span class="break"></span>New Sub-Forum</a>
-            <br><br><br>
-
+            <%--start table--%>
             <div>
                 <div class="box span12">
                     <div class="box-header" data-original-title>
-                        <h2><i class="halflings-icon white th"></i><span class="break"></span>Sub Forums</h2>
+                        <h2><i class="halflings-icon white th"></i><span class="break"></span>Threads</h2>
 
                     </div>
 
@@ -189,46 +188,46 @@
                         <table class="table table-striped table-bordered bootstrap-datatable datatable">
                             <col width="300">
                             <col width="70">
-                            <col width="5">
+                            <col width="1">
                             <thead>
                             <tr>
-                                <th>Sub Forum</th>
-                                <th>Moderator</th>
+                                <th>Thread</th>
+                                <th>Author</th>
                                 <th></th>
+
 
                             </tr>
                             </thead>
                             <tbody>
-                            <% for (SubForum sub : forum.getSubForums()) { %>
-                            <tr>
-                                <td><a href="\subForum?subForumId=<%=sub.id%>"><%=sub.getName()%>
-                                </a></td>
-                                <td class="center"><%=sub.getModerators().get(0).getUsername()%>
-                                </td>
-                                <%if (user.isAdmin()) {%>
-                                <td class="center"><a href="\deleteSubForum?subForumId=<%=sub.id%>"
-                                                      class="btn btn-mini btn-danger">Delete</a></td>
+                                <% for (Thread t : sub.viewThreads()) { %>
+                                    <tr>
+                                        <td><a href="\thread?threadId=<%=t.id%>"><%=t.getOpeningMessage().getTitle()%></a> </td>
+                                        <td class="center"><%=t.getMemberStarted().getUsername()%></td>
+                                        <%if(user.isAdmin()){%>
+                                            <td class="center"><a class="btn btn-mini btn-danger">Delete</a></td>
+                                        <%}%>
+                                    </tr>
                                 <%}%>
-                            </tr>
-                            <%}%>
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <!--/span-->
-            </div>
-        </div>
-        <!--/row-->
+                </div><!--/span-->
+
+            </div><!--/row-->
 
 
-    </div>
-    <!--/.fluid-container-->
-
-    <!-- end: Content -->
 
 
-</div>
-<!--/#content.span10-->
+        </div><!--/.fluid-container-->
+
+        <!-- end: Content -->
+
+
+
+
+
+
+    </div><!--/#content.span10-->
 </div><!--/fluid-row-->
 
 <div class="modal hide fade" id="myModal">
@@ -255,6 +254,7 @@
 </div>
 
 <div class="clearfix"></div>
+
 <footer>
 
 
@@ -318,7 +318,7 @@
 <script src="js/retina.js"></script>
 
 <script src="js/custom.js"></script>
-<script src="js/comment.js"></script>
+<script src = "js/comment.js"></script>
 <!-- end: JavaScript-->
 
 </body>

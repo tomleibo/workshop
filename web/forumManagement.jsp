@@ -10,7 +10,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% Forum forum = (Forum) request.getAttribute("forum"); %>
+<% Forum forum = (Forum)request.getAttribute("forum"); %>
 <% User user = (User) request.getAttribute("user"); %>
 
 <!DOCTYPE html>
@@ -22,8 +22,7 @@
     <title>Great Minds</title>
     <meta name="description" content="Bootstrap Metro Dashboard">
     <meta name="author" content="Dennis Ji">
-    <meta name="keyword"
-          content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
     <!-- end: Meta -->
 
     <!-- start: Mobile Specific -->
@@ -36,10 +35,9 @@
     <link href="css/comment.css" rel="stylesheet">
     <link id="base-style" href="css/style.css" rel="stylesheet">
     <link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext'
-          rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
     <!-- end: CSS -->
-    <% if (!user.isGuest()) {%>
+    <% if(!user.isGuest()){%>
     <%=HtmlUtils.getAjaxScript()%>
     <%}%>
 
@@ -58,6 +56,8 @@
     <!-- end: Favicon -->
 
 
+
+
 </head>
 
 <body>
@@ -65,8 +65,7 @@
 <div class="navbar">
     <div class="navbar-inner">
         <div class="container-fluid">
-            <a class="btn btn-navbar" data-toggle="collapse"
-               data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -76,7 +75,7 @@
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
-                    <% if (!user.isGuest()) {%>
+                    <% if(!user.isGuest()){%>
                     <li class="dropdown hidden-phone">
                         <a class="btn dropdown-toggle" href="\notificationsPage">
                             <i class="icon-bell"></i>
@@ -106,14 +105,11 @@
                                 <span>Account Settings</span>
                             </li>
 
-                            <% if (user.isGuest() || !user.isLoggedIn()) {%>
-                            <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i>
-                                Register</a></li>
-                            <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a>
-                            </li>
-                            <%} else { %>
-                            <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a>
-                            </li>
+                            <% if(user.isGuest() || !user.isLoggedIn()){%>
+                            <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
+                            <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
+                            <%} else{ %>
+                            <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
                             <li><a href="\profile"><i class="halflings-icon user"></i> Profile</a></li>
                             <%} %>
 
@@ -136,8 +132,7 @@
         <div id="sidebar-left" class="span2">
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a href="/home"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a>
-                    </li>
+                    <li><a href="/home"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a></li>
 
 
                 </ul>
@@ -148,11 +143,12 @@
         <noscript>
             <div class="alert alert-block span10">
                 <h4 class="alert-heading">Warning!</h4>
-
-                <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a>
-                    enabled to use this site.</p>
+                <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
             </div>
         </noscript>
+
+
+
 
 
         <!-- start: Content -->
@@ -162,73 +158,120 @@
             <ul class="breadcrumb">
                 <li>
                     <i class="icon-home"></i>
-                    <a href="/home">Home</a>
+                    <a href="index.html">Home</a>
+                    <i class="icon-angle-right"></i>
+                    <a href="subforums.html">ForumName</a>
                     <i class="icon-angle-right"></i>
                 </li>
-                <li><a href="/forum?forumId=<%=forum.id%>"><%=forum.getName()%>
-                </a></li>
+                <li><a href="#">SubForumName</a></li>
             </ul>
 
-            <h1><%=forum.getName()%>
-            </h1><br><br>
+            <h1>Forum Managment</h1><br><br>
+            <fieldset>
+                <legend>Appoint Admin</legend>
+                <table>
+                    <col width="250">
+                    <col width="250">
+                    <tr>
+                        <td>
+                            <select id="appointAdmin" data-rel="chosen">
+                                <option>User 1</option>
+                                <option>User 2</option>
+                                <option>User 3</option>
+                                <option>User 4</option>
+                                <option>User 5</option>
+                            </select>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-primary">Appoint</a>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+
+            <br><br>
+
+            <fieldset>
+                <legend>Ban Member</legend>
+                <table>
+                    <col width="250">
+                    <col width="250">
+                    <tr>
+                        <td>
+                            <select id="banMember" data-rel="chosen">
+                                <option>User 1</option>
+                                <option>User 2</option>
+                                <option>User 3</option>
+                                <option>User 4</option>
+                                <option>User 5</option>
+                            </select>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-primary">Ban</a>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
 
 
-            <a class="btn btn-large btn-primary btn-round pull-right" href="\newSubForum">
-                <i class="halflings-icon white plus"></i><span class="break"></span>New Sub-Forum</a>
-            <br><br><br>
+            <br><br>
+            <fieldset>
+                <legend> </legend>
+                <div>
 
-            <div>
-                <div class="box span12">
-                    <div class="box-header" data-original-title>
-                        <h2><i class="halflings-icon white th"></i><span class="break"></span>Sub Forums</h2>
 
+                    <div class="box span12">
+                        <div class="box-header" data-original-title>
+                            <h2><i class="halflings-icon plus"></i><span class="break"></span>Add Sub Forum</h2>
+
+
+                        </div>
+                        <div class="box-content">
+                            <form class="form-horizontal">
+                                <fieldset>
+                                    <div class="control-group">
+                                        <label class="control-label" for="typeahead">Sub Forum Name: </label>
+                                        <div class="controls">
+                                            <input type="text" id="title">
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="form-actions">
+
+                                        <a type="submit" class="btn btn-primary" href="comment.html">Add</a>
+                                        <button type="reset" class="btn">Cancel</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                        </div>
+                    </div><!--/span-->
                     </div>
+            </fieldset>
 
 
-                    <div class="box-content">
-                        <table class="table table-striped table-bordered bootstrap-datatable datatable">
-                            <col width="300">
-                            <col width="70">
-                            <col width="5">
-                            <thead>
-                            <tr>
-                                <th>Sub Forum</th>
-                                <th>Moderator</th>
-                                <th></th>
 
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <% for (SubForum sub : forum.getSubForums()) { %>
-                            <tr>
-                                <td><a href="\subForum?subForumId=<%=sub.id%>"><%=sub.getName()%>
-                                </a></td>
-                                <td class="center"><%=sub.getModerators().get(0).getUsername()%>
-                                </td>
-                                <%if (user.isAdmin()) {%>
-                                <td class="center"><a href="\deleteSubForum?subForumId=<%=sub.id%>"
-                                                      class="btn btn-mini btn-danger">Delete</a></td>
-                                <%}%>
-                            </tr>
-                            <%}%>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!--/span-->
-            </div>
+
         </div>
-        <!--/row-->
+        </fieldset>
 
 
-    </div>
-    <!--/.fluid-container-->
+
+
+    </div><!--/.fluid-container-->
 
     <!-- end: Content -->
 
 
-</div>
-<!--/#content.span10-->
+
+
+
+
+</div><!--/#content.span10-->
 </div><!--/fluid-row-->
 
 <div class="modal hide fade" id="myModal">
@@ -255,6 +298,7 @@
 </div>
 
 <div class="clearfix"></div>
+
 <footer>
 
 
@@ -318,7 +362,7 @@
 <script src="js/retina.js"></script>
 
 <script src="js/custom.js"></script>
-<script src="js/comment.js"></script>
+<script src = "js/comment.js"></script>
 <!-- end: JavaScript-->
 
 </body>
