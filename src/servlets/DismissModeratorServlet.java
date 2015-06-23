@@ -50,7 +50,8 @@ public class DismissModeratorServlet extends HttpServlet {
 		try {
 			forumId = Integer.parseInt(request.getParameter("forumId"));
 			subForumId = Integer.parseInt(request.getParameter("subForumId"));
-			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			String value = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
+
 			if(value!= null)
 				userId = Integer.parseInt(value);
 			moderatorName = request.getParameter("moderator");
