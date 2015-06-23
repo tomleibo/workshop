@@ -1,30 +1,23 @@
 <%@ page import="content.Forum" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: thinkPAD
-  Date: 5/6/2015
-  Time: 6:39 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="users.User" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% String forumIdString = (String)request.getParameter("forumId"); %>
-<% String identifyQStr= (String)request.getParameter("identifyQ"); %>
-<% boolean identifyQ = identifyQStr != null && identifyQStr.equals("true"); %>
-<%
-  int id=-1;
-  try {
-    id=Integer.parseInt(forumIdString);
-  }
-  catch (NumberFormatException e) {
-    System.out.println(e);
-  }
-%>
+
+<% User user = (User) request.getAttribute("user"); %>
+<% Forum forum = (Forum) request.getAttribute("forum"); %>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>
-    Registration
-  </title>
+
+    <!-- start: Meta -->
+    <meta charset="utf-8">
+    <title>Bootstrap Metro Dashboard by Dennis Ji for ARM demo</title>
+    <meta name="description" content="Bootstrap Metro Dashboard">
+    <meta name="author" content="Dennis Ji">
+    <meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <!-- end: Meta -->
+
     <!-- start: Mobile Specific -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- end: Mobile Specific -->
@@ -56,7 +49,10 @@
         body { background: url(img/bg-login.jpg) !important; }
     </style>
 
+
+
 </head>
+
 <body>
 <div class="container-fluid-full">
     <div class="row-fluid">
@@ -65,49 +61,28 @@
             <div class="login-box">
                 <div class="icons">
                     <a href="/home"><i class="halflings-icon home"></i></a>
+
                 </div>
-                <div class = "input-prepend">
-                    <h1>Register</h1>
-                </div>
-                <form class="form-horizontal" action="/register" method="get">
+                <h2>Change password</h2>
+                <form class="form-horizontal" action="/changePassword" method="post">
                     <fieldset>
-                        <input name="forumId" type="hidden" value="<%=id%>">
-                        <div class="input-prepend" title="Username">
-                            <span class="add-on"><i class="halflings-icon user"></i></span>
-                            <input class="input-large span10" name="username" id="username" type="text" placeholder="type username"  maxlength="25" required/>
+                        <input type="hidden" name="userId" value="<%=user.getId()%>"/>
+                        <div class="input-prepend" title="Old password">
+                            <span class="add-on"><i class="halflings-icon lock"></i></span>
+                            <input class="input-large span10" name="oldPassword" id="oldPassword" type="password" placeholder="type old password"/>
                         </div>
                         <div class="clearfix"></div>
 
                         <div class="input-prepend" title="Password">
                             <span class="add-on"><i class="halflings-icon lock"></i></span>
-                            <input class="input-large span10" name="pass" id="password" type="password" placeholder="type password"  maxlength="25" required/>
+                            <input class="input-large span10" name="password" id="password" type="password" placeholder="type new password"/>
                         </div>
 
-                        <div class="input-prepend" title="Email">
-                            <span class="add-on"><i class="halflings-icon envelope"></i></span>
-                            <input class="input-large span10" type = "email" name="email" id="email" type="text" placeholder="type email"  maxlength="30" required/>
-                        </div>
-
-                        <%if(identifyQ){%>
-                        <div class="input-prepend" title="Quest&Ans">
-
-                            <span class="add-on"><i class="halflings-icon question-sign"></i></span>
-                            <input class="input-large span10" name="question" id="question" type="text" placeholder="type a question" maxlength="25" style="background-color: cornsilk;"  required/>
-
-                        </div>
-
-                        <div class="input-prepend" title="Quest&Ans" >
-                            <span class="add-on"><i class="halflings-icon pencil"></i></span>
-                            <input class="input-large span10" name="answer" id="answer" type="text" placeholder="type possible answer" maxlength="25" style="background-color: cornsilk;"  required/>
-                        </div>
-                        <%}%>
-
-                        <div class="input-prepend" title="Register">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                        <div class="button-login">
+                            <input type="submit" class="btn btn-primary" value="Change password">
                         </div>
                         <div class="clearfix"></div>
-
-                </fieldset>
+                        </fieldset>
                 </form>
 
             </div><!--/span-->
@@ -185,15 +160,3 @@
 
 </body>
 </html>
-
-
-<!--
-<h2>registration</h2><br>
-<form action="\register" method="get" id="registerform">
-  <input name="forumId" type="hidden" value="<%=id%>">
-  user:&nbsp;<input name="username" type="text" value=""><br>
-  password:&nbsp;<input name="pass" type="password" value=""><br>
-  <input type="submit">
-</form>
-</body>
-</html>-->
