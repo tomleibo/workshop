@@ -170,6 +170,7 @@ public class User {
 		banned = false;
 		creationDate = new java.util.Date(System.currentTimeMillis());
         managedSubForums = new ArrayList<>();
+        status = "Regular";
 	}
 
 	/**

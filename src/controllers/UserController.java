@@ -204,8 +204,8 @@ public class UserController {
 	}
 
 	public static boolean deleteMessage(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
-		if(PolicyHandler.canUserDeleteComment(forum, subForum, user, msg)) {
-			if(ContentController.deletePost(msg)){
+		if (PolicyHandler.canUserDeleteComment(forum, subForum, user, msg)) {
+			if (ContentController.deletePost(msg)) {
                 return HibernateUtils.save(msg);
             }
 		}
@@ -215,23 +215,33 @@ public class UserController {
 
 	public static Thread openNewThread(Forum forum, SubForum subforum, String title, String content, User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 		if (PolicyHandler.canUserOpenThread(forum, user)){
-			Thread t= ContentController.openNewThread(forum, subforum, title, content, user);
+			Thread t = ContentController.openNewThread(forum, subforum, title, content, user);
             if (t == null) {
                 ForumLogger.errorLog("Open new thread failed in hibernate");
                 return null;
             }
+            updateUserStatus(forum, user);
             return t;
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to open thread");
 		throw new UserNotAuthorizedException("to open thread.");
 	}
 
-	public static Message reply(Forum forum, Message addTo, String title,String content,User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
+    private static void updateUserStatus(Forum forum, User user) {
+        String newStatus = forum.getStatusTypes().get(forum.getNumberOfMessagesForUser(user));
+        if (newStatus != null) {
+            user.setStatus(newStatus);
+            HibernateUtils.save(user);
+        }
+    }
+
+    public static Message reply(Forum forum, Message addTo, String title,String content,User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 		if (PolicyHandler.canUserReply(forum, user)) {
 			Message msg = ContentController.reply(forum, addTo, title, content, user);
-            if (msg!=null) {
+            if (msg != null) {
                 HibernateUtils.save(msg);
             }
+            updateUserStatus(forum, user);
             return msg;
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to reply");

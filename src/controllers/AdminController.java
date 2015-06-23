@@ -150,7 +150,7 @@ public class AdminController {
         throw new UserNotAuthorizedException("to add user status");
     }
 
-    public static Map<String, Integer> getUserStatusTypes(Forum forum, User admin) throws UserNotAuthorizedException {
+    public static Map<Integer, String> getUserStatusTypes(Forum forum, User admin) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserAddRemoveStatusType(forum, admin)) {
             return forum.getStatusTypes();
         }
