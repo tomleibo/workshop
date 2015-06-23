@@ -141,10 +141,10 @@
       </ul>
 
       <%--Show this if user is super-Admin--%>
-      <a class="btn btn-large btn-primary btn-round pull-right" href="/newforum.jsp">
-        <i class="halflings-icon white plus"></i><span class="break"></span>New Forum</a>
-      <a class="btn btn-large btn-primary btn-round pull-right" href="/openSession" style="margin-right:7px">
-        <span class="break"></span> Open Sessions</a>
+        <% if(superAdmin!=null && superAdmin.isSuperAdmin()){%>
+      <a class="btn btn-large btn-primary btn-round pull-right" href="/systemManagement" style="margin-right:7px">
+        <span class="break"></span> System Management</a>
+        <%}%>
       <br><br><br>
 
       <div>

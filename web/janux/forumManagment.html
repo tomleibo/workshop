@@ -331,7 +331,7 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="index.html"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a></li>	
+						<li><a href="index.html"><i class="glyphicons-icon white group"></i><span class="hidden-tablet"> Forums</span></a></li>	
 						
 						
 					</ul>
@@ -362,41 +362,112 @@
                     <a href="subforums.html">ForumName</a>
                     <i class="icon-angle-right"></i>
 				</li>
-				<li><a href="#">SubForumName</a></li>
+				<li><a href="#">Forum managment</a></li>
 			</ul>
                 
                  <h1>Forum Managment</h1><br><br>
-                <fieldset>
-                    <legend>Appoint Admin</legend>
+
+
+                
+                
+                
+                
+                
+<!--                //start-->
+                
+                
+                
+                <div class="comment-tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#users" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Manage Users</h4></a></li>
+                <li><a href="#subs" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Add Sub-Forum</h4></a></li>
+                <li><a href="#reports" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Reports</h4></a></li>
+            </ul>            
+            <div class="tab-content">
+                <div class="tab-pane active" id="users">                
+                    
+                    
+                       <form class = "well span12">
+                           
+                           
+
+<!--                    //start Users-->
+                    
+                
+                    <fieldset>
+                    <legend>Appoint moderator</legend>
                <table>
-                    <col width="250">
-                    <col width="250">
+                    
+                    
                     <tr>
-                        <td>
-                          <select id="appointAdmin" data-rel="chosen">
-                            <option>User 1</option>
-                            <option>User 2</option>
-                            <option>User 3</option>
-                            <option>User 4</option>
-                            <option>User 5</option>
-                          </select>
-                        </td>        
-                        <td>    
-                            <a href="#" class="btn btn-primary">Appoint</a>
-                        </td>
+                        <div class="span10 collapse-group row center">
+                            <p><select id="appModSub" data-rel="chosen">
+                            <option>Sub 1</option>
+                            <option>Sub 2</option>
+                            <option>Sub 3</option>
+                            <option>Sub 4</option>
+                            <option>Sub 5</option>
+                          </select>&nbsp;&nbsp;&nbsp; <a href="#" class="btn btn-primary">Choose</a> <br><br> </p>
+                        
+                            <p class="collapse center" style = "margin-left: 50px"><select id="appointMod" data-rel="chosen">
+                            <option>user 1</option>
+                            <option>user 2</option>
+                            <option>user 3</option>
+                            <option>user 4</option>
+                            <option>user 5</option>
+                          </select>&nbsp;&nbsp;&nbsp; <a href="#" class="btn btn-primary" style="vertical-align:top">Appoint</a> </p>
+                                        
+                                      
+                                    </div>
+                               
+                        
+                </tr>
+                   
+                   
+             </table>
+                </fieldset>
+ <br><br>
+                
+                
+                
+                
+                                <fieldset>
+                    <legend>Dismiss Moderator</legend>
+               <table>
+                   <tr>
+                        <div class="span10 collapse-group row center">
+                            <p><select id="disModSub" data-rel="chosen">
+                            <option>Sub 1</option>
+                            <option>Sub 2</option>
+                            <option>Sub 3</option>
+                            <option>Sub 4</option>
+                            <option>Sub 5</option>
+                          </select>&nbsp;&nbsp;&nbsp; <a href="#" class="btn btn-primary">Choose</a> <br><br> </p>
+                        
+                            <p class="collapse center" style = "margin-left: 50px"><select id="dissMod" data-rel="chosen">
+                            <option>user 1</option>
+                            <option>user 2</option>
+                            <option>user 3</option>
+                            <option>user 4</option>
+                            <option>user 5</option>
+                          </select> &nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-primary" style="vertical-align:top">Dismiss</a> </p>
+                                        
+                                      
+                                    </div>
+                               
+                        
                 </tr>
              </table>
                 </fieldset>
-                
-                <br><br>
+ <br><br>
+          
                 
                 <fieldset>
                     <legend>Ban Member</legend>
                <table>
-                    <col width="250">
-                    <col width="250">
+                    
                     <tr>
-                        <td>
+                       <div class="span10 collapse-group row center">
                           <select id="banMember" data-rel="chosen">
                             <option>User 1</option>
                             <option>User 2</option>
@@ -404,17 +475,27 @@
                             <option>User 4</option>
                             <option>User 5</option>
                           </select>
-                        </td>        
-                        <td>    
-                            <a href="#" class="btn btn-primary">Ban</a>
-                        </td>
+                       &nbsp;&nbsp;&nbsp;
+                            <a href="#" class="btn btn-primary" style="vertical-align:top">Ban</a>
+                            </div>
+                       
                 </tr>
              </table>
                 </fieldset>
-
-	
- <br><br>
-				 <fieldset>
+                    
+<!--                    //end Users-->
+                          
+                          
+                          
+                        </form>
+        
+                    
+                </div>
+                <div class="tab-pane" id="subs">
+<!--                    //start Sub-Forum-->
+                    
+                
+                    <fieldset>
                      <legend> </legend>
              <div>
                  
@@ -431,7 +512,7 @@
 							<div class="control-group">
 							  <label class="control-label" for="typeahead">Sub Forum Name: </label>
 							  <div class="controls">
-                                  <input type="text" id="title">
+                                  <input type="text" id="title" maxlength="25">
 								
 							  </div>
 							</div>
@@ -448,15 +529,110 @@
 						</form>   
 
 					</div>
-				</div>
 				</div><!--/span-->
                  </fieldset>
 
 			
                 
-                
+             
+                    
+<!--                    //end Sub-Forum-->
                 </div>
-                </fieldset>
+                <div class="tab-pane" id="reports">
+<!--                   //start f-->
+                    <div class="container">        
+                   
+                    
+                    
+                    
+<!--                    //start Reports-->
+                   
+                      
+                    	<div>		
+				<div class="box span10">
+					<div class="box-header" data-original-title>
+						<h2><i class="halflings-icon white user"></i><span class="break"></span>Notification</h2>
+						
+					</div>
+                    
+
+					<div class="box-content">
+						<table class="table table-striped table-bordered bootstrap-datatable ">
+                            <col width="100">
+                            <col width="50">
+                            <col width="10">
+						  <thead>
+							  <tr>
+								  <th>Request</th>
+								  <th>Reported</th>
+                                  <th>Reporter</th>
+								  
+							  </tr>
+						  </thead>   
+						  <tbody>
+							<tr>
+								<td class=" sorting_1">
+                                    <div class="span4 collapse-group row center">
+                                        <p><a class="btn btn-mini" href="#">+</a>&nbsp;&nbsp;&nbsp;Title</p>
+                                        <p class="collapse">CONTENT</p>
+                                      
+                                    </div>
+                                </td>
+								<td class="center">Reported Name</td>
+                                <td class="center">Reporter Name</td>
+								
+								
+							</tr>
+							
+						
+						  </tbody>
+					  </table>            
+					</div>
+				</div><!--/span-->
+			
+			</div><!--/row-->
+<!--                    // end Reports-->
+                    
+                    
+                  
+
+                        		
+			
+			</div><!--/row-->
+                    
+                    
+                
+                        
+                        
+                        
+                        
+                    
+                    
+                    
+
+                </div>
+            </div>
+        </div>
+                
+                
+                
+                
+<!--                //end       -->
+                
+                
+                
+                
+
+                
+                
+                
+                
+                
+                
+                               
+
+                
+				
                
 			
     
@@ -498,7 +674,11 @@
 	
 	<div class="clearfix"></div>
 	
-	
+	<footer>
+
+		
+
+	</footer>
 	
 	<!-- start: JavaScript-->
 
@@ -557,6 +737,9 @@
 
 		<script src="js/custom.js"></script>
 <script src = "js/comment.js"></script>
+    
+       
+       <script src = "js/dropdown.js"></script>
 	<!-- end: JavaScript-->
 	
 </body>

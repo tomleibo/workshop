@@ -1,7 +1,9 @@
 package servlets;
 
         import content.Forum;
+        import controllers.UserController;
         import users.User;
+        import utils.CookieUtils;
         import utils.HibernateUtils;
         import utils.SessionLogger;
 
@@ -34,7 +36,11 @@ public class MainServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            User superAdmin = (User) request.getAttribute("superAdmin");
+            User superAdmin = null;
+            String superAdminId = CookieUtils.getCookieValue(request, CookieUtils.SUPER_USER_ID_COOKIE_NAME);
+            if (superAdminId != null) {
+                superAdmin = (User) HibernateUtils.load(User.class, Integer.parseInt(superAdminId));
+            }
 
             List<Forum> forums = HibernateUtils.getAllForums();
             request.setAttribute("forums", forums);
