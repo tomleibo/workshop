@@ -75,6 +75,7 @@
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
+
                     <% if(!user.isGuest()){%>
                     <li class="dropdown hidden-phone">
                         <a class="btn dropdown-toggle" href="\notificationsPage">
@@ -94,6 +95,7 @@
                         </a>
                     </li>
                     <%}%>
+
                     <!-- start: User Dropdown -->
                     <li class="dropdown">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -160,10 +162,10 @@
                     <i class="icon-home"></i>
                     <a href="/home">Home</a>
                     <i class="icon-angle-right"></i>
-                    <a href="subforums.html">ForumName</a>
+                    <a href="/forum?forumId=<%=forum.id%>">ForumName</a>
                     <i class="icon-angle-right"></i>
                 </li>
-                <li><a href="#">SubForumName</a></li>
+                <li><a href="#">Forum Management</a></li>
             </ul>
 
             <h1>Forum Managment</h1><br><br>

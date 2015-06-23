@@ -165,8 +165,6 @@
 
                     <br>
 
-
-
                     <label class="control-label" for="sessionTO">Session time out (minutes): </label>
                     <div class="controls">
                       <input type="number" min = "0" name="timeout" id="sessionTO"   max="10000000000" required>
@@ -176,7 +174,7 @@
 
                     <label class="control-label" for="sessionIdle">Session idle time (minutes): </label>
                     <div class="controls">
-                      <input type="number" min = "0" name="timeout" id="sessionIdle"  max="10000000000" required>
+                      <input type="number" min = "0" name="idle" id="sessionIdle"  max="10000000000" required>
                     </div>
 
                     <br>
@@ -191,14 +189,14 @@
 
                     <br>
 
-                    <label class="control-label" for="passMaxTime">Minimum posts moderator should have: </label>
+                    <label class="control-label" for="minPosts">Minimum posts moderator should have: </label>
                     <div class="controls">
                       <input type="number" min="0" max="10000000000" name="minPosts" id="minPosts" required>
                     </div>
 
                     <br>
 
-                    <label class="control-label" for="passMaxTime">Minimum seniority moderator should have: </label>
+                    <label class="control-label" for="minSeniority">Minimum seniority moderator should have: </label>
                     <div class="controls">
                       <input type="number" min="0" max="10000000000" name="minSeniority" id="minSeniority" required>
                     </div>
