@@ -38,6 +38,7 @@ public class GuestUserServicesTests extends ForumTests{
             User user = registerToForum(theForum, "", "","");
             Assert.fail();
         } catch (Exception e) {
+			Assert.assertTrue(true);
         }
 	}
 
@@ -46,12 +47,10 @@ public class GuestUserServicesTests extends ForumTests{
 		User user = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 		try {
 			User user2 = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
+			Assert.fail();
 		}  catch (UsernameAlreadyExistsException e) {
 			Assert.assertTrue(true);
-			return;
 		}
-
-		Assert.assertTrue(false);
 	}
 
 	@Test // 4.4

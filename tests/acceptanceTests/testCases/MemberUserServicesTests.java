@@ -61,26 +61,20 @@ public class MemberUserServicesTests extends ForumTests {
 	public void test_login_NonExistingUser() throws UserAlreadyLoggedInException, NoSuchAlgorithmException, WrongPasswordException, NeedToChangePasswordException, UserNotLoggedInException {
 		try {
 			user1 = loginUser(theForum, USER_NAMES[2], USER_PASSES[2]);
+			Assert.fail();
 		} catch (UserDoesNotExistsException e) {
 			Assert.assertTrue(true);
-			return;
 		}
-
-		Assert.assertTrue(false);
-
 	}
 
 	@Test // 5.3
 	public void test_login_WrongPassword() throws NoSuchAlgorithmException, UserDoesNotExistsException, WrongPasswordException, UserAlreadyLoggedInException, NeedToChangePasswordException, UserNotLoggedInException {
 		try {
 			user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[1]);
+			Assert.fail();
 		} catch (WrongPasswordException e) {
 			Assert.assertTrue(true);
-			return;
 		}
-
-		Assert.assertTrue(false);
-
 	}
 
 
@@ -142,13 +136,10 @@ public class MemberUserServicesTests extends ForumTests {
 
 		try {
 			Thread thread = openNewThread(theForum, sf, "", "", user1);
+			Assert.fail();
 		} catch (EmptyMessageTitleAndBodyException e) {
 			Assert.assertTrue(true);
-			return;
 		}
-
-		Assert.assertTrue(false);
-
 	}
 	
 	@Test // 5.9
@@ -191,6 +182,7 @@ public class MemberUserServicesTests extends ForumTests {
 	public void test_deletePost_NotTheOwnerOfMessage() throws EmptyMessageTitleAndBodyException, WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException, UserNotAuthorizedException, NeedToChangePasswordException {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		user2 = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
+		user2.setState(User.MEMBER);
 
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 
@@ -199,15 +191,11 @@ public class MemberUserServicesTests extends ForumTests {
 
 		try {
 			boolean result = deletePost(theForum,sf, user2, msg);
+			Assert.fail();
 		} catch (UserNotAuthorizedException e) {
 			Assert.assertTrue(true);
 			msg.deleteSelf();
-			return;
 		}
-
-		Assert.assertTrue(false);
-
-
 	}
 
 
@@ -320,12 +308,10 @@ public class MemberUserServicesTests extends ForumTests {
 
 		try {
 			boolean result = reportModeratorInForum(theForum, user1, user2, REPORT_TITLES[0], REPORT_CONTENTS[0]);
+			Assert.fail();
 		} catch (UserNotAuthorizedException e) {
 			Assert.assertTrue(true);
-			return;
 		}
-
-		Assert.assertTrue(false);
 	}
 
 	@Test // 5.19
@@ -338,12 +324,10 @@ public class MemberUserServicesTests extends ForumTests {
 
 		try {
 			boolean result = reportModeratorInForum(theForum, user1, user2, REPORT_TITLES[0], REPORT_CONTENTS[0]);
+			Assert.fail();
 		} catch (UserNotAuthorizedException e) {
 			Assert.assertTrue(true);
-			return;
 		}
-
-		Assert.fail();
 	}
 
 //	@Test // 5.20

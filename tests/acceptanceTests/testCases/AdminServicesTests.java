@@ -130,11 +130,6 @@ public class AdminServicesTests extends ForumTests{
         } catch (UserNotAuthorizedException e) {
             Assert.assertTrue(true);
         }
-
-		//Assert.assertTrue(sf1.getModerators().contains(user));
-
-
-		//user.setState(User.MEMBER);
 	}
 
 	@Test // 1.8
@@ -155,7 +150,8 @@ public class AdminServicesTests extends ForumTests{
 
 		Assert.assertFalse(sf1.getModerators().contains(user));
 		try {
-			Assert.assertFalse(unAppoint(theForum, sf1, admin, user));
+			unAppoint(theForum, sf1, admin, user);
+			Assert.assertTrue(false);
 		} catch (Exception e) {
 			Assert.assertTrue(true);
 		}
