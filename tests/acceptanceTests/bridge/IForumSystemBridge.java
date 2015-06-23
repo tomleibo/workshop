@@ -60,7 +60,7 @@ public interface IForumSystemBridge {
 	// Version 2
 	List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException;
 	boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws Exception;
-	boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException;
+	boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws Exception;
 	int getReportTotalMessagesInSubForum(Forum forum, User admin, SubForum subForum) throws UserNotAuthorizedException;
 	List<Message> getReportTotalMessagesOfMember(Forum forum, User admin, User member) throws UserNotAuthorizedException;
 	Set<User> getReportModeratorList(Forum forum, User admin) throws UserNotAuthorizedException;

@@ -206,7 +206,7 @@ public class UserController {
 	public static boolean deleteMessage(Forum forum, SubForum subForum, User user, Message msg) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserDeleteComment(forum, subForum, user, msg)) {
 			if (ContentController.deletePost(msg)) {
-                return HibernateUtils.save(msg);
+                return HibernateUtils.del(msg);
             }
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " can't delete post");
