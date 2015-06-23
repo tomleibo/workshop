@@ -219,7 +219,6 @@ public class AdminServicesTests extends ForumTests{
 		Assert.assertEquals(1, getReportTotalMessagesInSubForum(theForum, admin, sf1));
 
 		deletePost(theForum, sf1, user, msg);
-		//msg.deleteSelf();
 		Assert.assertEquals(0, getReportTotalMessagesInSubForum(theForum, admin, sf1));
 	}
 
