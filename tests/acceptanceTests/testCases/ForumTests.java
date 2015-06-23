@@ -177,8 +177,8 @@ public class ForumTests {
 		return driver.replyToFriendRequest(forum, user, request, msg);
 	}
 
-	protected boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
-		return driver.addUserStatusType(forum, admin, type);
+	protected boolean addUserStatusType(Forum forum, User admin, String type, int numberOfMessages) throws UserNotAuthorizedException {
+		return driver.addUserStatusType(forum, admin, type, numberOfMessages);
 	}
 
 // version 2
