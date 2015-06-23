@@ -166,10 +166,11 @@
 
             <h1><%=forum.getName()%></h1><br><br>
 
-
+            <%if(user.isAdmin()){%>
             <a class="btn btn-large btn-primary btn-round pull-right" href="\newSubForum">
                 <i class="halflings-icon white plus"></i><span class="break"></span>New Sub-Forum</a>
             <br><br><br>
+            <%}%>
 
 
                 <div class="box span12">

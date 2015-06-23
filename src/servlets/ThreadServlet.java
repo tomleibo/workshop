@@ -46,19 +46,18 @@ public class ThreadServlet extends HttpServlet {
             SessionLogger.get().log(request.getSession().getId(),"viewing thread");
 			int threadId = Integer.parseInt(request.getParameter("threadId"));
 
-			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			if (cookieValue == null)
+				throw new Exception("Forum Cookie Value doesn't exist");
+
+			int forumId = Integer.parseInt(cookieValue);
+
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
 			if (cookieValue == null) {
 				throw new Exception("User Cookie Value doesn't exist");
 			}
 
 			int userId = Integer.parseInt(cookieValue);
-
-			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
-			if (cookieValue == null) {
-				throw new Exception("Forum Cookie Value doesn't exist");
-			}
-
-			int forumId = Integer.parseInt(cookieValue);
 
 			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.SUB_FORUM_ID_COOKIE_NAME);
 			if (cookieValue == null) {

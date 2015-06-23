@@ -27,7 +27,7 @@ public class SessionLoggerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
             int userId = -1;
-            String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+            String value = CookieUtils.getCookieValue(request, CookieUtils.SUPER_USER_ID_COOKIE_NAME);
             String sid= request.getParameter("sid");
             userId = Integer.parseInt(value);
             User user = (User) HibernateUtils.load(User.class,userId);

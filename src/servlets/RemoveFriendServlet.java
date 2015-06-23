@@ -50,7 +50,7 @@ public class RemoveFriendServlet extends HttpServlet {
 		try {
             SessionLogger.get().log(request.getSession().getId(),"removing friend");
 			forumId = Integer.parseInt(request.getParameter("forumId"));
-			String value = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			String value = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
 			if(value!= null)
 				userId = Integer.parseInt(value);
 			friendName = request.getParameter("friend");

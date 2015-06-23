@@ -38,23 +38,24 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-            SessionLogger.get().log(request.getSession().getId(),"logined");
-			int id=Integer.parseInt(request.getParameter("forumId"));
+            SessionLogger.get().log(request.getSession().getId(), "logined");
+			int forumId=Integer.parseInt(request.getParameter("forumId"));
 			String userName = request.getParameter("user");
 			String pass = request.getParameter("pass");
 
-			Forum forum = (Forum) HibernateUtils.load(Forum.class, id);
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
 			User user = UserController.login(forum, userName, pass);
 			if (user == null)
 				throw new Exception("User is null");
 
-			String userId = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			String userCookieName = CookieUtils.getUserCookieName(forumId);
+			String userId = CookieUtils.getCookieValue(request, userCookieName);
 			if (userId != null) {
-				CookieUtils.changeCookieValue(request, response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
+				CookieUtils.changeCookieValue(request, response, userCookieName, Integer.toString(user.getId()));
 
 			} else {
-				CookieUtils.addInfiniteCookie(response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
+				CookieUtils.addInfiniteCookie(response, userCookieName, Integer.toString(user.getId()));
 			}
 
 			request.setAttribute("user", user);
