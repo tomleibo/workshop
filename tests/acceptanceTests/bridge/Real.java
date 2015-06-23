@@ -15,6 +15,7 @@ import utils.Cipher;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -207,6 +208,11 @@ public class Real implements IForumSystemBridge {
     @Override
     public boolean addUserStatusType(Forum forum, User admin, String type, int numberOfMessages) throws UserNotAuthorizedException {
         return AdminController.addUserStatusType(forum, admin, type, numberOfMessages);
+    }
+
+    @Override
+    public Map<Integer, String> getUserStatusTypes(Forum forum, User admin) throws UserNotAuthorizedException {
+        return AdminController.getUserStatusTypes(forum, admin);
     }
 
     // version 2

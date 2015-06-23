@@ -127,12 +127,11 @@ public class ForumManagementServicesTests extends ForumTests {
 		}
 	}
 
-//	@Test // 2.8
-//	public void test_addNewMemberStatus(){
-//		addUserStatusType(superAdmin, "gold", new UserStatusPolicy(1, 0, 100));
-//		Assert.assertTrue(system.hasUserStateType("gold"));
-//
-//	}
+	@Test // 2.8
+	public void test_addNewMemberStatus() throws UserNotAuthorizedException {
+		addUserStatusType(theForum, superAdmin, "bronze", 5);
+		Assert.assertTrue(getUserStatusTypes(theForum, superAdmin).get(5).equals("bronze"));
+	}
 
 	//version 2
 	//	public int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
