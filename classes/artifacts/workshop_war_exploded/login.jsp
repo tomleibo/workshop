@@ -62,7 +62,7 @@
                 <form class="form-horizontal" action="\login" method="post" >
                     <fieldset>
                         <input name="forumId" type="hidden" value="<%=id%>">
-                        <div class="input-prepend" title="Username">
+                        <div class="input-prepend" title="Username" maxlength="25">
                             <span class="add-on"><i class="halflings-icon user"></i></span>
                             <input class="input-large span10" name="user" id="username" type="text" placeholder="type username"/>
                         </div>
@@ -70,7 +70,7 @@
 
                         <div class="input-prepend" title="Password">
                             <span class="add-on"><i class="halflings-icon lock"></i></span>
-                            <input class="input-large span10" name="pass" id="password" type="password" placeholder="type password"/>
+                            <input class="input-large span10" name="pass" id="password" type="password" placeholder="type password" maxlength="25"/>
                         </div>
                         <div class="clearfix"></div>
 
@@ -80,6 +80,7 @@
                             <button type="submit" class="btn btn-primary">Login</button>
                         </div>
                         <div class="clearfix"></div>
+                    </fieldset>
                 </form>
 
             </div><!--/span-->
