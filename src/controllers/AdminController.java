@@ -149,4 +149,11 @@ public class AdminController {
         throw new UserNotAuthorizedException("to add user status");
     }
 
+    public static List<String> getUserStatusTypes(Forum forum, User admin) throws UserNotAuthorizedException {
+        if (PolicyHandler.canUserAddRemoveStatusType(forum, admin)) {
+            return forum.getStatusTypes();
+        }
+        throw new UserNotAuthorizedException("to add user status");
+    }
+
 }

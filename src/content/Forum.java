@@ -11,6 +11,7 @@ import utils.ForumLogger;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 @Entity
 @Table(name="Forum")
@@ -213,5 +214,9 @@ public class Forum {
             }
         }
         return found;
+    }
+
+    public List<String> getStatusTypes() {
+        return Arrays.asList(statusTypes.split(";"));
     }
 }
