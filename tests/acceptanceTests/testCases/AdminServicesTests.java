@@ -16,6 +16,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Set;
 
+import static controllers.AdminController.replaceModerator;
+import static java.lang.Thread.sleep;
+
 
 public class AdminServicesTests extends ForumTests{
 
@@ -39,12 +42,26 @@ public class AdminServicesTests extends ForumTests{
 	}
 
 	@After
-	public void afterMethod(){
+	public void afterMethod() throws Exception{
 		for (SubForum sub: theForum.getSubForums()){
 			HibernateUtils.del(sub);
 		}
 		theForum.getSubForums().clear();
 		HibernateUtils.update(theForum);
+
+		changeForumPolicy(theForum, policy, admin);
+		admin.setState(User.ADMIN);
+		admin.logout();
+		user.logout();
+		user5.logout();
+
+		admin = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
+		user = loginUser(theForum, USER_NAMES[2], USER_PASSES[2]);
+		user5 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
+
+
+
+
 	}
 
 	@Test // 1.1
@@ -55,11 +72,11 @@ public class AdminServicesTests extends ForumTests{
 
 		boolean result = cancelSubForum(theForum, sf1, superAdmin);
 //		Assert.assertTrue(result);
-		Assert.assertEquals(showListOfSubForums(theForum, admin).size(),2);
+		Assert.assertEquals(showListOfSubForums(theForum, admin).size(), 2);
 
 		result = cancelSubForum(theForum, sf2, admin);
 //		Assert.assertTrue(result);
-		Assert.assertEquals(showListOfSubForums(theForum, admin).size(),1);
+		Assert.assertEquals(showListOfSubForums(theForum, admin).size(), 1);
 
 		result = cancelSubForum(theForum, sf3, admin);
 //		Assert.assertTrue(result);
@@ -200,7 +217,9 @@ public class AdminServicesTests extends ForumTests{
 		Message msg = t.getOpeningMessage();
 
 		Assert.assertEquals(1, getReportTotalMessagesInSubForum(theForum, admin, sf1));
-		msg.deleteSelf();
+
+		deletePost(theForum, sf1, user, msg);
+		//msg.deleteSelf();
 		Assert.assertEquals(0, getReportTotalMessagesInSubForum(theForum, admin, sf1));
 	}
 
@@ -216,7 +235,8 @@ public class AdminServicesTests extends ForumTests{
 		Assert.assertEquals(1, msgsOfUser.size());
 		Assert.assertTrue(msgsOfUser.contains(msg));
 
-		msg.deleteSelf();
+		deletePost(theForum, sf1, user, msg);
+		//msg.deleteSelf();
 	}
 
 
@@ -241,7 +261,6 @@ public class AdminServicesTests extends ForumTests{
 		appointModerator(theForum, sf, admin, user5);
 
 		changeForumPolicy(theForum, ownerAndManagerPol , admin);
-		user = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 
 		//owner deletion
 
@@ -316,7 +335,72 @@ public class AdminServicesTests extends ForumTests{
 
 		Assert.assertTrue(result);
 		Assert.assertTrue(threads.isEmpty());
+	}
+
+	@Test //1.15
+	public void test_add_moderator_policy_msgs() throws Exception{
+		ForumPolicy modVeteckAndMinMsgsPol = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, false, 1, 0);
+		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
+
+		changeForumPolicy(theForum, modVeteckAndMinMsgsPol , admin);
+		user5 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
+
+		try {
+			appointModerator(theForum, sf, admin, user5);
+			Assert.fail();
+		} catch (UserCantBeModeratorException e) {
+			Assert.assertTrue(true);
+		}
+
+		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user5);
+		Message msg = t.getOpeningMessage();
+
+		Assert.assertTrue(appointModerator(theForum, sf, admin, user5));
+
+		boolean result = deletePost(theForum, sf, admin, msg);
+		Assert.assertTrue(result);
+		unAppoint(theForum,sf,admin,user5);
+	}
+
+	@Test //1.16
+	public void test_add_moderator_policy() throws Exception{
+		ForumPolicy modVeteckAndMinMsgsPol = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, false, 0, 10000);
+		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
+
+		changeForumPolicy(theForum, modVeteckAndMinMsgsPol , admin);
+		user5 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
+
+		try {
+			appointModerator(theForum, sf, admin, user5);
+			Assert.fail();
+		} catch (UserCantBeModeratorException e) {
+			Assert.assertTrue(true);
+		}
+
+		sleep(8000);
+
+		Assert.assertTrue(appointModerator(theForum, sf, admin, user5));
+		unAppoint(theForum,sf,admin,user5);
+	}
+
+	@Test // 1.8
+	public void test_unappoint_single_moderator()throws Exception {
+		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
 
 
+		replaceModerator(theForum, sf1, admin, admin, user);
+
+		Assert.assertTrue(sf1.getModerators().contains(user));
+
+		try {
+			unAppoint(theForum, sf1, admin, user);
+			Assert.fail();
+		} catch (Exception e) {
+			Assert.assertTrue(true);
+		}
+
+		Assert.assertTrue(sf1.getModerators().contains(user));
+
+		user.setState(User.MEMBER);
 	}
 }
