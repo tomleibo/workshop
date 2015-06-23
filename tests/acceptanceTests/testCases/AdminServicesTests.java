@@ -352,7 +352,7 @@ public class AdminServicesTests extends ForumTests{
 			Assert.assertTrue(true);
 		}
 
-		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user5);
+		Thread t = openNewThread(theForum, sf, THREAD_TITLES[1], THREAD_CONTENTS[1], user5);
 		Message msg = t.getOpeningMessage();
 
 		Assert.assertTrue(appointModerator(theForum, sf, admin, user5));
