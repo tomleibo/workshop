@@ -298,9 +298,9 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
+    public boolean addUserStatusType(Forum forum, User admin, String type, int numberOfMessages) throws UserNotAuthorizedException {
         if(real != null)
-            return real.addUserStatusType(forum, admin, type);
+            return real.addUserStatusType(forum, admin, type, numberOfMessages);
 
         return false;
     }
@@ -324,7 +324,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+    public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws Exception {
         if(real != null)
             return real.unAppoint(forum, subForum, admin, moderator);
 

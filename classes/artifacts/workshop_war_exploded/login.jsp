@@ -55,7 +55,7 @@
         <div class="row-fluid">
             <div class="login-box">
                 <div class="icons">
-                    <a href="index.html"><i class="halflings-icon home"></i></a>
+                    <a href="/home"><i class="halflings-icon home"></i></a>
                     <a href="#"><i class="halflings-icon cog"></i></a>
                 </div>
                 <h2>Login to your account</h2>
@@ -64,13 +64,13 @@
                         <input name="forumId" type="hidden" value="<%=id%>">
                         <div class="input-prepend" title="Username">
                             <span class="add-on"><i class="halflings-icon user"></i></span>
-                            <input class="input-large span10" name="user" id="username" type="text" placeholder="type username" maxlength="25"/>
+                            <input class="input-large span10" name="user" id="username" type="text" placeholder="type username" maxlength="25" required/>
                         </div>
                         <div class="clearfix"></div>
 
                         <div class="input-prepend" title="Password">
                             <span class="add-on"><i class="halflings-icon lock"></i></span>
-                            <input class="input-large span10" name="pass" id="password" type="password" placeholder="type password" maxlength="25"/>
+                            <input class="input-large span10" name="pass" id="password" type="password" placeholder="type password" maxlength="25" required/>
                         </div>
                         <div class="clearfix"></div>
 

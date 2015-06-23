@@ -72,31 +72,31 @@
                         <input name="forumId" type="hidden" value="<%=id%>">
                         <div class="input-prepend" title="Username">
                             <span class="add-on"><i class="halflings-icon user"></i></span>
-                            <input class="input-large span10" name="username" id="username" type="text" placeholder="type username"  maxlength="25"/>
+                            <input class="input-large span10" name="username" id="username" type="text" placeholder="type username"  maxlength="25" required/>
                         </div>
                         <div class="clearfix"></div>
 
                         <div class="input-prepend" title="Password">
                             <span class="add-on"><i class="halflings-icon lock"></i></span>
-                            <input class="input-large span10" name="pass" id="password" type="password" placeholder="type password"  maxlength="25"/>
+                            <input class="input-large span10" name="pass" id="password" type="password" placeholder="type password"  maxlength="25" required/>
                         </div>
 
                         <div class="input-prepend" title="Email">
                             <span class="add-on"><i class="halflings-icon envelope"></i></span>
-                            <input class="input-large span10" type = "email" name="email" id="email" type="text" placeholder="type email"  maxlength="30"/>
+                            <input class="input-large span10" type = "email" name="email" id="email" type="text" placeholder="type email"  maxlength="30" required/>
                         </div>
 
 
                         <div class="input-prepend" title="Quest&Ans">
 
                             <span class="add-on"><i class="halflings-icon question-sign"></i></span>
-                            <input class="input-large span10" name="question" id="question" type="text" placeholder="type a question" maxlength="25" style="background-color: cornsilk;"  />
+                            <input class="input-large span10" name="question" id="question" type="text" placeholder="type a question" maxlength="25" style="background-color: cornsilk;"  required/>
 
                         </div>
 
                         <div class="input-prepend" title="Quest&Ans" >
                             <span class="add-on"><i class="halflings-icon pencil"></i></span>
-                            <input class="input-large span10" name="answer" id="answer" type="text" placeholder="type possible answer" maxlength="25" style="background-color: cornsilk;"  />
+                            <input class="input-large span10" name="answer" id="answer" type="text" placeholder="type possible answer" maxlength="25" style="background-color: cornsilk;"  required/>
                         </div>
 
                         <div class="input-prepend" title="Register">

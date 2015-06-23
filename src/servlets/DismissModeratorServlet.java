@@ -3,6 +3,7 @@ package servlets;
 import content.Forum;
 import content.SubForum;
 import controllers.AdminController;
+import exceptions.SubForumMustHaveModeratorException;
 import exceptions.UserNotAuthorizedException;
 import users.User;
 import utils.CookieUtils;
@@ -69,12 +70,12 @@ public class DismissModeratorServlet extends HttpServlet {
 
 		try {
 			AdminController.unAppoint(forum, subForum, user, moderator);
-		} catch (UserNotAuthorizedException e) {
+		} catch (UserNotAuthorizedException | SubForumMustHaveModeratorException e) {
             ServletUtils.exitError(this, request, response, e);
 			return;
 		}
 
-		request.setAttribute("moderator", moderatorName);
+        request.setAttribute("moderator", moderatorName);
 		request.setAttribute("op", "dismiss");
 		dispatcher.forward(request,response);
 	}

@@ -88,8 +88,6 @@
                                     <i class="halflings-icon off">
                                     </i> Login As Admin</a>
                                 </li>
-                            <%--<%} else if(user.isSuperAdmin() && user.isLoggedIn()){ %>--%>
-                                <%--<li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>--%>
                             <%} %>
 
                         </ul>

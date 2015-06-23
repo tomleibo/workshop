@@ -194,7 +194,7 @@
                 <div class="control-group">
                   <label class="control-label" for="title">Title: </label>
                   <div class="controls">
-                    <input  <% if(op.equals("edit")){%> class="uneditable-input" value="<%=title%>" <%}%> type="text" name="title" maxlength="25">
+                    <input  <% if(op.equals("edit")){%> class="uneditable-input" value="<%=title%>" <%}%> type="text" name="title" maxlength="25" required>
                   </div>
                 </div>
 

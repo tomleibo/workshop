@@ -205,8 +205,8 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
-        return AdminController.addUserStatusType(forum, admin, type);
+    public boolean addUserStatusType(Forum forum, User admin, String type, int numberOfMessages) throws UserNotAuthorizedException {
+        return AdminController.addUserStatusType(forum, admin, type, numberOfMessages);
     }
 
     // version 2
@@ -222,7 +222,7 @@ public class Real implements IForumSystemBridge {
     }
 
     @Override
-    public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+    public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws Exception {
         return AdminController.unAppoint(forum, subForum, admin, moderator);
     }
 
