@@ -18,7 +18,8 @@
             utils.RequestListener
         </listener-class>
     </listener>
-    <error-page>
-        <location>/error.html</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<location>/error.html</location>-->
+    <!--</error-page>-->
+
 </web-app>

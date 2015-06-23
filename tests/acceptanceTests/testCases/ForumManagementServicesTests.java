@@ -39,12 +39,10 @@ public class ForumManagementServicesTests extends ForumTests {
 
 		try {
 			boolean result = changeForumPolicy(theForum, fp, user1);
+			Assert.fail();
 		} catch (UserNotAuthorizedException e) {
-			org.junit.Assert.assertTrue(true);
-			return;
+			Assert.assertTrue(true);
 		}
-
-		org.junit.Assert.assertTrue(false);
 	}
 
 	@Test // 2.4
@@ -70,13 +68,9 @@ public class ForumManagementServicesTests extends ForumTests {
 	@Test // 2.5
 	public void test_addNewForum_FreeName() throws Exception{
 		Forum otherForum = null;
-		try {
-			otherForum = addForum(FORUM_NAMES[1], superAdmin, getPolicy(10, "[1-9]^10", ForumPolicy.HashFunction.MD5));
-		} catch (UserNotAuthorizedException e) {
-			e.printStackTrace();
-		}
+		otherForum = addForum(FORUM_NAMES[1], superAdmin, getPolicy(10, "[1-9]^10", ForumPolicy.HashFunction.MD5));
 		Assert.assertNotNull(otherForum);
-		org.junit.Assert.assertEquals(otherForum.getName(), FORUM_NAMES[1]);
+		Assert.assertEquals(otherForum.getName(), FORUM_NAMES[1]);
 		Assert.assertTrue(deleteForum(superAdmin, otherForum));
 	}
 
@@ -98,12 +92,10 @@ public class ForumManagementServicesTests extends ForumTests {
 
 		try {
 			Forum otherForum = addForum(FORUM_NAMES[1], user, getPolicy(3, ".", ForumPolicy.HashFunction.MD5));
+			Assert.fail();
 		} catch (UserNotAuthorizedException e) {
-			org.junit.Assert.assertTrue(true);
-			return;
+			Assert.assertTrue(true);
 		}
-
-		org.junit.Assert.assertTrue(false);
 	}
 
 //	@Test // 2.8

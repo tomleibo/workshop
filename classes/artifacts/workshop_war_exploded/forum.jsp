@@ -38,7 +38,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
     <!-- end: CSS -->
     <% if(!user.isGuest()){%>
-        <%=HtmlUtils.getAjaxScript()%>
+        <%--<%=HtmlUtils.getAjaxScript()%>--%>
     <%}%>
 
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -77,7 +77,7 @@
                 <ul class="nav pull-right">
                     <% if(!user.isGuest()){%>
                         <li class="dropdown hidden-phone">
-                            <a class="btn dropdown-toggle" href="\notificationsPage">
+                            <a class="btn dropdown-toggle" href="/notificationsPage">
                                 <i class="icon-bell"></i>
                                     <span id="notificationsButton" class="badge red">
                                     0 </span>
@@ -87,7 +87,7 @@
                         <!-- end: Notifications Dropdown -->
                         <%--friend requests--%>
                         <li class="dropdown hidden-phone">
-                            <a class="btn dropdown-toggle" href="\friendRequests">
+                            <a class="btn dropdown-toggle" href="/friendRequests">
                                 <i class="icon-user"></i>
                                     <span id="requestsButton" class="badge red">
                                     0 </span>
@@ -105,12 +105,12 @@
                                 <span>Account Settings</span>
                             </li>
 
-                            <% if(user.isGuest() || !user.isLoggedIn()){%>
-                                <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
-                                <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
+                            <% if(user.isGuest()){%>
+                                <li><a href="/register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
+                                <li><a href="/login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>
-                                <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
-                                <li><a href="\profile"><i class="halflings-icon user"></i> Profile</a></li>
+                                <li><a href="/logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
+                                <li><a href="/profile"><i class="halflings-icon user"></i> Profile</a></li>
                             <%} %>
 
                         </ul>
