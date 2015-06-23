@@ -56,7 +56,7 @@ public class ServletUtils {
             request.setAttribute(MESSAGE_ATTRIBUTE, "Username Already Exists. Please choose a different nickname.");
         }
         else if(e instanceof UserNotAuthorizedException) {
-            request.setAttribute(MESSAGE_ATTRIBUTE, "You are not logged in. please log in before performing this action.");
+            request.setAttribute(MESSAGE_ATTRIBUTE, "You are not authorized to perform this action. If you are, maybe you were disconnected.");
         }
         else if(e instanceof WrongPasswordException) {
             request.setAttribute(MESSAGE_ATTRIBUTE, "Password is wrong. Please try again.");
