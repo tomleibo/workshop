@@ -170,22 +170,22 @@
 
             <h1>Forum Managment</h1><br><br>
             <fieldset>
-                <legend>Appoint Admin</legend>
+                <legend>Appoint Moderator</legend>
                 <table>
                     <col width="250">
                     <col width="250">
                     <tr>
                         <td>
                             <select id="appointAdmin" data-rel="chosen">
-                                <option>User 1</option>
-                                <option>User 2</option>
-                                <option>User 3</option>
-                                <option>User 4</option>
-                                <option>User 5</option>
+                                <option>Sub 1</option>
+                                <option>Sub 2</option>
+                                <option>Sub 3</option>
+                                <option>Sub 4</option>
+                                <option>Sub 5</option>
                             </select>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-primary">Appoint</a>
+                            <a href="#" class="btn btn-primary">Select</a>
                         </td>
                     </tr>
                 </table>
@@ -193,30 +193,7 @@
 
             <br><br>
 
-            <fieldset>
-                <legend>Ban Member</legend>
-                <table>
-                    <col width="250">
-                    <col width="250">
-                    <tr>
-                        <td>
-                            <select id="banMember" data-rel="chosen">
-                                <option>User 1</option>
-                                <option>User 2</option>
-                                <option>User 3</option>
-                                <option>User 4</option>
-                                <option>User 5</option>
-                            </select>
-                        </td>
-                        <td>
-                            <a href="#" class="btn btn-primary">Ban</a>
-                        </td>
-                    </tr>
-                </table>
-            </fieldset>
 
-
-            <br><br>
             <fieldset>
                 <legend> </legend>
                 <div>

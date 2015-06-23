@@ -146,8 +146,11 @@
 
                             <div class="span6 collapse-group row center">
                                 <p><select id="appModSub" data-rel="chosen">
-                                    <option>Forum 1</option>
-                                    <option>Forum 2</option>
+                                    <option>Sub 1</option>
+                                    <option>Sub 2</option>
+                                    <option>Sub 3</option>
+                                    <option>Sub 4</option>
+                                    <option>Sub 5</option>
                                 </select> <a href="#" class="btn btn-primary" style="vertical-align:top">Choose</a> <br><br> </p>
 
                                 <p class="collapse center" style = "margin-left: 50px"><select id="appointAdmin" data-rel="chosen">
@@ -155,6 +158,7 @@
                                     <option>user 2</option>
                                     <option>user 3</option>
                                     <option>user 4</option>
+                                    <option>user 5</option>
                                 </select> <a href="#" class="btn btn-primary" style="vertical-align:top">Appoint</a></p>
                             </div>
 

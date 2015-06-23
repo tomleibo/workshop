@@ -170,7 +170,7 @@
             <h1><%=forum.getName()%></h1><br><br>
 
             <%if(user.isAdmin()){%>
-            <a class="btn btn-large btn-primary btn-round pull-right" href="/newSubForum">
+            <a class="btn btn-large btn-primary btn-round pull-right" href="/forumManagement">
                 <i class="halflings-icon white plus"></i><span class="break"></span>New Sub-Forum</a>
             <br><br><br>
             <%}%>
