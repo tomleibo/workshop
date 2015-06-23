@@ -11,6 +11,8 @@ import users.FriendRequest;
 import users.User;
 import utils.HibernateUtils;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
@@ -307,6 +309,30 @@ public class MemberUserServicesTests extends ForumTests {
 		} catch (UserNotAuthorizedException e) {
 			Assert.assertTrue(true);
 		}
+	}
+
+	@Test // 5.20
+	public void test_logger() throws Exception {
+		String line;
+		registerToForum(theForum, "specialuserforloggertests", "specialpassword",  "specialuserforloggertests@gmail.com");
+		user1 = loginUser(theForum, "specialuserforloggertests", "specialpassword");
+		logoffUser(theForum, user1);
+
+		FileReader fileReader =	new FileReader("action_log.log");
+		BufferedReader bufferedReader =	new BufferedReader(fileReader);
+
+		while((line = bufferedReader.readLine()) != null) {
+			if (line.contains("specialuserforloggertests is now logged in")){
+				Assert.assertTrue(true);
+				return;
+			}
+		}
+
+		// Always close files.
+		bufferedReader.close();
+
+		//ForumLogger.actionLog("The user " + id + "is logged out successfully");
+
 	}
 
 //	@Test // 5.20
