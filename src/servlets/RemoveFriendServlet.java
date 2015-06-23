@@ -42,7 +42,7 @@ public class RemoveFriendServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = request.getRequestURL().toString();
 		// TODO change to SUCCESS ERROR
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/success.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile");
 
 		int forumId, userId=-1, friendId;
 		String friendName;

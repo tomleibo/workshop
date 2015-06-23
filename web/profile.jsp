@@ -7,7 +7,7 @@
 <% Forum forum = (Forum)request.getAttribute("forum"); %>
 <% User user = (User) request.getAttribute("user"); %>
 
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -171,7 +171,7 @@
                         <div class="comment-tabs">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="active"><a href="#profile" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Profile</h4></a></li>
-                                <li><a href="#settings" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Settings</h4></a></li>
+                                <li><a href="#settings" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Report</h4></a></li>
                                 <li><a href="#freinds" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Friends</h4></a></li>
                             </ul>
                             <div class="tab-content">
@@ -275,9 +275,10 @@
                                                         <col width="250">
                                                         <tr>
                                                             <td>
-                                                                <select name="receiverId" id="idontknow" data-rel="chosen">
+                                                                <select name="receiverId" id="idontknow2" data-rel="chosen">
                                                                     <% for (User fuser : forum.getMembers()) { %>
-                                                                    <option name="receiverId" value="<%=fuser.getId()%>"><%=fuser.getUsername()%></option>
+                                                                    <option name="receiverId"  value="<%=fuser.getId()%>"><%=fuser.getUsername()%></option>
+
                                                                     <% } %>
                                                                 </select>
 
@@ -293,18 +294,6 @@
 
                                             </div>
                                         </form>
-
-
-
-
-
-
-
-
-
-                                        <!--                    // end search-->
-
-
 
                                         <div class="box span10">
                                             <div class="box-header" data-original-title>
@@ -326,20 +315,22 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
+                                                    <% for (User u : user.getFriends()) { %>
                                                     <tr>
-                                                        <td class="center">friend name</td>
-                                                        <td class="center"><button class="btn btn-mini btn-danger">delete</button></td>
-
-
+                                                        <form action="/removeFriend" method="get">
+                                                            <input type="hidden" name="forumId" value="<%=forum.id%>">
+                                                            <input type="hidden" name="friend" value="<%=u.getUsername()%>">
+                                                            <input type="hidden" name="friendId" value="<%=u.getId()%>">
+                                                            <td class="center"><%=u.getUsername()%></td>
+                                                            <td class="center"><input type="submit" class="btn btn-mini btn-danger" value="delete"/></td>
+                                                        </form>
                                                     </tr>
+                                                    <% } %>
 
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div><!--/span-->
-
-
-                                    </div><!--/row-->
 
 
 
