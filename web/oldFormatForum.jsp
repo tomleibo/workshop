@@ -33,7 +33,7 @@
 <%}%>
 
 <div class="container">
-    <% if(user.isGuest() || !user.isLoggedIn()){%>
+    <% if(user.isGuest()){%>
     <a href="\register.jsp?forumId=<%=forum.id%>" class="button"><span>✓</span>Register</a>
     <a href="\login.jsp?forumId=<%=forum.id%>" class="button"><span>✓</span>Login</a>
     <%} else{ %>
