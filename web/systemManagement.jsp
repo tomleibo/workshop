@@ -69,7 +69,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="index.html"><span>Great Minds</span></a>
+            <a class="brand" href="/home"><span>Great Minds</span></a>
 
 
             <!-- start: Header Menu -->
@@ -110,7 +110,7 @@
             <ul class="breadcrumb">
                 <li>
                     <i class="icon-home"></i>
-                    <a href="index.html">Home</a>
+                    <a href="/home">Home</a>
                     <i class="icon-angle-right"></i>
                 </li>
                 <li><a href="#">System Management</a></li>
