@@ -63,7 +63,11 @@ public class ServletUtils {
         }
         else if(e instanceof UserCantBeModeratorException) {
             request.setAttribute(MESSAGE_ATTRIBUTE, "This user can not be appointed to moderator.");
-        }/*
+        }
+        else if(e instanceof WordNotApprovedException) {
+            request.setAttribute(MESSAGE_ATTRIBUTE, "The word "+((WordNotApprovedException) e).word+" is not approved!.");
+        }
+        /*
         else if(e instanceof ) {
             request.setAttribute(MESSAGE_ATTRIBUTE, "");
         }*/
