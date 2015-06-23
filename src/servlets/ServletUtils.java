@@ -61,6 +61,9 @@ public class ServletUtils {
         else if(e instanceof WrongPasswordException) {
             request.setAttribute(MESSAGE_ATTRIBUTE, "Password is wrong. Please try again.");
         }
+        else if(e instanceof SubForumMustHaveModeratorException) {
+            request.setAttribute(MESSAGE_ATTRIBUTE, "Sub Forum have only one moderator - can not un appoint.");
+        }
         else if(e instanceof UserCantBeModeratorException) {
             request.setAttribute(MESSAGE_ATTRIBUTE, "This user can not be appointed to moderator.");
         }/*
