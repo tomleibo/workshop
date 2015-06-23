@@ -21,6 +21,8 @@ import java.util.Set;
 public class ForumTests {
 	protected static IForumSystemBridge driver;
 	public static final String[] FORUM_NAMES = {"YNET", "FXP", "StackOverFlow"};
+	public static final String[] ID_QUESTIONS = {"what is your favorite color?", "who's your papa?", "what is the name of your goldfish from seventh grade?"};
+	public static final String[] ID_ANSWERS = {"orange", "papa", "twiti"};
 	public static final String[] SUB_FORUM_NAMES = {"Games", "Nature", "Physics"};
 	public static final String[] USER_NAMES = {"Dani", "John", "Joe", "bb"};
 	public static final String[] USER_PASSES = {"DaniDaKing", "JohnDoe", "BazookaJoe", "bBbB"};
@@ -92,7 +94,7 @@ public class ForumTests {
 	}
 	
 	
-	protected static User loginUser(Forum forum, String user, String pass) throws UserDoesNotExistsException, WrongPasswordException, NoSuchAlgorithmException, NeedToChangePasswordException {
+	protected static User loginUser(Forum forum, String user, String pass) throws UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NoSuchAlgorithmException, NeedToChangePasswordException {
 		return driver.loginUser(forum, user, pass);
 	}
 	

@@ -10,6 +10,8 @@ import utils.HibernateUtils;
 
 import java.security.NoSuchAlgorithmException;
 
+import static controllers.SuperAdminController.deleteForum;
+
 public class ForumManagementServicesTests extends ForumTests {
 
 	@Test // 2.1
@@ -66,7 +68,7 @@ public class ForumManagementServicesTests extends ForumTests {
 	}
 
 	@Test // 2.5
-	public void test_addNewForum_FreeName() {
+	public void test_addNewForum_FreeName() throws Exception{
 		Forum otherForum = null;
 		try {
 			otherForum = addForum(FORUM_NAMES[1], superAdmin, getPolicy(10, "[1-9]^10", ForumPolicy.HashFunction.MD5));
@@ -75,6 +77,7 @@ public class ForumManagementServicesTests extends ForumTests {
 		}
 		Assert.assertNotNull(otherForum);
 		org.junit.Assert.assertEquals(otherForum.getName(), FORUM_NAMES[1]);
+		Assert.assertTrue(deleteForum(superAdmin, otherForum));
 	}
 
 //	@Ignore // 2.6

@@ -4,7 +4,8 @@ import content.Forum;
 import content.Message;
 import content.SubForum;
 import content.Thread;
-import exceptions.PasswordAlreadyUsedException;
+import controllers.UserController;
+import exceptions.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -14,6 +15,7 @@ import users.Notification;
 import users.User;
 import utils.HibernateUtils;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import static controllers.UserController.changePassword;
@@ -178,8 +180,15 @@ public class MemberUserServicesTests2 extends ForumTests {
 
 			Forum theForum2 = addForum(FORUM_NAMES[1], superAdmin, policy);
 
-			User user3 = registerToForum(theForum, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2]);
+			try {
+				User user3 = registerToForum(theForum2, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2]);
+			} catch (Exception e) {
+				Assert.assertTrue(true);
+				e.printStackTrace();
+			}
 
+			User user3 = UserController.register(theForum2, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2], ID_QUESTIONS[0], ID_ANSWERS[0]);
+			Assert.assertNotNull(user3);
 
 
 			// create a forum with a policie for questions
