@@ -2,6 +2,7 @@
 <%@ page import="content.SubForum" %>
 <%@ page import="utils.HtmlUtils" %>
 <%@ page import="users.User" %>
+<%@ page import="policy.PolicyHandler" %>
 <%--
   Created by IntelliJ IDEA.
   User: thinkPAD
@@ -75,25 +76,27 @@
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
+
                     <% if(!user.isGuest()){%>
-                        <li class="dropdown hidden-phone">
-                            <a class="btn dropdown-toggle" href="/notificationsPage">
-                                <i class="icon-bell"></i>
+                    <li class="dropdown hidden-phone">
+                        <a class="btn dropdown-toggle" href="\notificationsPage">
+                            <i class="icon-bell"></i>
                                     <span id="notificationsButton" class="badge red">
                                     0 </span>
-                            </a>
-                        </li>
-                        <!-- start: Notifications Dropdown -->
-                        <!-- end: Notifications Dropdown -->
-                        <%--friend requests--%>
-                        <li class="dropdown hidden-phone">
-                            <a class="btn dropdown-toggle" href="/friendRequests">
-                                <i class="icon-user"></i>
+                        </a>
+                    </li>
+                    <!-- start: Notifications Dropdown -->
+                    <!-- end: Notifications Dropdown -->
+                    <%--friend requests--%>
+                    <li class="dropdown hidden-phone">
+                        <a class="btn dropdown-toggle" href="\friendRequests">
+                            <i class="icon-user"></i>
                                     <span id="requestsButton" class="badge red">
                                     0 </span>
-                            </a>
-                        </li>
+                        </a>
+                    </li>
                     <%}%>
+
                     <!-- start: User Dropdown -->
                     <li class="dropdown">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -106,11 +109,11 @@
                             </li>
 
                             <% if(user.isGuest()){%>
-                                <li><a href="/register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
-                                <li><a href="/login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
+                            <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
+                            <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>
-                                <li><a href="/logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
-                                <li><a href="/profile"><i class="halflings-icon user"></i> Profile</a></li>
+                            <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
+                            <li><a href="\profile"><i class="halflings-icon user"></i> Profile</a></li>
                             <%} %>
 
                         </ul>
@@ -200,7 +203,7 @@
                             <tr>
                                 <td><a href="\subForum?subForumId=<%=sub.id%>"><%=sub.getName()%></a></td>
                                 <td class="center"><%=sub.getModerators().get(0).getUsername()%></td>
-                                <%if(user.isAdmin()){%>
+                                <%if(PolicyHandler.canUserDeleteSubForum(forum,user)){%>
                                     <td class="center"><a href="\deleteSubForum?subForumId=<%=sub.id%>" class="btn btn-mini btn-danger">Delete</a></td>
                                 <%}%>
                             </tr>
