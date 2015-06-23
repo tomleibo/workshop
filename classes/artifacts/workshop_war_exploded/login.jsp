@@ -59,7 +59,7 @@
                     <a href="#"><i class="halflings-icon cog"></i></a>
                 </div>
                 <h2>Login to your account</h2>
-                <form class="form-horizontal" action="\login" method="post" >
+                <form class="form-horizontal" action="/login" method="post" >
                     <fieldset>
                         <input name="forumId" type="hidden" value="<%=id%>">
                         <div class="input-prepend" title="Username">

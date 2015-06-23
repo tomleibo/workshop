@@ -132,7 +132,7 @@
         <div id="sidebar-left" class="span2">
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a href="/home"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a></li>
+                    <li><a href="/home"><i class="glyphicons-icon white group"></i><span class="hidden-tablet"> Forums</span></a></li>
 
 
                 </ul>
@@ -167,13 +167,14 @@
             <h1><%=forum.getName()%></h1><br><br>
 
             <%if(user.isAdmin()){%>
-            <a class="btn btn-large btn-primary btn-round pull-right" href="\newSubForum">
+            <a class="btn btn-large btn-primary btn-round pull-right" href="/newSubForum">
                 <i class="halflings-icon white plus"></i><span class="break"></span>New Sub-Forum</a>
             <br><br><br>
             <%}%>
 
+            <div>
 
-                <div class="box span11">
+                <div class="box span12">
                     <div class="box-header" data-original-title>
                         <h2><i class="halflings-icon white th"></i><span class="break"></span>Sub Forums</h2>
 
@@ -189,7 +190,9 @@
                             <tr>
                                 <th>Sub Forum</th>
                                 <th>Moderator</th>
-                                <th></th>
+                                <%if(user.isAdmin()){%>
+                                <th>Action</th>
+                                <%}%>
 
                             </tr>
                             </thead>
@@ -207,7 +210,7 @@
                         </table>
                     </div>
                 </div><!--/span-->
-
+            </div>
             </div><!--/row-->
 
 
@@ -248,8 +251,8 @@
 </div>
 
 <div class="clearfix"></div>
-<footer></footer>
 
+<footer></footer>
 
 <!-- start: JavaScript-->
 

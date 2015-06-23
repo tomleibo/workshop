@@ -3,6 +3,9 @@
 <%@ page import="users.User" %>
 <%@ page import="utils.HtmlUtils" %>
 <%@ page import="content.Forum" %>
+<%@ page import="controllers.UserController" %>
+<%@ page import="policy.ForumPolicy" %>
+<%@ page import="policy.PolicyHandler" %>
 <%--
   Created by IntelliJ IDEA.
   User: thinkPAD
@@ -172,9 +175,9 @@
             <h1><%=sub.getName()%></h1><br><br>
 
             <%--Post New Thread--%>
-            <div class="pull-left">
+            <div class="pull-right">
                 <a href="\newThread" class="btn btn-large btn-primary btn-round"><i class="halflings-icon white plus"></i><span class="break"></span> Post New Thread</a></div>
-
+<br><br><br>
             <%--start table--%>
             <div>
                 <div class="box span12">
@@ -203,7 +206,7 @@
                                     <tr>
                                         <td><a href="\thread?threadId=<%=t.id%>"><%=t.getOpeningMessage().getTitle()%></a> </td>
                                         <td class="center"><%=t.getMemberStarted().getUsername()%></td>
-                                        <%if(user.isAdmin()){%>
+                                        <%if(PolicyHandler.canUserDeleteComment(forum, sub, user, t.getOpeningMessage())){%>
                                             <td class="center"><a class="btn btn-mini btn-danger">Delete</a></td>
                                         <%}%>
                                     </tr>

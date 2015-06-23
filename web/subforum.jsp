@@ -175,9 +175,9 @@
             <h1><%=sub.getName()%></h1><br><br>
 
             <%--Post New Thread--%>
-            <div class="pull-left">
+            <div class="pull-right">
                 <a href="\newThread" class="btn btn-large btn-primary btn-round"><i class="halflings-icon white plus"></i><span class="break"></span> Post New Thread</a></div>
-
+<br><br><br>
             <%--start table--%>
             <div>
                 <div class="box span12">

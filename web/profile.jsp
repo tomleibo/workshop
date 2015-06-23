@@ -197,6 +197,11 @@
                                             <label for="dateCreatedInput">Date Created</label>
                                             <input type="text" id="dateCreatedInput" class="form-control" placeholder="<%=new Date(user.getLoginTime()).toString()%>" disabled>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="userNameInput">Status</label>
+                                            <input type="text" id="statusInput" class="form-control" placeholder="<%=user.getStatus()%>" disabled>
+
+                                        </div>
 
 
 
@@ -406,7 +411,7 @@
                 <li><a href="http://themescloud.org">Bootstrap themes</a></li>
             </ul>
         </div>
-    </div></div>
+    </div></div> </div>
 
     <div class="clearfix"></div>
 

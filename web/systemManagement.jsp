@@ -142,16 +142,6 @@
                     <div>
                         <fieldset>
 
-
-
-
-
-                                <div class="span12 collapse-group row center">
-                                    <p><a class="btn btn-mini" href="#">+</a>&nbsp;&nbsp;&nbsp;Add new member type </p>
-                                    <p class="collapse"><input type="text" id="memType" style="background-color: lavender" maxlength="25" required>&nbsp;&nbsp; <a class="btn btn-small btn-success" href="#" style="vertical-align:top">Update</a></p>
-
-</div>
-
                             <legend>Appoint admin</legend>
 
                             <div class="span6 collapse-group row center">
@@ -213,6 +203,7 @@
     </div>
 
     <div class="clearfix"></div>
+    </div>
 
     <footer>
 
@@ -280,6 +271,6 @@
     <script src = "js/dropdown.js"></script>
 
     <!-- end: JavaScript-->
-</div>
+
 </body>
 </html>

@@ -132,7 +132,7 @@
         <div id="sidebar-left" class="span2">
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a href="/home"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a></li>
+                    <li><a href="/home"><i class="glyphicons-icon white group"></i><span class="hidden-tablet"> Forums</span></a></li>
 
 
                 </ul>
@@ -172,8 +172,9 @@
             <br><br><br>
             <%}%>
 
+            <div>
 
-                <div class="box span11">
+                <div class="box span12">
                     <div class="box-header" data-original-title>
                         <h2><i class="halflings-icon white th"></i><span class="break"></span>Sub Forums</h2>
 
@@ -209,7 +210,7 @@
                         </table>
                     </div>
                 </div><!--/span-->
-
+            </div>
             </div><!--/row-->
 
 

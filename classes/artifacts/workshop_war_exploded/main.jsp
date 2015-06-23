@@ -82,6 +82,16 @@
                                 <span>Account Settings</span>
                             </li>
 
+
+                            <%--Show this if user is super-Admin--%>
+                            <% if(superAdmin!=null && superAdmin.isSuperAdmin()){%>
+                            <li><a href="/systemManagement"><i class="halflings-icon cog"></i> System <center>Management</center></a></li>
+                            <%--<li><a href="/systemManagement"><i class="halflings-icon off"></i>System Management</a></li>--%>
+                            <%}%>
+
+
+
+
                             <% if(superAdmin==null || superAdmin.isGuest()){%>
                                 <li>
                                     <a href="\loginAsAdmin.jsp">
@@ -139,11 +149,11 @@
       </ul>
 
       <%--Show this if user is super-Admin--%>
-        <% if(superAdmin!=null && superAdmin.isSuperAdmin()){%>
-      <a class="btn btn-large btn-primary btn-round pull-right" href="/systemManagement" style="margin-right:7px">
-        <span class="break"></span> System Management</a>
-        <%}%>
-      <br><br><br>
+        <%--<% if(superAdmin!=null && superAdmin.isSuperAdmin()){%>--%>
+      <%--<a class="btn btn-large btn-primary btn-round pull-right" href="/systemManagement" style="margin-right:7px">--%>
+        <%--<span class="break"></span> System Management</a>--%>
+        <%--<%}%>--%>
+      <%--<br><br><br>--%>
 
       <div>
         <div class="box span12">
@@ -225,8 +235,7 @@
 
 <div class="clearfix"></div>
 
-
-
+<footer></footer>
 <!-- start: JavaScript-->
 
 <script src="js/jquery-1.9.1.min.js"></script>
