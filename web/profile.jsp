@@ -99,7 +99,7 @@
                                 <span>Account Settings</span>
                             </li>
 
-                            <% if(user.isGuest() || !user.isLoggedIn()){%>
+                            <% if(user.isGuest()){%>
                             <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
                             <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>

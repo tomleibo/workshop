@@ -126,7 +126,7 @@
                     <a class="quick-button span2 pull-right">
                         <i class="icon-group "></i>
                         <p>Forums</p>
-                        <span class="notification blue "><%=numberOfForums%></span>
+                        <span class="notification blue "><%=numberOfForums.toString()%></span>
                     </a>
                     <a class="quick-button span2 pull-right" href="/newforum.jsp">
                         <i class="icon-group "></i>
