@@ -70,12 +70,10 @@ public class DismissModeratorServlet extends HttpServlet {
 
 		try {
 			AdminController.unAppoint(forum, subForum, user, moderator);
-		} catch (UserNotAuthorizedException e) {
+		} catch (UserNotAuthorizedException | SubForumMustHaveModeratorException e) {
             ServletUtils.exitError(this, request, response, e);
 			return;
-		} catch (SubForumMustHaveModeratorException e) {
-            // TODO
-        }
+		}
 
         request.setAttribute("moderator", moderatorName);
 		request.setAttribute("op", "dismiss");
