@@ -120,4 +120,7 @@ public class ForumManagementServicesTests extends ForumTests {
 	public void test_report_forum_number() throws Exception{
 		Assert.assertEquals(1, getReportNumberOfForums(superAdmin));
 	}
+
+
+
 }
