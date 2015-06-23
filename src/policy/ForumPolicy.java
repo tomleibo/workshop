@@ -165,16 +165,12 @@ public class ForumPolicy{
         return passwordMaxTime;
     }
 
-    public void setPasswordMaxTime(int passwordExpireDate) {
-        this.passwordMaxTime = passwordExpireDate;
+    public void setPasswordMaxTime(long passwordMaxTime) {
+        this.passwordMaxTime = passwordMaxTime;
     }
 
     public void setSessionTimeout(long sessionTimeout) {
         this.sessionTimeout = sessionTimeout;
-    }
-
-    public void setPasswordMaxTime(long passwordMaxTime) {
-        this.passwordMaxTime = passwordMaxTime;
     }
 
     public boolean isCanModeratorEditPosts() {

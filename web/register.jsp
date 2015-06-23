@@ -83,7 +83,7 @@
 
                         <div class="input-prepend" title="Email">
                             <span class="add-on"><i class="halflings-icon envelope"></i></span>
-                            <input class="email input-large span10" name="email" id="email" type="text" placeholder="type email"  maxlength="30"/>
+                            <input class="input-large span10" type = "email" name="email" id="email" type="text" placeholder="type email"  maxlength="30"/>
                         </div>
 
 

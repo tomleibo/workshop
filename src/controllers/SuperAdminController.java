@@ -58,6 +58,9 @@ public class SuperAdminController {
 
 	public static boolean deleteForum(User superAdmin, Forum forum) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserRemoveForum(superAdmin)) {
+            forum.setAdmin(null);
+            forum.removeMember(superAdmin);
+            HibernateUtils.update(forum);
             return HibernateUtils.del(forum);
 		}
 		throw new UserNotAuthorizedException("to remove forum.");

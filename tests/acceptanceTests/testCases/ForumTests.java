@@ -57,7 +57,7 @@ public class ForumTests {
 	protected static User superAdmin;
 	protected static ForumPolicy policy;
 
-    protected static final int changePasswordTime = 30;
+    protected static final long changePasswordTime = -1;
 
 	@BeforeClass
 	public static void setUp() throws UserNotAuthorizedException, NoSuchAlgorithmException {

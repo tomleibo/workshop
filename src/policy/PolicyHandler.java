@@ -12,7 +12,7 @@ import java.util.List;
 public class PolicyHandler {
 
 	public static boolean canUserDeleteComment(Forum forum, SubForum subForum, User user, Message comment) {
-		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && !(user.isGuest()) && user.isActive() && (comment.getUser().equals(user) || user.isAdmin() || (user.isMod() && forum.getPolicy().isCanModeratorEditPosts())))
+		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && !(user.isGuest()) && user.isActive() && (comment.getUser().equals(user) || user.isAdmin() || (subForum.getModerators().contains(user) && forum.getPolicy().isCanModeratorEditPosts())))
 			return true;
 		return false;
 	}
@@ -167,7 +167,7 @@ public class PolicyHandler {
             return false;
         try {
             long passwordSetTime = user.getPasswordSetDate().getTime();
-            long passwordMaxTime = forum.getPolicy().getPasswordMaxTime() * 24 * 60 * 60 * 1000;
+            long passwordMaxTime = forum.getPolicy().getPasswordMaxTime();
             return (new Date()).after(new Date(passwordSetTime + passwordMaxTime));
         } catch (Exception e) {
             return false;

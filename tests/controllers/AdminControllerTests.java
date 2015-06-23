@@ -33,7 +33,7 @@ public class AdminControllerTests {
 
     @Before
     public void beforeMethod() throws Exception {
-        superAdmin = SuperAdminController.initializeForumSystem(superUsername, hashedPassword, mail);
+        superAdmin = SuperAdminController.startForumSystem(superUsername, hashedPassword, mail);
         policy = new ForumPolicy(2, ".+", ForumPolicy.HashFunction.SHA, false);
         forum = SuperAdminController.createNewForum(superAdmin, policy, forumName);
         firstModerator = UserController.register(forum, firstModeratorUsername, hashedPassword, mail);
