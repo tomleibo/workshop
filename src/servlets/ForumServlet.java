@@ -41,7 +41,7 @@ public class ForumServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int i =1;
-		SessionLogger.get().log(request.getSession().getId(),"showing forum page");
+		SessionLogger.get().log(request.getSession().getId(), "showing forum page");
 		try {
 			String forumIdString = request.getParameter("forumId");
 			int forumId = Integer.parseInt(forumIdString);
@@ -54,33 +54,19 @@ public class ForumServlet extends HttpServlet {
 				CookieUtils.addInfiniteCookie(response, CookieUtils.FORUM_ID_COOKIE_NAME, forumIdString);
 			}
 
-
+			String userCookieName = CookieUtils.getUserCookieName(forumId);
+			String userIdStr = CookieUtils.getCookieValue(request, userCookieName);
 			User user;
-			String userCookieName = CookieUtils.getUserCookieName(forumCookieId);
-			String superAdminId = CookieUtils.getCookieValue(request, CookieUtils.SUPER_USER_ID_COOKIE_NAME);
-			if (superAdminId != null) {
-				user = (User) HibernateUtils.load(User.class, Integer.parseInt(superAdminId));
-				if(CookieUtils.getCookieValue(request, userCookieName) != null){
+
+			if (userIdStr != null) {
+				user = (User) HibernateUtils.load(User.class, Integer.parseInt(userIdStr));
+				if(user == null){
+					user = UserController.enterAsGuest(forum);
 					CookieUtils.changeCookieValue(request, response, userCookieName, String.valueOf(user.getId()));
 				}
-				else{
-					CookieUtils.addInfiniteCookie(response, CookieUtils.getUserCookieName(forumCookieId), Integer.toString(user.getId()));
-				}
-			}
-
-			else{
-				String userId = CookieUtils.getCookieValue(request, userCookieName);
-				if (userId != null) {
-					user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
-					if(user == null){
-						user = UserController.enterAsGuest(forum);
-						CookieUtils.changeCookieValue(request, response, userCookieName, String.valueOf(user.getId()));
-					}
-
-				} else {
-					user = UserController.enterAsGuest(forum);
-					CookieUtils.addInfiniteCookie(response, CookieUtils.getUserCookieName(forumCookieId), Integer.toString(user.getId()));
-				}
+			} else {
+				user = UserController.enterAsGuest(forum);
+				CookieUtils.addInfiniteCookie(response, userCookieName, Integer.toString(user.getId()));
 			}
 
 			request.setAttribute("forum", forum);
