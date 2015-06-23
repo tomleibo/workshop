@@ -81,6 +81,7 @@
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
+
                     <% if(!user.isGuest()){%>
                     <li class="dropdown hidden-phone">
                         <a class="btn dropdown-toggle" href="\notificationsPage">
@@ -100,6 +101,7 @@
                         </a>
                     </li>
                     <%}%>
+
                     <!-- start: User Dropdown -->
                     <li class="dropdown">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">

@@ -1,11 +1,13 @@
 package servlets;
 
 import content.*;
-import content.Thread;
 import controllers.UserController;
+import exceptions.ContentNotRelevantException;
+import exceptions.WordNotApprovedException;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
+import utils.ContentDigestUtils;
 import utils.SessionLogger;
 
 import javax.servlet.RequestDispatcher;
@@ -44,7 +46,13 @@ public class PostNewThreadServlet extends HttpServlet {
             SessionLogger.get().log(request.getSession().getId(),"posting a new thread");
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
-
+            if (content != null && !content.equals("")) {
+                String word = ContentDigestUtils.isTextOk(content);
+                if (word != null) {
+                    ServletUtils.exitError(this,request,response,new WordNotApprovedException(word));
+                    return;
+                }
+            }
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
 			if (cookieValue == null)
 				throw new Exception("Forum Cookie Value doesn't exist");
@@ -67,7 +75,13 @@ public class PostNewThreadServlet extends HttpServlet {
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 			User user = (User) HibernateUtils.load(User.class, userId);
 			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
-
+            if (subForum.getNumberOfMessages() > 10) {
+                float percentage = ContentDigestUtils.percentageOfRelevance(subForum.viewThreads(),content);
+                if (percentage < 0.1) {
+                    ServletUtils.exitError(this,request,response,new ContentNotRelevantException());
+                    return;
+                }
+            }
 			UserController.openNewThread(forum,subForum, title, content, user);
 
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/subForum?subForumId="+subForumId);
