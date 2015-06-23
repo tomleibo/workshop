@@ -199,12 +199,12 @@ public class MemberUserServicesTests2 extends ForumTests {
 	@Test // 6.7
 	public void test_password_expiration() throws Exception{
 		// set forum policy to have a one milisecond expiration password
-		policy = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, 300, true, 0, 0);
+		policy = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, 3000, true, 0, 0);
 
 		Forum theForum2 = addForum(FORUM_NAMES[1], superAdmin, policy);
 		User user3 = registerToForum(theForum2, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2]);
 		user3.logout();
-		sleep(2000);
+		sleep(3000);
 		try {
 			user3 = loginUser(theForum2, USER_NAMES[2], USER_PASSES[2]);
 			Assert.fail();

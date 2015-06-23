@@ -37,11 +37,11 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int id;
+		int forumId;
 		String userName, pass, email;
 		try {
             SessionLogger.get().log(request.getSession().getId(),"registering");
-			id=Integer.parseInt(request.getParameter("forumId"));
+			forumId=Integer.parseInt(request.getParameter("forumId"));
 			userName = request.getParameter("username");
 			pass = request.getParameter("pass");
 			email = request.getParameter("email");
@@ -49,7 +49,7 @@ public class RegisterServlet extends HttpServlet {
 			if(email == null)
 				email = "email;";
 
-			Forum forum = (Forum) HibernateUtils.load(Forum.class, id);
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
 			UserController.register(forum, userName, pass, email);
 			User user = UserController.login(forum, userName, pass);
@@ -57,9 +57,9 @@ public class RegisterServlet extends HttpServlet {
 			if(user == null)
 				throw new Exception("User is null");
 
-			CookieUtils.changeCookieValue(request, response, CookieUtils.USER_ID_COOKIE_NAME, Integer.toString(user.getId()));
+			CookieUtils.changeCookieValue(request, response, CookieUtils.getUserCookieName(forumId), Integer.toString(user.getId()));
 
-			request.setAttribute("forumId", id);
+			request.setAttribute("forumId", forumId);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum");
 			dispatcher.forward(request, response);
 

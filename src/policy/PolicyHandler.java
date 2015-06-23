@@ -4,6 +4,7 @@ import content.Forum;
 import content.Message;
 import content.SubForum;
 import users.FriendRequest;
+import users.Notification;
 import users.User;
 
 import java.util.Date;
@@ -188,5 +189,9 @@ public class PolicyHandler {
 
     public static boolean canUserBeModerator(User moderator, Forum forum, SubForum subForum) {
         return (forum.getSubForums().contains(subForum)) && (subForum.getNumberOfMessagesForUser(moderator) >= forum.getPolicy().getModeratorMinimumNumberOfPosts()) && (moderator.getCreationDate().getTime() + forum.getPolicy().getModeratorMinimumSeniority() <= new Date().getTime());
+    }
+
+    public static boolean canUserViewNotification(User user, Notification notification) {
+        return user.getPendingNotifications().contains(notification);
     }
 }

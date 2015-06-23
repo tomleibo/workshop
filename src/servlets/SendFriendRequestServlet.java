@@ -47,17 +47,18 @@ public class SendFriendRequestServlet extends HttpServlet {
 			int receiverId = Integer.parseInt(request.getParameter("receiverId"));
 			String content = request.getParameter("content");
 
-			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
-			if (cookieValue == null)
-				throw new Exception("User Cookie Value doesn't exist");
-
-			int userId = Integer.parseInt(cookieValue);
-
-			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
 			if (cookieValue == null)
 				throw new Exception("Forum Cookie Value doesn't exist");
 
 			int forumId = Integer.parseInt(cookieValue);
+
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
+			if (cookieValue == null) {
+				throw new Exception("User Cookie Value doesn't exist");
+			}
+
+			int userId = Integer.parseInt(cookieValue);
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 			User user = (User) HibernateUtils.load(User.class, userId);

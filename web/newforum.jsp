@@ -133,7 +133,7 @@
               <form class="form-horizontal well" action="/addForum" method="get" >
                 <label class="control-label" for="forumName"><h3>Forum Name:</h3> </label>
                 <div class="controls">
-                  <input type="text" name="name" id="forumName" maxlength="25">
+                  <input type="text" name="name" id="forumName" maxlength="25" required>
                 </div>
 
               <br>
@@ -142,14 +142,14 @@
                     <legend>Forum Policy:</legend>
                     <label class="control-label" for="maxMod">Max number of moderators: </label>
                     <div class="controls">
-                      <input type="number" name="maxMods" id="maxMod" min="0" max="10000000000">
+                      <input type="number" name="maxMods" id="maxMod" min="0" max="10000000000" required>
                     </div>
 
                     <br>
 
                     <label class="control-label" for="passReg">Password regex: </label>
                     <div class="controls">
-                      <input type="text" name="passRegex" id="passReg"  maxlength="50">
+                      <input type="text" name="passRegex" id="passReg"  maxlength="50" required>
                     </div>
 
                     <br>
@@ -165,16 +165,56 @@
 
                     <br>
 
+
+
+                    <label class="control-label" for="sessionTO">Session time out (minutes): </label>
+                    <div class="controls">
+                      <input type="number" min = "0" name="timeout" id="sessionTO"   max="10000000000" required>
+                    </div>
+
+                    <br>
+
+                    <label class="control-label" for="sessionIdle">Session idle time (minutes): </label>
+                    <div class="controls">
+                      <input type="number" min = "0" name="timeout" id="sessionIdle"  max="10000000000" required>
+                    </div>
+
+                    <br>
+
+
+
+
+                    <label class="control-label" for="passMaxTime">Password expired time (months): </label>
+                    <div class="controls">
+                      <input type="number" min="0" max="10000000000" name="passExpire" id="passMaxTime" required>
+                    </div>
+
+                    <br>
+
+                    <label class="control-label" for="passMaxTime">Minimum posts moderator should have: </label>
+                    <div class="controls">
+                      <input type="number" min="0" max="10000000000" name="minPosts" id="minPosts" required>
+                    </div>
+
+                    <br>
+
+                    <label class="control-label" for="passMaxTime">Minimum seniority moderator should have: </label>
+                    <div class="controls">
+                      <input type="number" min="0" max="10000000000" name="minSeniority" id="minSeniority" required>
+                    </div>
+
+                    <br>
+
                     <div class="control-group">
                       <label class="control-label ">Should user have mail authentication?</label>
                       <div class="controls">
                         <label class="radio">
-                          <input type="radio" name="authentication" id="yesOptMail" value="1" checked="">
+                          <input type="radio" name="authentication" id="mailAuthenticationYes" value="1" checked="">
                           Yes
                         </label>
                         <div style="clear:both"></div>
                         <label class="radio">
-                          <input type="radio" name="authentication" id="noOptMail" value="0">
+                          <input type="radio" name="authentication" id="mailAuthenticationNo" value="0">
                           No
                         </label>
                       </div>
@@ -182,12 +222,6 @@
 
                     <br>
 
-                    <label class="control-label" for="sessionTO">Session time out (minutes): </label>
-                    <div class="controls">
-                      <input type="number" min = "0" name="timeout" id="sessionTO"   max="10000000000">
-                    </div>
-
-                    <br>
 
                     <div class="control-group">
                       <label class="control-label ">Should ask user identification question?</label>
@@ -206,12 +240,25 @@
 
                     <br>
 
-                    <label class="control-label" for="passMaxTime">Password expired time (months): </label>
-                    <div class="controls">
-                      <input type="number" min="0" max="10000000000" name="passExpire" id="passMaxTime">
+
+                    <div class="control-group">
+                      <label class="control-label ">Should moderator edit posts?</label>
+                      <div class="controls">
+                        <label class="radio">
+                          <input type="radio" name="moderatorEdit" id="yesModEdit" value="1" checked="">
+                          Yes
+                        </label>
+                        <div style="clear:both"></div>
+                        <label class="radio">
+                          <input type="radio" name="moderatorEdit" id="noModEdit" value="0">
+                          No
+                        </label>
+                      </div>
                     </div>
 
                     <br>
+
+
 
 
 
@@ -222,8 +269,8 @@
 
 
                 <div class="form-actions">
-                  <input type="submit" class="btn btn-primary" href="comment.html">
-                  <input type="reset" class="btn" href="/home">
+                  <input type="submit" class="btn btn-primary" href="comment.html" value="Send">
+                  <input type="reset" class="btn" href="/home" value="Cancel">
                 </div>
 
             </div>

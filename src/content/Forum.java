@@ -10,9 +10,8 @@ import users.User;
 import utils.ForumLogger;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 @Entity
 @Table(name="Forum")
 public class Forum {
@@ -174,18 +173,18 @@ public class Forum {
         return numOfMessages;
     }
 
-    public boolean addStatusType(String type) {
+    public boolean addStatusType(String type, int numberOfMessages) {
         String[] statuses = statusTypes.split(";");
         boolean found = false;
         for (String status : statuses) {
-            if (status.equalsIgnoreCase(type)) {
+            if (status.substring(0, status.indexOf(":")).equalsIgnoreCase(type)) {
                 found = true;
                 break;
             }
         }
         if (found)
             return false;
-        statusTypes = statusTypes + type + ";";
+        statusTypes = statusTypes + type + ":" + numberOfMessages + ";";
         return true;
     }
 
@@ -194,7 +193,7 @@ public class Forum {
         StringBuilder builder = new StringBuilder();
         boolean found = false;
         for (String status : statuses) {
-            if (status.equalsIgnoreCase(type)) {
+            if (status.substring(0, status.indexOf(":")).equalsIgnoreCase(type)) {
                 found = true;
             } else {
                 builder.append(status + ";");
@@ -216,7 +215,14 @@ public class Forum {
         return found;
     }
 
-    public List<String> getStatusTypes() {
-        return Arrays.asList(statusTypes.split(";"));
+    public Map<String, Integer> getStatusTypes() {
+        List<String> statuses = Arrays.asList(statusTypes.split(";"));
+        Map<String, Integer> result = new HashMap<>();
+        for (String status : statuses) {
+            String statusName = status.substring(0, status.indexOf(":"));
+            Integer statusNumber = Integer.valueOf(status.substring(status.indexOf(":") + 1));
+            result.put(statusName, statusNumber);
+        }
+        return result;
     }
 }

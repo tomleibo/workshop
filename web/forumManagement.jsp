@@ -230,9 +230,9 @@
                             <form class="form-horizontal">
                                 <fieldset>
                                     <div class="control-group">
-                                        <label class="control-label" for="typeahead">Sub Forum Name: </label>
+                                        <label class="control-label" for="subName">Sub Forum Name: </label>
                                         <div class="controls">
-                                            <input type="text" id="title" maxlength="25">
+                                            <input type="text" id="subName" maxlength="25" required>
 
                                         </div>
                                     </div>
