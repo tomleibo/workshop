@@ -132,6 +132,11 @@
                         <i class="icon-group "></i>
                         <p>Add forum</p>
                         <span class="notification blue "><i class = "halflings-icon white plus"></i></span>
+                    </a>
+                    <a class="quick-button span2 pull-right" href="/openSession">
+                        <i class="icon-list-alt "></i>
+                        <p>Open sessions</p>
+
                     </a></div>
                     <br>
                     <div><h3>What would you like to do?</h3></div> </div>
@@ -144,15 +149,23 @@
 
                             <legend>Appoint admin</legend>
 
-                            <select id="appointAdmin" data-rel="chosen">
-                                <option>Sub 1</option>
-                                <option>Sub 2</option>
-                                <option>Sub 3</option>
-                                <option>Sub 4</option>
-                                <option>Sub 5</option>
-                            </select>
-                            &nbsp;
-                            <a href="#" class="btn btn-primary" style="vertical-align:top">Select</a>
+                            <div class="span6 collapse-group row center">
+                                <p><select id="appModSub" data-rel="chosen">
+                                    <option>Sub 1</option>
+                                    <option>Sub 2</option>
+                                    <option>Sub 3</option>
+                                    <option>Sub 4</option>
+                                    <option>Sub 5</option>
+                                </select> <a href="#" class="btn btn-primary" style="vertical-align:top">Choose</a> <br><br> </p>
+
+                                <p class="collapse center" style = "margin-left: 50px"><select id="appointAdmin" data-rel="chosen">
+                                    <option>user 1</option>
+                                    <option>user 2</option>
+                                    <option>user 3</option>
+                                    <option>user 4</option>
+                                    <option>user 5</option>
+                                </select> <a href="#" class="btn btn-primary" style="vertical-align:top">Appoint</a></p>
+                            </div>
 
                         </fieldset>
 

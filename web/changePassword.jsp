@@ -1,12 +1,10 @@
 <%@ page import="content.Forum" %>
-<%@ page import="content.SubForum" %>
-<%@ page import="utils.HtmlUtils" %>
 <%@ page import="users.User" %>
-<%@ page import="java.util.Set" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% Set<String> openSessions = (Set<String>)request.getAttribute("sessions"); %>
+
 <% User user = (User) request.getAttribute("user"); %>
+<% Forum forum = (Forum) request.getAttribute("forum"); %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +12,7 @@
 
     <!-- start: Meta -->
     <meta charset="utf-8">
-    <title>Great Minds</title>
+    <title>Bootstrap Metro Dashboard by Dennis Ji for ARM demo</title>
     <meta name="description" content="Bootstrap Metro Dashboard">
     <meta name="author" content="Dennis Ji">
     <meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -27,7 +25,6 @@
     <!-- start: CSS -->
     <link id="bootstrap-style" href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="css/comment.css" rel="stylesheet">
     <link id="base-style" href="css/style.css" rel="stylesheet">
     <link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
@@ -48,130 +45,53 @@
     <link rel="shortcut icon" href="img/favicon.ico">
     <!-- end: Favicon -->
 
+    <style type="text/css">
+        body { background: url(img/bg-login.jpg) !important; }
+    </style>
 
 
 
 </head>
 
 <body>
-<!-- start: Header -->
-<div class="navbar">
-    <div class="navbar-inner">
-        <div class="container-fluid">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-            <a class="brand" href="/home"><span>Great Minds</span></a>
-
-
-
-        </div>
-    </div>
-</div>
-<!-- start: Header -->
-
 <div class="container-fluid-full">
     <div class="row-fluid">
 
-        <!-- start: Main Menu -->
-        <div id="sidebar-left" class="span2">
-            <div class="nav-collapse sidebar-nav">
-                <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a href="/home"><i class="glyphicons-icon white group"></i><span class="hidden-tablet"> Forums</span></a></li>
+        <div class="row-fluid">
+            <div class="login-box">
+                <div class="icons">
+                    <a href="/home"><i class="halflings-icon home"></i></a>
+
+                </div>
+                <h2>Change password</h2>
+                <form class="form-horizontal" action="/changePassword" method="post">
+                    <fieldset>
+                        <input type="hidden" name="userId" value="<%=user.getId()%>"/>
+                        <div class="input-prepend" title="Old password">
+                            <span class="add-on"><i class="halflings-icon lock"></i></span>
+                            <input class="input-large span10" name="oldPassword" id="oldPassword" type="password" placeholder="type old password"/>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="input-prepend" title="Password">
+                            <span class="add-on"><i class="halflings-icon lock"></i></span>
+                            <input class="input-large span10" name="password" id="password" type="password" placeholder="type new password"/>
+                        </div>
+
+                        <div class="button-login">
+                            <input type="submit" class="btn btn-primary" value="Change password">
+                        </div>
+                        <div class="clearfix"></div>
+                        </fieldset>
+                </form>
+
+            </div><!--/span-->
+        </div><!--/row-->
 
 
-                </ul>
-            </div>
-        </div>
-        <!-- end: Main Menu -->
+    </div><!--/.fluid-container-->
 
-        <noscript>
-            <div class="alert alert-block span10">
-                <h4 class="alert-heading">Warning!</h4>
-                <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
-            </div>
-        </noscript>
-
-
-
-
-
-        <!-- start: Content -->
-        <div id="content" class="span10">
-
-
-            <ul class="breadcrumb">
-                <li>
-                    <i class="icon-home"></i>
-                    <a href="/home">Home</a>
-                    <i class="icon-angle-right"></i>
-
-                </li>
-                <li><a href="#">Open Sessions</a></li>
-            </ul>
-            <div>
-                <div class="box span12">
-                    <div class="box-header" data-original-title>
-                        <h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Open Sessions</h2>
-
-                    </div>
-
-
-                    <div class="box-content">
-                        <table class="table table-striped table-bordered bootstrap-datatable">
-
-                            <thead>
-                            <tr>
-                                <th>Sessions</th>
-
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                        <% for (String ses : openSessions) { %>
-                        <tr>
-                            <td><a href="/openSession?sid=<%=ses%>"><%=ses%></a></td>
-                        </tr>
-                        <% } %>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div><!--/span-->
-
-            </div><!--/row-->
-
-
-
-
-        </div><!--/.fluid-container-->
-
-        <!-- end: Content -->
-
-
-
-
-
-
-    </div><!--/#content.span10-->
 </div><!--/fluid-row-->
-
-<div class="modal hide fade" id="myModal">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>Settings</h3>
-    </div>
-    <div class="modal-body">
-        <p>Here settings can be configured...</p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-        <a href="#" class="btn btn-primary">Save changes</a>
-    </div>
-</div>
-
 <div class="common-modal modal fade" id="common-Modal1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-content">
         <ul class="list-inline item-details">
@@ -180,15 +100,6 @@
         </ul>
     </div>
 </div>
-
-<div class="clearfix"></div>
-
-
-<footer>
-
-
-
-</footer>
 <!-- start: JavaScript-->
 
 <script src="js/jquery-1.9.1.min.js"></script>
@@ -245,9 +156,7 @@
 <script src="js/retina.js"></script>
 
 <script src="js/custom.js"></script>
-<script src = "js/comment.js"></script>
 <!-- end: JavaScript-->
 
 </body>
 </html>
-

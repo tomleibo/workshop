@@ -81,6 +81,7 @@
       <!-- start: Header Menu -->
       <div class="nav-no-collapse header-nav">
         <ul class="nav pull-right">
+
           <% if(!user.isGuest()){%>
           <li class="dropdown hidden-phone">
             <a class="btn dropdown-toggle" href="\notificationsPage">
@@ -100,6 +101,7 @@
             </a>
           </li>
           <%}%>
+
           <!-- start: User Dropdown -->
           <li class="dropdown">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -201,15 +203,15 @@
 
 
                     </div>
-                    <%--<%if(PolicyHandler.canUserReply(forum,user)){%>--%>
+                    <%if(PolicyHandler.canUserReply(forum,user)){%>
                     <a class="btn btn-info btn-circle text-uppercase" href="/replyEditRequest?op=reply&threadId=<%=t.id%>&msgId=<%=openingMsg.id%>&title=<%=openingMsg.getTitle()%>&body=<%=openingMsg.getBody()%>" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
-                    <%--<%}%>--%>
-                    <%--<%if(PolicyHandler.canUsered){%>--%>
+                    <%}%>
+                    <%if(PolicyHandler.canUserEditComment(forum,sub,user,openingMsg)){%>
                     <a class="btn btn-info btn-circle text-uppercase" href="/replyEditRequest?op=edit&threadId=<%=t.id%>&msgId=<%=openingMsg.id%>&title=<%=openingMsg.getTitle()%>&body=<%=openingMsg.getBody()%>" id="edit"><span class="glyphicon glyphicon-share-alt"></span>Edit</a>
-                    <%--<%}%>--%>
-                    <%--<%if(PolicyHandler.canUserReply(forum,user)){%>--%>
+                    <%}%>
+                    <%if(PolicyHandler.canUserDeleteComment(forum,sub,user,openingMsg)){%>
                     <a class="btn btn-danger btn-danger text-uppercase" href="/deleteMessage?msgId=<%=openingMsg.id%>&deleteThread=1" id="delete"><span class="glyphicon glyphicon-share-alt"></span>Delete</a>
-                    <%--<%}%>--%>
+                    <%}%>
                   </div>
                   <br><br><br>
 
@@ -225,7 +227,7 @@
                         <ul class="media-list">
                           <%--depth 0 comment--%>
                           <%for(Message comment : openingMsg.getComments()){%>
-                          <%=printMessageAndComments(user, t,comment,0)%>
+                          <%=printMessageAndComments(forum, sub, user, t,comment,0)%>
                           <%}%>
                         </ul>
                       </div>
@@ -256,7 +258,7 @@
                     <div class="tab-pane active" id="comments-login">
                       <ul class="media-list">
                         <% for(Message comment : openingMsg.getComments()){%>
-                        <%= printMessageAndComments(user,t,comment,0)%>
+                        <%= printMessageAndComments(forum, sub, user,t,comment,0)%>
                         <%}%>
                       </ul>
                     </div>
@@ -452,7 +454,7 @@
 
 
 <%!
-  public String printMessageAndComments(User user, Thread t, Message msg, int depth) {
+  public String printMessageAndComments(Forum forum, SubForum sub, User user, Thread t, Message msg, int depth) {
     StringBuilder sb= new StringBuilder();
     if (msg == null) {
       return "";
@@ -479,21 +481,26 @@
     sb.append(msg.getBody()+"\n");
     sb.append("</p>\n");
 
-    sb.append("<a class=\"btn btn-info btn-circle text-uppercase\" href=\"/replyEditRequest?op=reply&threadId="+t.id+"&msgId="+msg.id+"&title="+msg.getTitle()+"&body="+msg.getBody()+"\" id=\"reply\"><span class=\"glyphicon glyphicon-share-alt\"></span> Reply</a>\n");
-    if(user.isAdmin() || t.getMemberStarted().equals(user)){
+    if(PolicyHandler.canUserReply(forum,user)) {
+      sb.append("<a class=\"btn btn-info btn-circle text-uppercase\" href=\"/replyEditRequest?op=reply&threadId=" + t.id + "&msgId=" + msg.id + "&title=" + msg.getTitle() + "&body=" + msg.getBody() + "\" id=\"reply\"><span class=\"glyphicon glyphicon-share-alt\"></span> Reply</a>\n");
+    }
+    if(PolicyHandler.canUserEditComment(forum,sub,user,msg)) {
       sb.append("<a class=\"btn btn-info btn-circle text-uppercase\" href=\"/replyEditRequest?op=reply&threadId="+t.id+"&msgId="+msg.id+"&title="+msg.getTitle()+"&body="+msg.getBody()+"\" id=\"edit\"><span class=\"glyphicon glyphicon-share-alt\"></span> Edit</a>\n");
-      sb.append("<a class=\"btn btn-info btn-circle text-uppercase\" href=\"/deleteMessage?&msgId="+msg.id+"&deleteThread=1\" id=\"delete\"><span class=\"glyphicon glyphicon-share-alt\"></span> Delete</a>\n");
+    }
+    if(PolicyHandler.canUserDeleteComment(forum,sub,user,msg)) {
+      sb.append("<a class=\"btn btn-info btn-circle text-uppercase\" href=\"/deleteMessage?&msgId=" + msg.id + "&deleteThread=1\" id=\"delete\"><span class=\"glyphicon glyphicon-share-alt\"></span> Delete</a>\n");
+    }
       if(!msg.getComments().isEmpty()){
         sb.append("<a class=\"btn btn-warning btn-circle text-uppercase\" data-toggle=\"collapse\" href=\"#reply"+depth+"\"><span class=\"glyphicon glyphicon-comment\"></span>"+msg.getComments().size()+" comments</a>\n");
       }
-    }
+
 
     sb.append("</div>\n");
     sb.append("</div>\n");
     sb.append("\t\t\t\t\t  <div class=\"collapse\" id=\"reply"+depth+"\">\n");
     sb.append("                          <ul class=\"media-list\">\n");
     for(Message c : msg.getComments()) {
-      sb.append(printMessageAndComments(user, t, c, depth + 1));
+      sb.append(printMessageAndComments(forum, sub, user, t, c, depth + 1));
     }
 
     sb.append("                          </ul>\n");

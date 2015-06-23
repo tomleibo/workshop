@@ -1,9 +1,11 @@
 package servlets;
 
+import com.sun.corba.se.spi.activation.LocatorPackage.ServerLocation;
 import content.Forum;
 import content.SubForum;
 import controllers.AdminController;
 import controllers.SuperAdminController;
+import org.omg.PortableInterceptor.SUCCESSFUL;
 import policy.ForumPolicy;
 import users.User;
 import utils.CookieUtils;
@@ -50,8 +52,12 @@ public class AddForumServlet extends HttpServlet {
 			ForumPolicy.HashFunction hash = ForumPolicy.HashFunction.valueOf(request.getParameter("hash"));
 			boolean authMail = request.getParameter("authentication").equals("1");
 			long timeout = Long.parseLong(request.getParameter("timeout"));
+			int idle = Integer.parseInt(request.getParameter("idle"));
 			boolean identifyQ = request.getParameter("identifyQ").equals("1");
 			long passExpire = Long.parseLong(request.getParameter("passExpire"));
+			int minPosts = Integer.parseInt(request.getParameter("minPosts"));
+			long minSeniority = Long.parseLong(request.getParameter("minSeniority"));
+			boolean moderatorEdit = request.getParameter("moderatorEdit").equals("1");
 
 			SessionLogger.get().log(request.getSession().getId(), "Add Forum");
 
@@ -64,7 +70,8 @@ public class AddForumServlet extends HttpServlet {
 
 			User superAdmin = (User) HibernateUtils.load(User.class, superUserId);
 
-			ForumPolicy policy = new ForumPolicy(maxMods, passRegex, hash, authMail);
+			ForumPolicy policy = new ForumPolicy(maxMods, passRegex, hash, authMail, ServletUtils.convertMinutesToMilliseconds(timeout),ServletUtils.convertMinutesToMilliseconds(idle),
+					identifyQ,ServletUtils.convertMonthsToMilliseconds(passExpire),moderatorEdit,minPosts,minSeniority);
 			SuperAdminController.createNewForum(superAdmin, policy, name);
 
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/home");
