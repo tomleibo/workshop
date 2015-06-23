@@ -149,7 +149,7 @@
 
                             <legend>Appoint admin</legend>
 
-                            <div class="span6 collapse-group row center">
+                            <div class="span6 row center">
                                 <p><select id="appModSub" data-rel="chosen">
                                     <option>Sub 1</option>
                                     <option>Sub 2</option>

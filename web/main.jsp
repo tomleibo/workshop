@@ -85,12 +85,8 @@
 
                             <%--Show this if user is super-Admin--%>
                             <% if(superAdmin!=null && superAdmin.isSuperAdmin()){%>
-                            <li><a href="/systemManagement"><i class="halflings-icon cog"></i> System <center>Management</center></a></li>
-                            <%--<li><a href="/systemManagement"><i class="halflings-icon off"></i>System Management</a></li>--%>
+                            <li><a href="/systemManagement"><i class="halflings-icon cog"></i><center> System Management</center></a></li>
                             <%}%>
-
-
-
 
                             <% if(superAdmin==null || superAdmin.isGuest()){%>
                                 <li>
@@ -164,7 +160,7 @@
 
 
           <div class="box-content">
-            <table class="table table-striped table-bordered bootstrap-datatable datatable">
+            <table class="table table-striped table-bordered bootstrap-datatable ">
               <col width="300">
               <col width="50">
               <thead>
