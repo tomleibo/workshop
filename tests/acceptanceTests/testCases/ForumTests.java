@@ -92,7 +92,7 @@ public class ForumTests {
 	}
 	
 	
-	protected static User loginUser(Forum forum, String user, String pass) throws UserAlreadyLoggedInException, UserDoesNotExistsException, WrongPasswordException, NoSuchAlgorithmException, NeedToChangePasswordException {
+	protected static User loginUser(Forum forum, String user, String pass) throws UserDoesNotExistsException, WrongPasswordException, NoSuchAlgorithmException, NeedToChangePasswordException {
 		return driver.loginUser(forum, user, pass);
 	}
 	

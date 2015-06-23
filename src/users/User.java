@@ -1,15 +1,13 @@
 package users;
 
 import content.SubForum;
-import exceptions.UserAlreadyLoggedInException;
-import exceptions.UserNotLoggedInException;
 import exceptions.WrongPasswordException;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import utils.ForumLogger;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.*;
 
 @Entity
@@ -49,8 +47,6 @@ public class User {
 	private boolean active;
 	@Column(name="is_banned")
 	private boolean banned;
-	@Column(name="is_logged_in")
-	private boolean loggedIn;
     @Column(name="state")
     private int state;
     @Column(name="status")
@@ -172,7 +168,6 @@ public class User {
     private void initializeUser() {
 		active = true;
 		banned = false;
-		loggedIn = false;
 		creationDate = new java.util.Date(System.currentTimeMillis());
         managedSubForums = new ArrayList<>();
 	}
@@ -214,18 +209,12 @@ public class User {
 	/**
 	 * Login user and returns itself.
 	 * @return user itself;
-	 * @throws UserAlreadyLoggedInException if user already logged in, exception contains the logged in user.
 	 */
-	public User login(String hashedPassword) throws WrongPasswordException, UserAlreadyLoggedInException {
+	public User login(String hashedPassword) throws WrongPasswordException {
 		if (!isRightPassword(hashedPassword)) {
 			ForumLogger.errorLog("The user " + username + " trying to login but he's password is incorrect");
 			throw new WrongPasswordException();
 		}
-		if (isLoggedIn()) {
-			ForumLogger.errorLog("The user " + username + " trying to login but ha is already logged in");
-			throw new UserAlreadyLoggedInException(this);
-		}
-		loggedIn = true;
 		ForumLogger.actionLog("The user " + username + " is now logged in!");
 		return this;
 	}
@@ -234,23 +223,19 @@ public class User {
         return hashedPassword.equals(this.hashedPassword);
     }
 
-	public User loginAsGuest() throws UserAlreadyLoggedInException, WrongPasswordException {
+	public User loginAsGuest() throws WrongPasswordException {
 		return login(guestPassword);
 	}
 
 	/**
 	 * Logout user and returns a new guest user which is logged in automatically.
 	 * @return new logged in guest user.
-	 * @throws UserNotLoggedInException if user is not logged in.
 	 */
-	public User logout() throws UserNotLoggedInException {
-		if (!isLoggedIn())
-			throw new UserNotLoggedInException();
-		loggedIn = false;
+	public User logout() {
 		User guest = newGuest();
 		try {
 			return guest.loginAsGuest();
-		} catch (UserAlreadyLoggedInException | WrongPasswordException e) {
+		} catch (WrongPasswordException e) {
 			e.printStackTrace();
 			return guest;
 		}
@@ -348,10 +333,6 @@ public class User {
 	public boolean banModerator() {
 		// TODO
 		return false;
-	}
-
-	public boolean isLoggedIn() {
-		return loggedIn;
 	}
 
 	public boolean isActive() {
