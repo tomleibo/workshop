@@ -63,7 +63,6 @@ public class ForumTests {
 	@BeforeClass
 	public static void setUp() throws UserNotAuthorizedException, NoSuchAlgorithmException {
 		driver = Driver.getDriver();
-		//system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
 		superAdmin = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
 		policy = getPolicy(3, ".+", ForumPolicy.HashFunction.MD5);
 		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);

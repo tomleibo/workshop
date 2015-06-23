@@ -132,6 +132,11 @@
                         <i class="icon-group "></i>
                         <p>Add forum</p>
                         <span class="notification blue "><i class = "halflings-icon white plus"></i></span>
+                    </a>
+                    <a class="quick-button span2 pull-right" href="/openSession">
+                        <i class="icon-list-alt "></i>
+                        <p>Open sessions</p>
+
                     </a></div>
                     <br>
                     <div><h3>What would you like to do?</h3></div> </div>

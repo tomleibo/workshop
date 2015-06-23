@@ -18,26 +18,9 @@ public class ForumManagementServicesTests extends ForumTests {
 
 	@After
 	public void afterMethod() throws Exception{
-//		for (SubForum sub: theForum.getSubForums()){
-//			HibernateUtils.del(sub);
-//		}
-//		theForum.getSubForums().clear();
-//		HibernateUtils.update(theForum);
-//
-//		changeForumPolicy(theForum, policy, admin);
-//		admin.setState(User.ADMIN);
-//		admin.logout();
-//		user.logout();
-//		user5.logout();
-//
-//		admin = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
-//		user = loginUser(theForum, USER_NAMES[2], USER_PASSES[2]);
-//		user5 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
-//		sleep(500);
 		HibernateUtils.cleanUp();
 
 		driver = Driver.getDriver();
-		//system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
 		superAdmin = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
 		policy = getPolicy(3, ".+", ForumPolicy.HashFunction.MD5);
 		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);
@@ -76,22 +59,11 @@ public class ForumManagementServicesTests extends ForumTests {
 
 	@Test // 2.4
 	public void test_initialization_SystemExists() throws NoSuchAlgorithmException {
-		if(HibernateUtils.getSession()!= null){
+		if (HibernateUtils.getSession() != null) {
 			Assert.assertTrue(true);
-		}
-		else{
+		} else {
 			Assert.assertTrue(false);
 		}
-
-//		try{
-//		User otherSuperAdmin = initializeForumSystem(USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2]);
-//		}
-//		catch(ForumSystemAlreadyExistsException e){
-//			Assert.assertTrue(true);
-//			return;
-//		}
-//
-//		Assert.assertTrue(false);
 	}
 
 	@Test // 2.5
@@ -134,7 +106,6 @@ public class ForumManagementServicesTests extends ForumTests {
 	}
 
 	//version 2
-	//	public int getReportNumberOfForums(User superAdmin) throws UserNotAuthorizedException {
 
 	@Test // 2.9
 	public void test_report_forum_number() throws Exception{
