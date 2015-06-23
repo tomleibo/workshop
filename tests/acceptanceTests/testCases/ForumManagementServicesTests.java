@@ -1,8 +1,10 @@
 package acceptanceTests.testCases;
 
+import acceptanceTests.bridge.Driver;
 import content.Forum;
 import exceptions.*;
 import junit.framework.Assert;
+import org.junit.After;
 import org.junit.Test;
 import policy.ForumPolicy;
 import users.User;
@@ -13,6 +15,33 @@ import java.security.NoSuchAlgorithmException;
 import static controllers.SuperAdminController.deleteForum;
 
 public class ForumManagementServicesTests extends ForumTests {
+
+	@After
+	public void afterMethod() throws Exception{
+//		for (SubForum sub: theForum.getSubForums()){
+//			HibernateUtils.del(sub);
+//		}
+//		theForum.getSubForums().clear();
+//		HibernateUtils.update(theForum);
+//
+//		changeForumPolicy(theForum, policy, admin);
+//		admin.setState(User.ADMIN);
+//		admin.logout();
+//		user.logout();
+//		user5.logout();
+//
+//		admin = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
+//		user = loginUser(theForum, USER_NAMES[2], USER_PASSES[2]);
+//		user5 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
+//		sleep(500);
+		HibernateUtils.cleanUp();
+
+		driver = Driver.getDriver();
+		//system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
+		superAdmin = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
+		policy = getPolicy(3, ".+", ForumPolicy.HashFunction.MD5);
+		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);
+	}
 
 	@Test // 2.1
 	public void test_defineProperties_ValidParameters() throws UserNotAuthorizedException {

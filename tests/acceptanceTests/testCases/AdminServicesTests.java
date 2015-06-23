@@ -1,5 +1,6 @@
 package acceptanceTests.testCases;
 
+import acceptanceTests.bridge.Driver;
 import content.Forum;
 import content.Message;
 import content.SubForum;
@@ -44,23 +45,41 @@ public class AdminServicesTests extends ForumTests{
 
 	@After
 	public void afterMethod() throws Exception{
-		for (SubForum sub: theForum.getSubForums()){
-			HibernateUtils.del(sub);
-		}
-		theForum.getSubForums().clear();
-		HibernateUtils.update(theForum);
+//		for (SubForum sub: theForum.getSubForums()){
+//			HibernateUtils.del(sub);
+//		}
+//		theForum.getSubForums().clear();
+//		HibernateUtils.update(theForum);
+//
+//		changeForumPolicy(theForum, policy, admin);
+//		admin.setState(User.ADMIN);
+//		admin.logout();
+//		user.logout();
+//		user5.logout();
+//
+//		admin = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
+//		user = loginUser(theForum, USER_NAMES[2], USER_PASSES[2]);
+//		user5 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
+//		sleep(500);
+		HibernateUtils.cleanUp();
 
-		changeForumPolicy(theForum, policy, admin);
+		driver = Driver.getDriver();
+		//system = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
+		superAdmin = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
+		policy = getPolicy(3, ".+", ForumPolicy.HashFunction.MD5);
+		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);
+
+
+		admin = registerToForum(theForum,USER_NAMES[1],USER_PASSES[1], USER_EMAILS[1]);
 		admin.setState(User.ADMIN);
-		admin.logout();
-		user.logout();
-		user5.logout();
-
+		changeAdmin(theForum, superAdmin, admin);
 		admin = loginUser(theForum, USER_NAMES[1], USER_PASSES[1]);
+
+		registerToForum(theForum, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2]);
 		user = loginUser(theForum, USER_NAMES[2], USER_PASSES[2]);
+
+		registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 		user5 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
-
-
 
 
 	}
@@ -364,7 +383,7 @@ public class AdminServicesTests extends ForumTests{
 
 	@Test //1.16
 	public void test_add_moderator_policy() throws Exception{
-		ForumPolicy modVeteckAndMinMsgsPol = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, false, 0, 10000);
+		ForumPolicy modVeteckAndMinMsgsPol = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, false, 0, 2000);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
 
 		changeForumPolicy(theForum, modVeteckAndMinMsgsPol , admin);
@@ -377,7 +396,7 @@ public class AdminServicesTests extends ForumTests{
 			Assert.assertTrue(true);
 		}
 
-		sleep(8000);
+		sleep(2000);
 
 		Assert.assertTrue(appointModerator(theForum, sf, admin, user5));
 		unAppoint(theForum,sf,admin,user5);
