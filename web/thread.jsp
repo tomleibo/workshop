@@ -4,6 +4,7 @@
 <%@ page import="content.SubForum" %>
 <%@ page import="users.User" %>
 <%@ page import="utils.HtmlUtils" %>
+<%@ page import="policy.PolicyHandler" %>
 <%--
   Created by IntelliJ IDEA.
   User: thinkPAD
@@ -178,154 +179,159 @@
         <p class="pull-right"><%=t.getDate().toString()%></p>
         <h4 class="media-heading text-uppercase reviews"><%=t.getMemberStarted().getUsername()%> </h4>
 
-<div>
-        <div class="container">
+        <div>
+          <div class="container">
 
-          <div class="center">
-            <div class="col-sm-10 col-sm-offset-1" id="logout">
-              <div class="page-header">
+            <div class="center">
+              <div class="col-sm-10 col-sm-offset-1" id="logout">
+                <div class="page-header">
 
-                <div class="media-body">
-                  <h3>Title:</h3>
-                  <div class="well well-lg">
-                    <%=openingMsg.getTitle()%>
-                  </div>
+                  <div class="media-body">
+                    <h3>Title:</h3>
+                    <div class="well well-lg">
+                      <%=openingMsg.getTitle()%>
+                    </div>
 
-                  <div class="well well-lg">
-
-
-                    <p class="media-comment">
-                      <%=openingMsg.getBody()%>
-                    </p>
+                    <div class="well well-lg">
 
 
-                  </div>
-                  <a class="btn btn-info btn-circle text-uppercase" href="/replyEditRequest?op=reply&threadId=<%=t.id%>&msgId=<%=openingMsg.id%>&title=<%=openingMsg.getTitle()%>&body=<%=openingMsg.getBody()%>" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
-                  <%if(user.isAdmin() || t.getMemberStarted().equals(user)){%>
+                      <p class="media-comment">
+                        <%=openingMsg.getBody()%>
+                      </p>
+
+
+                    </div>
+                    <%--<%if(PolicyHandler.canUserReply(forum,user)){%>--%>
+                    <a class="btn btn-info btn-circle text-uppercase" href="/replyEditRequest?op=reply&threadId=<%=t.id%>&msgId=<%=openingMsg.id%>&title=<%=openingMsg.getTitle()%>&body=<%=openingMsg.getBody()%>" id="reply"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
+                    <%--<%}%>--%>
+                    <%--<%if(PolicyHandler.canUsered){%>--%>
                     <a class="btn btn-info btn-circle text-uppercase" href="/replyEditRequest?op=edit&threadId=<%=t.id%>&msgId=<%=openingMsg.id%>&title=<%=openingMsg.getTitle()%>&body=<%=openingMsg.getBody()%>" id="edit"><span class="glyphicon glyphicon-share-alt"></span>Edit</a>
+                    <%--<%}%>--%>
+                    <%--<%if(PolicyHandler.canUserReply(forum,user)){%>--%>
                     <a class="btn btn-danger btn-danger text-uppercase" href="/deleteMessage?msgId=<%=openingMsg.id%>&deleteThread=1" id="delete"><span class="glyphicon glyphicon-share-alt"></span>Delete</a>
-                  <%}%>
-                </div>
-                <br><br><br>
-
-                <div class = "page-header"></div>
-                <h1 class="reviews">Comments:</h1>
-              </div>
-
-
-              <div class="comment-tabs">
-
-                <div class="tab-content">
-                  <div class="tab-pane active" id="comments-logout">
-                    <ul class="media-list">
-                      <%--depth 0 comment--%>
-                      <%for(Message comment : openingMsg.getComments()){%>
-                          <%=printMessageAndComments(user, t,comment,0)%>
-                      <%}%>
-                    </ul>
+                    <%--<%}%>--%>
                   </div>
+                  <br><br><br>
 
+                  <div class = "page-header"></div>
+                  <h1 class="reviews">Comments:</h1>
+                </div>
+
+                <div class="span10">
+                  <div class="comment-tabs">
+
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="comments-logout">
+                        <ul class="media-list">
+                          <%--depth 0 comment--%>
+                          <%for(Message comment : openingMsg.getComments()){%>
+                          <%=printMessageAndComments(user, t,comment,0)%>
+                          <%}%>
+                        </ul>
+                      </div>
+
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-sm-10 col-sm-offset-1" id="login">
-              <div class="page-header">
-                <h3 class="reviews">Main message content</h3>
-
+            <div class="row">
+              <div class="col-sm-10 col-sm-offset-1" id="login">
+                <div class="page-header">
+                  <h3 class="reviews">Main message content</h3>
 
 
 
-                <div class="logout">
-                  <button class="btn btn-default btn-circle text-uppercase" type="button" onclick="$('#login').hide(); $('#logout').show()">
-                    <span class="glyphicon glyphicon-off"></span> Login
-                  </button>
-                </div>
-              </div>
-              <div class="comment-tabs">
 
-                <div class="tab-content">
-                  <div class="tab-pane active" id="comments-login">
-                    <ul class="media-list">
-                      <% for(Message comment : openingMsg.getComments()){%>
-                          <%= printMessageAndComments(user,t,comment,0)%>
-                      <%}%>
-                    </ul>
+                  <div class="logout">
+                    <button class="btn btn-default btn-circle text-uppercase" type="button" onclick="$('#login').hide(); $('#logout').show()">
+                      <span class="glyphicon glyphicon-off"></span> Login
+                    </button>
                   </div>
+                </div>
+                <div class="comment-tabs">
 
-                  <%--<div class="tab-pane" id="add-comment-disabled">--%>
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="comments-login">
+                      <ul class="media-list">
+                        <% for(Message comment : openingMsg.getComments()){%>
+                        <%= printMessageAndComments(user,t,comment,0)%>
+                        <%}%>
+                      </ul>
+                    </div>
+
+                    <%--<div class="tab-pane" id="add-comment-disabled">--%>
                     <%--<div class="alert alert-info alert-dismissible" role="alert">--%>
-                      <%--<button type="button" class="close" data-dismiss="alert">--%>
-                        <%--<span aria-hidden="true">×</span><span class="sr-only">Close</span>--%>
-                      <%--</button>--%>
-                      <%--<strong>Hey!</strong> If you already have an account <a href="#" class="alert-link">Login</a> now to make the comments you want. If you do not have an account yet you're welcome to <a href="#" class="alert-link"> create an account.</a>--%>
+                    <%--<button type="button" class="close" data-dismiss="alert">--%>
+                    <%--<span aria-hidden="true">×</span><span class="sr-only">Close</span>--%>
+                    <%--</button>--%>
+                    <%--<strong>Hey!</strong> If you already have an account <a href="#" class="alert-link">Login</a> now to make the comments you want. If you do not have an account yet you're welcome to <a href="#" class="alert-link"> create an account.</a>--%>
                     <%--</div>--%>
                     <%--<form action="#" method="post" class="form-horizontal" id="commentForm" role="form">--%>
-                      <%--<div class="form-group">--%>
-                        <%--<label for="email" class="col-sm-2 control-label">Comment</label>--%>
-                        <%--<div class="col-sm-10">--%>
-                          <%--<textarea class="form-control" name="addComment" id="addComment" rows="5" disabled></textarea>--%>
-                        <%--</div>--%>
-                      <%--</div>--%>
-                      <%--<div class="form-group">--%>
-                        <%--<label for="uploadMedia" class="col-sm-2 control-label">Upload media</label>--%>
-                        <%--<div class="col-sm-10">--%>
-                          <%--<div class="input-group">--%>
-                            <%--<div class="input-group-addon">http://</div>--%>
-                            <%--<input type="text" class="form-control" name="uploadMedia" id="uploadMedia" disabled>--%>
-                          <%--</div>--%>
-                        <%--</div>--%>
-                      <%--</div>--%>
-                      <%--<div class="form-group">--%>
-                        <%--<div class="col-sm-offset-2 col-sm-10">--%>
-                          <%--<button class="btn btn-success btn-circle text-uppercase disabled" type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Summit comment</button>--%>
-                        <%--</div>--%>
-                      <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                    <%--<label for="email" class="col-sm-2 control-label">Comment</label>--%>
+                    <%--<div class="col-sm-10">--%>
+                    <%--<textarea class="form-control" name="addComment" id="addComment" rows="5" disabled></textarea>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                    <%--<label for="uploadMedia" class="col-sm-2 control-label">Upload media</label>--%>
+                    <%--<div class="col-sm-10">--%>
+                    <%--<div class="input-group">--%>
+                    <%--<div class="input-group-addon">http://</div>--%>
+                    <%--<input type="text" class="form-control" name="uploadMedia" id="uploadMedia" disabled>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                    <%--<div class="col-sm-offset-2 col-sm-10">--%>
+                    <%--<button class="btn btn-success btn-circle text-uppercase disabled" type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Summit comment</button>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
                     <%--</form>--%>
-                  <%--</div>--%>
-                  <%--<div class="tab-pane" id="new-account">--%>
+                    <%--</div>--%>
+                    <%--<div class="tab-pane" id="new-account">--%>
                     <%--<form action="#" method="post" class="form-horizontal" id="commentForm" role="form">--%>
-                      <%--<div class="form-group">--%>
-                        <%--<label for="name" class="col-sm-2 control-label">Name</label>--%>
-                        <%--<div class="col-sm-10">--%>
-                          <%--<input type="text" class="form-control" name="name" id="name">--%>
-                        <%--</div>--%>
-                      <%--</div>--%>
-                      <%--<div class="form-group">--%>
-                        <%--<label for="email" class="col-sm-2 control-label">Email</label>--%>
-                        <%--<div class="col-sm-10">--%>
-                          <%--<input type="email" class="form-control" name="email" id="email" required>--%>
-                        <%--</div>--%>
-                      <%--</div>--%>
-                      <%--<div class="form-group">--%>
-                        <%--<label for="password" class="col-sm-2 control-label">Password</label>--%>
-                        <%--<div class="col-sm-10">--%>
-                          <%--<input type="password" class="form-control" name="password" id="password">--%>
-                        <%--</div>--%>
-                      <%--</div>--%>
-                      <%--<div class="form-group">--%>
-                        <%--<div class="checkbox">--%>
-                          <%--<label for="agreeTerms" class="col-sm-offset-2 col-sm-10">--%>
-                            <%--<input type="checkbox" name="agreeTerms" id="agreeTerms"> I agree all <a href="#">Terms & Conditions</a>--%>
-                          <%--</label>--%>
-                        <%--</div>--%>
-                      <%--</div>--%>
-                      <%--<div class="form-group">--%>
-                        <%--<div class="col-sm-offset-2 col-sm-10">--%>
-                          <%--<button class="btn btn-primary btn-circle text-uppercase" type="submit" id="submit">Create an account</button>--%>
-                        <%--</div>--%>
-                      <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                    <%--<label for="name" class="col-sm-2 control-label">Name</label>--%>
+                    <%--<div class="col-sm-10">--%>
+                    <%--<input type="text" class="form-control" name="name" id="name">--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                    <%--<label for="email" class="col-sm-2 control-label">Email</label>--%>
+                    <%--<div class="col-sm-10">--%>
+                    <%--<input type="email" class="form-control" name="email" id="email" required>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                    <%--<label for="password" class="col-sm-2 control-label">Password</label>--%>
+                    <%--<div class="col-sm-10">--%>
+                    <%--<input type="password" class="form-control" name="password" id="password">--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                    <%--<div class="checkbox">--%>
+                    <%--<label for="agreeTerms" class="col-sm-offset-2 col-sm-10">--%>
+                    <%--<input type="checkbox" name="agreeTerms" id="agreeTerms"> I agree all <a href="#">Terms & Conditions</a>--%>
+                    <%--</label>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                    <%--<div class="col-sm-offset-2 col-sm-10">--%>
+                    <%--<button class="btn btn-primary btn-circle text-uppercase" type="submit" id="submit">Create an account</button>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
                     <%--</form>--%>
-                  <%--</div>--%>
+                    <%--</div>--%>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
+          </div>
         </div>
-</div>
 
 
       </div>

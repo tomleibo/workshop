@@ -51,6 +51,7 @@ public class LoginServlet extends HttpServlet {
 
 			String userCookieName = CookieUtils.getUserCookieName(forumId);
 			String userId = CookieUtils.getCookieValue(request, userCookieName);
+
 			if (userId != null) {
 				CookieUtils.changeCookieValue(request, response, userCookieName, Integer.toString(user.getId()));
 
