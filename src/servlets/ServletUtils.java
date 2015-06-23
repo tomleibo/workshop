@@ -83,6 +83,18 @@ public class ServletUtils {
         errorDispatcher.forward(request,response);
     }
 
+    public static long convertMonthsToMilliseconds(long months){
+        return months*30*24*60*60*1000;
+    }
+
+    public static long convertMinutesToMilliseconds(long minutes){
+        return minutes*60*1000;
+    }
+
+    public static int convertMinutesToMilliseconds(int minutes){
+        return minutes*60*1000;
+    }
+
     private static String getStackTraceAsString(Exception e) {
         StringBuilder sb = new StringBuilder();
         for (StackTraceElement el : e.getStackTrace()){

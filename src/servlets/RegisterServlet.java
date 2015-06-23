@@ -45,13 +45,15 @@ public class RegisterServlet extends HttpServlet {
 			userName = request.getParameter("username");
 			pass = request.getParameter("pass");
 			email = request.getParameter("email");
+			String question = request.getParameter("question");
+			String answer = request.getParameter("answer");
 
 			if(email == null)
 				email = "email;";
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
-			UserController.register(forum, userName, pass, email);
+			UserController.register(forum, userName, pass, email,question,answer);
 			User user = UserController.login(forum, userName, pass);
 
 			if(user == null)

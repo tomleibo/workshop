@@ -3,9 +3,6 @@ package servlets;
 import content.Forum;
 import controllers.UserController;
 import exceptions.NeedToChangePasswordException;
-import exceptions.UserAlreadyLoggedInException;
-import exceptions.UserDoesNotExistsException;
-import exceptions.WrongPasswordException;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -18,20 +15,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Servlet implementation class ThreadServlet
  */
-@WebServlet(description = "A servlet for registering", urlPatterns = { "/login" })
-public class LoginServlet extends HttpServlet {
+@WebServlet(description = "A servlet for registering", urlPatterns = { "/changePassword" })
+public class ChangePasswordServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public ChangePasswordServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,44 +38,22 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-            SessionLogger.get().log(request.getSession().getId(), "logined");
+            SessionLogger.get().log(request.getSession().getId(), "Changing Password");
+
+			int userId=Integer.parseInt(request.getParameter("userId"));
+			String oldPassword = request.getParameter("oldPassword");
+			String newPassword = request.getParameter("password");
+
+			User user = (User) HibernateUtils.load(User.class,userId);
+
+			UserController.changePassword(user,oldPassword,newPassword);
 
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
 			if (cookieValue == null)
 				throw new Exception("Forum Cookie Value doesn't exist");
 
 			int forumId = Integer.parseInt(cookieValue);
-
-			String userName = request.getParameter("user");
-			String pass = request.getParameter("pass");
-
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-
-			User user = null;
-
-			try {
-				user = UserController.login(forum, userName, pass);
-			}
-			catch (NeedToChangePasswordException e) {
-				request.setAttribute("user", e.getUser());
-				request.setAttribute("forum", forum);
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/changePassword.jsp");
-				dispatcher.forward(request, response);
-				return;
-			}
-
-		if (user == null)
-				throw new Exception("Error occurred while loging ing");
-
-			String userCookieName = CookieUtils.getUserCookieName(forumId);
-			String userId = CookieUtils.getCookieValue(request, userCookieName);
-
-			if (userId != null) {
-				CookieUtils.changeCookieValue(request, response, userCookieName, Integer.toString(user.getId()));
-
-			} else {
-				CookieUtils.addInfiniteCookie(response, userCookieName, Integer.toString(user.getId()));
-			}
 
 			request.setAttribute("user", user);
 			request.setAttribute("forum", forum);
