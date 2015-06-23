@@ -298,9 +298,9 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
+    public boolean addUserStatusType(Forum forum, User admin, String type, int numberOfMessages) throws UserNotAuthorizedException {
         if(real != null)
-            return real.addUserStatusType(forum, admin, type);
+            return real.addUserStatusType(forum, admin, type, numberOfMessages);
 
         return false;
     }

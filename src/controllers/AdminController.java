@@ -12,6 +12,7 @@ import utils.HibernateUtils;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class AdminController {
@@ -135,9 +136,9 @@ public class AdminController {
         throw new UserNotAuthorizedException("to view moderator sub forum list");
     }
 
-    public static boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException {
+    public static boolean addUserStatusType(Forum forum, User admin, String type, int numberOfMessages) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserAddRemoveStatusType(forum, admin)) {
-            return forum.addStatusType(type);
+            return forum.addStatusType(type, numberOfMessages);
         }
         throw new UserNotAuthorizedException("to add user status");
     }
@@ -149,7 +150,7 @@ public class AdminController {
         throw new UserNotAuthorizedException("to add user status");
     }
 
-    public static List<String> getUserStatusTypes(Forum forum, User admin) throws UserNotAuthorizedException {
+    public static Map<String, Integer> getUserStatusTypes(Forum forum, User admin) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserAddRemoveStatusType(forum, admin)) {
             return forum.getStatusTypes();
         }

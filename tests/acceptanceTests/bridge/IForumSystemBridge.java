@@ -56,7 +56,7 @@ public interface IForumSystemBridge {
 	boolean deleteSubForum(Forum forum, SubForum subForum,User user) throws UserNotAuthorizedException;
 	boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException;
 
-	boolean addUserStatusType(Forum forum, User admin, String type) throws UserNotAuthorizedException;
+	boolean addUserStatusType(Forum forum, User admin, String type, int numberOfMessages) throws UserNotAuthorizedException;
 	// Version 2
 	List<Notification> getPendingNotifications(Forum forum, User user) throws UserNotAuthorizedException;
 	boolean appointModerator(Forum forum, SubForum subForum, User admin, User moderator) throws Exception;
