@@ -183,7 +183,7 @@
                 <div class="control-group">
                   <label class="control-label" for="title">Title: </label>
                   <div class="controls">
-                    <input type="text" name="title"  maxlength="25">
+                    <input type="text" name="title" id="title" maxlength="25" required>
                   </div>
                 </div>
 

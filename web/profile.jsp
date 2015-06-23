@@ -186,16 +186,16 @@
 
 
                                         <div class="form-group">
-                                            <label for="exampleInputPassword1">User Name</label>
-                                            <input type="text" class="form-control" placeholder="<%=user.getUsername()%>" disabled>
+                                            <label for="userNameInput">User Name</label>
+                                            <input type="text" id="userNameInput" class="form-control" placeholder="<%=user.getUsername()%>" disabled>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Email address</label>
-                                            <input type="email" class="form-control" placeholder="<%=user.getEmail()%>" disabled>
+                                            <label for="emailInput">Email address</label>
+                                            <input type="email" id="emailInput" class="form-control" placeholder="<%=user.getEmail()%>" disabled>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputPassword1">Date Created</label>
-                                            <input type="text" class="form-control" placeholder="<%=new Date(user.getLoginTime()).toString()%>" disabled>
+                                            <label for="dateCreatedInput">Date Created</label>
+                                            <input type="text" id="dateCreatedInput" class="form-control" placeholder="<%=new Date(user.getLoginTime()).toString()%>" disabled>
                                         </div>
 
 
