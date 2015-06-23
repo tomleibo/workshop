@@ -4,7 +4,7 @@ import content.Forum;
 import content.Message;
 import content.SubForum;
 import content.Thread;
-import exceptions.*;
+import exceptions.PasswordAlreadyUsedException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -14,7 +14,6 @@ import users.Notification;
 import users.User;
 import utils.HibernateUtils;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import static controllers.UserController.changePassword;
@@ -34,12 +33,9 @@ public class MemberUserServicesTests2 extends ForumTests {
 	}
 
 	@After
-	public void afterMethod() throws UserNotLoggedInException {
+	public void afterMethod() {
 		for(User u : theForum.getMembers()){
 			u.getPendingNotifications().clear();
-			if(u.isLoggedIn() && !u.equals(superAdmin)){
-				u.logout();
-			}
 		}
 		theForum.getSubForums().clear();
 		HibernateUtils.update(theForum);

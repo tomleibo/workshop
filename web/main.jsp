@@ -11,7 +11,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% List<Forum> forums = (List<Forum>) request.getAttribute("forums"); %>
-<% User user = (User) request.getAttribute("user"); %>
+<% User superAdmin = (User) request.getAttribute("superAdmin"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,7 +82,7 @@
                                 <span>Account Settings</span>
                             </li>
 
-                            <% if(user==null || user.isGuest()){%>
+                            <% if(superAdmin==null || superAdmin.isGuest()){%>
                                 <li>
                                     <a href="\loginAsAdmin.jsp">
                                     <i class="halflings-icon off">
@@ -141,7 +141,7 @@
       </ul>
 
       <%--Show this if user is super-Admin--%>
-      <a class="btn btn-large btn-primary btn-round pull-right" href="#">
+      <a class="btn btn-large btn-primary btn-round pull-right" href="/newforum.jsp">
         <i class="halflings-icon white plus"></i><span class="break"></span>New Forum</a>
       <a class="btn btn-large btn-primary btn-round pull-right" href="/openSession" style="margin-right:7px">
         <span class="break"></span> Open Sessions</a>

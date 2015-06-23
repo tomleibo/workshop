@@ -39,11 +39,10 @@ public class UserTests {
     }
 
     @Test
-    public void loginTest() throws UserAlreadyLoggedInException, WrongPasswordException {
+    public void loginTest() throws WrongPasswordException {
         User member = User.newMember(username, hashedPassword, emailAddress);
         User loggedInMember = member.login(hashedPassword);
         Assert.assertEquals(member, loggedInMember);
-        Assert.assertTrue(loggedInMember.isLoggedIn());
     }
 
     @Test
@@ -53,20 +52,7 @@ public class UserTests {
             User loggedInMember = member.login(wrongHashedPassword);
             Assert.fail();
         } catch (WrongPasswordException e) {
-            Assert.assertFalse(member.isLoggedIn());
-        }
-    }
-
-    @Test
-    public void loginUserAlreadyLoggedInTest() throws UserAlreadyLoggedInException, WrongPasswordException {
-        User member = User.newMember(username, hashedPassword, emailAddress);
-        User firstLoggedInMember = member.login(hashedPassword);
-        try {
-            User secondLoggedInMember = member.login(hashedPassword);
-            Assert.fail();
-        } catch (UserAlreadyLoggedInException e) {
-            Assert.assertEquals(e.getUser(), member);
-            Assert.assertTrue(e.getUser().isLoggedIn());
+            Assert.assertTrue(true);
         }
     }
 
@@ -75,7 +61,6 @@ public class UserTests {
         User guest = User.newGuest();
         User loggedInGuest = guest.loginAsGuest();
         Assert.assertEquals(guest, loggedInGuest);
-        Assert.assertTrue(guest.isLoggedIn());
     }
 
     @Test
@@ -84,18 +69,6 @@ public class UserTests {
         User loggedInMember = member.login(hashedPassword);
         User guest = loggedInMember.logout();
         Assert.assertTrue(guest.isGuest());
-        Assert.assertFalse(member.isLoggedIn());
-    }
-
-    @Test
-    public void logOutNotLoggedInTest() {
-        User member = User.newMember(username, hashedPassword, emailAddress);
-        try {
-            User guest = member.logout();
-            Assert.fail();
-        } catch (UserNotLoggedInException e) {
-            Assert.assertFalse(member.isLoggedIn());
-        }
     }
 
     @Test

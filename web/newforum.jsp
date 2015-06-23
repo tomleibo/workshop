@@ -133,7 +133,7 @@
               <form class="form-horizontal well" action="/addForum" method="get" >
                 <label class="control-label" for="forumName"><h3>Forum Name:</h3> </label>
                 <div class="controls">
-                  <input type="text" name="name" id="forumName">
+                  <input type="text" name="name" id="forumName" maxlength="25">
                 </div>
 
               <br>
@@ -142,14 +142,14 @@
                     <legend>Forum Policy:</legend>
                     <label class="control-label" for="maxMod">Max number of moderators: </label>
                     <div class="controls">
-                      <input type="text" name="maxMods" id="maxMod">
+                      <input type="number" name="maxMods" id="maxMod" min="0" maxlength="10">
                     </div>
 
                     <br>
 
                     <label class="control-label" for="passReg">Password regex: </label>
                     <div class="controls">
-                      <input type="text" name="passRegex" id="passReg">
+                      <input type="text" name="passRegex" id="passReg"  maxlength="50">
                     </div>
 
                     <br>
@@ -184,7 +184,7 @@
 
                     <label class="control-label" for="sessionTO">Session time out: </label>
                     <div class="controls">
-                      <input type="number" name="timeout" id="sessionTO">
+                      <input type="number" min = "0" name="timeout" id="sessionTO"  maxlength="10">
                     </div>
 
                     <br>
@@ -208,7 +208,7 @@
 
                     <label class="control-label" for="passMaxTime">Password expired time: </label>
                     <div class="controls">
-                      <input type="number" name="passExpire" id="passMaxTime">
+                      <input type="number" name="passExpire" id="passMaxTime" min="0"  maxlength="10">
                     </div>
 
                     <br>
