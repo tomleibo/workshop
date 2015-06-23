@@ -5,7 +5,8 @@ import content.Message;
 import content.SubForum;
 import content.Thread;
 import controllers.UserController;
-import exceptions.*;
+import exceptions.NeedToChangePasswordException;
+import exceptions.PasswordAlreadyUsedException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -15,7 +16,6 @@ import users.Notification;
 import users.User;
 import utils.HibernateUtils;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import static controllers.UserController.changePassword;

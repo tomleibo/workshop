@@ -31,7 +31,8 @@ public class ContentController {
             if (post.getEnclosingMessage() == null) {
                 Thread thread = post.getThread();
                 SubForum subForum = thread.getSubForum();
-                subForum.removeThread(thread);
+                HibernateUtils.del(post);
+                HibernateUtils.del(thread);
                 return HibernateUtils.update(subForum);
             }
 			return HibernateUtils.update(post.getEnclosingMessage()) && HibernateUtils.del(post);

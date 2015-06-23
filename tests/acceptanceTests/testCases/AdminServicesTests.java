@@ -1,7 +1,8 @@
 package acceptanceTests.testCases;
 
-import com.sun.xml.internal.ws.policy.Policy;
-import content.*;
+import content.Forum;
+import content.Message;
+import content.SubForum;
 import content.Thread;
 import exceptions.*;
 import junit.framework.Assert;
@@ -218,7 +219,7 @@ public class AdminServicesTests extends ForumTests{
 
 		Assert.assertEquals(1, getReportTotalMessagesInSubForum(theForum, admin, sf1));
 
-		deletePost(theForum, sf1, user, msg);
+		boolean res = deletePost(theForum, sf1, user, msg);
 		Assert.assertEquals(0, getReportTotalMessagesInSubForum(theForum, admin, sf1));
 	}
 
@@ -351,7 +352,7 @@ public class AdminServicesTests extends ForumTests{
 			Assert.assertTrue(true);
 		}
 
-		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user5);
+		Thread t = openNewThread(theForum, sf, THREAD_TITLES[1], THREAD_CONTENTS[1], user5);
 		Message msg = t.getOpeningMessage();
 
 		Assert.assertTrue(appointModerator(theForum, sf, admin, user5));
