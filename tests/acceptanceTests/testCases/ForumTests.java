@@ -16,6 +16,7 @@ import utils.HibernateUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ForumTests {
@@ -180,6 +181,10 @@ public class ForumTests {
 	protected boolean addUserStatusType(Forum forum, User admin, String type, int numberOfMessages) throws UserNotAuthorizedException {
 		return driver.addUserStatusType(forum, admin, type, numberOfMessages);
 	}
+
+    protected Map<Integer, String> getUserStatusTypes(Forum forum, User admin) throws UserNotAuthorizedException {
+        return driver.getUserStatusTypes(forum, admin);
+    }
 
 // version 2
 

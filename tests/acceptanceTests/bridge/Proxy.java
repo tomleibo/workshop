@@ -13,6 +13,7 @@ import users.User;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -305,6 +306,13 @@ public class Proxy implements IForumSystemBridge {
         return false;
     }
 
+    @Override
+    public Map<Integer, String> getUserStatusTypes(Forum forum, User admin) throws UserNotAuthorizedException {
+        if(real != null)
+            return real.getUserStatusTypes(forum, admin);
+
+        return null;
+    }
 
 
     @Override
