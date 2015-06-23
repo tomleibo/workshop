@@ -52,7 +52,7 @@ public class MemberUserServicesTests extends ForumTests {
 	}
 	
 	@Test // 5.1
-	public void test_login_ExistingUser() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, NeedToChangePasswordException {
+	public void test_login_ExistingUser() throws Exception {
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		Assert.assertNotNull(user1);
 	}
