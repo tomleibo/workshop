@@ -11,7 +11,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% List<Forum> forums = (List<Forum>) request.getAttribute("forums"); %>
-<% User superAdmin = (User) request.getAttribute("superAdmin"); %>
+<% User user = (User) request.getAttribute("user"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,13 +82,13 @@
                                 <span>Account Settings</span>
                             </li>
 
-                            <% if(superAdmin ==null || superAdmin.isGuest()){%>
+                            <% if(user==null || user.isGuest()){%>
                                 <li>
                                     <a href="\loginAsAdmin.jsp">
                                     <i class="halflings-icon off">
                                     </i> Login As Admin</a>
                                 </li>
-                            <%--<%} else if(superAdmin.isSuperAdmin() && superAdmin.isLoggedIn()){ %>--%>
+                            <%--<%} else if(user.isSuperAdmin() && user.isLoggedIn()){ %>--%>
                                 <%--<li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>--%>
                             <%} %>
 
@@ -111,7 +111,7 @@
         <div id="sidebar-left" class="span2">
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a href="/home"><i class="glyphicons-icon group"></i><span class="hidden-tablet"> Forums</span></a></li>
+                    <li><a href="/home"><i class="glyphicons-icon white group"></i><span class="hidden-tablet"> Forums</span></a></li>
 
 
                 </ul>
@@ -140,14 +140,12 @@
         </li>
       </ul>
 
-      <%--Show this if superAdmin is super-Admin--%>
-        <% if(superAdmin != null && superAdmin.isSuperAdmin()){%>
-      <a class="btn btn-large btn-primary btn-round pull-right" href="/newforum.jsp">
+      <%--Show this if user is super-Admin--%>
+      <a class="btn btn-large btn-primary btn-round pull-right" href="#">
         <i class="halflings-icon white plus"></i><span class="break"></span>New Forum</a>
       <a class="btn btn-large btn-primary btn-round pull-right" href="/openSession" style="margin-right:7px">
         <span class="break"></span> Open Sessions</a>
       <br><br><br>
-        <%}%>
 
       <div>
         <div class="box span12">
