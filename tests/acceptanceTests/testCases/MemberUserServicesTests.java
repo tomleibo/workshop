@@ -23,30 +23,10 @@ public class MemberUserServicesTests extends ForumTests {
 	public static void register() throws Exception {
 		user1 = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 		user2 = registerToForum(theForum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
-//		moderator = registerToForum(theForum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
-//		moderator.setState(UserStates.newState(UserStates.MODERATOR));
 	}
 
 	@After
 	public void afterMethod() {
-//		for (User usr: theForum.getMembers()){
-//			HibernateUtils.del(usr);
-//		}
-//		HibernateUtils.update(theForum);
-//		for (SubForum sub: theForum.getSubForums()){
-//			for(Thread th: sub.viewThreads()){
-//				if (th.getOpeningMessage() != null){
-//					HibernateUtils.del(th.getOpeningMessage());
-//					HibernateUtils.update(th);
-//				}
-//				HibernateUtils.del(th);
-//				HibernateUtils.update(sub);
-//			}
-//			HibernateUtils.del(sub);
-//			theForum.deleteSubForum(sub);
-//			HibernateUtils.update(theForum);
-//		}
-//		HibernateUtils.update(theForum);
 		theForum.getSubForums().clear();
 		HibernateUtils.update(theForum);
 	}
@@ -304,7 +284,6 @@ public class MemberUserServicesTests extends ForumTests {
 		SubForum sf2 = addSubForum(otherForum, SUB_FORUM_NAMES[0], otherSuperAdmin);
 
 		user2.setState((User.MODERATOR));
-		//changeModetator(otherForum, sf2, otherSuperAdmin, user2);
 
 		try {
 			boolean result = reportModeratorInForum(theForum, user1, user2, REPORT_TITLES[0], REPORT_CONTENTS[0]);

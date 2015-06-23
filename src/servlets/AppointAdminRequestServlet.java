@@ -1,8 +1,6 @@
 package servlets;
 
 import content.Forum;
-import content.SubForum;
-import controllers.AdminController;
 import controllers.SuperAdminController;
 import users.User;
 import utils.CookieUtils;
@@ -23,18 +21,18 @@ import java.io.IOException;
 @WebServlet(
 		description = "Handles the request of appoint a moderator to a sub forum",
 		urlPatterns = {
-				"/appointAdmin"}
-		)
-public class AppointAdminServlet extends HttpServlet {
+				"/appointAdminRequest"}
+)
+public class AppointAdminRequestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AppointAdminServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public AppointAdminRequestServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 
 	/**
@@ -42,36 +40,24 @@ public class AppointAdminServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try{
-            SessionLogger.get().log(request.getSession().getId(),"appoint moderator");
-			int adminId = Integer.parseInt(request.getParameter("adminId"));
+			SessionLogger.get().log(request.getSession().getId(), "appoint admin request");
+			int forumId = Integer.parseInt(request.getParameter("forumId"));
 
-			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
-			if (cookieValue == null) {
-				throw new Exception("Forum Cookie Value doesn't exist");
-			}
+			String superAdminId = CookieUtils.getCookieValue(request, CookieUtils.SUPER_USER_ID_COOKIE_NAME);
+			if (superAdminId == null)
+				throw new Exception("Super Admin Cookie Doesn't Exist");
 
-			int forumId = Integer.parseInt(cookieValue);
-
-			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
-			if (cookieValue == null) {
-				throw new Exception("User Cookie Value doesn't exist");
-			}
-
-			int userId = Integer.parseInt(cookieValue);
-
-
+			User superAdmin = (User) HibernateUtils.load(User.class, Integer.parseInt(superAdminId));
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-			User user = (User) HibernateUtils.load(User.class, userId);
-			User admin = (User) HibernateUtils.load(User.class, adminId);
 
-			SuperAdminController.changeAdministrator(user, forum, admin);
-
-			// TODO: fix success page
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum");
+			request.setAttribute("forum", forum);
+			request.setAttribute("superAdmin", superAdmin);
+			request.setAttribute("role", "admin");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/appointUser.jsp");
 			dispatcher.forward(request,response);
 		}
 		catch(Exception e) {
-            ServletUtils.exitError(this, request, response, e);
+			ServletUtils.exitError(this, request, response, e);
 		}
 	}
 
