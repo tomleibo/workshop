@@ -31,8 +31,6 @@ public class MemberUserServicesTests2 extends ForumTests {
 	public static void register() throws Exception {
 		user1 = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
 		user2 = registerToForum(theForum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
-//		moderator = registerToForum(theForum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
-//		moderator.setState(UserStates.newState(UserStates.MODERATOR));
 	}
 
 	@After
@@ -87,7 +85,6 @@ public class MemberUserServicesTests2 extends ForumTests {
 		Message msg = t.getOpeningMessage();
 
 		Message reply1 = replyToMessage(theForum, msg, THREAD_TITLES[1], THREAD_CONTENTS[1], user2);
-		//Message reply2 = replyToMessage(theForum, msg, THREAD_TITLES[2], THREAD_CONTENTS[2], guest);
 
 		Boolean result = editPost(theForum, sf, user1, msg, THREAD_CONTENTS[1]);
 
@@ -105,7 +102,6 @@ public class MemberUserServicesTests2 extends ForumTests {
 
 
 		reply1.deleteSelf();
-		//reply2.deleteSelf();
 		msg.deleteSelf();
 	}
 
@@ -136,7 +132,6 @@ public class MemberUserServicesTests2 extends ForumTests {
 		Message msg = t.getOpeningMessage();
 
 		Message reply1 = replyToMessage(theForum, msg, THREAD_TITLES[1], THREAD_CONTENTS[1], user2);
-		//Message reply2 = replyToMessage(theForum, msg, THREAD_TITLES[2], THREAD_CONTENTS[2], guest);
 
 		Boolean result = deletePost(theForum, sf, user1, msg);
 
@@ -152,10 +147,6 @@ public class MemberUserServicesTests2 extends ForumTests {
 		notifList = getPendingNotifications(theForum,user1);
 		Assert.assertEquals(notifList.size(), 2);
 
-
-//		reply1.deleteSelf();
-//		reply2.deleteSelf();
-//		msg.deleteSelf();
 	}
 
 
@@ -172,11 +163,8 @@ public class MemberUserServicesTests2 extends ForumTests {
 		}
 	}
 
-//	public static User register(Forum forum, String username, String password, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, EmptyFieldException, IdentificationQuestionMissingException {
-//	public static User register(Forum forum, String username, String password, String emailAddress, String question, String answer) throws UsernameAlreadyExistsException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, EmptyFieldException, IdentificationQuestionMissingException {
-
-		@Test // 6.6
-			 public void test_identifing_questions() throws Exception{
+	@Test // 6.6
+	public void test_identifing_questions() throws Exception{
 
 		policy = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, true, -1, true, 0, 0);
 
@@ -191,9 +179,6 @@ public class MemberUserServicesTests2 extends ForumTests {
 
 		user3 = UserController.register(theForum2, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2], ID_QUESTIONS[0], ID_ANSWERS[0]);
 		Assert.assertNotNull(user3);
-
-
-
 	}
 
 	@Test // 6.7
