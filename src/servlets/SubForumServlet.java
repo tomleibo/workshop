@@ -51,7 +51,8 @@ public class SubForumServlet extends HttpServlet {
 
 			int forumId = Integer.parseInt(cookieValue);
 
-			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
+			String userCookieName = CookieUtils.getUserCookieName(forumId);
+			cookieValue = CookieUtils.getCookieValue(request, userCookieName);
 			if (cookieValue == null) {
 				throw new Exception("User Cookie Value doesn't exist");
 			}
