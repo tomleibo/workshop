@@ -61,6 +61,11 @@ public class ForumServlet extends HttpServlet {
 			String userId = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumCookieId));
 			if (userId != null) {
 				user = (User) HibernateUtils.load(User.class, Integer.parseInt(userId));
+				if(user == null){
+					user = UserController.enterAsGuest(forum);
+					CookieUtils.changeCookieValue(request, response, CookieUtils.getUserCookieName(forumCookieId), String.valueOf(user.getId()));
+				}
+
 			} else {
 				user = UserController.enterAsGuest(forum);
 				CookieUtils.addInfiniteCookie(response, CookieUtils.getUserCookieName(forumCookieId), Integer.toString(user.getId()));
