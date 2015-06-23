@@ -158,7 +158,7 @@
             <ul class="breadcrumb">
                 <li>
                     <i class="icon-home"></i>
-                    <a href="index.html">Home</a>
+                    <a href="/home">Home</a>
                     <i class="icon-angle-right"></i>
                     <a href="subforums.html">ForumName</a>
                     <i class="icon-angle-right"></i>

@@ -4,6 +4,7 @@ import content.Forum;
 import content.Message;
 import content.SubForum;
 import users.FriendRequest;
+import users.Notification;
 import users.User;
 
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.List;
 public class PolicyHandler {
 
 	public static boolean canUserDeleteComment(Forum forum, SubForum subForum, User user, Message comment) {
-		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && !(user.isGuest()) && user.isActive() && (comment.getUser().equals(user) || user.isAdmin() || (user.isMod() && forum.getPolicy().isCanModeratorEditPosts())))
+		if(forum.getSubForums().contains(subForum) && forum.getMembers().contains(user) && !(user.isGuest()) && user.isActive() && (comment.getUser().equals(user) || user.isAdmin() || (subForum.getModerators().contains(user) && forum.getPolicy().isCanModeratorEditPosts())))
 			return true;
 		return false;
 	}
@@ -188,5 +189,9 @@ public class PolicyHandler {
 
     public static boolean canUserBeModerator(User moderator, Forum forum, SubForum subForum) {
         return (forum.getSubForums().contains(subForum)) && (subForum.getNumberOfMessagesForUser(moderator) >= forum.getPolicy().getModeratorMinimumNumberOfPosts()) && (moderator.getCreationDate().getTime() + forum.getPolicy().getModeratorMinimumSeniority() <= new Date().getTime());
+    }
+
+    public static boolean canUserViewNotification(User user, Notification notification) {
+        return user.getPendingNotifications().contains(notification);
     }
 }

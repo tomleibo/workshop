@@ -152,7 +152,7 @@
             <ul class="breadcrumb">
                 <li>
                     <i class="icon-home"></i>
-                    <a href="index.html">Home</a>
+                    <a href="/home">Home</a>
 
                 </li>
 
@@ -242,7 +242,7 @@
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <a type="submit" class="btn btn-primary">Report</a></td></table>
+                                                            <input type="submit" class="btn btn-primary" value="Report">  </input> </td></table>
                                                 <br>
                                                 <textarea form="formreportmember" name="content" class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
 
@@ -266,7 +266,7 @@
                                         <!--                    //start serch people-->
 
 
-                                        <form class="well sapn8" action="/sendFriendRequest">
+                                        <form class="well sapn8" action="/sendFriendRequest" id="idontknow">
                                             <div class="control-group">
                                                 <label class="control-label" for="idontknow"><h3>Add new friend</h3></label>
                                                 <div class="controls">
@@ -283,7 +283,7 @@
 
                                                             </td>
                                                             <td>
-                                                                <a type="submit" class="btn btn-primary">Send friend request</a>
+                                                                <input type="submit" class="btn btn-primary" value="Send friend request" \>
                                                             </td>
                                                         </tr>
                                                     </table>

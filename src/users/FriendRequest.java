@@ -14,7 +14,7 @@ public class FriendRequest {
 	@Column(name="friend_request_id")
 	public int id;
     @Column(name="viewed")
-    private boolean viewed=false;
+    private boolean viewed = false;
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="requesting_member")
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})

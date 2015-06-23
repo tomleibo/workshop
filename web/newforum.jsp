@@ -63,7 +63,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a class="brand" href="index.html"><span>Great Minds</span></a>
+      <a class="brand" href="/home"><span>Great Minds</span></a>
 
       <!-- start: Header Menu -->
       <!-- end: Header Menu -->

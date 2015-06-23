@@ -151,7 +151,7 @@
       <ul class="breadcrumb">
         <li>
           <i class="icon-home"></i>
-          <a href="index.html">Home</a>
+          <a href="/home">Home</a>
 
         </li>
 

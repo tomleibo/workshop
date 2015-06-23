@@ -1,11 +1,14 @@
 package acceptanceTests.testCases;
 
+import com.sun.xml.internal.ws.policy.Policy;
 import content.*;
+import content.Thread;
 import exceptions.*;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import policy.ForumPolicy;
 import users.User;
 import utils.HibernateUtils;
 
@@ -18,6 +21,7 @@ public class AdminServicesTests extends ForumTests{
 
 	static User admin;
 	static User user;
+	static User user5;
 
 
 	@BeforeClass
@@ -29,6 +33,9 @@ public class AdminServicesTests extends ForumTests{
 
 		registerToForum(theForum, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2]);
 		user = loginUser(theForum, USER_NAMES[2], USER_PASSES[2]);
+
+		registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
+		user5 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 	}
 
 	@After
@@ -130,11 +137,6 @@ public class AdminServicesTests extends ForumTests{
         } catch (UserNotAuthorizedException e) {
             Assert.assertTrue(true);
         }
-
-		//Assert.assertTrue(sf1.getModerators().contains(user));
-
-
-		//user.setState(User.MEMBER);
 	}
 
 	@Test // 1.8
@@ -155,7 +157,8 @@ public class AdminServicesTests extends ForumTests{
 
 		Assert.assertFalse(sf1.getModerators().contains(user));
 		try {
-			Assert.assertFalse(unAppoint(theForum, sf1, admin, user));
+			unAppoint(theForum, sf1, admin, user);
+			Assert.assertTrue(false);
 		} catch (Exception e) {
 			Assert.assertTrue(true);
 		}
@@ -230,6 +233,90 @@ public class AdminServicesTests extends ForumTests{
 		user.setState(User.MEMBER);
 	}
 
+	@Test // 1.14
+	public void test_delete_permissions() throws Exception{
+		ForumPolicy ownerAndManagerPol = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, false, 0, 0);
+		ForumPolicy ownerAndManagerAndModPol = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, true, 0, 0);
+		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
+		appointModerator(theForum, sf, admin, user5);
+
+		changeForumPolicy(theForum, ownerAndManagerPol , admin);
+		user = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
+
+		//owner deletion
+
+		Thread t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user);
+		Message msg = t.getOpeningMessage();
+
+		boolean result = deletePost(theForum, sf, user, msg);
+		Assert.assertTrue(result);
+
+		List<Thread> threads = showListOfThreads(sf);
+
+		Assert.assertTrue(result);
+		Assert.assertTrue(threads.isEmpty());
+
+		//manager deletion
+		t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user);
+		msg = t.getOpeningMessage();
+
+		try {
+			result = deletePost(theForum, sf, user5, msg);
+			Assert.fail();
+		} catch (UserNotAuthorizedException e) {
+			Assert.assertTrue(true);
+		}
+
+		result = deletePost(theForum, sf, admin, msg);
+		Assert.assertTrue(result);
+
+		threads = showListOfThreads(sf);
+
+		Assert.assertTrue(result);
+		Assert.assertTrue(threads.isEmpty());
+
+		//moderator deletion
+
+		changeForumPolicy(theForum, ownerAndManagerAndModPol , admin);
+
+		t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user);
+		msg = t.getOpeningMessage();
+
+		result = deletePost(theForum, sf, user5, msg);
+		Assert.assertTrue(result);
+
+		threads = showListOfThreads(sf);
+
+		Assert.assertTrue(result);
+		Assert.assertTrue(threads.isEmpty());
 
 
+		//manager deletion
+
+		t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user);
+		msg = t.getOpeningMessage();
+
+		result = deletePost(theForum, sf, admin, msg);
+		Assert.assertTrue(result);
+
+		threads = showListOfThreads(sf);
+
+		Assert.assertTrue(result);
+		Assert.assertTrue(threads.isEmpty());
+
+		//owner deletion
+
+		t = openNewThread(theForum, sf, THREAD_TITLES[0], THREAD_CONTENTS[0], user);
+		msg = t.getOpeningMessage();
+
+		result = deletePost(theForum, sf, user, msg);
+		Assert.assertTrue(result);
+
+		threads = showListOfThreads(sf);
+
+		Assert.assertTrue(result);
+		Assert.assertTrue(threads.isEmpty());
+
+
+	}
 }

@@ -40,14 +40,14 @@ public class LogOutServlet extends HttpServlet {
             SessionLogger.get().log(request.getSession().getId(),"logging out");
 			int forumId = Integer.parseInt(request.getParameter("forumId"));
 
-			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.USER_ID_COOKIE_NAME);
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
 			if (cookieValue == null)
 				throw new Exception("User Cookie Value doesn't exist");
 
 			int userId = Integer.parseInt(cookieValue);
 			User newGuestUser = UserController.logout(userId);
 
-			CookieUtils.changeCookieValue(request,response,CookieUtils.USER_ID_COOKIE_NAME,Integer.toString(newGuestUser.getId()));
+			CookieUtils.changeCookieValue(request,response,CookieUtils.getUserCookieName(forumId),Integer.toString(newGuestUser.getId()));
             //request.getSession().invalidate();
 			request.setAttribute("forumId", forumId);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum");
