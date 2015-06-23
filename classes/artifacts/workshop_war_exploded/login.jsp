@@ -62,9 +62,9 @@
                 <form class="form-horizontal" action="\login" method="post" >
                     <fieldset>
                         <input name="forumId" type="hidden" value="<%=id%>">
-                        <div class="input-prepend" title="Username" maxlength="25">
+                        <div class="input-prepend" title="Username">
                             <span class="add-on"><i class="halflings-icon user"></i></span>
-                            <input class="input-large span10" name="user" id="username" type="text" placeholder="type username"/>
+                            <input class="input-large span10" name="user" id="username" type="text" placeholder="type username" maxlength="25"/>
                         </div>
                         <div class="clearfix"></div>
 

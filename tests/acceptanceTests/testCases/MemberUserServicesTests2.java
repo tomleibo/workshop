@@ -19,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import static controllers.UserController.changePassword;
+import static java.lang.Thread.sleep;
 
 
 public class MemberUserServicesTests2 extends ForumTests {
@@ -165,6 +166,7 @@ public class MemberUserServicesTests2 extends ForumTests {
 
 		try {
 			changePassword(user1, USER_PASSES[0], USER_PASSES[0]);
+			Assert.fail();
 		} catch (PasswordAlreadyUsedException e) {
 			Assert.assertTrue(true);
 		}
@@ -174,26 +176,44 @@ public class MemberUserServicesTests2 extends ForumTests {
 //	public static User register(Forum forum, String username, String password, String emailAddress, String question, String answer) throws UsernameAlreadyExistsException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, EmptyFieldException, IdentificationQuestionMissingException {
 
 		@Test // 6.6
-	public void test_identifing_questions() throws Exception{
+			 public void test_identifing_questions() throws Exception{
 
-			policy = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, true, -1, true, 0, 0);
+		policy = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, true, -1, true, 0, 0);
 
-			Forum theForum2 = addForum(FORUM_NAMES[1], superAdmin, policy);
+		Forum theForum2 = addForum(FORUM_NAMES[1], superAdmin, policy);
+		User user3;
+		try {
+			user3 = registerToForum(theForum2, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2]);
+			Assert.fail();
+		} catch (Exception e) {
+			Assert.assertTrue(true);
+		}
 
-			try {
-				User user3 = registerToForum(theForum2, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2]);
-			} catch (Exception e) {
-				Assert.assertTrue(true);
-				e.printStackTrace();
-			}
-
-			User user3 = UserController.register(theForum2, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2], ID_QUESTIONS[0], ID_ANSWERS[0]);
-			Assert.assertNotNull(user3);
+		user3 = UserController.register(theForum2, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2], ID_QUESTIONS[0], ID_ANSWERS[0]);
+		Assert.assertNotNull(user3);
 
 
-			// create a forum with a policie for questions
-			// try out the question register
 
 	}
 
+	@Test // 6.7
+	public void test_password_expiration() throws Exception{
+		// set forum policy to have a one milisecond expiration password
+		policy = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, 3000, true, 0, 0);
+
+		Forum theForum2 = addForum(FORUM_NAMES[1], superAdmin, policy);
+		User user3 = registerToForum(theForum2, USER_NAMES[2], USER_PASSES[2], USER_EMAILS[2]);
+		user3.logout();
+		sleep(3000);
+		try {
+			user3 = loginUser(theForum2, USER_NAMES[2], USER_PASSES[2]);
+			Assert.fail();
+		} catch (NeedToChangePasswordException e) {
+			Assert.assertTrue(true);
+		}
+		changePassword(user3,USER_PASSES[2],USER_PASSES[1]);
+		user3 = null;
+		user3 = loginUser(theForum2, USER_NAMES[2], USER_PASSES[1]);
+		Assert.assertNotNull(user3);
+	}
 }

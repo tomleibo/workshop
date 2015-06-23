@@ -82,13 +82,13 @@
                                 <span>Account Settings</span>
                             </li>
 
-                            <% if(superAdmin ==null || superAdmin.isGuest()){%>
+                            <% if(superAdmin==null || superAdmin.isGuest()){%>
                                 <li>
                                     <a href="\loginAsAdmin.jsp">
                                     <i class="halflings-icon off">
                                     </i> Login As Admin</a>
                                 </li>
-                            <%--<%} else if(superAdmin.isSuperAdmin() && superAdmin.isLoggedIn()){ %>--%>
+                            <%--<%} else if(user.isSuperAdmin() && user.isLoggedIn()){ %>--%>
                                 <%--<li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>--%>
                             <%} %>
 
@@ -140,14 +140,12 @@
         </li>
       </ul>
 
-      <%--Show this if superAdmin is super-Admin--%>
-        <% if(superAdmin != null && superAdmin.isSuperAdmin()){%>
-      <a class="btn btn-large btn-primary btn-round pull-right" href="/newforum.jsp">
-        <i class="halflings-icon white plus"></i><span class="break"></span>New Forum</a>
-      <a class="btn btn-large btn-primary btn-round pull-right" href="/openSession" style="margin-right:7px">
-        <span class="break"></span> Open Sessions</a>
-      <br><br><br>
+      <%--Show this if user is super-Admin--%>
+        <% if(superAdmin!=null && superAdmin.isSuperAdmin()){%>
+      <a class="btn btn-large btn-primary btn-round pull-right" href="/systemManagement" style="margin-right:7px">
+        <span class="break"></span> System Management</a>
         <%}%>
+      <br><br><br>
 
       <div>
         <div class="box span12">

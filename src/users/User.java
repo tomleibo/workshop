@@ -215,6 +215,7 @@ public class User {
 			ForumLogger.errorLog("The user " + username + " trying to login but he's password is incorrect");
 			throw new WrongPasswordException();
 		}
+        loginTime = new Date().getTime();
 		ForumLogger.actionLog("The user " + username + " is now logged in!");
 		return this;
 	}

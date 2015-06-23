@@ -63,7 +63,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a class="brand" href="index.html"><span>Great Minds</span></a>
+      <a class="brand" href="/home"><span>Great Minds</span></a>
 
       <!-- start: Header Menu -->
       <!-- end: Header Menu -->
@@ -142,7 +142,7 @@
                     <legend>Forum Policy:</legend>
                     <label class="control-label" for="maxMod">Max number of moderators: </label>
                     <div class="controls">
-                      <input type="number" name="maxMods" id="maxMod" min="0" maxlength="10">
+                      <input type="number" name="maxMods" id="maxMod" min="0" max="10000000000">
                     </div>
 
                     <br>
@@ -182,9 +182,9 @@
 
                     <br>
 
-                    <label class="control-label" for="sessionTO">Session time out: </label>
+                    <label class="control-label" for="sessionTO">Session time out (minutes): </label>
                     <div class="controls">
-                      <input type="number" min = "0" name="timeout" id="sessionTO"  maxlength="10">
+                      <input type="number" min = "0" name="timeout" id="sessionTO"   max="10000000000">
                     </div>
 
                     <br>
@@ -206,9 +206,9 @@
 
                     <br>
 
-                    <label class="control-label" for="passMaxTime">Password expired time: </label>
+                    <label class="control-label" for="passMaxTime">Password expired time (months): </label>
                     <div class="controls">
-                      <input type="number" name="passExpire" id="passMaxTime" min="0"  maxlength="10">
+                      <input type="number" min="0" max="10000000000" name="passExpire" id="passMaxTime">
                     </div>
 
                     <br>
