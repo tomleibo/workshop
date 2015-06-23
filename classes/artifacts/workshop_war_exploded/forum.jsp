@@ -38,7 +38,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
     <!-- end: CSS -->
     <% if(!user.isGuest()){%>
-        <%--<%=HtmlUtils.getAjaxScript()%>--%>
+        <%=HtmlUtils.getAjaxScript()%>
     <%}%>
 
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -166,13 +166,14 @@
 
             <h1><%=forum.getName()%></h1><br><br>
 
-
+            <%if(user.isAdmin()){%>
             <a class="btn btn-large btn-primary btn-round pull-right" href="\newSubForum">
                 <i class="halflings-icon white plus"></i><span class="break"></span>New Sub-Forum</a>
             <br><br><br>
+            <%}%>
 
 
-                <div class="box span12">
+                <div class="box span11">
                     <div class="box-header" data-original-title>
                         <h2><i class="halflings-icon white th"></i><span class="break"></span>Sub Forums</h2>
 
@@ -247,7 +248,7 @@
 </div>
 
 <div class="clearfix"></div>
-
+<footer></footer>
 
 
 <!-- start: JavaScript-->
