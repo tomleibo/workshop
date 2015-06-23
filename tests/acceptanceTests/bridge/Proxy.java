@@ -324,7 +324,7 @@ public class Proxy implements IForumSystemBridge {
     }
 
     @Override
-    public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+    public boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws Exception {
         if(real != null)
             return real.unAppoint(forum, subForum, admin, moderator);
 

@@ -3,6 +3,8 @@ package utils;
 import users.Notification;
 import users.User;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -10,6 +12,7 @@ import java.util.List;
  */
 public class HtmlUtils {
 
+    public static SimpleDateFormat notificationsFormat = new SimpleDateFormat("yyyy-MM-dd");
     public static String getNotificationsLink(User user){
 
         List<Notification> notifications = user.getPendingNotifications();
@@ -52,6 +55,21 @@ public class HtmlUtils {
                 "              });\n" +
                 "          }\n" +
                 "      </script>";
+    }
+
+    /*
+public class Test{
+
+    public static void main(String[] args) {
+        long val = 1346524199000l;
+        Date date=new Date(val);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
+        String dateText = df2.format(date);
+        System.out.println(dateText);
+    }*/
+
+    public static String parseDate(Date date){
+        return notificationsFormat.format(date);
     }
 
 }

@@ -3,6 +3,7 @@ package controllers;
 import content.Forum;
 import content.Message;
 import content.SubForum;
+import exceptions.SubForumMustHaveModeratorException;
 import exceptions.UserCantBeModeratorException;
 import exceptions.UserNotAuthorizedException;
 import policy.PolicyHandler;
@@ -51,14 +52,13 @@ public class AdminController {
 		throw new UserNotAuthorizedException ("to ban moderator");
 	}
 	
-	public static boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException {
+	public static boolean unAppoint(Forum forum, SubForum subForum, User admin, User moderator) throws UserNotAuthorizedException, SubForumMustHaveModeratorException {
 		if (PolicyHandler.canUnAppointModerator(forum, subForum, admin, moderator)) {
-			boolean b=subForum.removeModerator(moderator) && moderator.unAppoint(subForum);
-			if (b) {
+			if (subForum.removeModerator(moderator) && moderator.unAppoint(subForum)) {
 				HibernateUtils.update(subForum);
-				HibernateUtils.update(moderator);
+				return HibernateUtils.update(moderator);
 			}
-			return b;
+			throw new SubForumMustHaveModeratorException();
 		}
 		ForumLogger.errorLog("The user " + admin.getUsername() + " can't un-appoint moderator");
 		throw new UserNotAuthorizedException ("to un-appoint moderator");
@@ -150,7 +150,7 @@ public class AdminController {
         throw new UserNotAuthorizedException("to add user status");
     }
 
-    public static Map<String, Integer> getUserStatusTypes(Forum forum, User admin) throws UserNotAuthorizedException {
+    public static Map<Integer, String> getUserStatusTypes(Forum forum, User admin) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserAddRemoveStatusType(forum, admin)) {
             return forum.getStatusTypes();
         }

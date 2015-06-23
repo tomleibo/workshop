@@ -189,6 +189,10 @@
 
                       </div>
                     </td>
+
+                    <td class=" sorting_1">
+                      <%=HtmlUtils.parseDate(notification.getDate())%>
+                    </td>
                   </tr>
               <% } %>
 
