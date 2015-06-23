@@ -261,6 +261,15 @@ public class UserController {
         throw new UserNotAuthorizedException("to view notifications.");
     }
 
+    public static void markNotificationAsRead(User user, Notification notification) throws UserNotAuthorizedException {
+        if (PolicyHandler.canUserViewNotification(user, notification)) {
+            notification.setViewed(true);
+        } else {
+            throw new UserNotAuthorizedException("to view notification.");
+        }
+
+    }
+
 	private static User getUserFromForum(int id) {
         return (User)HibernateUtils.load(User.class,id);
 	}

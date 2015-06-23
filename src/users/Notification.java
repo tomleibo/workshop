@@ -22,7 +22,7 @@ public class Notification {
 	@Temporal(TemporalType.DATE)
 	private Date date;
     @Column (name="viewed")
-    private boolean viewed=false;
+    private boolean viewed = false;
 
 	public Notification(){
 
