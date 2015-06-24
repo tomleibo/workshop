@@ -114,7 +114,15 @@
                             </li>
 
                             <% if(user.isGuest()){%>
-                            <li><a href="\register.jsp?forumId=<%=forum.id%>&identifyQ=<%=forum.getPolicy().isAskIdentificationQuestion()%>&passRegex=<%=forum.getPolicy().getPasswordRegex()%>"><i class="halflings-icon off"></i> Register</a></li>
+                            <li>
+                                <%--<form action="/register" method="post">--%>
+                                    <%--<input type="hidden" name="forumId" value="<%=forum.id%>">--%>
+                                    <%--<input type="hidden" name="identifyQ" value="<%=forum.getPolicy().isAskIdentificationQuestion()%>">--%>
+                                    <%--<input type="hidden" name="passRegex" value="<%=forum.getPolicy().getPasswordRegex()%>">--%>
+                                    <%--<input type="submit" class="halflings-icon off" value="Register">--%>
+                                <%--</form>--%>
+                                <a href="\register.jsp?forumId=<%=forum.id%>&identifyQ=<%=forum.getPolicy().isAskIdentificationQuestion()%>&passRegex=<%=forum.getPolicy().getPasswordRegex()%>"><i class="halflings-icon off"></i> Register </a>
+                            </li>
                             <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>
                             <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
