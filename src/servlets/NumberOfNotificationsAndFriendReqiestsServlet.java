@@ -44,7 +44,7 @@ public class NumberOfNotificationsAndFriendReqiestsServlet extends HttpServlet {
 
             int numNotifs = 0;
             for(Notification notification : user.getPendingNotifications()){
-                if(notification.isViewed()){
+                if(!notification.isViewed()){
                     numNotifs++;
                 }
             }

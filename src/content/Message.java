@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 import users.Notification;
 import org.hibernate.annotations.Cascade;
 import users.User;
+import utils.HibernateUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -77,14 +78,18 @@ public class Message {
 
     public void sendNotificationToAllUsersCommented(Notification notification) {
         for (Message message : comments) {
-            message.getUser().sendNotification(notification);
+            User user = message.getUser();
+            user.sendNotification(notification);
+            HibernateUtils.merge(user);
         }
     }
 
     public void sendNotificationToAllUsersCommentedRecursively(Notification notification) {
         for (Message message : comments) {
             message.sendNotificationToAllUsersCommentedRecursively(notification);
-            message.getUser().sendNotification(notification);
+            User user = message.getUser();
+            user.sendNotification(notification);
+            HibernateUtils.merge(user);
         }
     }
 
