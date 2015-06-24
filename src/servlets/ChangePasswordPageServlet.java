@@ -2,7 +2,6 @@ package servlets;
 
 import content.Forum;
 import controllers.UserController;
-import exceptions.NeedToChangePasswordException;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -19,15 +18,15 @@ import java.io.IOException;
 /**
  * Servlet implementation class ThreadServlet
  */
-@WebServlet(description = "A servlet for registering", urlPatterns = { "/changePassword" })
-public class ChangePasswordServlet extends HttpServlet {
+@WebServlet(description = "A servlet for registering", urlPatterns = { "/changePasswordPage" })
+public class ChangePasswordPageServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ChangePasswordServlet() {
+    public ChangePasswordPageServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,26 +37,27 @@ public class ChangePasswordServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-            SessionLogger.get().log(request.getSession().getId(), "Changing Password");
-
-			int userId=Integer.parseInt(request.getParameter("userId"));
-			String oldPassword = request.getParameter("oldPassword");
-			String newPassword = request.getParameter("password");
-
-			User user = (User) HibernateUtils.load(User.class,userId);
-
-			UserController.changePassword(user,oldPassword,newPassword);
+            SessionLogger.get().log(request.getSession().getId(), "setting up Changing Password");
 
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
 			if (cookieValue == null)
 				throw new Exception("Forum Cookie Value doesn't exist");
 
 			int forumId = Integer.parseInt(cookieValue);
-			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
-			request.setAttribute("user", user);
+			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
+			if (cookieValue == null) {
+				throw new Exception("User Cookie Value doesn't exist");
+			}
+
+			int userId = Integer.parseInt(cookieValue);
+
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+			User user = (User) HibernateUtils.load(User.class, userId);
+
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/changePassword.jsp");
 			request.setAttribute("forum", forum);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile.jsp");
+			request.setAttribute("user", user);
 			dispatcher.forward(request, response);
 		}
 

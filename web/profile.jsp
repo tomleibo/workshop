@@ -205,28 +205,15 @@
                                             <input type="text" id="statusInput" class="form-control" placeholder="<%=user.getStatus()%>" disabled>
 
                                         </div>
+
+                                        <br>
                                         <div class="form-group">
-                                            <label for="oldpassword">Change password</label>
-                                            <form action="/changePassword" method="post">
-                                                <input name="userId" type="hidden" value="<%=user.getId()%>"/>
-                                                Old password: <input id="oldpassword" name="oldPassword" type="password" value="old password" required/><br>
-                                                New password: <input name="password" type="password" value="new password" required/><br>
-                                                <input type="submit" class="btn btn-primary" value="Change">  </input>
-                                            </form>
+                                            <a href="/changePasswordPage" id="changePassword" type="submit" class="btn btn-primary" >Change Password</a>
                                         </div>
 
 
 
                                     </form>
-
-
-
-
-
-
-
-
-
 
 
                                     <!--
@@ -282,7 +269,7 @@
                                         <!--                    //start serch people-->
 
 
-                                        <form class="well sapn8" action="/sendFriendRequest" id="idontknow">
+                                        <form class="well sapn8" action="/sendFriendRequest" id="idontknow" method="post">
                                             <div class="control-group">
                                                 <label class="control-label" for="idontknow"><h3>Add new friend</h3></label>
                                                 <div class="controls">
@@ -305,7 +292,7 @@
                                                         </tr>
                                                     </table>
                                                     <br>
-                                                    <textarea form="idontknow" name="content" class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
+                                                    <textarea form="idontknow" name="content" class="form-control" rows="5" placeholder="Write your request here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
                                                 </div>
 
                                             </div>
