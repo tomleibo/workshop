@@ -214,7 +214,7 @@
                                             <td class="center"><a href="/deleteMessage?msgId=<%=t.getOpeningMessage().id%>" class="btn btn-mini btn-danger">Delete</a></td>
                                         <%}
                                         else{%>
-                                        <td class="center"><a href="/thread?threadId=<%=t.id%>" class="btn btn-mini btn-danger">View</a></td>
+                                        <td></td>
                                         <%}%>
                                     </tr>
                                 <%}%>
