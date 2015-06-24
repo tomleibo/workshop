@@ -114,7 +114,7 @@
               </li>
 
               <% if(user.isGuest()){%>
-              <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
+              <li><a href="\register.jsp?forumId=<%=forum.id%>&identifyQ=<%=forum.getPolicy().isAskIdentificationQuestion()%>&passRegex=<%=forum.getPolicy().getPasswordRegex()%>"><i class="halflings-icon off"></i> Register</a></li>
               <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
               <%} else{ %>
               <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
@@ -466,7 +466,7 @@
     }
     sb.append("\">\n");
     sb.append("<a class=\"pull-left\" href=\"#\">\n" +
-            "                          <img class=\"media-object img-circle\" src=\"https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg\" alt=\"profile\">\n" +
+            "                          <img class=\"media-object img-circle\" src=\"\\img\\gallery\\user-icon.png\" alt=\"profile\">\n" +
             "                        </a>\n");
     sb.append("<div class=\"media-body\">\n");
     sb.append("<div class=\"well well-lg\">");

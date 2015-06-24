@@ -124,7 +124,7 @@
             -->
             <div>
                 <div><div><h1>Hello <%=superAdmin.getUsername()%></h1>
-                    <a class="quick-button span2 pull-right">
+                    <a class="quick-button span2 pull-right" href="/home">
                         <i class="icon-group "></i>
                         <p>Forums</p>
                         <span class="notification blue "><%=numberOfForums.toString()%></span>
