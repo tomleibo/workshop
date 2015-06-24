@@ -8,6 +8,7 @@ import users.Notification;
 import users.Report;
 import users.User;
 import utils.ForumLogger;
+import utils.HibernateUtils;
 
 import javax.persistence.*;
 import java.util.*;
@@ -121,6 +122,7 @@ public class Forum {
     public void sendNotificationToAllUsers(Notification notification) {
         for (User user : members) {
             user.sendNotification(notification);
+            HibernateUtils.merge(user);
         }
     }
 

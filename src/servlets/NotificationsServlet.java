@@ -1,9 +1,7 @@
 package servlets;
 
-import com.sun.corba.se.spi.servicecontext.UnknownServiceContext;
 import content.Forum;
 import controllers.UserController;
-import exceptions.UserNotAuthorizedException;
 import users.Notification;
 import users.User;
 import utils.CookieUtils;
@@ -68,7 +66,7 @@ public class NotificationsServlet extends HttpServlet {
 				if(!notification.isViewed()) {
 					unviewedNotifications.add(notification);
 				}
-				notification.setViewed(true);
+				UserController.markNotificationAsRead(user, notification);
 			}
 
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/notifications.jsp");

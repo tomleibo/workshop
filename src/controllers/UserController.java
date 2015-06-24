@@ -267,6 +267,7 @@ public class UserController {
     public static void markNotificationAsRead(User user, Notification notification) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserViewNotification(user, notification)) {
             notification.setViewed(true);
+            HibernateUtils.merge(notification);
         } else {
             throw new UserNotAuthorizedException("to view notification.");
         }
