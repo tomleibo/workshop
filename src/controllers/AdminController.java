@@ -44,8 +44,8 @@ public class AdminController {
 		if (PolicyHandler.canBanModerator(forum, subForum, admin, moderator)) {
 			boolean b = moderator.banModerator() && subForum.banModerator(moderator);
 			if (b) {
-				HibernateUtils.save(subForum);
-				HibernateUtils.save(moderator);
+				HibernateUtils.update(subForum);
+				HibernateUtils.update(moderator);
 			}
 			return b;
 		}
