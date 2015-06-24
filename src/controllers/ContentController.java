@@ -98,8 +98,7 @@ public class ContentController {
 		Message comment = new Message(title, content, user, null, addTo);
 		if (addTo.addComment(comment)) {
             forum.sendNotificationToAllUsers(Notification.repliedToMessageNotification(user, addTo));
-			HibernateUtils.save(comment);
-            HibernateUtils.update(addTo);
+            HibernateUtils.merge(addTo);
 			return comment;
 		}
 		return null;

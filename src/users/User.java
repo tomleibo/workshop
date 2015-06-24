@@ -128,10 +128,7 @@ public class User {
 	}
 
     public User(String username, String hashedPassword, String emailAddress, int state, String question, String hashedAnswer) {
-        if (state==GUEST)
-            this.username = username + id;
-        else
-            this.username = username;
+        this.username = username;
         this.oldHashedPasswords = "";
         setHashedPassword(hashedPassword);
         this.state = state;

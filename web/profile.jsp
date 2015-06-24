@@ -172,7 +172,7 @@
                     <div class="col-sm-10 col-sm-offset-1" id="logout">
                         <div class="page-header">
                             <a class="center " href="#">
-                               <center> <img class="media-object img-circle" src="\img\gallery\user-icon.png" alt="profile"></center>
+                               <img class="media-object img-circle" src="\img\gallery\user-icon.png" alt="profile">
                             </a>
                         </div>
                         <div class="comment-tabs">
@@ -213,8 +213,8 @@
                                             <label for="oldpassword">Change password</label>
                                             <form action="/changePassword" method="post">
                                                 <input name="userId" type="hidden" value="<%=user.getId()%>"/>
-                                                Old password: <input id="oldpassword" name="oldPassword" type="password" value="old password" /><br>
-                                                New password: <input name="password" type="password" value="new password" /><br>
+                                                Old password: <input id="oldpassword" name="oldPassword" type="password" value="old password" required/><br>
+                                                New password: <input name="password" type="password" value="new password" required/><br>
                                                 <input type="submit" class="btn btn-primary" value="Change">  </input>
                                             </form>
                                         </div>

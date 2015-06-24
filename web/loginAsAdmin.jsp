@@ -64,7 +64,7 @@
                         </div>
                         <div class="clearfix"></div>
 
-                        <label class="remember" for="remember"><input type="checkbox" id="remember" value="1" disabled />Remember me</label>
+
 
                         <div class="button-login">
                             <button type="submit" class="btn btn-primary">Login</button>

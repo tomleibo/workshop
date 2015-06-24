@@ -69,6 +69,9 @@ public class ServletUtils {
         }
         else if(e instanceof WordNotApprovedException) {
             request.setAttribute(MESSAGE_ATTRIBUTE, "The word "+((WordNotApprovedException) e).word+" is not approved!.");
+        } else if(e instanceof VerifyMailException) {
+            request.setAttribute(MESSAGE_ATTRIBUTE, "Please verify your mail by responding to the email sent to your mail:" + ((VerifyMailException) e).getUser().getEmail()
+                    + "<br>After verification please go to <a href=\"/login.jsp?forumId=" + ((VerifyMailException) e).getForum().id + "\">login page</a>.");
         }
         /*
         else if(e instanceof ) {

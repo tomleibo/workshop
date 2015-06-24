@@ -208,9 +208,10 @@
                 <div class="control-group hidden-phone">
 
                   <div class="controls">
-                    <textarea name="body" type="text" class="cleditor" id="textarea2" rows="3">
-                      <%=body%>
-                    </textarea>
+                    <textarea name="body" type="text" class="form-control" id="textarea2" rows="5" maxlength="250"  style="margin: 0px 0px 10px; width: 496px; height: 100px;"> <%=body%></textarea>
+                    <%--<textarea name="body" type="text" class="cleditor" id="textarea2" rows="3">--%>
+                      <%--<%=body%>--%>
+                    <%--</textarea>--%>
                   </div>
                 </div>
                 <div class="form-actions">

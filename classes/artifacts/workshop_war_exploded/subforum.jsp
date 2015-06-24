@@ -114,7 +114,7 @@
                             </li>
 
                             <% if(user.isGuest()){%>
-                            <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
+                            <li><a href="\register.jsp?forumId=<%=forum.id%>&identifyQ=<%=forum.getPolicy().isAskIdentificationQuestion()%>&passRegex=<%=forum.getPolicy().getPasswordRegex()%>"><i class="halflings-icon off"></i> Register</a></li>
                             <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>
                             <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
@@ -171,7 +171,7 @@
                     <a href="/forum?forumId=<%=forum.id%>"><%=forum.getName()%></a>
                     <i class="icon-angle-right"></i>
                 </li>
-                <li><a href="#"><%=sub.getName()%></a></li>
+                <li><a href="/subForum?subForumId=<%=sub.id%>"><%=sub.getName()%></a></li>
             </ul>
 
             <h1><%=sub.getName()%></h1><br><br>
@@ -209,7 +209,7 @@
                                         <td><a href="\thread?threadId=<%=t.id%>"><%=t.getOpeningMessage().getTitle()%></a> </td>
                                         <td class="center"><%=t.getMemberStarted().getUsername()%></td>
                                         <%if(PolicyHandler.canUserDeleteComment(forum, sub, user, t.getOpeningMessage())){%>
-                                            <td class="center"><a class="btn btn-mini btn-danger">Delete</a></td>
+                                            <td class="center"><a href="/deleteMessage?msgId=<%=t.getOpeningMessage().id%>" class="btn btn-mini btn-danger">Delete</a></td>
                                         <%}%>
                                     </tr>
                                 <%}%>

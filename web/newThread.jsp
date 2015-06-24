@@ -190,15 +190,16 @@
                 <div class="control-group">
                   <label class="control-label" for="title">Title: </label>
                   <div class="controls">
-                    <input type="text" name="title" id="title" maxlength="25" required>
+                    <input type="text" name="title" id="title" maxlength="50" required>
                   </div>
                 </div>
 
                 <div class="control-group hidden-phone">
 
                   <div class="controls">
-                    <textarea name="content" type="text" class="cleditor" id="textarea2" rows="3">
-                    </textarea>
+                    <textarea name="content" type="text" class="form-control" id="textarea2" rows="5" maxlength="250" placeholder="Write your comment here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
+                    <%--<textarea name="content" type="text" class="cleditor" id="textarea2" rows="3" maxlength="250">--%>
+                    <%--</textarea>--%>
                   </div>
                 </div>
                 <div class="form-actions">

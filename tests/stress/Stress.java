@@ -1,17 +1,20 @@
 package stress;
 
-import content.*;
+import content.Forum;
+import content.SubForum;
+import content.Thread;
 import controllers.AdminController;
 import controllers.SuperAdminController;
 import controllers.UserController;
-import exceptions.*;
+import exceptions.UserNotAuthorizedException;
 import policy.ForumPolicy;
 import users.User;
-import content.Thread;
 import utils.HibernateUtils;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -27,7 +30,7 @@ public class Stress {
     private static final int X = 1;
     volatile public static List<content.Thread> threads;
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, UserNotAuthorizedException, EmptyFieldException, IdentificationQuestionMissingException, PasswordNotMatchesRegexException, UsernameAlreadyExistsException, InterruptedException {
+    public static void main(String[] args) throws Exception {
         threads= new Vector<>();
         StressUser[] stressUsers = new StressUser[X];
         User superAdmin = SuperAdminController.initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
