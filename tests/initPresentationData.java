@@ -243,5 +243,7 @@ public class initPresentationData {
         subNightmare2 = (SubForum) HibernateUtils.load(SubForum.class, subNightmare2.id);
         AdminController.appointModerator(forumNightmare, subNightmare2, admin2, mod2subNightmare2);
         System.out.println("moderators of " + SUB_FORUM_NAMES[3] + " has grown with " + MODERATOR_NAMES[7]);
+
+        HibernateUtils.runSql("UPDATE user SET status = 30 WHERE user_id = 2 OR user_id = 3;");
     }
 }
