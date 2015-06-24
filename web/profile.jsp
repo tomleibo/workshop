@@ -269,7 +269,7 @@
                                         <!--                    //start serch people-->
 
 
-                                        <form class="well sapn8" action="/sendFriendRequest" id="idontknow">
+                                        <form class="well sapn8" action="/sendFriendRequest" id="idontknow" method="post">
                                             <div class="control-group">
                                                 <label class="control-label" for="idontknow"><h3>Add new friend</h3></label>
                                                 <div class="controls">
@@ -292,7 +292,7 @@
                                                         </tr>
                                                     </table>
                                                     <br>
-                                                    <textarea form="idontknow" name="content" class="form-control" rows="5" placeholder="Write your report here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
+                                                    <textarea form="idontknow" name="content" class="form-control" rows="5" placeholder="Write your request here..." style="margin: 0px 0px 10px; width: 496px; height: 100px;"></textarea>
                                                 </div>
 
                                             </div>
