@@ -71,7 +71,7 @@ public class AddForumServlet extends HttpServlet {
 			User superAdmin = (User) HibernateUtils.load(User.class, superUserId);
 
 			ForumPolicy policy = new ForumPolicy(maxMods, passRegex, hash, authMail, ServletUtils.convertMinutesToMilliseconds(timeout),ServletUtils.convertMinutesToMilliseconds(idle),
-					identifyQ,ServletUtils.convertMonthsToMilliseconds(passExpire),moderatorEdit,minPosts,minSeniority);
+					identifyQ,ServletUtils.convertMonthsToMilliseconds(passExpire),moderatorEdit,minPosts,ServletUtils.convertDaysToMilliseconds(minSeniority));
 			SuperAdminController.createNewForum(superAdmin, policy, name);
 
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/home");

@@ -91,6 +91,10 @@ public class ServletUtils {
         return minutes*60*1000;
     }
 
+    public static long convertDaysToMilliseconds(long days){
+        return days*24*60*60*1000;
+    }
+
     public static int convertMinutesToMilliseconds(int minutes){
         return minutes*60*1000;
     }

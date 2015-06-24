@@ -114,7 +114,7 @@
                             </li>
 
                             <% if(user.isGuest()){%>
-                            <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
+                            <li><a href="\register.jsp?forumId=<%=forum.id%>&identifyQ=<%=forum.getPolicy().isAskIdentificationQuestion()%>"><i class="halflings-icon off"></i> Register</a></li>
                             <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>
                             <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
@@ -177,8 +177,11 @@
             <h1><%=sub.getName()%></h1><br><br>
 
             <%--Post New Thread--%>
+            <%if(PolicyHandler.canUserOpenThread(forum,user)){%>
             <div class="pull-right">
                 <a href="\newThread" class="btn btn-large btn-primary btn-round"><i class="halflings-icon white plus"></i><span class="break"></span> Post New Thread</a></div>
+            <%}%>
+
 <br><br><br>
             <%--start table--%>
             <div>

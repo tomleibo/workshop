@@ -196,7 +196,7 @@
 
                     <br>
 
-                    <label class="control-label" for="minSeniority">Minimum seniority moderator should have: </label>
+                    <label class="control-label" for="minSeniority">Minimum seniority moderator should have (days): </label>
                     <div class="controls">
                       <input type="number" min="0" max="10000000000" name="minSeniority" id="minSeniority" required>
                     </div>
@@ -207,12 +207,12 @@
                       <label class="control-label ">Should user have mail authentication?</label>
                       <div class="controls">
                         <label class="radio">
-                          <input type="radio" name="authentication" id="mailAuthenticationYes" value="1" checked="">
+                          <input type="radio" name="authentication" id="mailAuthenticationYes" value="1">
                           Yes
                         </label>
                         <div style="clear:both"></div>
                         <label class="radio">
-                          <input type="radio" name="authentication" id="mailAuthenticationNo" value="0">
+                          <input type="radio" name="authentication" id="mailAuthenticationNo" value="0" checked="">
                           No
                         </label>
                       </div>
