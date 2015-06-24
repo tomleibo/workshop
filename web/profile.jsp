@@ -206,8 +206,8 @@
                                             <label for="oldpassword">Change password</label>
                                             <form action="/changePassword" method="post">
                                                 <input name="userId" type="hidden" value="<%=user.getId()%>"/>
-                                                Old password: <input id="oldpassword" name="oldPassword" type="password" value="old password" /><br>
-                                                New password: <input name="password" type="password" value="new password" /><br>
+                                                Old password: <input id="oldpassword" name="oldPassword" type="password" value="old password" required/><br>
+                                                New password: <input name="password" type="password" value="new password" required/><br>
                                                 <input type="submit" class="btn btn-primary" value="Change">  </input>
                                             </form>
                                         </div>
