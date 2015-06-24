@@ -140,6 +140,16 @@ public class Forum {
 		return members;
 	}
 
+    public List<User> getNonGuestMembers() {
+        List<User> result = new ArrayList<>();
+        for (User user : members) {
+            if (user.isMember()) {
+                result.add(user);
+            }
+        }
+        return result;
+    }
+
 	public void setMembers(List<User> members) {
 		this.members = members;
 	}
