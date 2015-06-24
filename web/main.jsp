@@ -166,6 +166,7 @@
               <tr>
                 <th>Forum</th>
                 <th>Manager</th>
+                  <th>Action</th>
 
               </tr>
               </thead>
@@ -179,6 +180,7 @@
               <tr>
                 <td><a href="\forum?forumId=<%=forum.id%>"><%=forum.getName()%></a></td>
                 <td class="center"><%=forum.getAdmin().getUsername()%></td>
+                  <td class="center"><a href="/deleteForum?forumId=<%=forum.id%>" class="btn btn-mini btn-danger">Delete</a></td>
               </tr>
               <%
                 }
