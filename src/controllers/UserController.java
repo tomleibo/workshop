@@ -69,7 +69,7 @@ public class UserController {
             throw new PasswordAlreadyUsedException();
         }
         user.setHashedPassword(newHashedPassword);
-        HibernateUtils.update(user);
+        HibernateUtils.merge(user);
     }
 
 	public static User login(Forum forum, String username, String password) throws NoSuchAlgorithmException, UserDoesNotExistsException, WrongPasswordException, NeedToChangePasswordException {

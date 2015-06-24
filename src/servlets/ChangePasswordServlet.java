@@ -57,7 +57,7 @@ public class ChangePasswordServlet extends HttpServlet {
 
 			request.setAttribute("user", user);
 			request.setAttribute("forum", forum);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile.jsp");
 			dispatcher.forward(request, response);
 		}
 
