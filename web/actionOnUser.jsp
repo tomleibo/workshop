@@ -1,11 +1,15 @@
 <%@ page import="content.Forum" %>
 <%@ page import="users.User" %>
 <%@ page import="content.SubForum" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.ArrayList" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% User superAdmin = (User)request.getAttribute("superAdmin"); %>
 <% Forum forum = (Forum)request.getAttribute("forum"); %>
-<% String role = (String) request.getAttribute("role"); %>
+<% SubForum subForum = (SubForum)request.getAttribute("subForum"); %>
+<% String action = (String) request.getAttribute("action"); %>
+<% String returnPage = (String) request.getAttribute("returnPage"); %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +17,7 @@
 
   <!-- start: Meta -->
   <meta charset="utf-8">
-  <title>Bootstrap Metro Dashboard by Dennis Ji for ARM demo</title>
+  <title>Great Minds</title>
   <meta name="description" content="Bootstrap Metro Dashboard">
   <meta name="author" content="Dennis Ji">
   <meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -62,9 +66,9 @@
       <div class="login-box ">
         <div>
           <br><br>
-          <h1><center>Choose user to appoint</center></h1>
+          <h1><center><%=getTitle(action)%></center></h1>
           <br>
-          <h4><center>FORUM NAME</center></h4>
+          <h4><center><%=getName(action, forum, subForum)%></center></h4>
           <br><br>
 
 
@@ -75,49 +79,42 @@
 
           <i class="glyphicons-icon crown pull-left"></i>
           <center>
-            <form>
+            <form action="<%=getActionPage(action)%>">
               <fieldset>
+                <div class="span10 collapse-group row">
+                  <center>
+                    <p>
+                      <select name="userId"id="appointDD" data-rel="chosen" >
+                        <%for (User user : getListOfUsers(action, forum, subForum)){%>
+                        <option value="<%=user.getId()%>"><%=user.getUsername()%></option>
+                        <%}%>
+                      </select>
 
+                    </p>
+                    <br><br><br><br><br><br><br><br><br><br>
+                    <div class="">
+                      <input type="hidden" name="forumId" value="<%=forum.id%>">
+                      <%=getHiddenInputs(action,forum,subForum)%>
+                      <input type="submit" href="#" value="<%=getSubmitButtonValue(action)%>" class="btn btn-primary pull-right">
+        </div>
+        <br><br><br><br>
+        </center>
+      </div>
 
-            <div class="span10 collapse-group row">
-              <center>
-                <p><select id="appointDD" data-rel="chosen" >
-                  <%%>
-                  <option>user 1</option>
-                  <option>user 2</option>
-                  <option>user 3</option>
-                  <option>user 4</option>
-                  <option>user 5</option>
-                  <option>user 5</option>
-                  <option>user 5</option>
-                  <option>user 5</option>
-                  <option>user 5</option>
-                  <option>user 5</option>
-                  <option>user 5</option>
-                  <option>user 5</option>
-                  <option>user 5</option>
-                  <option>user 5</option>
-                </select></p>
-                <br><br><br><br><br><br><br><br><br><br>
-                <div class="">	<a href="#" class="btn btn-primary pull-right">Appoint</a></div>
-                <br><br><br><br>
-              </center>
-            </div>
+      </fieldset>
+      </form>
+      </center>
 
-              </fieldset>
-            </form>
-          </center>
+      <!--
 
-          <!--
+                          </form>
+      -->
 
-                              </form>
-          -->
+    </div><!--/span-->
+  </div><!--/row-->
+</div>
 
-        </div><!--/span-->
-      </div><!--/row-->
-    </div>
-
-  </div><!--/.fluid-container-->
+</div><!--/.fluid-container-->
 
 </div><!--/fluid-row-->
 <div class="common-modal modal fade" id="common-Modal1" tabindex="-1" role="dialog" aria-hidden="true">
@@ -188,3 +185,106 @@
 
 </body>
 </html>
+
+
+<%!
+  public static String getTitle(String action){
+    String title="";
+
+    if(action.equals("changeAdmin")) {
+      title = "Choose user to appoint";
+    }
+    else if(action.equals("appointModerator")){
+      title = "Choose user to appoint";
+    }
+    else if(action.equals("dismissModerator")){
+      title = "Choose moderator";
+    }
+
+    return title;
+  }
+
+  public static String getName(String action, Forum forum, SubForum subForum){
+    String name = "";
+
+    if(action.equals("changeAdmin")) {
+      name = forum.getName();
+
+    }
+    else if(action.equals("appointModerator")){
+      name = subForum.getName();
+    }
+    else if(action.equals("dismissModerator")){
+      name = subForum.getName();
+    }
+
+    return name;
+  }
+
+  public static String getActionPage(String action){
+    String name = "";
+
+    if(action.equals("changeAdmin")) {
+      name = "/changeAdmin";
+    }
+    else if(action.equals("appointModerator")){
+      name = "/appointModerator";
+    }
+    else if(action.equals("dismissModerator")){
+      name = "/dismissModerator";
+    }
+
+    return name;
+  }
+
+
+
+  public static List<User> getListOfUsers(String action, Forum forum, SubForum subForum){
+    List<User> users = new ArrayList<User>();
+
+    if(action.equals("changeAdmin")) {
+      users = forum.getMembers();
+    }
+    else if(action.equals("appointModerator")){
+      users = forum.getMembers();
+    }
+    else if(action.equals("dismissModerator")){
+      users = subForum.getModerators();
+    }
+
+    return users;
+  }
+
+  public static String getSubmitButtonValue(String action){
+    String name = "";
+
+    if(action.equals("changeAdmin")) {
+      name = "Change";
+    }
+    else if(action.equals("appointModerator")){
+      name = "Appoint";
+    }
+    else if(action.equals("dismissModerator")){
+      name = "Dismiss";
+    }
+
+    return name;
+  }
+
+  public static String getHiddenInputs(String action, Forum forum, SubForum subForum){
+    String inputs = "";
+
+    if(action.equals("changeAdmin")) {
+      inputs = "";
+    }
+    else if(action.equals("appointModerator")){
+      inputs = "<input type=\"hidden\" name=\"subForumId\" value=\""+subForum.id+"\">";
+    }
+    else if(action.equals("dismissModerator")){
+      inputs = "<input type=\"hidden\" name=\"subForumId\" value=\""+subForum.id+"\">";
+    }
+
+    return inputs;
+  }
+
+%>

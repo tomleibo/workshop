@@ -53,7 +53,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span>Great Minds</span></a>
+				<a class="brand" href="/home"><span>Great Minds</span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -331,7 +331,7 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="index.html"><i class="glyphicons-icon white group"></i><span class="hidden-tablet"> Forums</span></a></li>	
+						
 						
 						
 					</ul>
@@ -357,7 +357,7 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="index.html">Home</a> 
+					<a href="/home">Home</a> 
 					<i class="icon-angle-right"></i>
                     <a href="subforums.html">ForumName</a>
                     <i class="icon-angle-right"></i>
@@ -395,70 +395,66 @@
                     
                 
             <legend>Add member type</legend>
-                            <div>
+                           
 
-                                <div class="span12 collapse-group row center">
-                                    <p><a class="btn btn-mini" href="#">+</a>&nbsp;&nbsp;&nbsp;Add new member type </p>
-                                    <p class="collapse"><input type="text" id="memType" style="background-color: lavender" maxlength="25">&nbsp;&nbsp; <a class="btn btn-small btn-success" href="#" style="vertical-align:top">Update</a></p>
+							  <div class="controls">
+                                  <label class="control-label" for="typeName">Type name: </label>
+                                  <input type="text" id="typeName" style="background-color: lavender" maxlength="25" pattern="[A-Za-z]+" required>
+                                  <label class="control-label" for="typeName">Number of messages: </label>
+                                  <input type="number" id="msgNum" style="background-color: lavender" min="0" max="10000000000" required>
+								</div>
+                                
+                                <div>
+                                        
+                                        <input class="btn btn-small btn-success" type="submit" href="#" style="vertical-align:top" value="Update"/></div>
 
-
-                                </div>
-
-                            </div>
+                          
+                           
                 
-                
-                
+               <br><br>
+                           
                                 <fieldset>
+                                    
+                                    
+                                    
+                                    <legend>Appoint Moderator</legend>
+               <table>
+                   <tr>
+                        <div class="span10 row center">
+                            <p><select id="appModSub" data-rel="chosen">
+                            <option>Sub 1</option>
+                            <option>Sub 2</option>
+                            <option>Sub 3</option>
+                            <option>Sub 4</option>
+                            <option>Sub 5</option>
+                          </select>&nbsp;&nbsp;&nbsp; <a href="#" class="btn btn-primary">Choose</a> <br><br> </p>                                     
+                                    </div>
+ 
+                </tr>
+             </table>
+                            </fieldset>
+                           <fieldset>
+                                    
                     <legend>Dismiss Moderator</legend>
                <table>
                    <tr>
-                        <div class="span10 collapse-group row center">
+                        <div class="span10 row center">
                             <p><select id="disModSub" data-rel="chosen">
                             <option>Sub 1</option>
                             <option>Sub 2</option>
                             <option>Sub 3</option>
                             <option>Sub 4</option>
                             <option>Sub 5</option>
-                          </select>&nbsp;&nbsp;&nbsp; <a href="#" class="btn btn-primary">Choose</a> <br><br> </p>
-                        
-                            <p class="collapse center" style = "margin-left: 50px"><select id="dissMod" data-rel="chosen">
-                            <option>user 1</option>
-                            <option>user 2</option>
-                            <option>user 3</option>
-                            <option>user 4</option>
-                            <option>user 5</option>
-                          </select> &nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-primary" style="vertical-align:top">Dismiss</a> </p>
-                                        
-                                      
+                          </select>&nbsp;&nbsp;&nbsp; <a href="#" class="btn btn-primary">Choose</a> <br><br> </p>                                     
                                     </div>
-                               
-                        
+ 
                 </tr>
              </table>
                 </fieldset>
  <br><br>
           
                 
-                <fieldset>
-                    <legend>Ban Member</legend>
-               <table>
-                    
-                    <tr>
-                       <div class="span10 collapse-group row center">
-                          <select id="banMember" data-rel="chosen">
-                            <option>User 1</option>
-                            <option>User 2</option>
-                            <option>User 3</option>
-                            <option>User 4</option>
-                            <option>User 5</option>
-                          </select>
-                       &nbsp;&nbsp;&nbsp;
-                            <a href="#" class="btn btn-primary" style="vertical-align:top">Ban</a>
-                            </div>
-                       
-                </tr>
-             </table>
-                </fieldset>
+               
                     
 <!--                    //end Users-->
                           
@@ -528,7 +524,7 @@
                     	<div>		
 				<div class="box span10">
 					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon white user"></i><span class="break"></span>Notification</h2>
+						<h2><i class="halflings-icon white  exclamation-sign"></i><span class="break"></span>Reports</h2>
 						
 					</div>
                     

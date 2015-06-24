@@ -98,6 +98,7 @@ public class SuperAdminController {
             if (oldAdmin.getState() <= User.ADMIN) {
                 oldAdmin.setState(User.MEMBER);
             }
+            // TODO: ROEE: shouldn't stay as save, either update or merge
             HibernateUtils.save(oldAdmin);
 			return HibernateUtils.save(forum);
 		}

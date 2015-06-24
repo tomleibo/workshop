@@ -37,9 +37,7 @@
     <link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
     <!-- end: CSS -->
-    <% if(!user.isGuest()){%>
-    <%=HtmlUtils.getAjaxScript()%>
-    <%}%>
+
 
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -108,7 +106,7 @@
                             </li>
 
                             <% if(user.isGuest()){%>
-                            <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
+                            <li><a href="\register.jsp?forumId=<%=forum.id%>&identifyQ=<%=forum.getPolicy().isAskIdentificationQuestion()%>"><i class="halflings-icon off"></i> Register</a></li>
                             <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>
                             <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
@@ -134,7 +132,7 @@
         <div id="sidebar-left" class="span2">
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a href="/home"><i class="glyphicons-icon white group"></i><span class="hidden-tablet"> Forums</span></a></li>
+
 
 
                 </ul>
@@ -168,89 +166,268 @@
                 <li><a href="#">Forum Management</a></li>
             </ul>
 
-            <h1>Forum Managment</h1><br><br>
-            <fieldset>
-                <legend>Appoint Moderator</legend>
-                <table>
-                    <col width="250">
-                    <col width="250">
-                    <tr>
-                        <td>
-                            <select id="appointAdmin" data-rel="chosen">
-                                <option>Sub 1</option>
-                                <option>Sub 2</option>
-                                <option>Sub 3</option>
-                                <option>Sub 4</option>
-                                <option>Sub 5</option>
-                            </select>
-                        </td>
-                        <td>
-                            <a href="#" class="btn btn-primary">Select</a>
-                        </td>
-                    </tr>
-                </table>
-            </fieldset>
-
-            <br><br>
+            <h1>Forum Management</h1><br><br>
 
 
-            <fieldset>
-                <legend> </legend>
-                <div>
 
 
-                    <div class="box span12">
-                        <div class="box-header" data-original-title>
-                            <h2><i class="halflings-icon plus"></i><span class="break"></span>Add Sub Forum</h2>
 
 
-                        </div>
-                        <div class="box-content">
-                            <form class="form-horizontal">
-                                <fieldset>
-                                    <div class="control-group">
-                                        <label class="control-label" for="subName">Sub Forum Name: </label>
-                                        <div class="controls">
-                                            <input type="text" id="subName" maxlength="25" required>
 
-                                        </div>
+            <!--                //start-->
+
+
+
+            <div class="comment-tabs">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active"><a href="#users" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Manage Users</h4></a></li>
+                    <li><a href="#subs" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Add Sub-Forum</h4></a></li>
+                    <li><a href="#reports" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Reports</h4></a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="users">
+
+
+                        <form class = "well span12" action="/addMemberType">
+                            <!--                    //start Users-->
+
+
+                            <legend>Add member type</legend>
+
+
+                            <div class="controls">
+                                <label class="control-label" for="typeName">Type name: </label>
+                                <input type="text" id="typeName" name="typeName" style="background-color: lavender" maxlength="25" pattern="[A-Za-z]+" required>
+                                <label class="control-label" for="typeName">Number of messages: </label>
+                                <input type="number" id="msgNum" name="numMessages" style="background-color: lavender" min="0" max="10000000000" required>
+                            </div>
+
+                            <div>
+
+                                <input class="btn btn-small btn-success" type="submit" href="#" style="vertical-align:top" value="Update"/></div>
+
+
+                        </form>
+
+                        <br><br>
+
+                        <fieldset>
+
+
+
+                            <legend>Appoint Moderator</legend>
+                            <table>
+                                <tr>
+                                    <div class="span10 center">
+
+                                        <p>
+                                        <form action="/actionOnUser" method="get">
+                                            <select name="subForumId" id="appModSub" data-rel="chosen">
+                                                <%for(SubForum subForum : forum.getSubForums()){%>
+                                                <option value="<%=subForum.id%>"><%=subForum.getName()%></option>
+                                                <%}%>
+                                            </select>&nbsp;&nbsp;&nbsp;
+                                            <input name="forumId" type="hidden" value="<%=forum.id%>">
+                                            <input name="action" type="hidden" value="appointModerator">
+                                            <input type="submit" value="Choose" href="#" class="btn btn-primary">
+                                            <br><br>
+                                        </form>
+                                        </p>
                                     </div>
 
+                                </tr>
+                            </table>
+                        </fieldset>
+                        <fieldset>
 
+                            <legend>Dismiss Moderator</legend>
+                            <table>
+                                <tr>
+                                    <div class="span10 center">
 
-
-                                    <div class="form-actions">
-
-                                        <a type="submit" class="btn btn-primary" href="comment.html">Add</a>
-                                        <button type="reset" class="btn">Cancel</button>
+                                        <p>
+                                        <form action="/actionOnUser" method="get">
+                                            <select name="subForumId" id="dissModSub" data-rel="chosen">
+                                                <%for(SubForum subForum : forum.getSubForums()){%>
+                                                <option value="<%=subForum.id%>"><%=subForum.getName()%></option>
+                                                <%}%>
+                                            </select>&nbsp;&nbsp;&nbsp;
+                                            <input name="forumId" type="hidden" value="<%=forum.id%>">
+                                            <input name="action" type="hidden" value="dismissModerator">
+                                            <input type="submit" value="Choose" href="#" class="btn btn-primary">
+                                            <br><br>
+                                        </form>
+                                        </p>
                                     </div>
-                                </fieldset>
-                            </form>
 
-                        </div>
-                    </div><!--/span-->
+                                </tr>
+                            </table>
+                        </fieldset>
+                        <br><br>
+
+
+
+
+                        <!--                    //end Users-->
+
+
+
+
+
                     </div>
-            </fieldset>
+                    <div class="tab-pane" id="subs">
+                        <!--                    //start Sub-Forum-->
+
+
+                        <fieldset>
+                            <legend> </legend>
+                            <div>
+
+
+                                <div class="box span12">
+                                    <div class="box-header" data-original-title>
+                                        <h2><i class="halflings-icon plus"></i><span class="break"></span>Add Sub Forum</h2>
+
+
+                                    </div>
+                                    <div class="box-content">
+                                        <form class="form-horizontal" action="/addSubForum">
+                                            <fieldset>
+                                                <div class="control-group">
+                                                    <label class="control-label" for="typeahead">Sub Forum Name: </label>
+                                                    <div class="controls">
+                                                        <input name="title" type="text" id="title" maxlength="25">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-actions">
+
+                                                    <input type="submit" class="btn btn-primary" value="Add">
+                                                    <button type="reset" class="btn">Cancel</button>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+
+                                    </div>
+                                </div><!--/span-->
+                        </fieldset>
 
 
 
 
-        </div>
-        </fieldset>
+
+                        <!--                    //end Sub-Forum-->
+                    </div>
+                    <div class="tab-pane" id="reports">
+                        <!--                   //start f-->
+                        <div class="container">
 
 
 
 
-    </div><!--/.fluid-container-->
-
-    <!-- end: Content -->
+                            <!--                    //start Reports-->
 
 
+                            <div>
+                                <div class="box span10">
+                                    <div class="box-header" data-original-title>
+                                        <h2><i class="halflings-icon white  exclamation-sign"></i><span class="break"></span>Reports</h2>
+
+                                    </div>
+
+
+                                    <div class="box-content">
+                                        <table class="table table-striped table-bordered bootstrap-datatable ">
+                                            <col width="100">
+                                            <col width="50">
+                                            <col width="10">
+                                            <thead>
+                                            <tr>
+                                                <th>Request</th>
+                                                <th>Reported</th>
+                                                <th>Reporter</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td class=" sorting_1">
+                                                    <div class="span4 collapse-group row center">
+                                                        <p><a class="btn btn-mini" href="#">+</a>&nbsp;&nbsp;&nbsp;Title</p>
+                                                        <p class="collapse">CONTENT</p>
+
+                                                    </div>
+                                                </td>
+                                                <td class="center">Reported Name</td>
+                                                <td class="center">Reporter Name</td>
+
+
+                                            </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div><!--/span-->
+
+                            </div><!--/row-->
+                            <!--                    // end Reports-->
 
 
 
 
-</div><!--/#content.span10-->
+
+
+                        </div><!--/row-->
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!--                //end       -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div><!--/.fluid-container-->
+
+        <!-- end: Content -->
+
+
+
+
+
+
+    </div><!--/#content.span10-->
 </div><!--/fluid-row-->
 
 <div class="modal hide fade" id="myModal">
@@ -283,7 +460,6 @@
 
 
 </footer>
-
 
 <!-- start: JavaScript-->
 
@@ -342,6 +518,9 @@
 
 <script src="js/custom.js"></script>
 <script src = "js/comment.js"></script>
+
+
+<script src = "js/dropdown.js"></script>
 <!-- end: JavaScript-->
 
 </body>

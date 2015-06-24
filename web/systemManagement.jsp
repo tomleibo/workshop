@@ -2,6 +2,7 @@
 <%@ page import="content.SubForum" %>
 <%@ page import="utils.HtmlUtils" %>
 <%@ page import="users.User" %>
+<%@ page import="java.util.List" %>
 <%--
   Created by IntelliJ IDEA.
   User: thinkPAD
@@ -12,7 +13,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% User superAdmin = (User) request.getAttribute("superAdmin"); %>
 <% Integer numberOfForums = (Integer) request.getAttribute("numberOfForums"); %>
-
+<% List<Forum> forums = (List<Forum>) request.getAttribute("forums"); %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -143,43 +144,39 @@
 
 
                 <br><br><br><br>
-                <form class="well">
-                    <div>
-                        <fieldset>
-
-                            <legend>Appoint admin</legend>
-
-                            <div class="span6 row center">
-                                <p><select id="appModSub" data-rel="chosen">
-                                    <option>Sub 1</option>
-                                    <option>Sub 2</option>
-                                    <option>Sub 3</option>
-                                    <option>Sub 4</option>
-                                    <option>Sub 5</option>
-                                </select> <a href="#" class="btn btn-primary" style="vertical-align:top">Choose</a> <br><br> </p>
 
 
-                            </div>
+                <%--<form action="/appointAdmin">--%>
+                <%--<select name="cars">--%>
+                <%--<option value="volvo">Volvo XC90</option>--%>
+                <%--<option value="saab">Saab 95</option>--%>
+                <%--<option value="mercedes">Mercedes SLK</option>--%>
+                <%--<option value="audi">Audi TT</option>--%>
+                <%--</select>--%>
+                <%--<input type="submit" class="btn btn-primary" value="Submit">--%>
+                <%--</form>--%>
 
-                            <legend>Change admin</legend>
-                            <div class="span6 row center">
-                                <p><select id="changeModSub" data-rel="chosen">
-                                    <option>Sub 1</option>
-                                    <option>Sub 2</option>
-                                    <option>Sub 3</option>
-                                    <option>Sub 4</option>
-                                    <option>Sub 5</option>
-                                </select> <a href="#" class="btn btn-primary" style="vertical-align:top">Choose</a> <br><br> </p>
+                <div>
 
+                    <legend>Change Administrator</legend>
+                    <div class="span6 center">
+                        <p>
+                        <form action="/actionOnUser" method="get">
+                            <select name="forumId" id="appModSub" data-rel="chosen">
+                                <% for(Forum forum : forums){%>
+                                <option value="<%=forum.id%>"><%=forum.getName()%></option>
+                                <%}%>
+                            </select>
+                            <input name="action" type="hidden" value="changeAdmin">
+                            <input type="submit" value="Choose" class="btn btn-primary" style="vertical-align:top">
+                        </form>
 
-                            </div>
-
-                        </fieldset>
-
+                        <br><br>
+                        </p>
                     </div>
+                </div>
 
 
-                </form>
 
             </div>
 
@@ -215,74 +212,74 @@
     </div>
 
     <div class="clearfix"></div>
-    </div>
+</div>
 
-    <footer>
+<footer>
 
 
 
-    </footer>
+</footer>
 
-    <!-- start: JavaScript-->
+<!-- start: JavaScript-->
 
-    <script src="js/jquery-1.9.1.min.js"></script>
-    <script src="js/jquery-migrate-1.0.0.min.js"></script>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/jquery-migrate-1.0.0.min.js"></script>
 
-    <script src="js/jquery-ui-1.10.0.custom.min.js"></script>
+<script src="js/jquery-ui-1.10.0.custom.min.js"></script>
 
-    <script src="js/jquery.ui.touch-punch.js"></script>
+<script src="js/jquery.ui.touch-punch.js"></script>
 
-    <script src="js/modernizr.js"></script>
+<script src="js/modernizr.js"></script>
 
-    <script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
-    <script src="js/jquery.cookie.js"></script>
+<script src="js/jquery.cookie.js"></script>
 
-    <script src='js/fullcalendar.min.js'></script>
+<script src='js/fullcalendar.min.js'></script>
 
-    <script src='js/jquery.dataTables.min.js'></script>
+<script src='js/jquery.dataTables.min.js'></script>
 
-    <script src="js/excanvas.js"></script>
-    <script src="js/jquery.flot.js"></script>
-    <script src="js/jquery.flot.pie.js"></script>
-    <script src="js/jquery.flot.stack.js"></script>
-    <script src="js/jquery.flot.resize.min.js"></script>
+<script src="js/excanvas.js"></script>
+<script src="js/jquery.flot.js"></script>
+<script src="js/jquery.flot.pie.js"></script>
+<script src="js/jquery.flot.stack.js"></script>
+<script src="js/jquery.flot.resize.min.js"></script>
 
-    <script src="js/jquery.chosen.min.js"></script>
+<script src="js/jquery.chosen.min.js"></script>
 
-    <script src="js/jquery.uniform.min.js"></script>
+<script src="js/jquery.uniform.min.js"></script>
 
-    <script src="js/jquery.cleditor.min.js"></script>
+<script src="js/jquery.cleditor.min.js"></script>
 
-    <script src="js/jquery.noty.js"></script>
+<script src="js/jquery.noty.js"></script>
 
-    <script src="js/jquery.elfinder.min.js"></script>
+<script src="js/jquery.elfinder.min.js"></script>
 
-    <script src="js/jquery.raty.min.js"></script>
+<script src="js/jquery.raty.min.js"></script>
 
-    <script src="js/jquery.iphone.toggle.js"></script>
+<script src="js/jquery.iphone.toggle.js"></script>
 
-    <script src="js/jquery.uploadify-3.1.min.js"></script>
+<script src="js/jquery.uploadify-3.1.min.js"></script>
 
-    <script src="js/jquery.gritter.min.js"></script>
+<script src="js/jquery.gritter.min.js"></script>
 
-    <script src="js/jquery.imagesloaded.js"></script>
+<script src="js/jquery.imagesloaded.js"></script>
 
-    <script src="js/jquery.masonry.min.js"></script>
+<script src="js/jquery.masonry.min.js"></script>
 
-    <script src="js/jquery.knob.modified.js"></script>
+<script src="js/jquery.knob.modified.js"></script>
 
-    <script src="js/jquery.sparkline.min.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
 
-    <script src="js/counter.js"></script>
+<script src="js/counter.js"></script>
 
-    <script src="js/retina.js"></script>
+<script src="js/retina.js"></script>
 
-    <script src="js/custom.js"></script>
+<script src="js/custom.js"></script>
 
-    <script src = "js/dropdown.js"></script>
+<script src = "js/dropdown.js"></script>
 
-    <!-- end: JavaScript-->
+<!-- end: JavaScript-->
 
 </body>
 </html>

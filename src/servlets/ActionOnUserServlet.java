@@ -1,6 +1,7 @@
 package servlets;
 
 import content.Forum;
+import content.SubForum;
 import controllers.SuperAdminController;
 import users.User;
 import utils.CookieUtils;
@@ -21,15 +22,15 @@ import java.io.IOException;
 @WebServlet(
 		description = "Handles the request of appoint a moderator to a sub forum",
 		urlPatterns = {
-				"/appointAdminRequest"}
+				"/actionOnUser"}
 )
-public class AppointAdminRequestServlet extends HttpServlet {
+public class ActionOnUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AppointAdminRequestServlet() {
+	public ActionOnUserServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -40,20 +41,43 @@ public class AppointAdminRequestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try{
-			SessionLogger.get().log(request.getSession().getId(), "appoint admin request");
+			SessionLogger.get().log(request.getSession().getId(), "action on user set up");
+			String action = request.getParameter("action");
 			int forumId = Integer.parseInt(request.getParameter("forumId"));
+			String returnPage="";
+/*
+			* Change Admin - choose from a list of members = forum
+			* (User superAdmin, Forum forum, User admin)
+			*
+			* Appoint Moderator - choose from a list of members = Forum, subForum
+			* appointModerator(Forum forum, SubForum subForum, User admin, User moderator)
+			*
+			* Dismiss Moderator - choose from a list of members = Forum, subForum
+			*unAppoint(Forum forum, SubForum subForum, User admin, User moderator)
+			*
+			* */
 
-			String superAdminId = CookieUtils.getCookieValue(request, CookieUtils.SUPER_USER_ID_COOKIE_NAME);
-			if (superAdminId == null)
-				throw new Exception("Super Admin Cookie Doesn't Exist");
+			switch(action){
+				case "changeAdmin":
+					returnPage = "/systemManagement";
 
-			User superAdmin = (User) HibernateUtils.load(User.class, Integer.parseInt(superAdminId));
+					break;
+
+				case "appointModerator":
+				case "dismissModerator":
+					int subForumId = Integer.parseInt(request.getParameter("subForumId"));
+					SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
+					request.setAttribute("subForum", subForum);
+					returnPage = "/forumManagement";
+					break;
+			}
+
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 
 			request.setAttribute("forum", forum);
-			request.setAttribute("superAdmin", superAdmin);
-			request.setAttribute("role", "admin");
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/appointUser.jsp");
+			request.setAttribute("action", action);
+			request.setAttribute("returnPage", returnPage);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/actionOnUser.jsp");
 			dispatcher.forward(request,response);
 		}
 		catch(Exception e) {

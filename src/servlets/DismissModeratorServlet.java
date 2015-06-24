@@ -3,8 +3,6 @@ package servlets;
 import content.Forum;
 import content.SubForum;
 import controllers.AdminController;
-import exceptions.SubForumMustHaveModeratorException;
-import exceptions.UserNotAuthorizedException;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -42,42 +40,32 @@ public class DismissModeratorServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SessionLogger.get().log(request.getSession().getId(),"dismissing moderator");
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/moderatorOperationCompleted.jsp");
+		try{
+            SessionLogger.get().log(request.getSession().getId(),"appoint moderator");
+			int moderatorId = Integer.parseInt(request.getParameter("userId"));
+			int forumId = Integer.parseInt(request.getParameter("forumId"));
+			int subForumId = Integer.parseInt(request.getParameter("subForumId"));
 
-		int forumId, userId=-1, subForumId, moderatorId;
-		String moderatorName;
+			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
+			if (cookieValue == null) {
+				throw new Exception("User Cookie Value doesn't exist");
+			}
 
-		try {
-			forumId = Integer.parseInt(request.getParameter("forumId"));
-			subForumId = Integer.parseInt(request.getParameter("subForumId"));
-			String value = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
+			int userId = Integer.parseInt(cookieValue);
 
-			if(value!= null)
-				userId = Integer.parseInt(value);
-			moderatorName = request.getParameter("moderator");
-			moderatorId = Integer.parseInt(request.getParameter("moderatorId"));
-		}
-		catch (NumberFormatException e) {
-            ServletUtils.exitError(this, request, response, e);
-			return;
-		}
+			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
+			User user = (User) HibernateUtils.load(User.class, userId);
+			User moderator = (User) HibernateUtils.load(User.class, moderatorId);
+			SubForum subForum = (SubForum) HibernateUtils.load(SubForum.class, subForumId);
 
-		Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-		SubForum subForum = (SubForum) HibernateUtils.load(Forum.class, subForumId);
-		User user = (User) HibernateUtils.load(User.class, userId);
-		User moderator = (User) HibernateUtils.load(User.class, moderatorId);
-
-		try {
 			AdminController.unAppoint(forum, subForum, user, moderator);
-		} catch (UserNotAuthorizedException | SubForumMustHaveModeratorException e) {
-            ServletUtils.exitError(this, request, response, e);
-			return;
-		}
 
-        request.setAttribute("moderator", moderatorName);
-		request.setAttribute("op", "dismiss");
-		dispatcher.forward(request,response);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forumManagement");
+			dispatcher.forward(request,response);
+		}
+		catch(Exception e) {
+            ServletUtils.exitError(this, request, response, e);
+		}
 	}
 
 	/**

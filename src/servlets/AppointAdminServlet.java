@@ -23,7 +23,7 @@ import java.io.IOException;
 @WebServlet(
 		description = "Handles the request of appoint a moderator to a sub forum",
 		urlPatterns = {
-				"/appointAdmin"}
+				"/changeAdmin"}
 		)
 public class AppointAdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -42,32 +42,23 @@ public class AppointAdminServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try{
-            SessionLogger.get().log(request.getSession().getId(),"appoint moderator");
-			int adminId = Integer.parseInt(request.getParameter("adminId"));
+			SessionLogger.get().log(request.getSession().getId(),"appoint moderator");
+			int adminId = Integer.parseInt(request.getParameter("userId"));
+			int forumId = Integer.parseInt(request.getParameter("forumId"));
 
-			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
-			if (cookieValue == null) {
-				throw new Exception("Forum Cookie Value doesn't exist");
+			String superAdminId = CookieUtils.getCookieValue(request, CookieUtils.SUPER_USER_ID_COOKIE_NAME);
+			if (superAdminId == null) {
+				throw new Exception("SuperAdmin Cookie Doesn't Exist!");
 			}
 
-			int forumId = Integer.parseInt(cookieValue);
-
-			cookieValue = CookieUtils.getCookieValue(request, CookieUtils.getUserCookieName(forumId));
-			if (cookieValue == null) {
-				throw new Exception("User Cookie Value doesn't exist");
-			}
-
-			int userId = Integer.parseInt(cookieValue);
-
-
+			User superAdmin = (User) HibernateUtils.load(User.class, Integer.parseInt(superAdminId));
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
-			User user = (User) HibernateUtils.load(User.class, userId);
 			User admin = (User) HibernateUtils.load(User.class, adminId);
 
-			SuperAdminController.changeAdministrator(user, forum, admin);
+			SuperAdminController.changeAdministrator(superAdmin, forum, admin);
 
 			// TODO: fix success page
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forum");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/systemManagement");
 			dispatcher.forward(request,response);
 		}
 		catch(Exception e) {

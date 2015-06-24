@@ -33,7 +33,6 @@ public class LogOutSuperAdminServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		try {
             SessionLogger.get().log(request.getSession().getId(),"logging out super admin");
 			CookieUtils.deleteCookie(request,response,CookieUtils.SUPER_USER_ID_COOKIE_NAME);

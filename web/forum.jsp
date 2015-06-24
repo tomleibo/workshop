@@ -171,7 +171,7 @@
 
             <%if(user.isAdmin()){%>
             <a class="btn btn-large btn-primary btn-round pull-right" href="/forumManagement">
-                <i class="halflings-icon white plus"></i><span class="break"></span>New Sub-Forum</a>
+                <span class="break"></span>Forum Management</a>
             <br><br><br>
             <%}%>
 

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Servlet implementation class SubForumServlet
@@ -37,17 +38,17 @@ public class SystemManagementServlet extends HttpServlet {
 		try {
             SessionLogger.get().log(request.getSession().getId(),"setting up system management");
 
-			User superAdmin;
 			String superAdminId = CookieUtils.getCookieValue(request, CookieUtils.SUPER_USER_ID_COOKIE_NAME);
-			if (superAdminId != null) {
-				superAdmin = (User) HibernateUtils.load(User.class, Integer.parseInt(superAdminId));
+			if (superAdminId == null) {
+				throw new Exception("SuperAdmin Cookie Doesn't Exist!");
 			}
-			else {
-				throw new Exception("SuperAdmin Cookie Doesn't Exist");
-			}
+
+			User superAdmin = (User) HibernateUtils.load(User.class, Integer.parseInt(superAdminId));
 
 			Integer numberOfForums = SuperAdminController.getReportNumberOfForums(superAdmin);
 
+			List<Forum> forums = HibernateUtils.getAllForums();
+			request.setAttribute("forums", forums);
 			request.setAttribute("superAdmin", superAdmin);
 			request.setAttribute("numberOfForums", numberOfForums);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/systemManagement.jsp");
