@@ -4,6 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SessionLogger {
 
@@ -28,7 +29,7 @@ public class SessionLogger {
 
 
     private SessionLogger() {
-        this.sessionLogs = new HashMap<>();
+        this.sessionLogs = new ConcurrentHashMap<>();
     }
 
     public void startSession(HttpSession session) {

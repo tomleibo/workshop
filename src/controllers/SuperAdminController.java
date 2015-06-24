@@ -108,7 +108,7 @@ public class SuperAdminController {
 	public static boolean changeForumPolicy(User superAdmin, Forum forum, ForumPolicy policy) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserChangePolicy(superAdmin, forum)) {
             if(forum.setPolicy(policy)){
-                return HibernateUtils.save(forum);
+                return HibernateUtils.update(forum);
             }
             return false;
         }

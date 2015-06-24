@@ -17,7 +17,7 @@ public class ModerationController {
             //TODO: no subforum given in signature; subforum does not hold banned users.
             //TODO: These conclude that there is no way to enforce ban.
             if (b) {
-                return HibernateUtils.save(member);
+                return HibernateUtils.update(member);
             }
             return false;
 		}
