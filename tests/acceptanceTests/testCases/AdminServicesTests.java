@@ -361,7 +361,7 @@ public class AdminServicesTests extends ForumTests{
 	}
 
 	@Test //1.16
-	public void test_add_moderator_policy() throws Exception{
+	public void test_add_moderator_policy_vetek() throws Exception{
 		ForumPolicy modVeteckAndMinMsgsPol = new ForumPolicy(1, ".+", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, false, -1, false, 0, 2000);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
 
@@ -381,7 +381,7 @@ public class AdminServicesTests extends ForumTests{
 		unAppoint(theForum,sf,admin,user5);
 	}
 
-	@Test // 1.8
+	@Test // 1.17
 	public void test_unappoint_single_moderator()throws Exception {
 		SubForum sf1 = addSubForum(theForum, SUB_FORUM_NAMES[0], admin);
 

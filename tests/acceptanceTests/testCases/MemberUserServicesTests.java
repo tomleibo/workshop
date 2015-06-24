@@ -1,5 +1,6 @@
 package acceptanceTests.testCases;
 
+import acceptanceTests.bridge.Driver;
 import content.Forum;
 import content.Message;
 import content.SubForum;
@@ -263,6 +264,14 @@ public class MemberUserServicesTests extends ForumTests {
 
 	@Test // 5.17
 	public void test_reportModerator_SameForum_UserHasPostedBefore() throws Exception {
+		HibernateUtils.cleanUp();
+		driver = Driver.getDriver();
+		superAdmin = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
+		policy = getPolicy(3, ".+", ForumPolicy.HashFunction.MD5);
+		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);
+		user1 = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
+		user2 = registerToForum(theForum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
+
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 
@@ -297,6 +306,14 @@ public class MemberUserServicesTests extends ForumTests {
 
 	@Test // 5.19
 	public void test_reportModerator_SameForum_UserHasntPostedBefore() throws Exception {
+		HibernateUtils.cleanUp();
+		driver = Driver.getDriver();
+		superAdmin = initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
+		policy = getPolicy(3, ".+", ForumPolicy.HashFunction.MD5);
+		theForum = addForum(FORUM_NAMES[0], superAdmin, policy);
+		user1 = registerToForum(theForum, USER_NAMES[0], USER_PASSES[0], USER_EMAILS[0]);
+		user2 = registerToForum(theForum, USER_NAMES[1], USER_PASSES[1], USER_EMAILS[1]);
+
 		user1 = loginUser(theForum, USER_NAMES[0], USER_PASSES[0]);
 		SubForum sf = addSubForum(theForum, SUB_FORUM_NAMES[0], superAdmin);
 
@@ -330,21 +347,5 @@ public class MemberUserServicesTests extends ForumTests {
 
 		// Always close files.
 		bufferedReader.close();
-
-		//ForumLogger.actionLog("The user " + id + "is logged out successfully");
-
 	}
-
-//	@Test // 5.20
-//	public void test_emailNotification_ValidEmailAddress() {
-//		// TODO
-//	}
-//
-//	@Test // 5.21
-//	public void test_emailNotification_InvalidEmailAddress() {
-//		// TODO
-//	}
-
-
-
 }
