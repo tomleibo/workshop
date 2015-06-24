@@ -351,10 +351,11 @@
     sb.append("<p>"+msg.getDate().toString()+"</p>\n");
     sb.append("</ul>\n");
     sb.append("<p class=\"media-comment\">\n");
-    sb.append("<h3>"+msg.getTitle()+"</h3>\n");
+    sb.append("<textarea style= \"width: 100%; height: 100%;\" rows=\"2\" readonly>"+msg.getTitle()+"</textarea>\n");
     sb.append("</p>\n");
     sb.append("<p class=\"media-comment\">\n");
-    sb.append(msg.getBody()+"\n");
+
+    sb.append("<textarea style= \"width: 100%; height : 100%;\" rows=\"3\" readonly>"+msg.getBody()+"\n</textarea>");
     sb.append("</p>\n");
 
     if(PolicyHandler.canUserReply(forum,user)) {
