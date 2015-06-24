@@ -1,15 +1,11 @@
-import acceptanceTests.bridge.Driver;
 import acceptanceTests.bridge.IForumSystemBridge;
 import content.*;
 import controllers.AdminController;
 import controllers.SuperAdminController;
 import controllers.UserController;
-import exceptions.UserNotAuthorizedException;
 import policy.ForumPolicy;
 import users.User;
 import utils.HibernateUtils;
-
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Shai Rippel on 24/06/2015.
@@ -24,10 +20,10 @@ public class initPresentationData {
     public static final String[] ADMIN_NAMES = {"admin_of_YNET", "admin_of_StackOverFlow"};
     public static final String[] ADMIN_PASSES = {"ynetrules", "Erjik6ea"};
     public static final String[] ADMIN_EMAILS = {"adminofynet@gmail.com", "adminofstackoverflow@gmail.com"};
-    public static final String[] MODERATOR_NAMES = {"moderator_1_of_Games_YNET", "moderator_2_of_Games_YNET", "moderator_1_of_Jokes_YNET", "moderator_2_of_Jokes_YNET", "moderator_1_of_JAVA_stackoverflow", "moderator_2_of_JAVA_stackoverflow", "moderator_1_of_Interview_questions_stackoverflow", "moderator_2_of_Interview_questions_stackoverflow"};
+    public static final String[] MODERATOR_NAMES = {"mod1GamesYNET", "mod2GamesYNET", "mod1JokesYNET", "mod2JokesYNET", "mod1JAVAstackoverflow", "mod2JAVAstackoverflow", "mod1Interquestackoverflow", "mod2Interquestackoverflow"};
     public static final String[] MODERATOR_PASSES = {"mod1pass", "mod2pass", "mod3pass", "mod4pass","Mod5pass", "Mod6pass", "Mod7pass", "Mod8pass"};
     public static final String[] MODERATOR_EMAILS = {"moderator1ynet@gmail.com", "moderator2ynet@gmail.com","moderator3ynet@gmail.com", "moderator4ynet@gmail.com", "moderator1ofstackoverflow@gmail.com", "moderator2ofstackoverflow@gmail.com", "moderator3ofstackoverflow@gmail.com", "moderator4ofstackoverflow@gmail.com"};
-    public static final String[] USER_NAMES = {"user_1_of_YNET", "user_2_of_YNET", "user_1_of_StackOverFlow", "user_2_of_StackOverFlow"};
+    public static final String[] USER_NAMES = {"user1YNET", "user2YNET", "user1StackOverFlow", "user2StackOverFlow"};
     public static final String[] USER_PASSES = {"usrpass1", "usrpass2", "Usrpass3", "Usrpass4"};
     public static final String[] USER_EMAILS = {"user1ynet@gmail.com", "user2ynet@gmail.com", "user1ofstackoverflow@gmail.com", "user2ofstackoverflow@gmail.com",};
 
