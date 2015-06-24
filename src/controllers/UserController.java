@@ -124,7 +124,7 @@ public class UserController {
 		if (PolicyHandler.canUserHaveFriends(forum, from) & PolicyHandler.canUserHaveFriends(forum, to)) {
 			FriendRequest request = new FriendRequest(from, to, message);
 			to.addFriendRequest(request);
-            HibernateUtils.save(request);
+            HibernateUtils.update(to);
 			return request;
 		}
 		ForumLogger.errorLog("The user " + to.getUsername() + "or the user " + from.getUsername() + " has no permissions to remove friends");
@@ -155,10 +155,13 @@ public class UserController {
 					HibernateUtils.update(receiving);
 					HibernateUtils.update(requesting);
 					HibernateUtils.update(request);
+                    HibernateUtils.del(request);
 					return true;
                 }
+                HibernateUtils.del(request);
                 return false;
 			}
+            HibernateUtils.del(request);
 			ForumLogger.errorLog("The user " + user.getUsername() + " did not accept the friend request from " + request.getRequestingMember().getUsername());
 			return false;
 		}
