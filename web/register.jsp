@@ -8,8 +8,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% String forumIdString = (String)request.getParameter("forumId"); %>
-<% String identifyQStr= (String)request.getParameter("identifyQ"); %>
+<% String identifyQStr = (String)request.getParameter("identifyQ"); %>
+<% String passRegex = (String)request.getParameter("passRegex"); %>
 <% boolean identifyQ = identifyQStr != null && identifyQStr.equals("true"); %>
+
+
 <%
   int id=-1;
   try {
@@ -80,7 +83,7 @@
 
                         <div class="input-prepend" title="Password">
                             <span class="add-on"><i class="halflings-icon lock"></i></span>
-                            <input class="input-large span10" name="pass" id="password" type="password" placeholder="type password"  maxlength="25" required/>
+                            <input class="input-large span10" name="pass" id="password" type="password" placeholder="type password"  maxlength="25" pattern=<%=passRegex%> required/>
                         </div>
 
                         <div class="input-prepend" title="Email">

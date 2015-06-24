@@ -100,7 +100,7 @@
                             </li>
 
                             <% if(user.isGuest()){%>
-                            <li><a href="\register.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Register</a></li>
+                            <li><a href="\register.jsp?forumId=<%=forum.id%>&identifyQ=<%=forum.getPolicy().isAskIdentificationQuestion()%>&passRegex=<%=forum.getPolicy().getPasswordRegex()%>"><i class="halflings-icon off"></i> Register</a></li>
                             <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>
                             <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
@@ -165,7 +165,7 @@
                     <div class="col-sm-10 col-sm-offset-1" id="logout">
                         <div class="page-header">
                             <a class="center " href="#">
-                                <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
+                               <center> <img class="media-object img-circle" src="\img\gallery\user-icon.png" alt="profile"></center>
                             </a>
                         </div>
                         <div class="comment-tabs">

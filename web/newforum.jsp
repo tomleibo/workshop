@@ -268,7 +268,7 @@
 
                 <div class="form-actions">
                   <input type="submit" class="btn btn-primary" href="comment.html" value="Send">
-                  <input type="reset" class="btn" href="/home" value="Cancel">
+                  <input type="reset" class="btn" value="Reset">
                 </div>
 
             </div>
