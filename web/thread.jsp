@@ -86,8 +86,7 @@
           <li class="dropdown hidden-phone">
             <a class="btn dropdown-toggle" href="\notificationsPage">
               <i class="icon-bell"></i>
-                                    <span id="notificationsButton" class="badge red">
-                                    0 </span>
+                 <span id="notificationsButton" class="badge red"> 0 </span>
             </a>
           </li>
           <!-- start: Notifications Dropdown -->
@@ -96,8 +95,7 @@
           <li class="dropdown hidden-phone">
             <a class="btn dropdown-toggle" href="\friendRequests">
               <i class="icon-user"></i>
-                                    <span id="requestsButton" class="badge red">
-                                    0 </span>
+                <span id="requestsButton" class="badge red"> 0 </span>
             </a>
           </li>
           <%}%>
@@ -181,8 +179,8 @@
         <p class="pull-right"><%=t.getDate().toString()%></p>
         <h4 class="media-heading text-uppercase reviews"><%=t.getMemberStarted().getUsername()%> </h4>
 
-        <div>
-          <div class="container">
+
+          <div class="container span12">
 
             <div class="center">
               <div class="col-sm-10 col-sm-offset-1" id="logout">
@@ -219,7 +217,7 @@
                   <h1 class="reviews">Comments:</h1>
                 </div>
 
-                <div class="span10">
+
                   <div class="comment-tabs">
 
                     <div class="tab-content">
@@ -230,134 +228,9 @@
                           <%=printMessageAndComments(forum, sub, user, t,comment,0)%>
                           <%}%>
                         </ul>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-10 col-sm-offset-1" id="login">
-                <div class="page-header">
-                  <h3 class="reviews">Main message content</h3>
+</div></div></div></div></div></div></div></div></div>
 
 
-
-
-                  <div class="logout">
-                    <button class="btn btn-default btn-circle text-uppercase" type="button" onclick="$('#login').hide(); $('#logout').show()">
-                      <span class="glyphicon glyphicon-off"></span> Login
-                    </button>
-                  </div>
-                </div>
-                <div class="comment-tabs">
-
-                  <div class="tab-content">
-                    <div class="tab-pane active" id="comments-login">
-                      <ul class="media-list">
-                        <% for(Message comment : openingMsg.getComments()){%>
-                        <%= printMessageAndComments(forum, sub, user,t,comment,0)%>
-                        <%}%>
-                      </ul>
-                    </div>
-
-                    <%--<div class="tab-pane" id="add-comment-disabled">--%>
-                    <%--<div class="alert alert-info alert-dismissible" role="alert">--%>
-                    <%--<button type="button" class="close" data-dismiss="alert">--%>
-                    <%--<span aria-hidden="true">×</span><span class="sr-only">Close</span>--%>
-                    <%--</button>--%>
-                    <%--<strong>Hey!</strong> If you already have an account <a href="#" class="alert-link">Login</a> now to make the comments you want. If you do not have an account yet you're welcome to <a href="#" class="alert-link"> create an account.</a>--%>
-                    <%--</div>--%>
-                    <%--<form action="#" method="post" class="form-horizontal" id="commentForm" role="form">--%>
-                    <%--<div class="form-group">--%>
-                    <%--<label for="email" class="col-sm-2 control-label">Comment</label>--%>
-                    <%--<div class="col-sm-10">--%>
-                    <%--<textarea class="form-control" name="addComment" id="addComment" rows="5" disabled></textarea>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                    <%--<label for="uploadMedia" class="col-sm-2 control-label">Upload media</label>--%>
-                    <%--<div class="col-sm-10">--%>
-                    <%--<div class="input-group">--%>
-                    <%--<div class="input-group-addon">http://</div>--%>
-                    <%--<input type="text" class="form-control" name="uploadMedia" id="uploadMedia" disabled>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                    <%--<div class="col-sm-offset-2 col-sm-10">--%>
-                    <%--<button class="btn btn-success btn-circle text-uppercase disabled" type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Summit comment</button>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--</form>--%>
-                    <%--</div>--%>
-                    <%--<div class="tab-pane" id="new-account">--%>
-                    <%--<form action="#" method="post" class="form-horizontal" id="commentForm" role="form">--%>
-                    <%--<div class="form-group">--%>
-                    <%--<label for="name" class="col-sm-2 control-label">Name</label>--%>
-                    <%--<div class="col-sm-10">--%>
-                    <%--<input type="text" class="form-control" name="name" id="name">--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                    <%--<label for="email" class="col-sm-2 control-label">Email</label>--%>
-                    <%--<div class="col-sm-10">--%>
-                    <%--<input type="email" class="form-control" name="email" id="email" required>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                    <%--<label for="password" class="col-sm-2 control-label">Password</label>--%>
-                    <%--<div class="col-sm-10">--%>
-                    <%--<input type="password" class="form-control" name="password" id="password">--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                    <%--<div class="checkbox">--%>
-                    <%--<label for="agreeTerms" class="col-sm-offset-2 col-sm-10">--%>
-                    <%--<input type="checkbox" name="agreeTerms" id="agreeTerms"> I agree all <a href="#">Terms & Conditions</a>--%>
-                    <%--</label>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                    <%--<div class="col-sm-offset-2 col-sm-10">--%>
-                    <%--<button class="btn btn-primary btn-circle text-uppercase" type="submit" id="submit">Create an account</button>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--</form>--%>
-                    <%--</div>--%>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-
-      </div>
-
-
-
-      <%--//done here--%>
-
-    </div><!--/row-->
-
-
-
-
-
-
-    <!-- end: Content -->
-
-
-
-
-
-
-  </div><!--/#content.span10-->
-</div><!--/fluid-row-->
 
 <div class="modal hide fade" id="myModal">
   <div class="modal-header">
@@ -382,7 +255,7 @@
   </div>
 </div>
 
-<div class="clearfix"></div>
+<div class="clearfix"></div> </div>
 
 <footer>
 
@@ -492,13 +365,13 @@ if(PolicyHandler.canUserEditComment(forum,sub,user,msg)) {
       sb.append("<a class=\"btn btn-info btn-circle text-uppercase\" href=\"/deleteMessage?&msgId=" + msg.id + "&deleteThread=1\" id=\"delete\"><span class=\"glyphicon glyphicon-share-alt\"></span> Delete</a>\n");
     }
       if(!msg.getComments().isEmpty()){
-        sb.append("<a class=\"btn btn-warning btn-circle text-uppercase\" data-toggle=\"collapse\" href=\"#reply"+depth+"\"><span class=\"glyphicon glyphicon-comment\"></span>"+msg.getComments().size()+" comments</a>\n");
+        sb.append("<a class=\"btn btn-warning btn-circle text-uppercase\" data-toggle=\"collapse\" href=\"#reply"+msg.id+"\"><span class=\"glyphicon glyphicon-comment\"></span>"+msg.getComments().size()+" comments</a>\n");
       }
 
 
     sb.append("</div>\n");
-    sb.append("</div>\n");
-    sb.append("\t\t\t\t\t  <div class=\"collapse\" id=\"reply"+depth+"\">\n");
+//    sb.append("</div>\n");
+    sb.append("\t\t\t\t\t  <div class=\"collapse\" id=\"reply"+msg.id+"\">\n");
     sb.append("                          <ul class=\"media-list\">\n");
     for(Message c : msg.getComments()) {
       sb.append(printMessageAndComments(forum, sub, user, t, c, depth + 1));
