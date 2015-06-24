@@ -201,7 +201,7 @@
                       <input type="number" min="0" max="10000000000" name="minSeniority" id="minSeniority" required>
                     </div>
 
-                    <br>
+                    <br><br>
 
                     <div class="control-group">
                       <label class="control-label ">Should user have mail authentication?</label>

@@ -243,10 +243,10 @@
     List<User> users = new ArrayList<User>();
 
     if(action.equals("changeAdmin")) {
-      users = forum.getMembers();
+      users = forum.getNonGuestMembers();
     }
     else if(action.equals("appointModerator")){
-      users = forum.getMembers();
+      users = forum.getNonGuestMembers();
     }
     else if(action.equals("dismissModerator")){
       users = subForum.getModerators();

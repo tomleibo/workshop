@@ -1,7 +1,9 @@
 package servlets;
 
 import content.Forum;
+import controllers.AdminController;
 import controllers.UserController;
+import users.Report;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Servlet implementation class ForumServlet
@@ -52,7 +55,9 @@ public class ForumManagementServlet extends HttpServlet {
 
 			Forum forum = (Forum) HibernateUtils.load(Forum.class, forumId);
 			User user = (User) HibernateUtils.load(User.class,userId);
+			List<Report> reports =  AdminController.viewForumReports(forum, user);
 
+			request.setAttribute("reports", reports);
 			request.setAttribute("forum", forum);
 			request.setAttribute("user", user);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/forumManagement.jsp");

@@ -110,11 +110,7 @@
 
 
                             <% if(user.isGuest()){%>
-                            <li>
-                                <a href="/registerPage">
-                                    <i class="halflings-icon off"></i> Register
-                                </a></li>
-
+                            <li><a href="/registerPage"><i class="halflings-icon off"></i> Register</a></li>
                             <li><a href="/login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>
                             <li><a href="/logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
@@ -198,19 +194,18 @@
                             <tr>
                                 <th>Sub Forum</th>
                                 <th>Moderator</th>
-                                <%if(user.isAdmin()){%>
                                 <th>Action</th>
-                                <%}%>
-
                             </tr>
                             </thead>
                             <tbody>
                             <% for (SubForum sub : forum.getSubForums()) { %>
                             <tr>
-                                <td><a href="\subForum?subForumId=<%=sub.id%>"><%=sub.getName()%></a></td>
+                                <td><a href="/subForum?subForumId=<%=sub.id%>"><%=sub.getName()%></a></td>
                                 <td class="center"><%=sub.getModerators().get(0).getUsername()%></td>
                                 <%if(PolicyHandler.canUserDeleteSubForum(forum,user)){%>
-                                    <td class="center"><a href="\deleteSubForum?subForumId=<%=sub.id%>" class="btn btn-mini btn-danger">Delete</a></td>
+                                    <td class="center"><a href="/deleteSubForum?subForumId=<%=sub.id%>" class="btn btn-mini btn-danger">Delete</a></td>
+                                <%}else{%>
+                                <td><a href="/subForum?subForumId=<%=sub.id%>">View</a></td>
                                 <%}%>
                             </tr>
                             <%}%>

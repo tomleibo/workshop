@@ -114,19 +114,11 @@
                             </li>
 
                             <% if(user.isGuest()){%>
-                            <li>
-                                <%--<form action="/register" method="post">--%>
-                                    <%--<input type="hidden" name="forumId" value="<%=forum.id%>">--%>
-                                    <%--<input type="hidden" name="identifyQ" value="<%=forum.getPolicy().isAskIdentificationQuestion()%>">--%>
-                                    <%--<input type="hidden" name="passRegex" value="<%=forum.getPolicy().getPasswordRegex()%>">--%>
-                                    <%--<input type="submit" class="halflings-icon off" value="Register">--%>
-                                <%--</form>--%>
-                                <a href="\register.jsp?forumId=<%=forum.id%>&identifyQ=<%=forum.getPolicy().isAskIdentificationQuestion()%>&passRegex=<%=forum.getPolicy().getPasswordRegex()%>"><i class="halflings-icon off"></i> Register </a>
-                            </li>
-                            <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
+                            <li><a href="/registerPage"><i class="halflings-icon off"></i> Register</a></li>
+                            <li><a href="/login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>
-                            <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
-                            <li><a href="\profile"><i class="halflings-icon user"></i> Profile</a></li>
+                            <li><a href="/logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
+                            <li><a href="/profile"><i class="halflings-icon user"></i> Profile</a></li>
                             <%} %>
 
                         </ul>
@@ -209,8 +201,7 @@
                             <tr>
                                 <th>Thread</th>
                                 <th>Author</th>
-                                <th></th>
-
+                                <th>Action</th>
 
                             </tr>
                             </thead>
@@ -221,6 +212,9 @@
                                         <td class="center"><%=t.getMemberStarted().getUsername()%></td>
                                         <%if(PolicyHandler.canUserDeleteComment(forum, sub, user, t.getOpeningMessage())){%>
                                             <td class="center"><a href="/deleteMessage?msgId=<%=t.getOpeningMessage().id%>" class="btn btn-mini btn-danger">Delete</a></td>
+                                        <%}
+                                        else{%>
+                                        <td class="center"><a href="/thread?threadId=<%=t.id%>" class="btn btn-mini btn-danger">View</a></td>
                                         <%}%>
                                     </tr>
                                 <%}%>
@@ -235,6 +229,8 @@
 
 
         </div><!--/.fluid-container-->
+
+        <br><br><br><br>
 
         <!-- end: Content -->
 

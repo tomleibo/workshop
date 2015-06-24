@@ -2,6 +2,9 @@
 <%@ page import="content.SubForum" %>
 <%@ page import="utils.HtmlUtils" %>
 <%@ page import="users.User" %>
+<%@ page import="users.Report" %>
+<%@ page import="controllers.AdminController" %>
+<%@ page import="java.util.List" %>
 <%--
   Created by IntelliJ IDEA.
   User: thinkPAD
@@ -12,6 +15,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% Forum forum = (Forum)request.getAttribute("forum"); %>
 <% User user = (User) request.getAttribute("user"); %>
+<% List<Report> reports = (List<Report>) request.getAttribute("reports"); %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -107,11 +111,7 @@
 
 
                             <% if(user.isGuest()){%>
-                            <li>
-                                <a href="/registerPage">
-                                    <i class="halflings-icon off"></i> Register
-                                </a></li>
-
+                            <li><a href="/registerPage"><i class="halflings-icon off"></i> Register</a></li>
                             <li><a href="/login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>
                             <li><a href="/logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
@@ -356,20 +356,19 @@
                                             </tr>
                                             </thead>
                                             <tbody>
+                                            <%for (Report report : reports){%>
                                             <tr>
                                                 <td class=" sorting_1">
                                                     <div class="span4 collapse-group row center">
-                                                        <p><a class="btn btn-mini" href="#">+</a>&nbsp;&nbsp;&nbsp;Title</p>
-                                                        <p class="collapse">CONTENT</p>
+                                                        <p><a class="btn btn-mini" href="#">+</a>&nbsp;&nbsp;&nbsp;<%=report.getTitle()%></p>
+                                                        <p class="collapse"><%=report.getContent()%></p>
 
                                                     </div>
                                                 </td>
-                                                <td class="center">Reported Name</td>
-                                                <td class="center">Reporter Name</td>
-
-
+                                                <td class="center"><%=report.getReported().getUsername()%></td>
+                                                <td class="center"><%=report.getReporter().getUsername()%></td>
                                             </tr>
-
+                                            <%}%>
 
                                             </tbody>
                                         </table>

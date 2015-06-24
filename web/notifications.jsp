@@ -103,11 +103,7 @@
 
 
               <% if(user.isGuest()){%>
-              <li>
-                <a href="/registerPage">
-                  <i class="halflings-icon off"></i> Register
-                </a></li>
-
+              <li><a href="/registerPage"><i class="halflings-icon off"></i> Register</a></li>
               <li><a href="/login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
               <%} else{ %>
               <li><a href="/logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
@@ -200,6 +196,7 @@
                     <td class=" sorting_1">
                       <%=HtmlUtils.parseDate(notification.getDate())%>
                     </td>
+                    <td></td>
                   </tr>
               <% } %>
 

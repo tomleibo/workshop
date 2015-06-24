@@ -109,11 +109,7 @@
 
 
               <% if(user.isGuest()){%>
-              <li>
-                <a href="/registerPage">
-                  <i class="halflings-icon off"></i> Register
-                </a></li>
-
+              <li><a href="/registerPage"><i class="halflings-icon off"></i> Register</a></li>
               <li><a href="/login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
               <%} else{ %>
               <li><a href="/logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
@@ -189,7 +185,7 @@
               <tr>
                 <th>Request</th>
                 <th>From</th>
-                <th></th>
+                <th>Action</th>
 
               </tr>
               </thead>

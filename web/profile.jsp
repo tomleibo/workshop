@@ -103,11 +103,7 @@
 
 
                             <% if(user.isGuest()){%>
-                            <li>
-                                <a href="/registerPage">
-                                    <i class="halflings-icon off"></i> Register
-                                </a></li>
-
+                            <li><a href="/registerPage"><i class="halflings-icon off"></i> Register</a></li>
                             <li><a href="/login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
                             <%} else{ %>
                             <li><a href="/logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
@@ -256,7 +252,7 @@
 
 
                                                             <select name="reporteeId" id="selectError1" data-rel="chosen">
-                                                                <% for (User fuser : forum.getMembers()) { %>
+                                                                <% for (User fuser : forum.getNonGuestMembers()) { %>
                                                                 <option name="reporteeId" value="<%=fuser.getId()%>"><%=fuser.getUsername()%></option>
                                                                 <% } %>
                                                             </select>
@@ -296,7 +292,7 @@
                                                         <tr>
                                                             <td>
                                                                 <select name="receiverId" id="idontknow2" data-rel="chosen">
-                                                                    <% for (User fuser : forum.getMembers()) { %>
+                                                                    <% for (User fuser : forum.getNonGuestMembers()) { %>
                                                                     <option name="receiverId"  value="<%=fuser.getId()%>"><%=fuser.getUsername()%></option>
 
                                                                     <% } %>
