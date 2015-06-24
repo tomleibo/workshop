@@ -224,12 +224,17 @@ public class Forum {
     }
 
     public Map<Integer, String> getStatusTypes() {
-        List<String> statuses = Arrays.asList(statusTypes.split(";"));
         Map<Integer, String> result = new HashMap<>();
-        for (String status : statuses) {
-            String statusName = status.substring(0, status.indexOf(":"));
-            Integer statusNumber = Integer.valueOf(status.substring(status.indexOf(":") + 1));
-            result.put(statusNumber, statusName);
+        try {
+            List<String> statuses = Arrays.asList(statusTypes.split(";"));
+            for (String status : statuses) {
+                String statusName = status.substring(0, status.indexOf(":"));
+                Integer statusNumber = Integer.valueOf(status.substring(status.indexOf(":") + 1));
+                result.put(statusNumber, statusName);
+            }
+        }
+        catch (Exception e) {
+            ForumLogger.errorLog(e.getMessage());
         }
         return result;
     }
