@@ -146,12 +146,12 @@ public class UserController {
 	
 	public static boolean replyToFriendRequest(Forum forum, User user, FriendRequest request, boolean answer) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserReplyToFriendRequest(forum, user, request)) {
+			request.setViewed(true);
 			if (answer) {
 				ForumLogger.actionLog("The user " + user.getUsername() + " accepted the friend request from " + request.getRequestingMember().getUsername());
-                User requesting = request.getRequestingMember();
-                User receiving = request.getReceivingMember();
-                if (requesting.addFriend(receiving) && receiving.addFriend(requesting)){
-					request.setViewed(true);
+				User requesting = request.getRequestingMember();
+				User receiving = request.getReceivingMember();
+				if (requesting.addFriend(receiving) && receiving.addFriend(requesting)){
 					HibernateUtils.update(receiving);
 					HibernateUtils.update(requesting);
 					HibernateUtils.update(request);
