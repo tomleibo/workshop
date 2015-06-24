@@ -115,7 +115,6 @@ public class ContentController {
 		SubForum sub = new SubForum(title, moderator, forum.getPolicy().getMaxModerators());
 		if (forum.addSubForum(sub)) {
 			HibernateUtils.save(sub);
-			// TODO changed from update
 			HibernateUtils.merge(forum);
 			return sub;
 		}

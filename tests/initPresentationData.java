@@ -97,7 +97,8 @@ public class initPresentationData {
         User admin1 = UserController.register(forumEasy, ADMIN_NAMES[0], ADMIN_PASSES[0], ADMIN_EMAILS[0]);
         System.out.println(ADMIN_NAMES[0] + " registered to " + FORUM_NAMES[0] + ": " + " password = " + ADMIN_PASSES[0] + " email = " + ADMIN_EMAILS[0]);
 
-        admin1.setState(User.ADMIN);
+        //admin1.setState(User.ADMIN);
+        forumEasy = (Forum) HibernateUtils.load(Forum.class, forumEasy.id);
         SuperAdminController.changeAdministrator(superAdmin, forumEasy, admin1);
         System.out.println("admin of " + FORUM_NAMES[0] + " was changed to " + ADMIN_NAMES[0]);
 
@@ -108,7 +109,8 @@ public class initPresentationData {
         User admin2 = UserController.register(forumNightmare, ADMIN_NAMES[1], ADMIN_PASSES[1], ADMIN_EMAILS[1], ID_QUESTIONS[0], ID_ANSWERS[0]);
         System.out.println(ADMIN_NAMES[1] + "registered to " + FORUM_NAMES[1] + ": " + " password = " + ADMIN_PASSES[1] + " email = " + ADMIN_EMAILS[1]);
 
-        admin2.setState(User.ADMIN);
+        //admin2.setState(User.ADMIN);
+        forumNightmare = (Forum) HibernateUtils.load(Forum.class, forumNightmare.id);
         SuperAdminController.changeAdministrator(superAdmin, forumNightmare, admin2);
         System.out.println("admin of " + FORUM_NAMES[1] + " was changed to " + ADMIN_NAMES[1]);
 

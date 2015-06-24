@@ -93,10 +93,10 @@ public class SuperAdminController {
 		if (PolicyHandler.canReplaceAdmin(superAdmin, forum, admin)) {
 			User oldAdmin = forum.getAdmin();
             forum.setAdmin(admin);
-            admin.setState(User.ADMIN);
             if (oldAdmin.getState() <= User.ADMIN) {
                 oldAdmin.setState(User.MEMBER);
             }
+            admin.setState(User.ADMIN);
             HibernateUtils.update(admin);
             HibernateUtils.update(oldAdmin);
 			return HibernateUtils.update(forum);
