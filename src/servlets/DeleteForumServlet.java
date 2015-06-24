@@ -21,7 +21,7 @@ import java.io.IOException;
  * Servlet implementation class UserProfileServlet
  */
 @WebServlet(
-		description = "Handles the request of appoint a moderator to a sub forum",
+		description = "Handles the request of delete a forum",
 		urlPatterns = {
 				"/deleteForum"}
 		)
@@ -58,9 +58,7 @@ public class DeleteForumServlet extends HttpServlet {
 
 			SuperAdminController.deleteForum(superAdmin, forum);
 
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/main.jsp");
-			request.setAttribute("superAdmin", superAdmin);
-			request.setAttribute("forum", forum);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/home");
 			dispatcher.forward(request, response);
 		}
 		catch (Exception e){

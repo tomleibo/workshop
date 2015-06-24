@@ -340,7 +340,7 @@
 
 
 
-      //done here
+      <%--//done here--%>
 
     </div><!--/row-->
 
@@ -484,8 +484,9 @@
     if(PolicyHandler.canUserReply(forum,user)) {
       sb.append("<a class=\"btn btn-info btn-circle text-uppercase\" href=\"/replyEditRequest?op=reply&threadId=" + t.id + "&msgId=" + msg.id + "&title=" + msg.getTitle() + "&body=" + msg.getBody() + "\" id=\"reply\"><span class=\"glyphicon glyphicon-share-alt\"></span> Reply</a>\n");
     }
-    if(PolicyHandler.canUserEditComment(forum,sub,user,msg)) {
-      sb.append("<a class=\"btn btn-info btn-circle text-uppercase\" href=\"/replyEditRequest?op=reply&threadId="+t.id+"&msgId="+msg.id+"&title="+msg.getTitle()+"&body="+msg.getBody()+"\" id=\"edit\"><span class=\"glyphicon glyphicon-share-alt\"></span> Edit</a>\n");
+
+if(PolicyHandler.canUserEditComment(forum,sub,user,msg)) {
+      sb.append("<a class=\"btn btn-info btn-circle text-uppercase\" href=\"/replyEditRequest?op=edit&threadId="+t.id+"&msgId="+msg.id+"&title="+msg.getTitle()+"&body="+msg.getBody()+"\" id=\"edit\"><span class=\"glyphicon glyphicon-share-alt\"></span> Edit</a>\n");
     }
     if(PolicyHandler.canUserDeleteComment(forum,sub,user,msg)) {
       sb.append("<a class=\"btn btn-info btn-circle text-uppercase\" href=\"/deleteMessage?&msgId=" + msg.id + "&deleteThread=1\" id=\"delete\"><span class=\"glyphicon glyphicon-share-alt\"></span> Delete</a>\n");
