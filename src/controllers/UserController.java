@@ -24,11 +24,11 @@ public class UserController {
 	private static String mailUsername = "sadnase2015@gmail.com";
 	private static String mailPassword = "sadna2015";
 
-    public static User register(Forum forum, String username, String password, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, EmptyFieldException, IdentificationQuestionMissingException {
+    public static User register(Forum forum, String username, String password, String emailAddress) throws UsernameAlreadyExistsException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, EmptyFieldException, IdentificationQuestionMissingException, VerifyMailException {
         return register(forum, username, password, emailAddress, null, null);
     }
 
-    public static User register(Forum forum, String username, String password, String emailAddress, String question, String answer) throws UsernameAlreadyExistsException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, EmptyFieldException, IdentificationQuestionMissingException {
+    public static User register(Forum forum, String username, String password, String emailAddress, String question, String answer) throws UsernameAlreadyExistsException, NoSuchAlgorithmException, PasswordNotMatchesRegexException, EmptyFieldException, IdentificationQuestionMissingException, VerifyMailException {
 		if (!password.matches(forum.getPolicy().getPasswordRegex())) {
             throw new PasswordNotMatchesRegexException();
         }
@@ -44,17 +44,12 @@ public class UserController {
 			throw new UsernameAlreadyExistsException("Username: " + username + " already exists in forum: " + forum.getName() + ".");
 		User member = User.newMember(username, Cipher.hashString(password, Cipher.SHA), emailAddress, question, (answer == null) ? null : Cipher.hashString(answer, Cipher.SHA));
 		if (forum.isSecured()) {
-			MailAuthenticator authenticator = new MailAuthenticator(mailHost, mailUsername, mailPassword);
-			authenticator.sendVerificationMail(emailAddress, username);
-			ForumLogger.actionLog("Authentication in the forum " + forum.getName() + "is needed, authentication mail is sent to address: " + emailAddress);
-			if (authenticator.authorizedMailIncome(emailAddress)) {
-				ForumLogger.actionLog("A response mail has arrived, the user reliability approved!");
-				if (forum.addMember(member)) {
-					HibernateUtils.save(member);
-                    HibernateUtils.update(forum);
-                    return member;
-                }
-			}
+            MailAuthenticator authenticator = new MailAuthenticator(mailHost, mailUsername, mailPassword);
+            authenticator.sendVerificationMail(emailAddress, username);
+            ForumLogger.actionLog("Authentication in the forum " + forum.getName() + "is needed, authentication mail is sent to address: " + emailAddress);
+            java.lang.Thread thread = new java.lang.Thread(new VerificationHandler(authenticator, forum, member, emailAddress));
+            thread.start();
+            throw new VerifyMailException(forum, member);
 		} else {
 			if (forum.addMember(member)) {
                 HibernateUtils.save(member);
@@ -287,4 +282,32 @@ public class UserController {
         return null;
     }
 
+    private static class VerificationHandler implements Runnable {
+
+        private final MailAuthenticator authenticator;
+        private final User member;
+        private final String emailAddress;
+        private final Forum forum;
+
+        public VerificationHandler(MailAuthenticator authenticator, Forum forum, User member, String emailAddress) {
+            this.authenticator = authenticator;
+            this.member = member;
+            this.emailAddress = emailAddress;
+            this.forum = forum;
+        }
+
+        @Override
+        public void run() {
+            if (authenticator.authorizedMailIncome(emailAddress)) {
+                ForumLogger.actionLog("A response mail has arrived, the user reliability approved!");
+                if (forum.addMember(member)) {
+                    HibernateUtils.save(member);
+                    HibernateUtils.update(forum);
+                }
+            } else {
+                ForumLogger.actionLog("A response mail from: " + emailAddress + " not arrived, user not registered.");
+            }
+        }
+    }
 }
+
