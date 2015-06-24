@@ -4,8 +4,10 @@ import content.Forum;
 import content.Message;
 import content.SubForum;
 import controllers.UserController;
+import exceptions.WordNotApprovedException;
 import users.FriendRequest;
 import users.User;
+import utils.ContentDigestUtils;
 import utils.CookieUtils;
 import utils.HibernateUtils;
 import utils.SessionLogger;
@@ -48,7 +50,21 @@ public class ReplyEditServlet extends HttpServlet {
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
 			String op = request.getParameter("op");
+            if (body != null && !body.equals("")) {
+                String word = ContentDigestUtils.isTextOk(body);
+                if (word != null) {
+                    ServletUtils.exitError(this,request,response,new WordNotApprovedException(word));
+                    return;
+                }
+            }
 
+            if (title != null && !title.equals("")) {
+                String word = ContentDigestUtils.isTextOk(title);
+                if (word != null) {
+                    ServletUtils.exitError(this,request,response,new WordNotApprovedException(word));
+                    return;
+                }
+            }
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
 			if (cookieValue == null)
 				throw new Exception("Forum Cookie Value doesn't exist");
