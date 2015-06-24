@@ -174,8 +174,8 @@ public class UserController {
 	public static boolean report(Forum forum, User reporter, User admin, String title, String content) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserReportAdmin(forum, reporter, admin)) {
 			Report report = new Report(title, content, reporter, admin);
-			if( forum.addReport(report) && reporter.addSentReport(report)){
-                return HibernateUtils.save(forum) && HibernateUtils.save(reporter);
+			if(forum.addReport(report) && reporter.addSentReport(report)){
+                return HibernateUtils.update(forum) && HibernateUtils.update(reporter);
             }
             return false;
 		}

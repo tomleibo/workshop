@@ -7,6 +7,7 @@ import exceptions.SubForumMustHaveModeratorException;
 import exceptions.UserCantBeModeratorException;
 import exceptions.UserNotAuthorizedException;
 import policy.PolicyHandler;
+import users.Report;
 import users.User;
 import utils.ForumLogger;
 import utils.HibernateUtils;
@@ -103,6 +104,13 @@ public class AdminController {
 		ForumLogger.errorLog("The user " + admin.getUsername() + " can't delete sub forum");
 		throw new UserNotAuthorizedException("to delete sub forum");
 	}
+
+    public static List<Report> viewForumReports(Forum forum, User admin) throws UserNotAuthorizedException {
+        if (PolicyHandler.canUserViewReports(forum, admin)) {
+            return forum.getReports();
+        }
+        throw new UserNotAuthorizedException("to view forum's reports.");
+    }
 
     public static int getReportTotalMessagesInSubForum(Forum forum, User admin, SubForum subForum) throws UserNotAuthorizedException {
         if (PolicyHandler.canUserGetNumberOfMessagesInSubForum(forum, admin, subForum)) {
