@@ -344,7 +344,7 @@
     }
     sb.append("\">\n");
     sb.append("<a class=\"pull-left\" href=\"#\">\n" +
-            "                          <img class=\"media-object img-circle\" src=\"\\img\\gallery\\user-icon.png\" alt=\"profile\">\n" +
+            "                          <img class=\"media-object img-circle\" src=\"\\img\\gallery\\rsz_user-icon.png\" alt=\"profile\">\n" +
             "                        </a>\n");
     sb.append("<div class=\"media-body\">\n");
     sb.append("<div class=\"well well-lg\">");

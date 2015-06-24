@@ -7,21 +7,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% String forumIdString = (String)request.getParameter("forumId"); %>
-<% String identifyQStr = (String)request.getParameter("identifyQ"); %>
-<% String passRegex = (String)request.getParameter("passRegex"); %>
-<% boolean identifyQ = identifyQStr != null && identifyQStr.equals("true"); %>
+<% int id  = (Integer)request.getAttribute("forumId"); %>
+<% boolean identifyQ = (Boolean)request.getAttribute("identifyQ"); %>
+<% String passRegex = (String)request.getAttribute("passRegex"); %>
 
-
-<%
-  int id=-1;
-  try {
-    id=Integer.parseInt(forumIdString);
-  }
-  catch (NumberFormatException e) {
-    System.out.println(e);
-  }
-%>
 <!DOCTYPE html>
 <html>
 <head>
