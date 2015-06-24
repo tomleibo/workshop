@@ -2,14 +2,25 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2015-06-23T14:24:26</date>
-  <millis>1435058666285</millis>
-  <sequence>19</sequence>
+  <date>2015-06-24T19:34:31</date>
+  <millis>1435163671933</millis>
+  <sequence>49</sequence>
   <logger>error</logger>
   <level>SEVERE</level>
   <class>utils.ForumLogger</class>
   <method>errorLog</method>
   <thread>1</thread>
-  <message>utils.HibernateUtils org.hibernate.exception.ConstraintViolationException: could not execute statement</message>
+  <message>users.User The user admin_of_YNET can't unappoint from moderator position</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:32</date>
+  <millis>1435163672055</millis>
+  <sequence>53</sequence>
+  <logger>error</logger>
+  <level>SEVERE</level>
+  <class>utils.ForumLogger</class>
+  <method>errorLog</method>
+  <thread>1</thread>
+  <message>users.User The user admin_of_StackOverFlow can't unappoint from moderator position</message>
 </record>
 </log>
