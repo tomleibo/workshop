@@ -105,7 +105,7 @@ public class PolicyHandler {
 	}
 
 	public static boolean canReplaceAdmin(User superAdmin, Forum forum, User admin) {
-		if(forum.getAdmin().equals(superAdmin))
+		if(superAdmin.isSuperAdmin())
 			return true;
 		return false;
 	}
