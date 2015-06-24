@@ -209,36 +209,36 @@ public class initPresentationData {
 
         // moderators replacment and appointment
 
-
+        subEasy1 = (SubForum) HibernateUtils.load(SubForum.class, subEasy1.id);
         AdminController.replaceModerator(forumEasy, subEasy1, admin1, admin1, mod1subEasy1);
         System.out.println("moderators of " + SUB_FORUM_NAMES[0] + " was changed to " + MODERATOR_NAMES[0]);
 
-
+        subEasy2 = (SubForum) HibernateUtils.load(SubForum.class, subEasy2.id);
         AdminController.replaceModerator(forumEasy, subEasy2, admin1, admin1, mod1subEasy2);
         System.out.println("moderators of " + SUB_FORUM_NAMES[1] + " was changed to " + MODERATOR_NAMES[2]);
 
 
-
+        subNightmare1 = (SubForum) HibernateUtils.load(SubForum.class, subNightmare1.id);
         AdminController.replaceModerator(forumNightmare, subNightmare1, admin2, admin2, mod1subNightmare1);
         System.out.println("moderators of " + SUB_FORUM_NAMES[2] + " was changed to " + MODERATOR_NAMES[4]);
 
-
+        subNightmare2 = (SubForum) HibernateUtils.load(SubForum.class, subNightmare2.id);
         AdminController.replaceModerator(forumNightmare, subNightmare2, admin2, admin2, mod1subNightmare2);
         System.out.println("moderators of " + SUB_FORUM_NAMES[3] + " was changed to " + MODERATOR_NAMES[6]);
 
-
+        subEasy1 = (SubForum) HibernateUtils.load(SubForum.class, subEasy1.id);
         AdminController.appointModerator(forumEasy, subEasy1, admin1, mod2subEasy1);
         System.out.println("moderators of " + SUB_FORUM_NAMES[0] + " has grown with " + MODERATOR_NAMES[1]);
 
-
+        subEasy2 = (SubForum) HibernateUtils.load(SubForum.class, subEasy2.id);
         AdminController.appointModerator(forumEasy, subEasy2, admin1, mod2subEasy2);
         System.out.println("moderators of " + SUB_FORUM_NAMES[1] + " has grown with " + MODERATOR_NAMES[3]);
 
-
+        subNightmare1 = (SubForum) HibernateUtils.load(SubForum.class, subNightmare1.id);
         AdminController.appointModerator(forumNightmare, subNightmare1, admin2, mod2subNightmare1);
         System.out.println("moderators of " + SUB_FORUM_NAMES[2] + " has grown with " + MODERATOR_NAMES[5]);
 
-
+        subNightmare2 = (SubForum) HibernateUtils.load(SubForum.class, subNightmare2.id);
         AdminController.appointModerator(forumNightmare, subNightmare2, admin2, mod2subNightmare2);
         System.out.println("moderators of " + SUB_FORUM_NAMES[3] + " has grown with " + MODERATOR_NAMES[7]);
     }
