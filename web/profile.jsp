@@ -205,28 +205,15 @@
                                             <input type="text" id="statusInput" class="form-control" placeholder="<%=user.getStatus()%>" disabled>
 
                                         </div>
+
+                                        <br>
                                         <div class="form-group">
-                                            <label for="oldpassword">Change password</label>
-                                            <form action="/changePassword" method="get">
-                                                <input name="userId" type="hidden" value="<%=user.getId()%>"/>
-                                                Old password: <input id="oldpassword" name="oldPassword" type="password" value="" required/><br>
-                                                New password: <input name="password" type="password" value="" required/><br>
-                                                <input type="submit" class="btn btn-primary" value="Change">
-                                            </form>
+                                            <a href="/changePasswordPage" id="changePassword" type="submit" class="btn btn-primary" >Change Password</a>
                                         </div>
 
 
 
                                     </form>
-
-
-
-
-
-
-
-
-
 
 
                                     <!--
