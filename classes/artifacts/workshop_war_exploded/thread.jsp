@@ -84,7 +84,7 @@
 
           <% if(!user.isGuest()){%>
           <li class="dropdown hidden-phone">
-            <a class="btn dropdown-toggle" href="\notificationsPage">
+            <a class="btn dropdown-toggle" href="/notificationsPage">
               <i class="icon-bell"></i>
                  <span id="notificationsButton" class="badge red"> 0 </span>
             </a>
@@ -93,7 +93,7 @@
           <!-- end: Notifications Dropdown -->
           <%--friend requests--%>
           <li class="dropdown hidden-phone">
-            <a class="btn dropdown-toggle" href="\friendRequests">
+            <a class="btn dropdown-toggle" href="/friendRequests">
               <i class="icon-user"></i>
                 <span id="requestsButton" class="badge red"> 0 </span>
             </a>
@@ -111,12 +111,17 @@
                 <span>Account Settings</span>
               </li>
 
+
               <% if(user.isGuest()){%>
-              <li><a href="\register.jsp?forumId=<%=forum.id%>&identifyQ=<%=forum.getPolicy().isAskIdentificationQuestion()%>&passRegex=<%=forum.getPolicy().getPasswordRegex()%>"><i class="halflings-icon off"></i> Register</a></li>
-              <li><a href="\login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
+              <li>
+                <a href="/registerPage">
+                  <i class="halflings-icon off"></i> Register
+                </a></li>
+
+              <li><a href="/login.jsp?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Login</a></li>
               <%} else{ %>
-              <li><a href="\logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
-              <li><a href="\profile"><i class="halflings-icon user"></i> Profile</a></li>
+              <li><a href="/logout?forumId=<%=forum.id%>"><i class="halflings-icon off"></i> Logout</a></li>
+              <li><a href="/profile"><i class="halflings-icon user"></i> Profile</a></li>
               <%} %>
 
             </ul>
@@ -339,7 +344,7 @@
     }
     sb.append("\">\n");
     sb.append("<a class=\"pull-left\" href=\"#\">\n" +
-            "                          <img class=\"media-object img-circle\" src=\"\\img\\gallery\\user-icon.png\" alt=\"profile\">\n" +
+            "                          <img class=\"media-object img-circle\" src=\"\\img\\gallery\\rsz_user-icon.png\" alt=\"profile\">\n" +
             "                        </a>\n");
     sb.append("<div class=\"media-body\">\n");
     sb.append("<div class=\"well well-lg\">");
