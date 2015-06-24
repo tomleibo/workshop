@@ -160,12 +160,16 @@
 
           <div class="box-content">
             <table class="table table-striped table-bordered bootstrap-datatable ">
-              <col width="300">
-              <col width="50">
+                <col width="300">
+                <col width="70">
+                <col width="5">
               <thead>
               <tr>
                 <th>Forum</th>
                 <th>Manager</th>
+                  <% if(superAdmin!=null && superAdmin.isSuperAdmin()){%>
+                  <th>Action</th>
+                  <%}%>
 
               </tr>
               </thead>
@@ -179,6 +183,9 @@
               <tr>
                 <td><a href="\forum?forumId=<%=forum.id%>"><%=forum.getName()%></a></td>
                 <td class="center"><%=forum.getAdmin().getUsername()%></td>
+                  <% if(superAdmin!=null && superAdmin.isSuperAdmin()){%>
+                  <td class="center"><a href="/deleteForum?forumId=<%=forum.id%>" class="btn btn-mini btn-danger">Delete</a></td>
+                  <%}%>
               </tr>
               <%
                 }

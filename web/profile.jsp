@@ -165,7 +165,7 @@
                     <div class="col-sm-10 col-sm-offset-1" id="logout">
                         <div class="page-header">
                             <a class="center " href="#">
-                               <center> <img class="media-object img-circle" src="\img\gallery\user-icon.png" alt="profile"></center>
+                               <img class="media-object img-circle" src="\img\gallery\user-icon.png" alt="profile">
                             </a>
                         </div>
                         <div class="comment-tabs">
