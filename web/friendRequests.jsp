@@ -177,7 +177,7 @@
 
 
           <div class="box-content">
-            <table class="table table-striped table-bordered bootstrap-datatable datatable">
+            <table class="table table-striped table-bordered bootstrap-datatable">
               <col width="300">
               <col width="50">
               <col width="10">
