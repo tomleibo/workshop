@@ -296,7 +296,7 @@
                                                 <div class="control-group">
                                                     <label class="control-label" for="typeahead">Sub Forum Name: </label>
                                                     <div class="controls">
-                                                        <input name="title" type="text" id="title" maxlength="25">
+                                                        <input name="title" type="text" id="title" maxlength="25" required>
 
                                                     </div>
                                                 </div>

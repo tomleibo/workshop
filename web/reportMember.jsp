@@ -17,7 +17,7 @@
     <input type="hidden" name="reporteeId" value=<%=reporteeId%> />
   <label>
     Title:<br>
-    <input type="text" name="title" maxlength="25"/><br>
+    <input type="text" name="title" maxlength="25" required/><br>
   </label>
   <label>
     Content:<br>
