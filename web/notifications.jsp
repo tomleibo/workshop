@@ -2,10 +2,13 @@
 <%@ page import="users.Notification" %>
 <%@ page import="utils.HtmlUtils" %>
 <%@ page import="content.Forum" %>
+<%@ page import="controllers.UserController" %>
+<%@ page import="java.util.List" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% User user = (User)request.getAttribute("user"); %>
 <% Forum forum = (Forum)request.getAttribute("forum"); %>
+<% List<Notification> notifications = (List<Notification>) request.getAttribute("notifications"); %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -170,7 +173,7 @@
 
 
           <div class="box-content">
-            <table class="table table-striped table-bordered bootstrap-datatable datatable">
+            <table class="table table-striped table-bordered bootstrap-datatable">
               <col width="100">
               <col width="50">
               <col width="10">
@@ -178,27 +181,29 @@
               <tr>
                 <th>Title</th>
                 <th>Date</th>
-                <th></th>
 
               </tr>
               </thead>
               <tbody>
-              <% for (Notification notification : user.getPendingNotifications()) { %>
-                  <tr>
-                    <td class=" sorting_1">
-                      <div class="span4 collapse-group row center">
-                        <p><a class="btn btn-mini" href="#">+</a>&nbsp;&nbsp;&nbsp;<%=notification.getTitle()%></p>
-                        <p class="collapse"><%=notification.getMessage()%></p>
 
-                      </div>
-                    </td>
+              <% if(notifications != null) {
+                for (Notification notification : notifications) { %>
+              <tr>
+                <td class=" sorting_1">
+                  <div class="span4 collapse-group row center">
+                    <p><a class="btn btn-mini" href="#">+</a>&nbsp;&nbsp;&nbsp;<%=notification.getTitle()%></p>
+                    <p class="collapse"><%=notification.getMessage()%></p>
 
-                    <td class=" sorting_1">
-                      <%=HtmlUtils.parseDate(notification.getDate())%>
-                    </td>
-                    <td></td>
-                  </tr>
-              <% } %>
+                  </div>
+                </td>
+
+                <td class=" sorting_1">
+                  <%=HtmlUtils.parseDate(notification.getDate())%>
+                </td>
+              </tr>
+              <%
+                  }
+                }%>
 
               </tbody>
             </table>
@@ -246,7 +251,7 @@
 
 <div class="clearfix"></div>
 
-
+<footer></footer>
 
 <!-- start: JavaScript-->
 

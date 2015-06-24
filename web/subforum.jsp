@@ -180,9 +180,10 @@
             <%if(PolicyHandler.canUserOpenThread(forum,user)){%>
             <div class="pull-right">
                 <a href="\newThread" class="btn btn-large btn-primary btn-round"><i class="halflings-icon white plus"></i><span class="break"></span> Post New Thread</a></div>
+            <br><br><br>
             <%}%>
 
-<br><br><br>
+
             <%--start table--%>
             <div>
                 <div class="box span12">
@@ -193,7 +194,7 @@
 
 
                     <div class="box-content">
-                        <table class="table table-striped table-bordered bootstrap-datatable datatable">
+                        <table class="table table-striped table-bordered bootstrap-datatable">
                             <col width="300">
                             <col width="70">
                             <col width="1">
@@ -214,7 +215,7 @@
                                             <td class="center"><a href="/deleteMessage?msgId=<%=t.getOpeningMessage().id%>" class="btn btn-mini btn-danger">Delete</a></td>
                                         <%}
                                         else{%>
-                                        <td class="center"><a href="/thread?threadId=<%=t.id%>" class="btn btn-mini btn-danger">View</a></td>
+                                        <td></td>
                                         <%}%>
                                     </tr>
                                 <%}%>

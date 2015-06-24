@@ -205,7 +205,7 @@
                                 <%if(PolicyHandler.canUserDeleteSubForum(forum,user)){%>
                                     <td class="center"><a href="/deleteSubForum?subForumId=<%=sub.id%>" class="btn btn-mini btn-danger">Delete</a></td>
                                 <%}else{%>
-                                <td><a href="/subForum?subForumId=<%=sub.id%>">View</a></td>
+                                <td></td>
                                 <%}%>
                             </tr>
                             <%}%>
