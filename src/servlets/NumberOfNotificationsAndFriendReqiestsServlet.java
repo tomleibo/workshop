@@ -1,6 +1,7 @@
 package servlets;
 
 import users.FriendRequest;
+import users.Notification;
 import users.User;
 import utils.CookieUtils;
 import utils.HibernateUtils;
@@ -41,8 +42,12 @@ public class NumberOfNotificationsAndFriendReqiestsServlet extends HttpServlet {
             if(user == null)
                 throw new Exception("Error loading user");
 
-            String notifs = String.valueOf(user.getPendingNotifications().size());
-//            String notifs = String.valueOf(System.currentTimeMillis());
+            int numNotifs = 0;
+            for(Notification notification : user.getPendingNotifications()){
+                if(notification.isViewed()){
+                    numNotifs++;
+                }
+            }
 
             int numOfFriendRequests = 0;
             for (FriendRequest fr : user.getFriendRequests()){
@@ -52,8 +57,7 @@ public class NumberOfNotificationsAndFriendReqiestsServlet extends HttpServlet {
             }
 
             String requests = String.valueOf(numOfFriendRequests);
-//            String requests = String.valueOf(System.currentTimeMillis());
-            String json = "{\"notifs\":\""+notifs+"\", \"frs\":\""+requests+"\"}";
+            String json = "{\"notifs\":\""+numNotifs+"\", \"frs\":\""+requests+"\"}";
 
             response.setContentType("application/json");
             response.getWriter().write(json);

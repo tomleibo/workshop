@@ -165,10 +165,10 @@
                     <i class="icon-home"></i>
                     <a href="/home">Home</a>
                     <i class="icon-angle-right"></i>
-                    <a href="/forum?forumId=<%=forum.id%>">ForumName</a>
+                    <a href="/forum?forumId=<%=forum.id%>"><%=forum.getName()%></a>
                     <i class="icon-angle-right"></i>
                 </li>
-                <li><a href="#">Forum Management</a></li>
+                <li><a href="/forumManagement">Forum Management</a></li>
             </ul>
 
             <h1>Forum Management</h1><br><br>
