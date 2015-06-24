@@ -133,9 +133,9 @@ public class UserController {
 	
 	public static boolean removeFriend(Forum forum, User user, User friend) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserHaveFriends(forum, user) & PolicyHandler.canUserHaveFriends(forum, friend)) {
-			if(friend.deleteFriend(user) && user.deleteFriend(friend)){
-                HibernateUtils.update(friend);
-                HibernateUtils.update(user);
+			if( user.deleteFriend(friend) & friend.deleteFriend(user)){
+                HibernateUtils.merge(friend);
+                HibernateUtils.merge(user);
                 return true;
             }
             return false;

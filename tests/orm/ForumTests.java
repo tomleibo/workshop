@@ -27,6 +27,11 @@ public class ForumTests {
         HibernateUtils.start();
     }
 
+    @AfterClass
+    public static void tearDown() {
+        //HibernateUtils.cleanUp();
+    }
+
     @Test
     public void testSaveForum() {
         System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -292,6 +297,7 @@ public class ForumTests {
         FriendRequest fr= UserController.sendFriendRequest(forum1, user, admin, "msg");
         UserController.replyToFriendRequest(forum1, admin, fr, true);
         Assert.assertTrue(((User) HibernateUtils.load(User.class, user.getId())).getFriends().contains(admin));
+        user = (User) HibernateUtils.load(User.class, user.getId());
         Assert.assertTrue(((User) HibernateUtils.load(User.class, admin.getId())).getFriends().contains(user));
     }
 
