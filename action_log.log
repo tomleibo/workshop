@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2015-06-23T14:24:26</date>
-  <millis>1435058666108</millis>
-  <sequence>15</sequence>
+  <date>2015-06-24T19:34:27</date>
+  <millis>1435163667011</millis>
+  <sequence>30</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
@@ -13,14 +13,278 @@
   <message>content.Forum The user SuperAdminadded to the forum YNET</message>
 </record>
 <record>
-  <date>2015-06-23T14:24:26</date>
-  <millis>1435058666186</millis>
-  <sequence>16</sequence>
+  <date>2015-06-24T19:34:27</date>
+  <millis>1435163667107</millis>
+  <sequence>31</sequence>
   <logger>action</logger>
   <level>INFO</level>
   <class>utils.ForumLogger</class>
   <method>actionLog</method>
   <thread>1</thread>
-  <message>content.Forum The user SuperAdminadded to the forum FXP</message>
+  <message>content.Forum The user admin_of_YNETadded to the forum YNET</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:27</date>
+  <millis>1435163667468</millis>
+  <sequence>32</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user SuperAdminadded to the forum StackOverFlow</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:27</date>
+  <millis>1435163667593</millis>
+  <sequence>33</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user admin_of_StackOverFlowadded to the forum StackOverFlow</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:27</date>
+  <millis>1435163667760</millis>
+  <sequence>34</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user moderator_1_of_Games_YNETadded to the forum YNET</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:28</date>
+  <millis>1435163668064</millis>
+  <sequence>35</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user moderator_2_of_Games_YNETadded to the forum YNET</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:28</date>
+  <millis>1435163668148</millis>
+  <sequence>36</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user moderator_1_of_Jokes_YNETadded to the forum YNET</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:28</date>
+  <millis>1435163668230</millis>
+  <sequence>37</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user moderator_2_of_Jokes_YNETadded to the forum YNET</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:28</date>
+  <millis>1435163668348</millis>
+  <sequence>38</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user moderator_1_of_JAVA_stackoverflowadded to the forum StackOverFlow</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:28</date>
+  <millis>1435163668416</millis>
+  <sequence>39</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user moderator_2_of_JAVA_stackoverflowadded to the forum StackOverFlow</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:28</date>
+  <millis>1435163668497</millis>
+  <sequence>40</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user moderator_1_of_Interview_questions_stackoverflowadded to the forum StackOverFlow</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:28</date>
+  <millis>1435163668579</millis>
+  <sequence>41</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user moderator_2_of_Interview_questions_stackoverflowadded to the forum StackOverFlow</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:28</date>
+  <millis>1435163668648</millis>
+  <sequence>42</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user user_1_of_YNETadded to the forum YNET</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:28</date>
+  <millis>1435163668726</millis>
+  <sequence>43</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user user_2_of_YNETadded to the forum YNET</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:28</date>
+  <millis>1435163668829</millis>
+  <sequence>44</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user user_1_of_StackOverFlowadded to the forum StackOverFlow</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:28</date>
+  <millis>1435163668926</millis>
+  <sequence>45</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>content.Forum The user user_2_of_StackOverFlowadded to the forum StackOverFlow</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:31</date>
+  <millis>1435163671803</millis>
+  <sequence>46</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>users.User The user moderator_1_of_Games_YNET is now moderator of the sub-forum Games</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:31</date>
+  <millis>1435163671804</millis>
+  <sequence>47</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>users.User The user admin_of_YNETis not a moderator anymore</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:31</date>
+  <millis>1435163671930</millis>
+  <sequence>48</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>users.User The user moderator_1_of_Jokes_YNET is now moderator of the sub-forum Jokes</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:31</date>
+  <millis>1435163671934</millis>
+  <sequence>50</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>users.User The user moderator_1_of_JAVA_stackoverflow is now moderator of the sub-forum JAVA</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:31</date>
+  <millis>1435163671935</millis>
+  <sequence>51</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>users.User The user admin_of_StackOverFlowis not a moderator anymore</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:32</date>
+  <millis>1435163672054</millis>
+  <sequence>52</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>users.User The user moderator_1_of_Interview_questions_stackoverflow is now moderator of the sub-forum Interview questions</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:32</date>
+  <millis>1435163672055</millis>
+  <sequence>54</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>users.User The user moderator_2_of_Games_YNET is now moderator of the sub-forum Games</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:32</date>
+  <millis>1435163672117</millis>
+  <sequence>55</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>users.User The user moderator_2_of_Jokes_YNET is now moderator of the sub-forum Jokes</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:32</date>
+  <millis>1435163672188</millis>
+  <sequence>56</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>users.User The user moderator_2_of_JAVA_stackoverflow is now moderator of the sub-forum JAVA</message>
+</record>
+<record>
+  <date>2015-06-24T19:34:32</date>
+  <millis>1435163672290</millis>
+  <sequence>57</sequence>
+  <logger>action</logger>
+  <level>INFO</level>
+  <class>utils.ForumLogger</class>
+  <method>actionLog</method>
+  <thread>1</thread>
+  <message>users.User The user moderator_2_of_Interview_questions_stackoverflow is now moderator of the sub-forum Interview questions</message>
 </record>
 </log>

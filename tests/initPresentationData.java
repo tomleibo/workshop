@@ -87,7 +87,7 @@ public class initPresentationData {
 //        Non-Matches
 //        asdf | 1234 | ASDF12345
 
-        ForumPolicy policyNightmare = new ForumPolicy(2, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$", ForumPolicy.HashFunction.MD5, true, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, true, -1, false, 2, 0);
+        ForumPolicy policyNightmare = new ForumPolicy(2, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$", ForumPolicy.HashFunction.MD5, false, 7 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, true, -1, false, 2, 0);
         System.out.println("policyEasy created: maxModerators = 2, passwordRegex = .+, hashFunction = MD5, doUsersNeedMailVerification = true,\n " +
                 "sessionTimeout = 7 * 24 * 60 * 60 * 1000, idleTime = 24 * 60 * 60 * 1000, askIdentificationQuestion = true, passwordMaxTime = -1,\n" +
                 "canModeratorEditPosts = false, moderatorMinimumNumberOfPosts = 2, moderatorMinimumSeniority = 0");
