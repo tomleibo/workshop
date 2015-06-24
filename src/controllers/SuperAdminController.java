@@ -1,7 +1,6 @@
 package controllers;
 
 import content.Forum;
-import content.Message;
 import exceptions.*;
 import policy.ForumPolicy;
 import policy.PolicyHandler;
@@ -98,23 +97,18 @@ public class SuperAdminController {
             if (oldAdmin.getState() <= User.ADMIN) {
                 oldAdmin.setState(User.MEMBER);
             }
-            // TODO: ROEE: shouldn't stay as save, either update or merge
-            HibernateUtils.save(oldAdmin);
-			return HibernateUtils.save(forum);
+            HibernateUtils.update(admin);
+            HibernateUtils.update(oldAdmin);
+			return HibernateUtils.update(forum);
 		}
 		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't change administrator");
 		throw new UserNotAuthorizedException("to change administrator.");
 	}
 
-	public static boolean verifyCorrelationOfContent(User superAdmin, Forum forum, Message msg) {
-		// TODO
-		return false;
-	}
-
 	public static boolean changeForumPolicy(User superAdmin, Forum forum, ForumPolicy policy) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserChangePolicy(superAdmin, forum)) {
             if(forum.setPolicy(policy)){
-                return HibernateUtils.save(forum);
+                return HibernateUtils.update(forum);
             }
             return false;
         }

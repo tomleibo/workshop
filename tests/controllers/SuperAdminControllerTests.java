@@ -16,13 +16,17 @@ public class SuperAdminControllerTests {
 
     private static String superUsername = "superUsername";
     private static String username = "username";
+    private static String username2 = "username2";
+    private static String username3 = "username3";
     private static String hashedPassword = "hashedPassword";
     private static String mail = "mail";
     private static String forumName = "forumName";
+    private static String forumName2 = "forumName2";
     private static String subForumName = "subForumName";
 
     private ForumPolicy policy;
     private Forum forum;
+    private Forum forum2;
     private User superAdmin;
 
 
@@ -53,6 +57,28 @@ public class SuperAdminControllerTests {
         SuperAdminController.changeAdministrator(superAdmin, forum, user);
         Assert.assertEquals(user, forum.getAdmin());
     }
+
+//    @Test
+//    public void changeAdministratorPersistenceTest() throws Exception {
+//        forum2 = SuperAdminController.createNewForum(superAdmin, policy, forumName2);
+//        Forum forum2Loaded = (Forum) HibernateUtils.load(Forum.class, forum2.id);
+//        User user1 = UserController.register(forum2Loaded, username2, hashedPassword, mail);
+//        User user2 = UserController.register(forum2Loaded, username3, hashedPassword, mail);
+//        User user1Loaded = (User) HibernateUtils.load(User.class, user1.getId());
+//        User user2Loaded = (User) HibernateUtils.load(User.class, user2.getId());
+//        SuperAdminController.changeAdministrator(superAdmin, forum2, user1Loaded);
+//        forum2Loaded = (Forum) HibernateUtils.load(Forum.class, forum2Loaded.id);
+//        user1Loaded = (User) HibernateUtils.load(User.class, user1Loaded.getId());
+//        Assert.assertTrue(user1Loaded.isAdmin());
+//        Assert.assertEquals(user1Loaded, forum2Loaded.getAdmin());
+//        SuperAdminController.changeAdministrator(superAdmin, forum2, user2Loaded);
+//        forum2Loaded = (Forum) HibernateUtils.load(Forum.class, forum2Loaded.id);
+//        user1Loaded = (User) HibernateUtils.load(User.class, user1Loaded.getId());
+//        user2Loaded = (User) HibernateUtils.load(User.class, user2Loaded.getId());
+//        Assert.assertTrue(user2Loaded.isAdmin());
+//        Assert.assertFalse(user1Loaded.isAdmin());
+//        Assert.assertEquals(user2Loaded, forum2Loaded.getAdmin());
+//    }
 
 //    @Test
 //    public void loinAdminTest() throws WrongPasswordException, NoSuchAlgorithmException, UserDoesNotExistsException, UserAlreadyLoggedInException {

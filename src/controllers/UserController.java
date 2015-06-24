@@ -174,8 +174,8 @@ public class UserController {
 	public static boolean report(Forum forum, User reporter, User admin, String title, String content) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserReportAdmin(forum, reporter, admin)) {
 			Report report = new Report(title, content, reporter, admin);
-			if( forum.addReport(report) && reporter.addSentReport(report)){
-                return HibernateUtils.save(forum) && HibernateUtils.save(reporter);
+			if(forum.addReport(report) && reporter.addSentReport(report)){
+                return HibernateUtils.update(forum) && HibernateUtils.update(reporter);
             }
             return false;
 		}
@@ -186,7 +186,7 @@ public class UserController {
 	public static boolean deactivate(User user) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserBeDeactivated(user)) {
 			if(user.deactivate()){
-                return HibernateUtils.save(user);
+                return HibernateUtils.update(user);
             }
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " has no permissions to deactivate itself");
@@ -196,7 +196,7 @@ public class UserController {
 	public static boolean editMessage(Forum forum,SubForum subForum, User user, Message msg, String content) throws UserNotAuthorizedException {
 		if (PolicyHandler.canUserEditComment(forum, subForum, user, msg)) {
 			if(ContentController.editPost(msg, content)){
-                return HibernateUtils.save(msg);
+                return HibernateUtils.update(msg);
             }
 		}
 		ForumLogger.errorLog("The user " + user.getUsername() + " can't edit post");
@@ -229,16 +229,13 @@ public class UserController {
         String newStatus = forum.getStatusTypes().get(forum.getNumberOfMessagesForUser(user));
         if (newStatus != null) {
             user.setStatus(newStatus);
-            HibernateUtils.save(user);
+            HibernateUtils.update(user);
         }
     }
 
     public static Message reply(Forum forum, Message addTo, String title,String content,User user) throws UserNotAuthorizedException, EmptyMessageTitleAndBodyException {
 		if (PolicyHandler.canUserReply(forum, user)) {
 			Message msg = ContentController.reply(forum, addTo, title, content, user);
-            if (msg != null) {
-                HibernateUtils.save(msg);
-            }
             updateUserStatus(forum, user);
             return msg;
 		}

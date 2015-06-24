@@ -5,7 +5,6 @@ import content.Message;
 import content.SubForum;
 import content.Thread;
 import exceptions.EmptyMessageTitleAndBodyException;
-import policy.ForumPolicy;
 import users.Notification;
 import users.User;
 import utils.HibernateUtils;
@@ -109,14 +108,6 @@ public class ContentController {
 	public static boolean deleteSubForum(Forum forum, SubForum subForum) {
 		if (forum.deleteSubForum(subForum)) {
 			return HibernateUtils.update(forum) && HibernateUtils.del(subForum);
-		}
-		return false;
-	}
-	
-	public static boolean defineProperties(Forum forum, ForumPolicy policy) {
-		// TODO - Method not tested.
-		if (forum.setPolicy(policy)) {
-			return HibernateUtils.save(forum);
 		}
 		return false;
 	}

@@ -105,7 +105,7 @@ public class PolicyHandler {
 	}
 
 	public static boolean canReplaceAdmin(User superAdmin, Forum forum, User admin) {
-		if(forum.getAdmin().equals(superAdmin))
+		if(superAdmin.isSuperAdmin())
 			return true;
 		return false;
 	}
@@ -193,5 +193,11 @@ public class PolicyHandler {
 
     public static boolean canUserViewNotification(User user, Notification notification) {
         return user.getPendingNotifications().contains(notification);
+    }
+
+    public static boolean canUserViewReports(Forum forum, User admin) {
+        if(forum.getAdmin().equals(admin) || admin.isSuperAdmin())
+            return true;
+        return false;
     }
 }

@@ -37,6 +37,11 @@ public class Forum {
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> members;
+    @OneToMany
+    @JoinColumn(name="reports_of_forum")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Report> reports;
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="policy")
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
@@ -52,6 +57,7 @@ public class Forum {
         this.statusTypes = "Gold:20;Silver:10;Regular:0;";
 		members = new ArrayList<>();
 		subForums = new ArrayList<>();
+        reports = new ArrayList<>();
 		this.policy = policy;
 		addMember(admin);
 	}
@@ -157,8 +163,7 @@ public class Forum {
 	}
 
 	public boolean addReport(Report report) {
-		// TODO Auto-generated method stub
-		return true;
+		return reports.add(report);
 	}
 
 	public boolean isSecured() {
@@ -182,6 +187,10 @@ public class Forum {
     }
 
     public boolean addStatusType(String type, int numberOfMessages) {
+        if (statusTypes.isEmpty()) {
+            statusTypes = type + ":" + numberOfMessages + ";";
+            return true;
+        }
         String[] statuses = statusTypes.split(";");
         boolean found = false;
         for (String status : statuses) {
@@ -197,6 +206,8 @@ public class Forum {
     }
 
     public boolean removeStatusType(String type) {
+        if (statusTypes.isEmpty())
+            return false;
         String[] statuses = statusTypes.split(";");
         StringBuilder builder = new StringBuilder();
         boolean found = false;
@@ -212,10 +223,12 @@ public class Forum {
     }
 
     public boolean hasStatusType(String type) {
+        if (statusTypes.isEmpty())
+            return false;
         String[] statuses = statusTypes.split(";");
         boolean found = false;
         for (String status : statuses) {
-            if (status.equalsIgnoreCase(type)) {
+            if (status.substring(0, status.indexOf(":")).equalsIgnoreCase(type)) {
                 found = true;
                 break;
             }
@@ -224,13 +237,22 @@ public class Forum {
     }
 
     public Map<Integer, String> getStatusTypes() {
-        List<String> statuses = Arrays.asList(statusTypes.split(";"));
         Map<Integer, String> result = new HashMap<>();
-        for (String status : statuses) {
-            String statusName = status.substring(0, status.indexOf(":"));
-            Integer statusNumber = Integer.valueOf(status.substring(status.indexOf(":") + 1));
-            result.put(statusNumber, statusName);
+        try {
+            List<String> statuses = Arrays.asList(statusTypes.split(";"));
+            for (String status : statuses) {
+                String statusName = status.substring(0, status.indexOf(":"));
+                Integer statusNumber = Integer.valueOf(status.substring(status.indexOf(":") + 1));
+                result.put(statusNumber, statusName);
+            }
+        }
+        catch (Exception e) {
+            ForumLogger.errorLog(e.getMessage());
         }
         return result;
+    }
+
+    public List<Report> getReports() {
+        return reports;
     }
 }
