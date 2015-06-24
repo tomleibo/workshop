@@ -53,6 +53,13 @@ public class PostNewThreadServlet extends HttpServlet {
                     return;
                 }
             }
+            if (title != null && !title.equals("")) {
+                String word = ContentDigestUtils.isTextOk(title);
+                if (word != null) {
+                    ServletUtils.exitError(this,request,response,new WordNotApprovedException(word));
+                    return;
+                }
+            }
 			String cookieValue = CookieUtils.getCookieValue(request, CookieUtils.FORUM_ID_COOKIE_NAME);
 			if (cookieValue == null)
 				throw new Exception("Forum Cookie Value doesn't exist");
