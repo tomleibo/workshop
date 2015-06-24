@@ -177,7 +177,7 @@ public class Forum {
 	}
 
 	public boolean isSecured() {
-		return false;
+		return policy.isDoUsersNeedMailVerification();
 	}
 
     public int getNumberOfMessages() {
