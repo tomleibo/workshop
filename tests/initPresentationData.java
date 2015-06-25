@@ -57,9 +57,9 @@ public class initPresentationData {
     protected static User superAdmin;
 
     public static void main(String[]  args) throws Exception{
-//        User superAdmin = SuperAdminController.initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
-//        HibernateUtils.cleanUp();
-//        System.out.println("cleaned up database.");
+        User superAdmin = SuperAdminController.initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
+        HibernateUtils.cleanUp();
+        System.out.println("cleaned up database.");
         superAdmin = SuperAdminController.initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
         System.out.println("superAdmin created:" + superAdminUsername + " password = " + superAdminPassword + " mail = " + superAdminMail);
 
