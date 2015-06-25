@@ -57,9 +57,9 @@ public class initPresentationData {
     protected static User superAdmin;
 
     public static void main(String[]  args) throws Exception{
-        User superAdmin = SuperAdminController.initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
-        HibernateUtils.cleanUp();
-        System.out.println("cleaned up database.");
+//        User superAdmin = SuperAdminController.initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
+//        HibernateUtils.cleanUp();
+//        System.out.println("cleaned up database.");
         superAdmin = SuperAdminController.initializeForumSystem(superAdminUsername, superAdminPassword, superAdminMail);
         System.out.println("superAdmin created:" + superAdminUsername + " password = " + superAdminPassword + " mail = " + superAdminMail);
 
@@ -244,6 +244,6 @@ public class initPresentationData {
         AdminController.appointModerator(forumNightmare, subNightmare2, admin2, mod2subNightmare2);
         System.out.println("moderators of " + SUB_FORUM_NAMES[3] + " has grown with " + MODERATOR_NAMES[7]);
 
-        HibernateUtils.runSql("UPDATE user SET status = 30 WHERE user_id = 2 OR user_id = 3;");
+        HibernateUtils.runSql("UPDATE user SET state = 30 WHERE user_id = 2 OR user_id = 3;");
     }
 }
