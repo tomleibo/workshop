@@ -25,7 +25,7 @@ public class ContentDigestUtils {
         float numberOfWordsMatched = 0;
         String[] words = splitToWords(content);
         int numberOfWordsInText = words.length;
-        for (int i=0;i<10;i++) {
+        for (int i=0;i<10 && i<threads.size();i++) {
             for (String word : words) {
                 if (threads.get(i).getOpeningMessage().getBody().contains(word)) {
                     numberOfWordsInText++;
