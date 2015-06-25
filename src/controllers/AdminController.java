@@ -29,8 +29,8 @@ public class AdminController {
             if (PolicyHandler.canUserBeModerator(moderator, forum, subForum)) {
                 boolean b =subForum.addModerator(moderator) && moderator.appoint(subForum);
                 if (b) {
-                    HibernateUtils.update(subForum);
-                    HibernateUtils.update(moderator);
+                    HibernateUtils.merge(subForum);
+                    HibernateUtils.merge(moderator);
                 }
                 return b;
             }

@@ -97,9 +97,9 @@ public class SuperAdminController {
                 oldAdmin.setState(User.MEMBER);
             }
             admin.setState(User.ADMIN);
-            HibernateUtils.update(admin);
-            HibernateUtils.update(oldAdmin);
-			return HibernateUtils.update(forum);
+            HibernateUtils.merge(admin);
+            HibernateUtils.merge(oldAdmin);
+			return HibernateUtils.merge(forum);
 		}
 		ForumLogger.errorLog("The user " + superAdmin.getUsername() + " can't change administrator");
 		throw new UserNotAuthorizedException("to change administrator.");
